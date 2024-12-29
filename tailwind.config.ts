@@ -31,10 +31,14 @@ export default {
         },
         swiss: {
           red: "#DC2626",
+          darkblue: "#1a1f3c",
         },
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
+      },
+      backgroundImage: {
+        'luxury-gradient': 'linear-gradient(135deg, #1a1f3c 0%, #DC2626 100%)',
       },
       keyframes: {
         "accordion-down": {
