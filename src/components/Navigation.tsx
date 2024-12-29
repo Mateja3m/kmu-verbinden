@@ -10,7 +10,8 @@ const Navigation = () => {
     { name: 'PRÄSIDIUM', href: '/presidency' },
     { name: 'GESCHÄFTSSTELLE', href: '#' },
     { name: 'REDAKTION', href: '#' },
-    { name: 'MITGLIEDSCHAFT', href: '#' },
+    { name: 'MITGLIEDSCHAFT', href: '/membership' },
+    { name: 'PARTNER', href: '/partners' },
     { name: 'KONTAKT', href: '#' },
     { name: 'KMU-NEWS', href: '#' },
   ];
