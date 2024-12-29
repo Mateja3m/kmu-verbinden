@@ -7,6 +7,7 @@ interface Partner {
   website: string;
   description: string;
   customBackground?: string;
+  requiresRedBackground?: boolean;
 }
 
 interface PartnerCardProps {
@@ -14,6 +15,12 @@ interface PartnerCardProps {
 }
 
 export const PartnerCard = ({ partner }: PartnerCardProps) => {
+  const getBackgroundClass = () => {
+    if (partner.requiresRedBackground) return 'bg-swiss-red';
+    if (partner.customBackground) return partner.customBackground;
+    return 'bg-white';
+  };
+
   return (
     <a 
       href={partner.website} 
@@ -23,7 +30,7 @@ export const PartnerCard = ({ partner }: PartnerCardProps) => {
     >
       <Card className="h-full">
         <CardHeader className="space-y-4">
-          <div className={`flex items-center justify-center h-32 p-4 ${partner.customBackground || 'bg-white'}`}>
+          <div className={`flex items-center justify-center h-32 p-4 ${getBackgroundClass()}`}>
             <img
               src={partner.logo}
               alt={`${partner.name} logo`}
