@@ -5,19 +5,17 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      console.log("Current session:", session);
-      
+      const { data: { session } } = await supabase.auth.getSession();
+      console.log("Session check:", session);
+
       if (session) {
         const { data: profile } = await supabase
           .from('profiles')
@@ -25,7 +23,7 @@ const AuthPage = () => {
           .eq('id', session.user.id)
           .single();
 
-        console.log("Profile data:", profile);
+        console.log("Profile check:", profile);
 
         if (profile?.is_admin) {
           navigate('/admin');
@@ -33,13 +31,13 @@ const AuthPage = () => {
           navigate('/dashboard');
         }
       }
-      setLoading(false);
+      setIsLoading(false);
     };
 
     checkSession();
   }, [navigate]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
@@ -79,7 +77,7 @@ const AuthPage = () => {
             }}
             theme="light"
             providers={[]}
-            redirectTo={window.location.origin}
+            redirectTo={window.location.origin + '/auth'}
             localization={{
               variables: {
                 sign_up: {
