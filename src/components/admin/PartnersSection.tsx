@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/lib/uploadFile";
 
 export function PartnersSection() {
   const { toast } = useToast();
@@ -13,11 +14,36 @@ export function PartnersSection() {
     website: '',
     description: ''
   });
+  const [uploading, setUploading] = useState(false);
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!e.target.files || e.target.files.length === 0) return;
+      
+      setUploading(true);
+      const file = e.target.files[0];
+      const publicUrl = await uploadFile(file);
+      
+      setFormData(prev => ({ ...prev, logo: publicUrl }));
+      toast({
+        title: "Erfolg",
+        description: "Logo wurde erfolgreich hochgeladen."
+      });
+    } catch (error) {
+      console.error('Error uploading logo:', error);
+      toast({
+        title: "Fehler",
+        description: "Logo konnte nicht hochgeladen werden.",
+        variant: "destructive"
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // First get the current user's profile to check if they're an admin
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       toast({
@@ -65,11 +91,22 @@ export function PartnersSection() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Logo URL</label>
-          <Input
-            value={formData.logo}
-            onChange={(e) => setFormData({ ...formData, logo: e.target.value })}
-          />
+          <label className="block text-sm font-medium mb-1">Logo</label>
+          <div className="space-y-2">
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleLogoUpload}
+              disabled={uploading}
+            />
+            {formData.logo && (
+              <img 
+                src={formData.logo} 
+                alt="Partner Logo Preview" 
+                className="w-32 h-32 object-contain border rounded"
+              />
+            )}
+          </div>
         </div>
 
         <div>
@@ -89,7 +126,7 @@ export function PartnersSection() {
           />
         </div>
 
-        <Button type="submit">Partner Hinzufügen</Button>
+        <Button type="submit" disabled={uploading}>Partner Hinzufügen</Button>
       </form>
     </div>
   );

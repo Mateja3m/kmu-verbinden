@@ -2,19 +2,71 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/lib/uploadFile";
 
 export function ExpertsSection() {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     expertise_area: '',
     description: '',
     image_url: '',
     profile_id: ''
   });
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!e.target.files || e.target.files.length === 0) return;
+      
+      setUploading(true);
+      const file = e.target.files[0];
+      const publicUrl = await uploadFile(file);
+      
+      setFormData(prev => ({ ...prev, image_url: publicUrl }));
+      toast({
+        title: "Erfolg",
+        description: "Bild wurde erfolgreich hochgeladen."
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: "Fehler",
+        description: "Bild konnte nicht hochgeladen werden.",
+        variant: "destructive"
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission will be implemented later
-    console.log('Expert form submitted:', formData);
+    
+    const { error } = await supabase
+      .from('experts')
+      .insert([formData]);
+
+    if (error) {
+      console.error('Error adding expert:', error);
+      toast({
+        title: "Fehler",
+        description: "Experte konnte nicht hinzugefügt werden.",
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "Erfolg",
+        description: "Experte wurde erfolgreich hinzugefügt."
+      });
+      setFormData({ 
+        expertise_area: '', 
+        description: '', 
+        image_url: '', 
+        profile_id: '' 
+      });
+    }
   };
 
   return (
@@ -41,11 +93,22 @@ export function ExpertsSection() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Bild URL</label>
-          <Input
-            value={formData.image_url}
-            onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-          />
+          <label className="block text-sm font-medium mb-1">Bild</label>
+          <div className="space-y-2">
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              disabled={uploading}
+            />
+            {formData.image_url && (
+              <img 
+                src={formData.image_url} 
+                alt="Expert Image Preview" 
+                className="w-32 h-32 object-cover border rounded"
+              />
+            )}
+          </div>
         </div>
 
         <div>
@@ -58,7 +121,7 @@ export function ExpertsSection() {
           />
         </div>
 
-        <Button type="submit">Experten Hinzufügen</Button>
+        <Button type="submit" disabled={uploading}>Experten Hinzufügen</Button>
       </form>
     </div>
   );
