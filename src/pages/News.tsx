@@ -1,46 +1,37 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Newspaper } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { supabase } from "@/integrations/supabase/client";
 
 export default function News() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
+  const [currentPage] = useState(1);
 
-  const { data: posts, isLoading, error } = useQuery({
-    queryKey: ['news-posts'],
-    queryFn: async () => {
-      console.log('Starting to fetch news posts...');
-      
-      const { data, error } = await supabase
-        .from('news_posts')
-        .select(`
-          *,
-          author:profiles!news_posts_author_id_fkey(
-            company_name,
-            contact_person
-          )
-        `)
-        .not('published_at', 'is', null)
-        .order('published_at', { ascending: false });
-      
-      if (error) {
-        console.error('Error fetching posts:', error);
-        throw error;
-      }
-      
-      console.log('Fetched posts:', data);
-      console.log('Number of posts:', data?.length);
-      return data;
+  // Placeholder data
+  const placeholderPosts = [
+    {
+      id: 1,
+      title: "KMU Verein lanciert neue Digitalisierungsinitiative",
+      description: "Der KMU Verein Schweiz hat heute eine wegweisende Initiative zur Förderung der Digitalisierung vorgestellt...",
+      date: "2024-03-15",
+      imageUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 2,
+      title: "Erfolgreicher Networking-Event in Zürich",
+      description: "Über 100 Mitglieder des KMU Vereins trafen sich zum halbjährlichen Networking-Event in Zürich...",
+      date: "2024-03-13",
+      imageUrl: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: 3,
+      title: "Neue Partnerschaft mit der Bankiervereinigung",
+      description: "Der KMU Verein Schweiz freut sich, eine strategische Partnerschaft bekannt zu geben...",
+      date: "2024-03-10",
+      imageUrl: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=800&q=80"
     }
-  });
-
-  console.log('Current render state:', { isLoading, error, postsCount: posts?.length });
+  ];
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('de-CH', {
@@ -49,28 +40,6 @@ export default function News() {
       day: 'numeric'
     });
   };
-
-  const totalPages = posts ? Math.ceil(posts.length / postsPerPage) : 0;
-  const currentPosts = posts?.slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
-  );
-
-  if (error) {
-    console.error('Rendering error state:', error);
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <main className="flex-grow container mx-auto px-4 py-24">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-red-600">Error loading news</h1>
-            <p className="text-gray-600">{error.message}</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -87,83 +56,45 @@ export default function News() {
             </p>
           </div>
 
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse">
-                  <div className="h-48 bg-gray-200 rounded-t-lg" />
-                  <CardHeader>
-                    <div className="h-6 bg-gray-200 rounded w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded w-1/2 mt-2" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-20 bg-gray-200 rounded" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : posts && posts.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentPosts?.map((post) => (
-                  <Link to={`/news/${post.slug}`} key={post.id} className="group">
-                    <Card className="h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                      {post.image_url && (
-                        <div className="h-48 overflow-hidden">
-                          <img
-                            src={post.image_url}
-                            alt={post.title}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                        </div>
-                      )}
-                      <CardHeader>
-                        <div className="flex items-center gap-2 text-gray-500 mb-2">
-                          <Calendar className="h-4 w-4" />
-                          <span className="text-sm">
-                            {formatDate(post.published_at || post.created_at)}
-                          </span>
-                        </div>
-                        <CardTitle className="text-xl group-hover:text-swiss-red transition-colors">
-                          {post.title}
-                        </CardTitle>
-                        <CardDescription className="line-clamp-2">
-                          {post.meta_description || post.content.slice(0, 150) + '...'}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-center text-swiss-red group-hover:text-swiss-darkblue transition-colors">
-                          <span className="mr-2">Weiterlesen</span>
-                          <ArrowRight className="h-4 w-4" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-
-              {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-16">
-                  {[...Array(totalPages)].map((_, i) => (
-                    <Button
-                      key={i}
-                      variant={currentPage === i + 1 ? "default" : "outline"}
-                      onClick={() => setCurrentPage(i + 1)}
-                      className={currentPage === i + 1 ? "bg-swiss-red hover:bg-swiss-red/90" : ""}
-                    >
-                      {i + 1}
-                    </Button>
-                  ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {placeholderPosts.map((post) => (
+              <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={post.imageUrl}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
                 </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-12">
-              <Newspaper className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Keine News verfügbar</h2>
-              <p className="text-gray-600">Zurzeit sind keine News-Beiträge verfügbar.</p>
-            </div>
-          )}
+                <CardHeader>
+                  <div className="flex items-center gap-2 text-gray-500 mb-2">
+                    <Calendar className="h-4 w-4" />
+                    <span className="text-sm">
+                      {formatDate(post.date)}
+                    </span>
+                  </div>
+                  <CardTitle className="text-xl group-hover:text-swiss-red transition-colors">
+                    {post.title}
+                  </CardTitle>
+                  <CardDescription className="line-clamp-2">
+                    {post.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center text-swiss-red group-hover:text-swiss-darkblue transition-colors">
+                    <span className="mr-2">Weiterlesen</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-2 mt-16">
+            <Button variant="outline">1</Button>
+            <Button className="bg-swiss-red hover:bg-swiss-red/90">2</Button>
+            <Button variant="outline">3</Button>
+          </div>
         </div>
       </main>
       
