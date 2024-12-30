@@ -9,7 +9,96 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      profile_services: {
+        Row: {
+          claimed_at: string
+          profile_id: string
+          service_id: string
+        }
+        Insert: {
+          claimed_at?: string
+          profile_id: string
+          service_id: string
+        }
+        Update: {
+          claimed_at?: string
+          profile_id?: string
+          service_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_services_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_services_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          city: string | null
+          company_name: string | null
+          contact_person: string | null
+          created_at: string
+          id: string
+          is_admin: boolean | null
+          phone: string | null
+          postal_code: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          company_name?: string | null
+          contact_person?: string | null
+          created_at?: string
+          id: string
+          is_admin?: boolean | null
+          phone?: string | null
+          postal_code?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          company_name?: string | null
+          contact_person?: string | null
+          created_at?: string
+          id?: string
+          is_admin?: boolean | null
+          phone?: string | null
+          postal_code?: string | null
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
