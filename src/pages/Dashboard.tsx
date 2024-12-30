@@ -129,7 +129,7 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto space-y-8">
           <ProfileSection 
             profile={profile} 
-            setProfile={setProfile} 
+            setProfile={(updatedProfile) => setProfile(updatedProfile as Profile)} 
           />
           
           <BenefitsMenu
