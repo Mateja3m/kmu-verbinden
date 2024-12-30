@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      experts: {
+        Row: {
+          created_at: string
+          description: string
+          expertise_area: string
+          id: string
+          image_url: string | null
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          expertise_area: string
+          id?: string
+          image_url?: string | null
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          expertise_area?: string
+          id?: string
+          image_url?: string | null
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experts_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoices: {
         Row: {
           amount: number
@@ -44,6 +79,47 @@ export type Database = {
           {
             foreignKeyName: "invoices_profile_id_fkey"
             columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      news_posts: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          id: string
+          image_url: string | null
+          published_at: string | null
+          slug: string
+          title: string
+        }
+        Insert: {
+          author_id: string
+          content: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          slug: string
+          title: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          slug?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "news_posts_author_id_fkey"
+            columns: ["author_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -92,6 +168,7 @@ export type Database = {
           created_at: string
           id: string
           is_admin: boolean | null
+          member_type: string | null
           phone: string | null
           postal_code: string | null
         }
@@ -103,6 +180,7 @@ export type Database = {
           created_at?: string
           id: string
           is_admin?: boolean | null
+          member_type?: string | null
           phone?: string | null
           postal_code?: string | null
         }
@@ -114,6 +192,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_admin?: boolean | null
+          member_type?: string | null
           phone?: string | null
           postal_code?: string | null
         }

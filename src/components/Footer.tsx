@@ -1,8 +1,33 @@
-import { Mail, MapPin, Phone, Globe, Calendar } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Calendar, Lock } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 const Footer = () => {
+  const { toast } = useToast();
+
+  const handleAdminLogin = async () => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: 'admin',
+      password: 'fabian'
+    });
+
+    if (error) {
+      toast({
+        title: "Login fehlgeschlagen",
+        description: "Bitte überprüfen Sie Ihre Anmeldedaten.",
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "Erfolgreich angemeldet",
+        description: "Sie werden zum Admin-Bereich weitergeleitet."
+      });
+      // Redirect will happen automatically through auth state change
+    }
+  };
+
   return (
     <footer className="bg-swiss-darkblue text-white mt-24">
       <div className="container mx-auto px-4 py-12">
@@ -42,6 +67,13 @@ const Footer = () => {
             <nav className="space-y-3">
               <Link to="/" className="block hover:text-swiss-red transition-colors">Home</Link>
               <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
+              <button 
+                onClick={handleAdminLogin}
+                className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
+              >
+                <Lock className="h-4 w-4" />
+                Admin Login
+              </button>
             </nav>
           </div>
 
