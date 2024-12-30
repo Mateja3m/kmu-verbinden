@@ -20,44 +20,25 @@ export default function Admin() {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error("Session error:", sessionError);
-          toast({
-            title: "Fehler",
-            description: "Sitzung konnte nicht überprüft werden.",
-            variant: "destructive",
-          });
-          navigate('/');
-          return;
-        }
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("Current session:", session); // Debug log
 
         if (!session?.user) {
-          console.log("No session found, redirecting to login");
+          console.log("No session, redirecting to auth"); // Debug log
           navigate('/auth');
           return;
         }
 
-        const { data: profile, error: profileError } = await supabase
+        const { data: profile } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .maybeSingle();
 
-        if (profileError) {
-          console.error("Profile error:", profileError);
-          toast({
-            title: "Fehler",
-            description: "Profil konnte nicht geladen werden.",
-            variant: "destructive",
-          });
-          navigate('/');
-          return;
-        }
+        console.log("Profile data:", profile); // Debug log
 
         if (!profile?.is_admin) {
-          console.log("User is not an admin, redirecting");
+          console.log("Not an admin, redirecting"); // Debug log
           toast({
             title: "Zugriff verweigert",
             description: "Sie haben keine Administratorrechte.",
@@ -87,9 +68,9 @@ export default function Admin() {
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
-        <main className="flex-grow container mx-auto px-4 py-24">
-          <div className="flex flex-col items-center justify-center h-full gap-4">
-            <Loader2 className="h-8 w-8 animate-spin text-swiss-red" />
+        <main className="flex-grow flex items-center justify-center">
+          <div className="text-center">
+            <Loader2 className="h-12 w-12 animate-spin text-swiss-red mx-auto mb-4" />
             <p className="text-lg text-gray-600">Lade Admin-Bereich...</p>
           </div>
         </main>
