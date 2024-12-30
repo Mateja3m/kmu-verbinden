@@ -16,7 +16,7 @@ const AuthPage = () => {
   useEffect(() => {
     const checkSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
-      console.log("Current session:", session, "Error:", error);
+      console.log("Current session:", session);
       
       if (session) {
         const { data: profile } = await supabase
@@ -37,26 +37,6 @@ const AuthPage = () => {
     };
 
     checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed:", event, session);
-      
-      if (event === "SIGNED_IN" && session) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', session.user.id)
-          .single();
-
-        if (profile?.is_admin) {
-          navigate('/admin');
-        } else {
-          navigate('/dashboard');
-        }
-      }
-    });
-
-    return () => subscription.unsubscribe();
   }, [navigate]);
 
   if (loading) {
