@@ -1,22 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
     const checkSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
-      console.log("Session check:", session);
+      console.log("Current session:", session);
       
       if (error) {
         console.error("Session check error:", error);
@@ -25,31 +23,28 @@ const AuthPage = () => {
           description: "Es gab einen Fehler beim Überprüfen Ihrer Sitzung.",
           variant: "destructive",
         });
+        return;
       }
 
       if (session) {
-        const { data: profile, error: profileError } = await supabase
+        const { data: profile } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .single();
 
-        console.log("Profile check:", profile);
-
-        if (profileError) {
-          console.error("Profile check error:", profileError);
-        }
-
+        console.log("Profile data:", profile);
+        
         if (profile?.is_admin) {
           navigate('/admin');
         } else {
           navigate('/dashboard');
         }
       }
-      setIsLoading(false);
     };
 
-    // Listen for auth state changes
+    checkSession();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state changed:", event, session);
       
@@ -68,24 +63,10 @@ const AuthPage = () => {
       }
     });
 
-    checkSession();
-
     return () => {
       subscription.unsubscribe();
     };
   }, [navigate, toast]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <div className="flex-grow flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin" />
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
