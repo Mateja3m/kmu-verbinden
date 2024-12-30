@@ -63,13 +63,12 @@ export function PartnersSection() {
             required
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium mb-1">Logo URL</label>
           <Input
             value={formData.logo}
             onChange={(e) => setFormData({ ...formData, logo: e.target.value })}
-            required
           />
         </div>
 
@@ -78,7 +77,6 @@ export function PartnersSection() {
           <Input
             value={formData.website}
             onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-            required
           />
         </div>
 
@@ -87,7 +85,7 @@ export function PartnersSection() {
           <Textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            required
+            className="min-h-[100px]"
           />
         </div>
 

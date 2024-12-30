@@ -85,7 +85,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       news_posts: {
@@ -126,40 +126,42 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
-      profile_services: {
+      experts: {
         Row: {
-          claimed_at: string
+          created_at: string
+          description: string
+          expertise_area: string
+          id: string
+          image_url: string | null
           profile_id: string
-          service_id: string
         }
         Insert: {
-          claimed_at?: string
+          created_at?: string
+          description: string
+          expertise_area: string
+          id?: string
+          image_url?: string | null
           profile_id: string
-          service_id: string
         }
         Update: {
-          claimed_at?: string
+          created_at?: string
+          description?: string
+          expertise_area?: string
+          id?: string
+          image_url?: string | null
           profile_id?: string
-          service_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "profile_services_profile_id_fkey"
+            foreignKeyName: "experts_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profile_services_service_id_fkey"
-            columns: ["service_id"]
-            isOneToOne: false
-            referencedRelation: "services"
-            referencedColumns: ["id"]
-          },
+          }
         ]
       }
       profiles: {
@@ -193,7 +195,7 @@ export interface Database {
           company_name?: string | null
           contact_person?: string | null
           created_at?: string
-          id?: string
+          id: string
           is_admin?: boolean | null
           member_type?: string | null
           phone?: string | null
@@ -301,10 +303,10 @@ export type TablesUpdate<
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
+      Update: infer U
+    }
+    ? U
+    : never
     : never
 
 export type Enums<
