@@ -127,7 +127,10 @@ const Dashboard = () => {
       <Navigation />
       <div className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 mt-20">
         <div className="max-w-7xl mx-auto space-y-8">
-          <ProfileSection profile={profile} setProfile={setProfile} />
+          <ProfileSection 
+            profile={profile} 
+            setProfile={setProfile} 
+          />
           
           <BenefitsMenu
             services={services}
