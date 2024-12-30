@@ -25,8 +25,7 @@ export default function News() {
             contact_person
           )
         `)
-        .order('published_at', { ascending: false })
-        .not('published_at', 'is', null); // Only fetch published posts
+        .order('published_at', { ascending: false });
       
       if (error) {
         console.error('Error fetching posts:', error);
@@ -39,14 +38,6 @@ export default function News() {
     }
   });
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('de-CH', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
   // Log current state for debugging
   console.log('Current render state:', {
     isLoading,
@@ -55,6 +46,14 @@ export default function News() {
     currentPage,
     postsPerPage
   });
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('de-CH', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
   const totalPages = posts ? Math.ceil(posts.length / postsPerPage) : 0;
   const currentPosts = posts?.slice(
