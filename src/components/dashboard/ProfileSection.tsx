@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Tables } from "@/integrations/supabase/types";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-
-type Profile = Tables<"profiles">;
+import { Profile } from "@/integrations/supabase/database.types";
 
 export const ProfileSection = ({ 
   profile, 
@@ -23,7 +21,14 @@ export const ProfileSection = ({
 
     const { error } = await supabase
       .from("profiles")
-      .update(editedProfile)
+      .update({
+        company_name: editedProfile.company_name,
+        contact_person: editedProfile.contact_person,
+        address: editedProfile.address,
+        postal_code: editedProfile.postal_code,
+        city: editedProfile.city,
+        phone: editedProfile.phone
+      })
       .eq("id", profile.id);
 
     if (error) {

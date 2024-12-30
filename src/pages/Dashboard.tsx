@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Tables } from "@/integrations/supabase/types";
 import { useToast } from "@/components/ui/use-toast";
 import AIChat from "@/components/AIChat";
 import FinancingSimulator from "@/components/FinancingSimulator";
@@ -11,13 +10,14 @@ import { ProfileSection } from "@/components/dashboard/ProfileSection";
 import { ServicesSection } from "@/components/dashboard/ServicesSection";
 import { BenefitsMenu } from "@/components/dashboard/BenefitsMenu";
 import { InvoicesSection } from "@/components/dashboard/InvoicesSection";
+import { Profile, Service } from "@/integrations/supabase/database.types";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
-  const [services, setServices] = useState<Tables<"services">[]>([]);
-  const [claimedServices, setClaimedServices] = useState<Tables<"services">[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [services, setServices] = useState<Service[]>([]);
+  const [claimedServices, setClaimedServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,16 +37,7 @@ const Dashboard = () => {
           .eq("id", session.user.id)
           .single();
 
-        if (profileError) {
-          console.error("Profile error:", profileError);
-          toast({
-            title: "Fehler",
-            description: "Profildaten konnten nicht geladen werden",
-            variant: "destructive",
-          });
-          return;
-        }
-
+        if (profileError) throw profileError;
         setProfile(profileData);
 
         // Fetch services data
@@ -54,11 +45,7 @@ const Dashboard = () => {
           .from("services")
           .select("*");
 
-        if (servicesError) {
-          console.error("Services error:", servicesError);
-          return;
-        }
-
+        if (servicesError) throw servicesError;
         setServices(servicesData || []);
 
         // Fetch claimed services
@@ -67,10 +54,7 @@ const Dashboard = () => {
           .select("service_id")
           .eq("profile_id", session.user.id);
 
-        if (claimedError) {
-          console.error("Claimed services error:", claimedError);
-          return;
-        }
+        if (claimedError) throw claimedError;
 
         if (claimedServicesData && servicesData) {
           const claimedServiceIds = claimedServicesData.map(cs => cs.service_id);
@@ -81,6 +65,11 @@ const Dashboard = () => {
         }
       } catch (error) {
         console.error("Dashboard error:", error);
+        toast({
+          title: "Fehler",
+          description: "Daten konnten nicht geladen werden",
+          variant: "destructive",
+        });
       } finally {
         setLoading(false);
       }
