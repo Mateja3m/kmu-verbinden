@@ -25,7 +25,8 @@ export default function News() {
             contact_person
           )
         `)
-        .order('published_at', { ascending: false });
+        .order('published_at', { ascending: false })
+        .not('published_at', 'is', null); // Only fetch published posts
       
       if (error) {
         console.error('Error fetching posts:', error);
