@@ -7,9 +7,10 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 export default function Experts() {
-  const { data: experts, isLoading } = useQuery({
+  const { data: experts, isLoading, error } = useQuery({
     queryKey: ['experts'],
     queryFn: async () => {
+      console.log('Fetching experts...');
       const { data, error } = await supabase
         .from('experts')
         .select(`
@@ -18,7 +19,12 @@ export default function Experts() {
           reviews:expert_reviews(rating)
         `);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching experts:', error);
+        throw error;
+      }
+      
+      console.log('Fetched experts:', data);
       return data;
     }
   });
@@ -43,6 +49,12 @@ export default function Experts() {
             </p>
           </div>
 
+          {error && (
+            <div className="text-center text-red-600 mb-8">
+              Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.
+            </div>
+          )}
+
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((n) => (
@@ -56,9 +68,9 @@ export default function Experts() {
                 </Card>
               ))}
             </div>
-          ) : (
+          ) : experts && experts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {experts?.map((expert) => (
+              {experts.map((expert) => (
                 <Link key={expert.id} to={`/experts/${expert.id}`}>
                   <Card className="h-full hover:shadow-lg transition-shadow">
                     <CardHeader>
@@ -105,6 +117,10 @@ export default function Experts() {
                   </Card>
                 </Link>
               ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-12">
+              Keine Experten gefunden
             </div>
           )}
         </div>
