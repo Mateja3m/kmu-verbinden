@@ -80,14 +80,22 @@ const Navigation = () => {
               </Link>
             ))}
             {isLoggedIn && (
-              <Button
-                onClick={handleLogout}
-                variant="ghost"
-                className="text-swiss-darkblue hover:text-swiss-red"
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Abmelden
-              </Button>
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-swiss-darkblue hover:text-swiss-red px-3 py-2 text-sm font-medium transition-colors duration-300"
+                >
+                  UNTERNEHMENSPROFIL
+                </Link>
+                <Button
+                  onClick={handleLogout}
+                  variant="ghost"
+                  className="text-swiss-darkblue hover:text-swiss-red"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Abmelden
+                </Button>
+              </>
             )}
           </div>
 
@@ -118,14 +126,23 @@ const Navigation = () => {
               </Link>
             ))}
             {isLoggedIn && (
-              <Button
-                onClick={handleLogout}
-                variant="ghost"
-                className="w-full justify-start text-swiss-darkblue hover:text-swiss-red"
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Abmelden
-              </Button>
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  UNTERNEHMENSPROFIL
+                </Link>
+                <Button
+                  onClick={handleLogout}
+                  variant="ghost"
+                  className="w-full justify-start text-swiss-darkblue hover:text-swiss-red"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Abmelden
+                </Button>
+              </>
             )}
           </div>
         </div>
