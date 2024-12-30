@@ -10,6 +10,7 @@ import FinancingSimulator from "@/components/FinancingSimulator";
 import { ProfileSection } from "@/components/dashboard/ProfileSection";
 import { ServicesSection } from "@/components/dashboard/ServicesSection";
 import { BenefitsMenu } from "@/components/dashboard/BenefitsMenu";
+import { InvoicesSection } from "@/components/dashboard/InvoicesSection";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -144,6 +145,8 @@ const Dashboard = () => {
             claimedServices={claimedServices}
             onClaimService={handleClaimService}
           />
+
+          <InvoicesSection profile={profile} />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <FinancingSimulator />
