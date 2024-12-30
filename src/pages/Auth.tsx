@@ -6,24 +6,39 @@ import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const AuthPage = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error } = await supabase.auth.getSession();
       console.log("Session check:", session);
+      
+      if (error) {
+        console.error("Session check error:", error);
+        toast({
+          title: "Fehler",
+          description: "Es gab einen Fehler beim Überprüfen Ihrer Sitzung.",
+          variant: "destructive",
+        });
+      }
 
       if (session) {
-        const { data: profile } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .single();
 
         console.log("Profile check:", profile);
+
+        if (profileError) {
+          console.error("Profile check error:", profileError);
+        }
 
         if (profile?.is_admin) {
           navigate('/admin');
@@ -34,8 +49,31 @@ const AuthPage = () => {
       setIsLoading(false);
     };
 
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state changed:", event, session);
+      
+      if (session) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile?.is_admin) {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
+      }
+    });
+
     checkSession();
-  }, [navigate]);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate, toast]);
 
   if (isLoading) {
     return (
