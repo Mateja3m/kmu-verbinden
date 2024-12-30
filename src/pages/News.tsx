@@ -20,7 +20,7 @@ export default function News() {
         .from('news_posts')
         .select(`
           *,
-          author:profiles(
+          author:profiles!news_posts_author_id_fkey(
             company_name,
             contact_person
           )
@@ -34,7 +34,6 @@ export default function News() {
       }
       
       console.log('Fetched posts:', data);
-      console.log('Number of posts:', data?.length || 0);
       return data;
     }
   });
@@ -61,12 +60,6 @@ export default function News() {
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
-
-  // Log pagination details
-  console.log('Pagination details:', {
-    totalPages,
-    currentPostsCount: currentPosts?.length
-  });
 
   if (error) {
     console.error('Query error:', error);
