@@ -78,38 +78,6 @@ const Dashboard = () => {
     fetchData();
   }, [navigate, toast]);
 
-  const handleClaimService = async (serviceId: string) => {
-    if (!profile) return;
-
-    const { error } = await supabase
-      .from("profile_services")
-      .insert({
-        profile_id: profile.id,
-        service_id: serviceId,
-      });
-
-    if (error) {
-      toast({
-        title: "Fehler",
-        description: "Service konnte nicht aktiviert werden",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const updatedClaimedServices = services.filter(
-      (service) =>
-        service.id === serviceId ||
-        claimedServices.some((cs) => cs.id === service.id)
-    );
-    setClaimedServices(updatedClaimedServices);
-
-    toast({
-      title: "Erfolg",
-      description: "Service wurde erfolgreich aktiviert",
-    });
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -129,13 +97,42 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto space-y-8">
           <ProfileSection 
             profile={profile} 
-            setProfile={(updatedProfile) => setProfile(updatedProfile as Profile)} 
+            setProfile={setProfile}
           />
           
           <BenefitsMenu
             services={services}
             claimedServices={claimedServices}
-            onClaimService={handleClaimService}
+            onClaimService={async (serviceId) => {
+              if (!profile) return;
+              const { error } = await supabase
+                .from("profile_services")
+                .insert({
+                  profile_id: profile.id,
+                  service_id: serviceId,
+                });
+
+              if (error) {
+                toast({
+                  title: "Fehler",
+                  description: "Service konnte nicht aktiviert werden",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              const updatedClaimedServices = services.filter(
+                (service) =>
+                  service.id === serviceId ||
+                  claimedServices.some((cs) => cs.id === service.id)
+              );
+              setClaimedServices(updatedClaimedServices);
+
+              toast({
+                title: "Erfolg",
+                description: "Service wurde erfolgreich aktiviert",
+              });
+            }}
           />
 
           <InvoicesSection profile={profile} />
