@@ -20,13 +20,13 @@ export default function News() {
         .from('news_posts')
         .select(`
           *,
-          author:author_id (
+          author:profiles(
             company_name,
             contact_person
           )
         `)
         .order('published_at', { ascending: false })
-        .not('published_at', 'is', null); // Only fetch published posts
+        .not('published_at', 'is', null);
       
       if (error) {
         console.error('Error fetching posts:', error);
