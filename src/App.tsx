@@ -11,6 +11,8 @@ import Dashboard from "@/pages/Dashboard";
 import Admin from "@/pages/Admin";
 import News from "@/pages/News";
 import NewsDetail from "@/pages/NewsDetail";
+import Experts from "@/pages/Experts";
+import ExpertDetail from "@/pages/ExpertDetail";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
+          <Route path="/experts" element={<Experts />} />
+          <Route path="/experts/:id" element={<ExpertDetail />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
