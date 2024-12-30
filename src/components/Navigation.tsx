@@ -8,23 +8,49 @@ import { useToast } from "@/hooks/use-toast";
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check initial session
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       console.log("Current session:", session); // Debug log
-      setIsLoggedIn(!!session);
+      
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+        
+        console.log("Profile data:", profile); // Debug log
+        setIsAdmin(!!profile?.is_admin);
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+      }
     };
 
     checkAuth();
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state changed:", event, session); // Debug log
-      setIsLoggedIn(!!session);
+      
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+        
+        setIsAdmin(!!profile?.is_admin);
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -59,7 +85,7 @@ const Navigation = () => {
     { name: 'KMU-NEWS', href: '#' },
   ];
 
-  console.log("isLoggedIn state:", isLoggedIn); // Debug log
+  console.log("Auth state:", { isLoggedIn, isAdmin }); // Debug log
 
   return (
     <nav className="bg-white/90 backdrop-blur-md shadow-lg fixed w-full z-50">
@@ -88,6 +114,14 @@ const Navigation = () => {
             ))}
             {isLoggedIn && (
               <>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="text-swiss-darkblue hover:text-swiss-red px-3 py-2 text-sm font-medium transition-colors duration-300"
+                  >
+                    ADMIN
+                  </Link>
+                )}
                 <Link
                   to="/dashboard"
                   className="text-swiss-darkblue hover:text-swiss-red px-3 py-2 text-sm font-medium transition-colors duration-300"
@@ -134,6 +168,15 @@ const Navigation = () => {
             ))}
             {isLoggedIn && (
               <>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    ADMIN
+                  </Link>
+                )}
                 <Link
                   to="/dashboard"
                   className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
