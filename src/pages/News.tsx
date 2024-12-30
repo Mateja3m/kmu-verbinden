@@ -12,10 +12,10 @@ export default function News() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
-  const { data: posts, isLoading } = useQuery({
+  const { data: posts, isLoading, error } = useQuery({
     queryKey: ['news-posts'],
     queryFn: async () => {
-      console.log('Fetching news posts...');
+      console.log('Starting to fetch news posts...');
       const { data, error } = await supabase
         .from('news_posts')
         .select(`
@@ -31,7 +31,9 @@ export default function News() {
         console.error('Error fetching posts:', error);
         throw error;
       }
+      
       console.log('Fetched posts:', data);
+      console.log('Number of posts:', data?.length || 0);
       return data;
     }
   });
@@ -44,11 +46,42 @@ export default function News() {
     });
   };
 
+  // Log current state for debugging
+  console.log('Current render state:', {
+    isLoading,
+    error,
+    postsCount: posts?.length,
+    currentPage,
+    postsPerPage
+  });
+
   const totalPages = posts ? Math.ceil(posts.length / postsPerPage) : 0;
   const currentPosts = posts?.slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
+
+  // Log pagination details
+  console.log('Pagination details:', {
+    totalPages,
+    currentPostsCount: currentPosts?.length
+  });
+
+  if (error) {
+    console.error('Query error:', error);
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-grow container mx-auto px-4 py-24">
+          <div className="text-center">
+            <h1 className="text-2xl text-red-600">Error loading news posts</h1>
+            <p className="text-gray-600">Please try again later</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -80,7 +113,7 @@ export default function News() {
                 </Card>
               ))}
             </div>
-          ) : (
+          ) : posts && posts.length > 0 ? (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {currentPosts?.map((post) => (
@@ -135,6 +168,12 @@ export default function News() {
                 </div>
               )}
             </>
+          ) : (
+            <div className="text-center py-12">
+              <Newspaper className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Keine News verfügbar</h2>
+              <p className="text-gray-600">Zurzeit sind keine News-Beiträge verfügbar.</p>
+            </div>
           )}
         </div>
       </main>
