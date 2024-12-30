@@ -25,9 +25,9 @@ const FinancingSimulator = () => {
           </label>
           <Slider
             defaultValue={[5000]}
-            max={100000}
+            max={10000}
             min={1000}
-            step={1000}
+            step={100}
             onValueChange={(value) => setAmount(value[0])}
             className="w-full"
           />
