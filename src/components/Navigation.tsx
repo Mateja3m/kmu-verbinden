@@ -1,9 +1,47 @@
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Menu, X, LogOut } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from './ui/button';
+import { useToast } from "@/hooks/use-toast";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
+    };
+
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsLoggedIn(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: "Fehler beim Abmelden",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Erfolgreich abgemeldet",
+        description: "Auf Wiedersehen!",
+      });
+      navigate('/');
+    }
+  };
 
   const menuItems = [
     { name: 'START', href: '/' },
@@ -41,6 +79,16 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
+            {isLoggedIn && (
+              <Button
+                onClick={handleLogout}
+                variant="ghost"
+                className="text-swiss-darkblue hover:text-swiss-red"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Abmelden
+              </Button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -69,6 +117,16 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
+            {isLoggedIn && (
+              <Button
+                onClick={handleLogout}
+                variant="ghost"
+                className="w-full justify-start text-swiss-darkblue hover:text-swiss-red"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Abmelden
+              </Button>
+            )}
           </div>
         </div>
       )}
