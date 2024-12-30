@@ -6,6 +6,7 @@ const menuItems = [
   { name: 'PRÄSIDIUM', href: '/presidency' },
   { name: 'MITGLIEDSCHAFT', href: '/membership' },
   { name: 'PARTNER', href: '/partners' },
+  { name: 'EXPERTENRAT', href: '/experts' },
   { name: 'KONTAKT', href: '#' },
   { name: 'KMU-NEWS', href: '#' },
 ];
