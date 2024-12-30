@@ -22,12 +22,14 @@ const Presidency = () => {
               <p className="text-gray-700 mb-4">
                 Vorstellung unseres Präsidenten und Aktuars: Herr Diego Schnydrig
               </p>
-              <p className="text-gray-700 mb-4">
-                Als Präsident des Schweizerischen KMU Vereins setzt sich Diego Schnydrig mit grossem Engagement für die Interessen der kleinen und mittleren Unternehmen in der Schweiz ein.
-              </p>
-              <p className="text-gray-700">
-                Mit seiner Erfahrung und seinem Verständnis für die Bedürfnisse von KMUs trägt er massgeblich zur Entwicklung und Stärkung unseres Vereins bei.
-              </p>
+              <div className="mt-6 space-y-4">
+                <p className="text-gray-700">
+                  Die Motivation von Herrn Schnydrig entspringt seinem tiefen Verständnis für die Herausforderungen und Bedürfnisse der KMU. Als Treuhänder kennt er die betriebswirtschaftlichen und administrativen Hürden, die viele Unternehmen überwinden müssen, und arbeitet konsequent daran, praxisnahe Lösungen und Unterstützung anzubieten.
+                </p>
+                <p className="text-gray-700">
+                  Sein Ziel ist es, die Wettbewerbsfähigkeit und Innovationskraft der Schweizer KMU zu stärken und ihnen eine starke Stimme auf nationaler Ebene zu geben.
+                </p>
+              </div>
             </div>
             <img
               src="https://static.wixstatic.com/media/0c82d3_9f38df8ed5b44e02a95e96a5dbeacce3~mv2.png/v1/fill/w_560,h_374,fp_0.34_0.22,lg_1,q_85,enc_avif,quality_auto/0d64f4ef-3056-4a82-aa47-7ab680b7a57a.png"
@@ -38,9 +40,24 @@ const Presidency = () => {
         </div>
 
         <div className="space-y-8 text-gray-700">
-          <p>Der Schweizerische KMU Verein (SKV) setzt sich aktiv für die Interessen und Bedürfnisse seiner Mitglieder ein. Unser Präsidium arbeitet eng mit allen Mitgliedern zusammen, um die Ziele des Vereins zu erreichen.</p>
-          <p>Wir fördern den Austausch zwischen den Mitgliedern und bieten eine Plattform für Networking und gegenseitige Unterstützung.</p>
-          <p>Für weitere Informationen oder bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.</p>
+          <p>
+            Unter der Leitung von Herrn Schnydrig verfolgt der SKV eine klare Ausrichtung: die Förderung der Digitalisierung, die Unterstützung bei der Lehrlingsausbildung durch Talentscouting, die Bereitstellung umfassender Finanzberatung, die Etablierung von Mentoring-Programmen sowie redaktionelle Dienstleistungen. Der Schweizerische KMU Verein (SKV) hat den klaren Auftrag, die multimediale Sichtbarkeit aller KMU in der Schweiz zu fördern.
+          </p>
+          <p>
+            Dies gelingt durch die Konzentration auf unser breites Netzwerk, sowohl digital als auch in Print.
+          </p>
+          <p>
+            Unsere Projekte und Initiativen sollen den Mitgliedern und auch Nichtmitgliedern helfen, ihr volles Potenzial auszuschöpfen und erfolgreich zu wachsen. Wir operieren ausschließlich national und sind stolz darauf, unsere Mitglieder durch verschiedene Medienformate zu unterstützen.
+          </p>
+          <p>
+            Herr Schnydrig lädt alle Mitglieder, Nichtmitglieder und Interessierten ein, sich aktiv an den vielfältigen Projekten des Vereins zu beteiligen und die zahlreichen Angebote zu nutzen. Für weitere Informationen oder Fragen steht Ihnen unsere Geschäftsstelle jederzeit gerne zur Verfügung.
+          </p>
+
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <p className="font-bold text-swiss-darkblue mb-4">Ihr Präsident: Diego Schnydrig</p>
+            <p className="text-gray-700">diego.schydrig@kmu-verein.ch</p>
+            <p className="text-gray-700">079 579 64 17</p>
+          </div>
         </div>
       </main>
       <Footer />
