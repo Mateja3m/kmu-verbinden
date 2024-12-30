@@ -19,57 +19,73 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkAuth();
+    const fetchData = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+          navigate("/auth");
+          return;
+        }
+
+        // Fetch profile data
+        const { data: profileData, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+
+        if (profileError) {
+          console.error("Profile error:", profileError);
+          toast({
+            title: "Fehler",
+            description: "Profildaten konnten nicht geladen werden",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        setProfile(profileData);
+
+        // Fetch services data
+        const { data: servicesData, error: servicesError } = await supabase
+          .from("services")
+          .select("*");
+
+        if (servicesError) {
+          console.error("Services error:", servicesError);
+          return;
+        }
+
+        setServices(servicesData || []);
+
+        // Fetch claimed services
+        const { data: claimedServicesData, error: claimedError } = await supabase
+          .from("profile_services")
+          .select("service_id")
+          .eq("profile_id", session.user.id);
+
+        if (claimedError) {
+          console.error("Claimed services error:", claimedError);
+          return;
+        }
+
+        if (claimedServicesData && servicesData) {
+          const claimedServiceIds = claimedServicesData.map(cs => cs.service_id);
+          const claimedServicesList = servicesData.filter(service => 
+            claimedServiceIds.includes(service.id)
+          );
+          setClaimedServices(claimedServicesList);
+        }
+      } catch (error) {
+        console.error("Dashboard error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [navigate, toast]);
-
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      navigate("/auth");
-      return;
-    }
-
-    // Fetch profile data
-    const { data: profileData, error: profileError } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", session.user.id)
-      .single();
-
-    if (profileError) {
-      toast({
-        title: "Fehler",
-        description: "Profildaten konnten nicht geladen werden",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setProfile(profileData);
-
-    // Fetch services data
-    const { data: servicesData } = await supabase
-      .from("services")
-      .select("*");
-
-    setServices(servicesData || []);
-
-    // Fetch claimed services
-    const { data: claimedServicesData } = await supabase
-      .from("profile_services")
-      .select("service_id")
-      .eq("profile_id", session.user.id);
-
-    if (claimedServicesData && servicesData) {
-      const claimedServiceIds = claimedServicesData.map(cs => cs.service_id);
-      const claimedServicesList = servicesData.filter(service => 
-        claimedServiceIds.includes(service.id)
-      );
-      setClaimedServices(claimedServicesList);
-    }
-
-    setLoading(false);
-  };
 
   if (loading) {
     return (
@@ -86,7 +102,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <div className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 mt-20">
         <div className="max-w-7xl mx-auto space-y-8">
           <ProfileSection profile={profile} setProfile={setProfile} />
           
