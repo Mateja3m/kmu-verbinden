@@ -46,8 +46,10 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
             <nav className="space-y-3">
-              <Link to="/" className="block hover:text-swiss-red transition-colors">Home</Link>
               <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
+              <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
+              <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstelle</Link>
+              <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
               <button 
                 onClick={handleAdminLogin}
                 className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
