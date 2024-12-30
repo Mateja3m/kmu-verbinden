@@ -1,63 +1,12 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersSection } from "@/components/admin/MembersSection";
 import { PartnersSection } from "@/components/admin/PartnersSection";
 import { NewsSection } from "@/components/admin/NewsSection";
 import { ExpertsSection } from "@/components/admin/ExpertsSection";
-import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2, AlertCircle } from "lucide-react";
 
 export default function Admin() {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    // For now, we'll skip the admin check since we haven't connected it yet
-    setIsLoading(false);
-    setIsAdmin(true);
-  }, []);
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <main className="flex-grow flex items-center justify-center">
-          <div className="text-center">
-            <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <p className="text-lg text-red-600">{error}</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <main className="flex-grow flex items-center justify-center">
-          <div className="text-center">
-            <Loader2 className="h-12 w-12 animate-spin text-swiss-red mx-auto mb-4" />
-            <p className="text-lg text-gray-600">Loading admin dashboard...</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return null;
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
