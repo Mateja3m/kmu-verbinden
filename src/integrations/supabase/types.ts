@@ -9,30 +9,108 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      experts: {
+      expert_reviews: {
         Row: {
+          comment: string | null
           created_at: string
-          description: string
-          expertise_area: string
+          expert_id: string | null
           id: string
-          image_url: string | null
-          profile_id: string
+          is_anonymous: boolean | null
+          is_public: boolean | null
+          rating: number
+          reviewer_profile_id: string | null
         }
         Insert: {
+          comment?: string | null
           created_at?: string
-          description: string
-          expertise_area: string
+          expert_id?: string | null
           id?: string
-          image_url?: string | null
-          profile_id: string
+          is_anonymous?: boolean | null
+          is_public?: boolean | null
+          rating: number
+          reviewer_profile_id?: string | null
         }
         Update: {
+          comment?: string | null
           created_at?: string
-          description?: string
-          expertise_area?: string
+          expert_id?: string | null
+          id?: string
+          is_anonymous?: boolean | null
+          is_public?: boolean | null
+          rating?: number
+          reviewer_profile_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expert_reviews_expert_id_fkey"
+            columns: ["expert_id"]
+            isOneToOne: false
+            referencedRelation: "experts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expert_reviews_reviewer_profile_id_fkey"
+            columns: ["reviewer_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      experts: {
+        Row: {
+          address: string | null
+          city: string | null
+          company_name: string | null
+          created_at: string
+          description: string
+          email: string | null
+          expertise_area: string
+          google_place_id: string | null
+          id: string
+          image_url: string | null
+          phone: string | null
+          postal_code: string | null
+          profile_id: string
+          regions: string[] | null
+          services: string[] | null
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          company_name?: string | null
+          created_at?: string
+          description: string
+          email?: string | null
+          expertise_area: string
+          google_place_id?: string | null
           id?: string
           image_url?: string | null
+          phone?: string | null
+          postal_code?: string | null
+          profile_id: string
+          regions?: string[] | null
+          services?: string[] | null
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          company_name?: string | null
+          created_at?: string
+          description?: string
+          email?: string | null
+          expertise_area?: string
+          google_place_id?: string | null
+          id?: string
+          image_url?: string | null
+          phone?: string | null
+          postal_code?: string | null
           profile_id?: string
+          regions?: string[] | null
+          services?: string[] | null
+          website?: string | null
         }
         Relationships: [
           {
