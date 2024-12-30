@@ -13,7 +13,7 @@ const AuthPage = () => {
   // Listen for auth state changes
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "SIGNED_IN") {
-      navigate("/");
+      navigate("/dashboard");
     }
   });
 
