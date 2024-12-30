@@ -4,10 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Tables } from "@/integrations/supabase/types";
+
+type Expert = Tables<"experts">;
 
 export function ExpertsSection() {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Omit<Expert, 'id' | 'created_at'>>({
     expertise_area: '',
     description: '',
     image_url: '',
@@ -62,7 +65,7 @@ export function ExpertsSection() {
         <div>
           <label className="block text-sm font-medium mb-1">Bild URL</label>
           <Input
-            value={formData.image_url}
+            value={formData.image_url || ''}
             onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
           />
         </div>
