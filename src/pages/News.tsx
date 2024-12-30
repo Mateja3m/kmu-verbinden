@@ -12,7 +12,7 @@ export default function News() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
-  const { data: posts, isLoading, error } = useQuery({
+  const { data: posts, isLoading } = useQuery({
     queryKey: ['news-posts'],
     queryFn: async () => {
       console.log('Fetching news posts...');
@@ -51,21 +51,6 @@ export default function News() {
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <main className="flex-grow container mx-auto px-4 py-24">
-          <div className="text-center">
-            <h1 className="text-2xl text-red-600">Error loading news posts</h1>
-            <p className="text-gray-600">Bitte versuchen Sie es später erneut.</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
