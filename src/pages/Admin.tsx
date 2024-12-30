@@ -3,6 +3,7 @@ import { MembersSection } from "@/components/admin/MembersSection";
 import { PartnersSection } from "@/components/admin/PartnersSection";
 import { NewsSection } from "@/components/admin/NewsSection";
 import { ExpertsSection } from "@/components/admin/ExpertsSection";
+import { DashboardStats } from "@/components/admin/DashboardStats";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -13,6 +14,8 @@ export default function Admin() {
       <main className="flex-grow container mx-auto px-4 py-24">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-swiss-darkblue mb-8">Admin Dashboard</h1>
+          
+          <DashboardStats />
           
           <Tabs defaultValue="members" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4 gap-4">
