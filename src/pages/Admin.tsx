@@ -16,64 +16,81 @@ export default function Admin() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAdmin = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        console.log("Current session:", session); // Debug log
+        console.log("Current session:", session);
 
         if (!session?.user) {
-          console.log("No session, redirecting to auth"); // Debug log
+          console.log("No session found, redirecting to auth");
           navigate('/auth');
           return;
         }
 
-        const { data: profile, error } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .maybeSingle();
 
-        console.log("Profile data:", profile, "Error:", error); // Debug log
+        console.log("Profile data:", profile, "Profile error:", profileError);
 
-        if (error) {
-          console.error("Error fetching profile:", error);
+        if (profileError) {
+          console.error("Error fetching profile:", profileError);
+          setError("Error loading profile data");
           toast({
-            title: "Fehler",
-            description: "Fehler beim Laden des Profils.",
+            title: "Error",
+            description: "Failed to load profile data",
             variant: "destructive",
           });
-          navigate('/');
           return;
         }
 
         if (!profile?.is_admin) {
-          console.log("Not an admin, redirecting"); // Debug log
+          console.log("User is not an admin, redirecting");
           toast({
-            title: "Zugriff verweigert",
-            description: "Sie haben keine Administratorrechte.",
+            title: "Access Denied",
+            description: "You do not have administrator privileges",
             variant: "destructive",
           });
           navigate('/');
           return;
         }
 
+        console.log("Admin access granted");
         setIsAdmin(true);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error in checkAdmin:", error);
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        setError("An unexpected error occurred");
         toast({
-          title: "Fehler",
-          description: "Ein unerwarteter Fehler ist aufgetreten.",
+          title: "Error",
+          description: "An unexpected error occurred",
           variant: "destructive",
         });
-        navigate('/');
+      } finally {
+        setIsLoading(false);
       }
     };
 
     checkAdmin();
   }, [navigate, toast]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-grow flex items-center justify-center">
+          <div className="text-center text-red-600">
+            <p className="text-lg">{error}</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -82,7 +99,7 @@ export default function Admin() {
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="h-12 w-12 animate-spin text-swiss-red mx-auto mb-4" />
-            <p className="text-lg text-gray-600">Lade Admin-Bereich...</p>
+            <p className="text-lg text-gray-600">Loading admin dashboard...</p>
           </div>
         </main>
         <Footer />
