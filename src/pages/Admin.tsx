@@ -29,13 +29,24 @@ export default function Admin() {
           return;
         }
 
-        const { data: profile } = await supabase
+        const { data: profile, error } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .maybeSingle();
 
-        console.log("Profile data:", profile); // Debug log
+        console.log("Profile data:", profile, "Error:", error); // Debug log
+
+        if (error) {
+          console.error("Error fetching profile:", error);
+          toast({
+            title: "Fehler",
+            description: "Fehler beim Laden des Profils.",
+            variant: "destructive",
+          });
+          navigate('/');
+          return;
+        }
 
         if (!profile?.is_admin) {
           console.log("Not an admin, redirecting"); // Debug log
