@@ -1,13 +1,27 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Check } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Membership = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [inviteCode, setInviteCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    companyName: "",
+    contactPerson: "",
+    address: "",
+    postalCode: "",
+    city: "",
+    email: "",
+    password: "",
+  });
 
   const benefits = [
     {
@@ -44,6 +58,95 @@ const Membership = () => {
       company: "Umzug Schweiz AG",
     },
   ];
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+
+    if (step === 2) {
+      setLoading(true);
+      try {
+        // Register the user
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (authError) throw authError;
+
+        if (authData.user) {
+          // Update the profile with company information
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .update({
+              company_name: formData.companyName,
+              contact_person: formData.contactPerson,
+              address: formData.address,
+              postal_code: formData.postalCode,
+              city: formData.city,
+            })
+            .eq('id', authData.user.id);
+
+          if (profileError) throw profileError;
+
+          toast({
+            title: "Registrierung erfolgreich",
+            description: "Bitte bestätigen Sie Ihre E-Mail-Adresse.",
+          });
+          
+          setStep(3);
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        toast({
+          title: "Fehler bei der Registrierung",
+          description: "Bitte versuchen Sie es erneut.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Erfolgreich eingeloggt",
+        description: "Willkommen zurück!",
+      });
+      
+      navigate("/dashboard");
+    } catch (error) {
+      console.error('Login error:', error);
+      toast({
+        title: "Login fehlgeschlagen",
+        description: "Bitte überprüfen Sie Ihre Anmeldedaten.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -134,12 +237,40 @@ const Membership = () => {
             {step === 1 && (
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Unternehmensdaten</h3>
-                <Input placeholder="Firmenname" className="w-full" />
-                <Input placeholder="Name der verantwortlichen Person" className="w-full" />
-                <Input placeholder="Straße und Hausnummer" className="w-full" />
+                <Input 
+                  placeholder="Firmenname" 
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleInputChange}
+                  className="w-full" 
+                />
+                <Input 
+                  placeholder="Name der verantwortlichen Person" 
+                  name="contactPerson"
+                  value={formData.contactPerson}
+                  onChange={handleInputChange}
+                  className="w-full" 
+                />
+                <Input 
+                  placeholder="Straße und Hausnummer" 
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="w-full" 
+                />
                 <div className="grid grid-cols-2 gap-4">
-                  <Input placeholder="PLZ" />
-                  <Input placeholder="Ort" />
+                  <Input 
+                    placeholder="PLZ" 
+                    name="postalCode"
+                    value={formData.postalCode}
+                    onChange={handleInputChange}
+                  />
+                  <Input 
+                    placeholder="Ort" 
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <Button 
                   className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white mt-6"
@@ -152,6 +283,67 @@ const Membership = () => {
                 </p>
               </div>
             )}
+
+            {step === 2 && (
+              <div className="space-y-4">
+                <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Zugangsdaten erstellen</h3>
+                <Input 
+                  type="email"
+                  placeholder="E-Mail-Adresse" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full" 
+                />
+                <Input 
+                  type="password"
+                  placeholder="Passwort" 
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="w-full" 
+                />
+                <Button 
+                  className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white mt-6"
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? "Wird verarbeitet..." : "Registrieren"}
+                </Button>
+                <div className="text-center mt-4">
+                  <p className="text-sm text-gray-600">
+                    Bereits Mitglied?{" "}
+                    <button
+                      onClick={handleLogin}
+                      className="text-swiss-red hover:text-swiss-darkblue"
+                      disabled={loading}
+                    >
+                      Hier einloggen
+                    </button>
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div className="text-center space-y-4">
+                <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Registrierung erfolgreich!</h3>
+                <p className="text-gray-600">
+                  Bitte überprüfen Sie Ihre E-Mail-Adresse und bestätigen Sie Ihre Registrierung.
+                </p>
+                <Button 
+                  className="mt-6"
+                  variant="outline"
+                  onClick={() => navigate("/auth")}
+                >
+                  Zum Login
+                </Button>
+              </div>
+            )}
+
+            <p className="text-sm text-gray-500 text-center mt-4">
+              Ihre Daten werden sicher übertragen und nicht an Dritte weitergegeben
+            </p>
           </div>
         </div>
       </div>
