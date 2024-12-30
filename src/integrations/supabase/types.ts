@@ -6,42 +6,45 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
-      experts: {
+      partners: {
         Row: {
-          created_at: string
-          description: string
-          expertise_area: string
           id: string
-          image_url: string | null
           profile_id: string
+          name: string
+          logo: string | null
+          website: string | null
+          description: string | null
+          created_at: string
         }
         Insert: {
-          created_at?: string
-          description: string
-          expertise_area: string
           id?: string
-          image_url?: string | null
           profile_id: string
+          name: string
+          logo?: string | null
+          website?: string | null
+          description?: string | null
+          created_at?: string
         }
         Update: {
-          created_at?: string
-          description?: string
-          expertise_area?: string
           id?: string
-          image_url?: string | null
           profile_id?: string
+          name?: string
+          logo?: string | null
+          website?: string | null
+          description?: string | null
+          created_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "experts_profile_id_fkey"
+            foreignKeyName: "partners_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       invoices: {

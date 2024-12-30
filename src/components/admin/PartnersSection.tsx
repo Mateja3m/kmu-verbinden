@@ -17,14 +17,26 @@ export function PartnersSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // First get the current user's profile to check if they're an admin
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({
+        title: "Fehler",
+        description: "Sie müssen eingeloggt sein.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const { error } = await supabase
-      .from('profiles')
+      .from('partners')
       .insert([{
         ...formData,
-        member_type: 'partner'
+        profile_id: user.id
       }]);
 
     if (error) {
+      console.error('Error adding partner:', error);
       toast({
         title: "Fehler",
         description: "Partner konnte nicht hinzugefügt werden.",
