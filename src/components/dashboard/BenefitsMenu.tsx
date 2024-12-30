@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { Service } from "@/integrations/supabase/database.types";
+import { Tables } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+
+type Service = Tables<"services">;
 
 export const BenefitsMenu = ({
   services,

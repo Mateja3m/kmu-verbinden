@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Service, Profile } from "@/integrations/supabase/database.types";
+import { Tables } from "@/integrations/supabase/types";
 import {
   Table,
   TableBody,
@@ -10,6 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+type Profile = Tables<"profiles">;
+type Service = Tables<"services">;
 
 export const ServicesSection = ({
   profile,
