@@ -1,31 +1,12 @@
 import { Mail, MapPin, Phone, Globe, Calendar, Lock } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
+import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
-  const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleAdminLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: 'admin',
-      password: 'fabian'
-    });
-
-    if (error) {
-      toast({
-        title: "Login fehlgeschlagen",
-        description: "Bitte überprüfen Sie Ihre Anmeldedaten.",
-        variant: "destructive"
-      });
-    } else {
-      toast({
-        title: "Erfolgreich angemeldet",
-        description: "Sie werden zum Admin-Bereich weitergeleitet."
-      });
-      // Redirect will happen automatically through auth state change
-    }
+  const handleAdminLogin = () => {
+    navigate('/auth');
   };
 
   return (

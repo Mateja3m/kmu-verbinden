@@ -5,6 +5,7 @@ import Membership from "@/pages/Membership";
 import Redaktion from "@/pages/Redaktion";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
+import Admin from "@/pages/Admin";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/redaktion" element={<Redaktion />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
   );
