@@ -10,7 +10,10 @@ import { ProfileSection } from "@/components/dashboard/ProfileSection";
 import { ServicesSection } from "@/components/dashboard/ServicesSection";
 import { BenefitsMenu } from "@/components/dashboard/BenefitsMenu";
 import { InvoicesSection } from "@/components/dashboard/InvoicesSection";
-import { Profile, Service } from "@/integrations/supabase/database.types";
+import { Tables } from "@/integrations/supabase/types";
+
+type Profile = Tables<"profiles">;
+type Service = Tables<"services">;
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -97,7 +100,7 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto space-y-8">
           <ProfileSection 
             profile={profile} 
-            setProfile={(updatedProfile: Profile) => setProfile(updatedProfile)}
+            setProfile={setProfile}
           />
           
           <BenefitsMenu

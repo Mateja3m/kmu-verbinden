@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Profile } from "@/integrations/supabase/database.types";
+import { Tables } from "@/integrations/supabase/types";
+
+type Profile = Tables<"profiles">;
 
 export const ProfileSection = ({ 
   profile, 
