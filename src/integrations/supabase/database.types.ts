@@ -1,5 +1,6 @@
 export type Profile = {
   id: string;
+  created_at: string;
   company_name?: string | null;
   contact_person?: string | null;
   address?: string | null;
@@ -7,7 +8,6 @@ export type Profile = {
   city?: string | null;
   phone?: string | null;
   is_admin?: boolean | null;
-  created_at: string;
   member_type?: string | null;
 };
 

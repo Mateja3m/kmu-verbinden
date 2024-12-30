@@ -97,7 +97,7 @@ const Dashboard = () => {
       return;
     }
 
-    const updatedClaimedServices = [...services].filter(
+    const updatedClaimedServices = services.filter(
       (service) =>
         service.id === serviceId ||
         claimedServices.some((cs) => cs.id === service.id)
