@@ -3,10 +3,7 @@ import { LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 
 const menuItems = [
-  { name: 'START', href: '/' },
   { name: 'PRÄSIDIUM', href: '/presidency' },
-  { name: 'GESCHÄFTSSTELLE', href: '#' },
-  { name: 'REDAKTION', href: '/redaktion' },
   { name: 'MITGLIEDSCHAFT', href: '/membership' },
   { name: 'PARTNER', href: '/partners' },
   { name: 'KONTAKT', href: '#' },
