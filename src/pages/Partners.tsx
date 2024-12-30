@@ -13,14 +13,14 @@ const Partners = () => {
     <div className="flex flex-col min-h-screen">
       <Navigation />
       <main className="flex-grow">
-        <div className="bg-luxury-gradient text-white py-16">
-          <div className="container mx-auto px-4">
+        <header className="w-full bg-luxury-gradient text-white">
+          <div className="container mx-auto px-4 py-16">
             <h1 className="text-4xl font-bold mb-4">Unsere Partner</h1>
-            <p className="text-xl">
+            <p className="text-xl max-w-3xl">
               Entdecken Sie unser Netzwerk von vertrauenswürdigen Partnern, die den Schweizerischen KMU Verein unterstützen
             </p>
           </div>
-        </div>
+        </header>
 
         <div className="container mx-auto px-4">
           <PartnerSection
