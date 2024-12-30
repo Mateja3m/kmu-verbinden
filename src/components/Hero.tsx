@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 const Hero = () => {
   return (
     <div className="relative bg-swiss-darkblue min-h-[80vh] flex items-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-swiss-darkblue to-swiss-red/80 mix-blend-multiply"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-swiss-darkblue via-swiss-darkblue to-swiss-red/60 mix-blend-multiply"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="lg:w-1/2">
