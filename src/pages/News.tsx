@@ -12,10 +12,11 @@ export default function News() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
-  const { data: posts, isLoading } = useQuery({
+  const { data: posts, isLoading, error } = useQuery({
     queryKey: ['news-posts'],
     queryFn: async () => {
-      console.log('Fetching news posts...');
+      console.log('Starting to fetch news posts...');
+      
       const { data, error } = await supabase
         .from('news_posts')
         .select(`
@@ -34,9 +35,12 @@ export default function News() {
       }
       
       console.log('Fetched posts:', data);
+      console.log('Number of posts:', data?.length);
       return data;
     }
   });
+
+  console.log('Current render state:', { isLoading, error, postsCount: posts?.length });
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('de-CH', {
@@ -51,6 +55,22 @@ export default function News() {
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
+
+  if (error) {
+    console.error('Rendering error state:', error);
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-grow container mx-auto px-4 py-24">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-red-600">Error loading news</h1>
+            <p className="text-gray-600">{error.message}</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
