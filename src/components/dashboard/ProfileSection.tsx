@@ -72,7 +72,7 @@ export const ProfileSection = ({
             </label>
             {isEditing ? (
               <Input
-                value={editedProfile[key as keyof typeof editedProfile] || ""}
+                value={(editedProfile[key as keyof typeof editedProfile] as string) || ""}
                 onChange={(e) => setEditedProfile(prev => ({
                   ...prev,
                   [key]: e.target.value
@@ -81,7 +81,7 @@ export const ProfileSection = ({
               />
             ) : (
               <div className="text-swiss-darkblue">
-                {profile?.[key as keyof typeof profile] || "-"}
+                {(profile?.[key as keyof typeof profile] as string) || "-"}
               </div>
             )}
           </div>
