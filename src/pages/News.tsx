@@ -15,6 +15,7 @@ export default function News() {
   const { data: posts, isLoading } = useQuery({
     queryKey: ['news-posts'],
     queryFn: async () => {
+      console.log('Fetching news posts...');
       const { data, error } = await supabase
         .from('news_posts')
         .select(`
@@ -24,10 +25,13 @@ export default function News() {
             contact_person
           )
         `)
-        .order('published_at', { ascending: false })
-        .not('published_at', 'is', null);
+        .order('published_at', { ascending: false });
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching posts:', error);
+        throw error;
+      }
+      console.log('Fetched posts:', data);
       return data;
     }
   });
