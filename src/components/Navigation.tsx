@@ -12,14 +12,18 @@ const Navigation = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Check initial session
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+      console.log("Current session:", session); // Debug log
       setIsLoggedIn(!!session);
     };
 
     checkAuth();
 
+    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth state changed:", event, session); // Debug log
       setIsLoggedIn(!!session);
     });
 
@@ -29,6 +33,7 @@ const Navigation = () => {
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
+      console.error("Logout error:", error); // Debug log
       toast({
         title: "Fehler beim Abmelden",
         description: error.message,
@@ -53,6 +58,8 @@ const Navigation = () => {
     { name: 'KONTAKT', href: '#' },
     { name: 'KMU-NEWS', href: '#' },
   ];
+
+  console.log("isLoggedIn state:", isLoggedIn); // Debug log
 
   return (
     <nav className="bg-white/90 backdrop-blur-md shadow-lg fixed w-full z-50">
