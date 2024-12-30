@@ -1,30 +1,22 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import Presidency from "./pages/Presidency";
-import Membership from "./pages/Membership";
-import Partners from "./pages/Partners";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Index from "@/pages/Index";
+import Presidency from "@/pages/Presidency";
+import Partners from "@/pages/Partners";
+import Membership from "@/pages/Membership";
+import Redaktion from "@/pages/Redaktion";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/presidency" element={<Presidency />} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/partners" element={<Partners />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/presidency" element={<Presidency />} />
+        <Route path="/partners" element={<Partners />} />
+        <Route path="/membership" element={<Membership />} />
+        <Route path="/redaktion" element={<Redaktion />} />
+      </Routes>
+    </Router>
+  );
+}
 
 export default App;

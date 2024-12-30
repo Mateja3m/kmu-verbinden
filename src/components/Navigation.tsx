@@ -9,7 +9,7 @@ const Navigation = () => {
     { name: 'START', href: '/' },
     { name: 'PRÄSIDIUM', href: '/presidency' },
     { name: 'GESCHÄFTSSTELLE', href: '#' },
-    { name: 'REDAKTION', href: '#' },
+    { name: 'REDAKTION', href: '/redaktion' },
     { name: 'MITGLIEDSCHAFT', href: '/membership' },
     { name: 'PARTNER', href: '/partners' },
     { name: 'KONTAKT', href: '#' },
