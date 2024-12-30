@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Share2, Linkedin, ArrowLeft } from "lucide-react";
+import { Share2, Linkedin, ArrowLeft, Calendar } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,7 +23,7 @@ export default function NewsDetail() {
           )
         `)
         .eq('slug', slug)
-        .single();
+        .maybeSingle();
       
       if (error) throw error;
       return data;
@@ -115,10 +115,13 @@ export default function NewsDetail() {
           
           <div className="flex items-center justify-between mb-8">
             <div className="text-gray-600">
-              <p>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <span>{formatDate(post.published_at || post.created_at)}</span>
+              </div>
+              <p className="mt-1">
                 {post.author?.contact_person || post.author?.company_name || 'KMU Verein'}
               </p>
-              <p>{formatDate(post.published_at || post.created_at)}</p>
             </div>
             
             <div className="flex gap-2">
@@ -150,7 +153,7 @@ export default function NewsDetail() {
           )}
 
           <div 
-            className="prose prose-lg max-w-none"
+            className="prose prose-lg max-w-none prose-headings:text-swiss-darkblue prose-a:text-swiss-red hover:prose-a:text-swiss-red/80"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 

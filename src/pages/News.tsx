@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Newspaper } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,7 +17,13 @@ export default function News() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('news_posts')
-        .select('*')
+        .select(`
+          *,
+          author:author_id (
+            company_name,
+            contact_person
+          )
+        `)
         .order('published_at', { ascending: false })
         .not('published_at', 'is', null);
       
@@ -41,13 +47,13 @@ export default function News() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-gray-50">
+    <div className="min-h-screen flex flex-col">
       <Navigation />
       
       <main className="flex-grow container mx-auto px-4 py-24">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold text-swiss-darkblue mb-4 bg-clip-text text-transparent bg-luxury-gradient">
+            <h1 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-swiss-red to-swiss-darkblue">
               KMU News
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -75,7 +81,7 @@ export default function News() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {currentPosts?.map((post) => (
                   <Link to={`/news/${post.slug}`} key={post.id} className="group">
-                    <Card className="h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <Card className="h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                       {post.image_url && (
                         <div className="h-48 overflow-hidden">
                           <img
@@ -95,17 +101,15 @@ export default function News() {
                         <CardTitle className="text-xl group-hover:text-swiss-red transition-colors">
                           {post.title}
                         </CardTitle>
+                        <CardDescription className="line-clamp-2">
+                          {post.meta_description || post.content.slice(0, 150) + '...'}
+                        </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-gray-600 line-clamp-3 mb-4">
-                          {post.meta_description || post.content.slice(0, 150) + '...'}
-                        </p>
-                        <Button 
-                          variant="link" 
-                          className="p-0 text-swiss-red group-hover:text-swiss-darkblue transition-colors"
-                        >
-                          Weiterlesen <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center text-swiss-red group-hover:text-swiss-darkblue transition-colors">
+                          <span className="mr-2">Weiterlesen</span>
+                          <ArrowRight className="h-4 w-4" />
+                        </div>
                       </CardContent>
                     </Card>
                   </Link>
