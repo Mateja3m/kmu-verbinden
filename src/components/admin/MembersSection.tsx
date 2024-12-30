@@ -1,30 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
 
 export function MembersSection() {
-  const [members, setMembers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [members] = useState([
+    {
+      id: '1',
+      member_type: 'member',
+      company_name: 'Example AG',
+      contact_person: 'John Doe',
+      city: 'Zürich',
+      phone: '+41 123 456 789',
+      created_at: '2024-01-01'
+    },
+    // Add more mock data as needed
+  ]);
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (!error && data) {
-        setMembers(data);
-      }
-      setLoading(false);
-    };
-
-    fetchMembers();
-  }, []);
-
-  const getMemberTypeLabel = (type: string | null) => {
+  const getMemberTypeLabel = (type: string) => {
     switch (type) {
       case 'member':
         return <Badge className="bg-blue-500">Mitglied</Badge>;
@@ -36,10 +29,6 @@ export function MembersSection() {
         return <Badge className="bg-gray-500">Pending</Badge>;
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div>
@@ -67,10 +56,10 @@ export function MembersSection() {
             {members.map((member) => (
               <TableRow key={member.id}>
                 <TableCell>{getMemberTypeLabel(member.member_type)}</TableCell>
-                <TableCell className="font-medium">{member.company_name || '-'}</TableCell>
-                <TableCell>{member.contact_person || '-'}</TableCell>
-                <TableCell>{member.city || '-'}</TableCell>
-                <TableCell>{member.phone || '-'}</TableCell>
+                <TableCell className="font-medium">{member.company_name}</TableCell>
+                <TableCell>{member.contact_person}</TableCell>
+                <TableCell>{member.city}</TableCell>
+                <TableCell>{member.phone}</TableCell>
                 <TableCell>
                   {new Date(member.created_at).toLocaleDateString('de-CH')}
                 </TableCell>

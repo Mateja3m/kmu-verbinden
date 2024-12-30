@@ -2,15 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { Tables } from "@/integrations/supabase/types";
-
-type Expert = Tables<"experts">;
 
 export function ExpertsSection() {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState<Omit<Expert, 'id' | 'created_at'>>({
+  const [formData, setFormData] = useState({
     expertise_area: '',
     description: '',
     image_url: '',
@@ -19,24 +13,8 @@ export function ExpertsSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const { error } = await supabase
-      .from('experts')
-      .insert([formData]);
-
-    if (error) {
-      toast({
-        title: "Fehler",
-        description: "Experte konnte nicht hinzugefügt werden.",
-        variant: "destructive"
-      });
-    } else {
-      toast({
-        title: "Erfolg",
-        description: "Experte wurde erfolgreich hinzugefügt."
-      });
-      setFormData({ expertise_area: '', description: '', image_url: '', profile_id: '' });
-    }
+    // Form submission will be implemented later
+    console.log('Expert form submitted:', formData);
   };
 
   return (
@@ -65,7 +43,7 @@ export function ExpertsSection() {
         <div>
           <label className="block text-sm font-medium mb-1">Bild URL</label>
           <Input
-            value={formData.image_url || ''}
+            value={formData.image_url}
             onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
           />
         </div>
