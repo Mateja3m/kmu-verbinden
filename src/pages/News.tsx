@@ -15,7 +15,7 @@ export default function News() {
   const { data: posts, isLoading, error } = useQuery({
     queryKey: ['news-posts'],
     queryFn: async () => {
-      console.log('Starting to fetch news posts...');
+      console.log('Fetching news posts...');
       const { data, error } = await supabase
         .from('news_posts')
         .select(`
@@ -38,15 +38,6 @@ export default function News() {
     }
   });
 
-  // Log current state for debugging
-  console.log('Current render state:', {
-    isLoading,
-    error,
-    postsCount: posts?.length,
-    currentPage,
-    postsPerPage
-  });
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('de-CH', {
       year: 'numeric',
@@ -62,14 +53,13 @@ export default function News() {
   );
 
   if (error) {
-    console.error('Query error:', error);
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
         <main className="flex-grow container mx-auto px-4 py-24">
           <div className="text-center">
             <h1 className="text-2xl text-red-600">Error loading news posts</h1>
-            <p className="text-gray-600">Please try again later</p>
+            <p className="text-gray-600">Bitte versuchen Sie es später erneut.</p>
           </div>
         </main>
         <Footer />

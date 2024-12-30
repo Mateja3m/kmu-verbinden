@@ -13,19 +13,26 @@ export default function NewsDetail() {
   const { data: post, isLoading } = useQuery({
     queryKey: ['news-post', slug],
     queryFn: async () => {
+      console.log('Fetching news post details for slug:', slug);
       const { data, error } = await supabase
         .from('news_posts')
         .select(`
           *,
-          author:author_id (
+          author:profiles!news_posts_author_id_fkey(
             company_name,
             contact_person
           )
         `)
         .eq('slug', slug)
+        .not('published_at', 'is', null)
         .maybeSingle();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching post:', error);
+        throw error;
+      }
+      
+      console.log('Fetched post:', data);
       return data;
     }
   });
