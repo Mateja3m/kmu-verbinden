@@ -1,41 +1,31 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Share2, Linkedin, ArrowLeft, Calendar } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { supabase } from "@/integrations/supabase/client";
 
 export default function NewsDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  const { data: post, isLoading } = useQuery({
-    queryKey: ['news-post', slug],
-    queryFn: async () => {
-      console.log('Fetching news post details for slug:', slug);
-      const { data, error } = await supabase
-        .from('news_posts')
-        .select(`
-          *,
-          author:profiles!news_posts_author_id_fkey(
-            company_name,
-            contact_person
-          )
-        `)
-        .eq('slug', slug)
-        .not('published_at', 'is', null)
-        .maybeSingle();
-      
-      if (error) {
-        console.error('Error fetching post:', error);
-        throw error;
-      }
-      
-      console.log('Fetched post:', data);
-      return data;
-    }
-  });
+  // Placeholder data for development
+  const post = {
+    title: "KMU Verein lanciert neue Digitalisierungsinitiative",
+    content: `<p>Der KMU Verein Schweiz hat heute eine wegweisende Initiative zur Förderung der Digitalisierung in kleinen und mittleren Unternehmen vorgestellt. Das Programm zielt darauf ab, die digitale Transformation in Schweizer KMUs zu beschleunigen und ihre Wettbewerbsfähigkeit zu stärken.</p>
+              <p>Die Initiative umfasst verschiedene Massnahmen, darunter:</p>
+              <ul>
+                <li>Kostenlose Digitalberatungen für Mitglieder</li>
+                <li>Workshops und Seminare zu digitalen Themen</li>
+                <li>Zugang zu einem Netzwerk von IT-Experten</li>
+              </ul>`,
+    published_at: "2024-03-15",
+    author: {
+      company_name: "KMU Verein Schweiz",
+      contact_person: "Dr. Maria Weber"
+    },
+    meta_keywords: "Digitalisierung, KMU, Schweiz, Innovation",
+    image_url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&q=80"
+  };
 
   const handleShare = (platform: 'linkedin' | 'general') => {
     const url = window.location.href;
@@ -64,44 +54,6 @@ export default function NewsDetail() {
     });
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <main className="flex-grow container mx-auto px-4 py-24">
-          <div className="max-w-4xl mx-auto animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-3/4 mb-4" />
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-8" />
-            <div className="h-96 bg-gray-200 rounded mb-8" />
-            <div className="space-y-4">
-              <div className="h-4 bg-gray-200 rounded" />
-              <div className="h-4 bg-gray-200 rounded" />
-              <div className="h-4 bg-gray-200 rounded w-3/4" />
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!post) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <main className="flex-grow container mx-auto px-4 py-24">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-2xl font-bold mb-4">Artikel nicht gefunden</h1>
-            <Button onClick={() => navigate('/news')}>
-              <ArrowLeft className="mr-2 h-4 w-4" /> Zurück zur Übersicht
-            </Button>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -124,10 +76,10 @@ export default function NewsDetail() {
             <div className="text-gray-600">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{formatDate(post.published_at || post.created_at)}</span>
+                <span>{formatDate(post.published_at)}</span>
               </div>
               <p className="mt-1">
-                {post.author?.contact_person || post.author?.company_name || 'KMU Verein'}
+                {post.author.contact_person || post.author.company_name}
               </p>
             </div>
             
