@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -21,53 +21,55 @@ export default function Admin() {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log("Current session:", session);
+        // Check if user is logged in
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        console.log("Auth session check:", { session, sessionError });
 
         if (!session?.user) {
-          console.log("No session found, redirecting to auth");
+          console.log("No active session found - redirecting to login");
           navigate('/auth');
           return;
         }
 
+        // Check if user is admin
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
-          .maybeSingle();
+          .single();
 
-        console.log("Profile data:", profile, "Profile error:", profileError);
+        console.log("Profile check:", { profile, profileError });
 
         if (profileError) {
-          console.error("Error fetching profile:", profileError);
-          setError("Error loading profile data");
+          console.error("Profile fetch error:", profileError);
+          setError("Failed to load profile data");
           toast({
             title: "Error",
-            description: "Failed to load profile data",
+            description: "Could not verify admin status",
             variant: "destructive",
           });
           return;
         }
 
         if (!profile?.is_admin) {
-          console.log("User is not an admin, redirecting");
+          console.log("User is not an admin - redirecting to home");
           toast({
             title: "Access Denied",
-            description: "You do not have administrator privileges",
+            description: "You need administrator privileges to access this page",
             variant: "destructive",
           });
           navigate('/');
           return;
         }
 
-        console.log("Admin access granted");
+        console.log("Admin access confirmed - loading dashboard");
         setIsAdmin(true);
       } catch (err) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error in admin check:", err);
         setError("An unexpected error occurred");
         toast({
           title: "Error",
-          description: "An unexpected error occurred",
+          description: "Failed to load admin dashboard",
           variant: "destructive",
         });
       } finally {
@@ -83,8 +85,9 @@ export default function Admin() {
       <div className="min-h-screen flex flex-col">
         <Navigation />
         <main className="flex-grow flex items-center justify-center">
-          <div className="text-center text-red-600">
-            <p className="text-lg">{error}</p>
+          <div className="text-center">
+            <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <p className="text-lg text-red-600">{error}</p>
           </div>
         </main>
         <Footer />
