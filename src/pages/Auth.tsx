@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useToast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -14,13 +15,17 @@ const AuthPage = () => {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error } = await supabase.auth.getSession();
+      console.log("Current session:", session, "Error:", error);
+      
       if (session) {
         const { data: profile } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .single();
+
+        console.log("Profile data:", profile);
 
         if (profile?.is_admin) {
           navigate('/admin');
@@ -34,6 +39,8 @@ const AuthPage = () => {
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state changed:", event, session);
+      
       if (event === "SIGNED_IN" && session) {
         const { data: profile } = await supabase
           .from('profiles')
@@ -53,7 +60,15 @@ const AuthPage = () => {
   }, [navigate]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <div className="flex-grow flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   return (
@@ -76,8 +91,8 @@ const AuthPage = () => {
               variables: {
                 default: {
                   colors: {
-                    brand: '#1E3A8A',
-                    brandAccent: '#2563EB',
+                    brand: '#DC2626',
+                    brandAccent: '#B91C1C',
                   },
                 },
               },
