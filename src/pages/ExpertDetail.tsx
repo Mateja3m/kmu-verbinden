@@ -15,6 +15,7 @@ export default function ExpertDetail() {
   const { data: expert, isLoading } = useQuery({
     queryKey: ['expert', id],
     queryFn: async () => {
+      console.log('Fetching expert details for ID:', id);
       const { data, error } = await supabase
         .from('experts')
         .select(`
@@ -30,9 +31,14 @@ export default function ExpertDetail() {
           )
         `)
         .eq('id', id)
-        .single();
+        .maybeSingle();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching expert:', error);
+        throw error;
+      }
+      
+      console.log('Fetched expert data:', data);
       return data;
     }
   });
@@ -93,7 +99,7 @@ export default function ExpertDetail() {
             <div className="lg:col-span-2">
               <div className="mb-8">
                 <h1 className="text-3xl font-bold text-swiss-darkblue mb-2">
-                  {expert.profile?.company_name}
+                  {expert.company_name || expert.profile?.company_name}
                 </h1>
                 <div className="flex items-center gap-2 text-yellow-500 mb-4">
                   <Star className="h-6 w-6 fill-current" />
@@ -110,7 +116,7 @@ export default function ExpertDetail() {
               <div className="aspect-video relative overflow-hidden rounded-lg mb-8">
                 <img
                   src={expert.image_url || "/placeholder.svg"}
-                  alt={expert.profile?.company_name}
+                  alt={expert.company_name || expert.profile?.company_name}
                   className="object-cover w-full h-full"
                 />
               </div>
