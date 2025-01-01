@@ -9,8 +9,8 @@ const UnsereAuftrag = () => {
     <>
       <Navigation />
       <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-        {/* Hero Section */}
-        <div className="bg-luxury-gradient text-white py-20 px-4">
+        {/* Hero Section - Updated padding-top to pt-32 */}
+        <div className="bg-luxury-gradient text-white pt-32 pb-20 px-4">
           <div className="container mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">PORTRAIT</h1>
             <p className="text-2xl md:text-3xl mb-8">IM DIENST DER KMU.</p>
