@@ -16,6 +16,7 @@ import NewsDetail from "@/pages/NewsDetail";
 import Experts from "@/pages/Experts";
 import ExpertDetail from "@/pages/ExpertDetail";
 import PartnerDashboard from "@/pages/PartnerDashboard";
+import AktuelleProjekte from "@/pages/AktuelleProjekte";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/redaktion" element={<Redaktion />} />
           <Route path="/rechtsdienst" element={<Rechtsdienst />} />
           <Route path="/unsere-auftrag" element={<UnsereAuftrag />} />
+          <Route path="/aktuelle-projekte" element={<AktuelleProjekte />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Admin />} />
