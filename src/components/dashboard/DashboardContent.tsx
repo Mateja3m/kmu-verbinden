@@ -20,7 +20,8 @@ const mockProfile: Tables<"profiles"> = {
   member_type: "member",
   membership_status: "active",
   terms_accepted: true,
-  website: "www.muster-ag.ch"
+  website: "www.muster-ag.ch",
+  partner_type: null // Add the missing partner_type field
 };
 
 const mockServices: Tables<"services">[] = [
