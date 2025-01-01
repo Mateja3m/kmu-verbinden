@@ -292,6 +292,7 @@ export type Database = {
           is_admin: boolean | null
           member_type: string | null
           membership_status: string | null
+          partner_type: string | null
           phone: string | null
           postal_code: string | null
           terms_accepted: boolean | null
@@ -307,6 +308,7 @@ export type Database = {
           is_admin?: boolean | null
           member_type?: string | null
           membership_status?: string | null
+          partner_type?: string | null
           phone?: string | null
           postal_code?: string | null
           terms_accepted?: boolean | null
@@ -322,6 +324,7 @@ export type Database = {
           is_admin?: boolean | null
           member_type?: string | null
           membership_status?: string | null
+          partner_type?: string | null
           phone?: string | null
           postal_code?: string | null
           terms_accepted?: boolean | null

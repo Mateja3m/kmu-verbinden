@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, Globe, Calendar, Lock } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Calendar, Lock, Users } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -36,6 +36,10 @@ const Footer = () => {
 
   const handleAdminLogin = () => {
     navigate('/auth');
+  };
+
+  const handlePartnerLogin = () => {
+    navigate('/auth?type=partner');
   };
 
   return (
@@ -92,13 +96,22 @@ const Footer = () => {
               <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
               <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstelle</Link>
               <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
-              <button 
-                onClick={handleAdminLogin}
-                className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
-              >
-                <Lock className="h-4 w-4" />
-                Admin Login
-              </button>
+              <div className="flex flex-col gap-2">
+                <button 
+                  onClick={handleAdminLogin}
+                  className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
+                >
+                  <Lock className="h-4 w-4" />
+                  Admin Login
+                </button>
+                <button 
+                  onClick={handlePartnerLogin}
+                  className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
+                >
+                  <Users className="h-4 w-4" />
+                  Partner Login
+                </button>
+              </div>
             </nav>
           </div>
 
