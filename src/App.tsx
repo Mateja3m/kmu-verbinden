@@ -17,6 +17,9 @@ import Experts from "@/pages/Experts";
 import ExpertDetail from "@/pages/ExpertDetail";
 import PartnerDashboard from "@/pages/PartnerDashboard";
 import AktuelleProjekte from "@/pages/AktuelleProjekte";
+import AGB from "@/pages/AGB";
+import Impressum from "@/pages/Impressum";
+import Datenschutz from "@/pages/Datenschutz";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +44,9 @@ function App() {
           <Route path="/experts" element={<Experts />} />
           <Route path="/experts/:id" element={<ExpertDetail />} />
           <Route path="/partner-dashboard/:partnerType" element={<PartnerDashboard />} />
+          <Route path="/agb" element={<AGB />} />
+          <Route path="/impressum" element={<Impressum />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

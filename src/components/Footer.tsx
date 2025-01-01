@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, Globe, Calendar, Lock, Users, User, LogOut } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Calendar, Lock, Users, User, LogOut, Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -48,9 +48,9 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
   };
 
   return (
-    <footer className="bg-swiss-darkblue text-white mt-24">
+    <footer className="bg-swiss-darkblue text-white">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Contact Information */}
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-6">Schweizerischer KMU Verein (SKV)</h3>
@@ -99,8 +99,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             <nav className="space-y-3">
               <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
               <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
-              <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstelle</Link>
               <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
+              <Link to="/aktuelle-projekte" className="block hover:text-swiss-red transition-colors">Aktuelle Projekte</Link>
               {isLoggedIn ? (
                 <>
                   <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors">
@@ -142,12 +142,24 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             </nav>
           </div>
 
+          {/* Services & Projects */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold mb-6">Services & Projekte</h3>
+            <nav className="space-y-3">
+              <Link to="/experts" className="block hover:text-swiss-red transition-colors">Expertenrat</Link>
+              <Link to="/membership" className="block hover:text-swiss-red transition-colors">Mitgliedschaft</Link>
+              <Link to="/partners" className="block hover:text-swiss-red transition-colors">Partner</Link>
+              <Link to="/news" className="block hover:text-swiss-red transition-colors">KMU-News</Link>
+              <Link to="/unsere-auftrag" className="block hover:text-swiss-red transition-colors">Unser Auftrag</Link>
+            </nav>
+          </div>
+
           {/* Call to Action */}
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-6">Noch Fragen?</h3>
             <Button 
               variant="outline" 
-              className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors"
+              className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full"
             >
               <Calendar className="mr-2 h-4 w-4" />
               Termin vereinbaren
@@ -155,9 +167,24 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-white/10 mt-12 pt-8 text-center text-sm">
-          © 2024 KMU Verein. Alle Rechte vorbehalten.
+        {/* Bottom Section */}
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+            {/* Legal Links */}
+            <div className="flex flex-wrap gap-4 text-sm justify-center md:justify-start">
+              <Link to="/agb" className="hover:text-swiss-red transition-colors">AGB</Link>
+              <span className="text-gray-500">|</span>
+              <Link to="/impressum" className="hover:text-swiss-red transition-colors">Impressum</Link>
+              <span className="text-gray-500">|</span>
+              <Link to="/datenschutz" className="hover:text-swiss-red transition-colors">Datenschutz</Link>
+            </div>
+            {/* Made with Love */}
+            <div className="flex items-center justify-center md:justify-end text-sm">
+              <span className="flex items-center gap-1">
+                Made with <Heart className="h-4 w-4 text-swiss-red" /> in Switzerland
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
