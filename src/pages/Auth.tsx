@@ -15,6 +15,7 @@ const AuthPage = () => {
     // Check if user is already logged in
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+      console.log("Initial session check:", session);
       if (session) {
         handleAuthChange('SIGNED_IN', session);
       }
@@ -28,13 +29,16 @@ const AuthPage = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate, toast]);
+  }, []);
 
   const handleAuthChange = async (event: string, session: any) => {
-    console.log("Auth state changed:", event, session);
+    console.log("Auth state changed:", event);
+    console.log("Session data:", session);
     
     if (event === 'SIGNED_IN' && session) {
       try {
+        console.log("Checking profile for user:", session.user.id);
+        
         // Check if user has completed registration
         const { data: profile, error } = await supabase
           .from('profiles')
@@ -42,22 +46,30 @@ const AuthPage = () => {
           .eq('id', session.user.id)
           .single();
 
-        console.log("Profile data:", profile);
+        console.log("Profile query result:", { profile, error });
 
-        if (error) throw error;
+        if (error) {
+          console.error("Profile query error:", error);
+          throw error;
+        }
 
-        if (!profile?.company_name || !profile?.terms_accepted) {
-          console.log("Redirecting to registration form - incomplete profile");
+        // Check if profile exists and if required fields are filled
+        if (!profile || !profile.company_name || !profile.terms_accepted) {
+          console.log("Profile incomplete, redirecting to registration");
           navigate('/membership/register');
-        } else if (profile?.is_admin) {
-          console.log("Redirecting to admin - is admin user");
+          return;
+        }
+
+        if (profile.is_admin) {
+          console.log("User is admin, redirecting to admin dashboard");
           navigate('/admin');
         } else {
-          console.log("Redirecting to dashboard - complete profile");
+          console.log("User profile complete, redirecting to dashboard");
           navigate('/dashboard');
         }
+
       } catch (error) {
-        console.error("Error checking profile:", error);
+        console.error("Error in profile check:", error);
         toast({
           title: "Fehler",
           description: "Es gab einen Fehler beim Überprüfen Ihres Profils.",
