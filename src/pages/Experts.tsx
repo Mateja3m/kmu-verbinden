@@ -1,143 +1,131 @@
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MapPin, Phone, Mail, Star } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Mail, Phone, Linkedin } from "lucide-react";
 
-interface Expert {
-  name: string;
-  title: string;
-  expertise: string[];
-  description: string;
-  image: string;
-  contact: {
-    email?: string;
-    phone?: string;
-    linkedin?: string;
+export default function Experts() {
+  const { data: experts, isLoading, error } = useQuery({
+    queryKey: ['experts'],
+    queryFn: async () => {
+      console.log('Fetching experts...');
+      const { data, error } = await supabase
+        .from('experts')
+        .select(`
+          *,
+          profile:profiles(company_name, contact_person),
+          reviews:expert_reviews(rating)
+        `);
+      
+      if (error) {
+        console.error('Error fetching experts:', error);
+        throw error;
+      }
+      
+      console.log('Fetched experts:', data);
+      return data;
+    }
+  });
+
+  const calculateAverageRating = (reviews: any[]) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return (sum / reviews.length).toFixed(1);
   };
-}
 
-const experts: Expert[] = [
-  {
-    name: "Dr. Sarah Weber",
-    title: "Digitalisierungsexpertin",
-    expertise: ["Digital Transformation", "Process Automation", "Change Management"],
-    description: "Dr. Weber unterstützt KMUs bei der digitalen Transformation und Prozessoptimierung. Mit über 15 Jahren Erfahrung in der Beratung hilft sie Unternehmen, ihre digitale Präsenz zu stärken und interne Prozesse zu optimieren.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-    contact: {
-      email: "s.weber@skv-experts.ch",
-      linkedin: "linkedin.com/in/sarahweber"
-    }
-  },
-  {
-    name: "Marco Bernasconi",
-    title: "Finanzexperte",
-    expertise: ["Financial Planning", "Risk Management", "Investment Strategy"],
-    description: "Als erfahrener Finanzexperte berät Marco KMUs in allen Fragen der Unternehmensfinanzierung und des Risikomanagements. Seine Expertise hilft Unternehmen, ihre finanzielle Zukunft nachhaltig zu gestalten.",
-    image: "https://images.unsplash.com/photo-1556157382-97eda2f9e2bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-    contact: {
-      email: "m.bernasconi@skv-experts.ch",
-      phone: "+41 44 123 45 67"
-    }
-  },
-  {
-    name: "Lisa Müller",
-    title: "Marketing Strategin",
-    expertise: ["Digital Marketing", "Brand Development", "Social Media"],
-    description: "Lisa ist spezialisiert auf digitales Marketing und Markenentwicklung für KMUs. Sie hilft Unternehmen dabei, ihre Online-Präsenz zu optimieren und effektive Marketing-Strategien zu entwickeln.",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-    contact: {
-      email: "l.mueller@skv-experts.ch",
-      linkedin: "linkedin.com/in/lisamueller"
-    }
-  }
-];
-
-const ExpertCard = ({ expert }: { expert: Expert }) => {
-  return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-      <img
-        src={expert.image}
-        alt={expert.name}
-        className="w-full h-64 object-cover"
-      />
-      <div className="p-6">
-        <h3 className="text-2xl font-bold text-swiss-darkblue mb-2">{expert.name}</h3>
-        <p className="text-swiss-red font-semibold mb-3">{expert.title}</p>
-        <div className="mb-4">
-          <div className="flex flex-wrap gap-2">
-            {expert.expertise.map((skill, index) => (
-              <span
-                key={index}
-                className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-        <p className="text-gray-600 mb-6">{expert.description}</p>
-        <div className="flex flex-wrap gap-3">
-          {expert.contact.email && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.location.href = `mailto:${expert.contact.email}`}
-            >
-              <Mail className="mr-2 h-4 w-4" />
-              Email
-            </Button>
-          )}
-          {expert.contact.phone && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.location.href = `tel:${expert.contact.phone}`}
-            >
-              <Phone className="mr-2 h-4 w-4" />
-              Anrufen
-            </Button>
-          )}
-          {expert.contact.linkedin && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.open(`https://${expert.contact.linkedin}`, '_blank')}
-            >
-              <Linkedin className="mr-2 h-4 w-4" />
-              LinkedIn
-            </Button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Experts = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="flex-grow bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center mb-16">
+      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-swiss-darkblue mb-4">
-              Unser Expertenrat
+              Expertenrat
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Profitieren Sie von der Erfahrung und dem Fachwissen unserer Experten. 
-              Unsere Spezialisten unterstützen Sie in verschiedenen Bereichen Ihres Unternehmens.
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Finden Sie qualifizierte Experten für Ihre geschäftlichen Herausforderungen
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {experts.map((expert, index) => (
-              <ExpertCard key={index} expert={expert} />
-            ))}
-          </div>
+
+          {error && (
+            <div className="text-center text-red-600 mb-8">
+              Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.
+            </div>
+          )}
+
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((n) => (
+                <Card key={n} className="animate-pulse">
+                  <CardHeader className="h-48 bg-gray-200" />
+                  <CardContent className="space-y-3">
+                    <div className="h-6 bg-gray-200 rounded" />
+                    <div className="h-4 bg-gray-200 rounded w-2/3" />
+                    <div className="h-4 bg-gray-200 rounded w-1/2" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : experts && experts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {experts.map((expert) => (
+                <Link key={expert.id} to={`/experts/${expert.id}`}>
+                  <Card className="h-full hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <div className="aspect-video relative overflow-hidden rounded-lg mb-4">
+                        <img
+                          src={expert.image_url || "/placeholder.svg"}
+                          alt={expert.profile?.company_name}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                      <CardTitle className="text-xl mb-2">
+                        {expert.profile?.company_name || "Unbenanntes Unternehmen"}
+                      </CardTitle>
+                      <div className="flex items-center gap-1 text-yellow-500 mb-2">
+                        <Star className="h-5 w-5 fill-current" />
+                        <span className="font-medium">
+                          {calculateAverageRating(expert.reviews)}
+                        </span>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 mb-4">{expert.expertise_area}</p>
+                      <div className="space-y-2 text-sm text-gray-500">
+                        {expert.city && (
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4" />
+                            <span>{expert.city}</span>
+                          </div>
+                        )}
+                        {expert.phone && (
+                          <div className="flex items-center gap-2">
+                            <Phone className="h-4 w-4" />
+                            <span>{expert.phone}</span>
+                          </div>
+                        )}
+                        {expert.email && (
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-4 w-4" />
+                            <span>{expert.email}</span>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-12">
+              Keine Experten gefunden
+            </div>
+          )}
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );
-};
-
-export default Experts;
+}
