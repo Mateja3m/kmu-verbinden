@@ -118,22 +118,17 @@ const ExpertSubmissionForm = () => {
       });
       
       // Reset form
-      setFormData({ 
-        expertise_area: '', 
-        description: '', 
-        company_name: '',
-        contact_person: '',
-        email: '',
-        phone: '',
-        website: '',
-        linkedin: '',
-        address: '',
-        postal_code: '',
-        city: '',
-        services: [''],
-        image_url: '',
-        logo_url: ''
-      });
+      setValue('expertise_area', '');
+      setValue('description', '');
+      setValue('company_name', '');
+      setValue('contact_person', '');
+      setValue('email', '');
+      setValue('phone', '');
+      setValue('website', '');
+      setValue('linkedin', '');
+      setValue('address', '');
+      setValue('postal_code', '');
+      setValue('city', '');
       setProfileImage(null);
       setLogoImage(null);
       setServices(['']);
