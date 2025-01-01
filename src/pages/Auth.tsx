@@ -12,43 +12,29 @@ const AuthPage = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      console.log("Current session:", session);
+    // Listen for auth errors
+    const handleAuthError = (error: any) => {
+      console.log("Auth error:", error);
       
-      if (error) {
-        console.error("Session check error:", error);
+      if (error?.message?.includes("User already registered")) {
         toast({
-          title: "Fehler",
-          description: "Es gab einen Fehler beim Überprüfen Ihrer Sitzung.",
+          title: "Benutzer existiert bereits",
+          description: "Bitte melden Sie sich mit Ihrem bestehenden Konto an.",
           variant: "destructive",
         });
-        return;
-      }
-
-      if (session) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', session.user.id)
-          .single();
-
-        console.log("Profile data:", profile);
-        
-        if (profile?.is_admin) {
-          navigate('/admin');
-        } else {
-          navigate('/dashboard');
-        }
+      } else if (error) {
+        toast({
+          title: "Fehler",
+          description: "Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.",
+          variant: "destructive",
+        });
       }
     };
-
-    checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state changed:", event, session);
       
-      if (session) {
+      if (event === 'SIGNED_IN' && session) {
         const { data: profile } = await supabase
           .from('profiles')
           .select('is_admin')
@@ -61,10 +47,21 @@ const AuthPage = () => {
           navigate('/dashboard');
         }
       }
+
+      if (event === 'USER_UPDATED' && session) {
+        toast({
+          title: "Erfolgreich",
+          description: "Ihre E-Mail wurde bestätigt.",
+        });
+      }
     });
+
+    // Add error event listener
+    window.addEventListener('supabase.auth.error', handleAuthError);
 
     return () => {
       subscription.unsubscribe();
+      window.removeEventListener('supabase.auth.error', handleAuthError);
     };
   }, [navigate, toast]);
 
