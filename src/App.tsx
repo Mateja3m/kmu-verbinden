@@ -6,6 +6,7 @@ import Membership from "@/pages/Membership";
 import Partners from "@/pages/Partners";
 import Presidency from "@/pages/Presidency";
 import Redaktion from "@/pages/Redaktion";
+import Rechtsdienst from "@/pages/Rechtsdienst";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import Admin from "@/pages/Admin";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/partners" element={<Partners />} />
           <Route path="/presidency" element={<Presidency />} />
           <Route path="/redaktion" element={<Redaktion />} />
+          <Route path="/rechtsdienst" element={<Rechtsdienst />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Admin />} />
