@@ -4,93 +4,69 @@ import { BenefitsMenu } from "./BenefitsMenu";
 import { InvoicesSection } from "./InvoicesSection";
 import AIChat from "@/components/AIChat";
 import FinancingSimulator from "@/components/FinancingSimulator";
-import { Tables } from "@/integrations/supabase/types";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
-type Profile = Tables<"profiles">;
-type Service = Tables<"services">;
+// Mock data
+const mockProfile = {
+  id: "1",
+  company_name: "Muster AG",
+  contact_person: "Hans Muster",
+  address: "Musterstrasse 1",
+  postal_code: "3900",
+  city: "Brig",
+  phone: "+41 79 123 45 67",
+};
 
-interface DashboardContentProps {
-  profile: Profile | null;
-  services: Service[];
-  claimedServices: Service[];
-  setProfile: (profile: Profile) => void;
-  setClaimedServices: (services: Service[]) => void;
-}
+const mockServices = [
+  {
+    id: "1",
+    name: "Digitale Präsenz",
+    description: "Optimieren Sie Ihre Online-Sichtbarkeit",
+  },
+  {
+    id: "2",
+    name: "Rechtliche Beratung",
+    description: "Professionelle juristische Unterstützung",
+  },
+  {
+    id: "3",
+    name: "Marketing Support",
+    description: "Strategische Marketingberatung",
+  },
+];
 
-export const DashboardContent = ({
-  profile,
-  services,
-  claimedServices,
-  setProfile,
-  setClaimedServices,
-}: DashboardContentProps) => {
-  const { toast } = useToast();
+const mockClaimedServices = [mockServices[0]];
 
-  console.log("DashboardContent - Profile:", profile);
-  console.log("DashboardContent - Services:", services);
-  console.log("DashboardContent - Claimed Services:", claimedServices);
-
-  if (!profile) {
-    console.log("DashboardContent - No profile data");
-    return <div>Loading profile data...</div>;
-  }
-
+export const DashboardContent = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-8">
-      <ProfileSection profile={profile} setProfile={setProfile} />
-      
-      <BenefitsMenu
-        services={services}
-        claimedServices={claimedServices}
-        onClaimService={async (serviceId) => {
-          if (!profile) return;
-          
-          console.log("Claiming service:", serviceId);
-          const { error } = await supabase
-            .from("profile_services")
-            .insert({
-              profile_id: profile.id,
-              service_id: serviceId,
-            });
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:col-span-2">
+          <ProfileSection 
+            profile={mockProfile} 
+            setProfile={() => {}} 
+          />
+        </div>
+        <div>
+          <BenefitsMenu
+            services={mockServices}
+            claimedServices={mockClaimedServices}
+            onClaimService={() => {}}
+          />
+        </div>
+      </div>
 
-          if (error) {
-            console.error("Error claiming service:", error);
-            toast({
-              title: "Fehler",
-              description: "Service konnte nicht aktiviert werden",
-              variant: "destructive",
-            });
-            return;
-          }
-
-          const updatedClaimedServices = services.filter(
-            (service) =>
-              service.id === serviceId ||
-              claimedServices.some((cs) => cs.id === service.id)
-          );
-          setClaimedServices(updatedClaimedServices);
-
-          toast({
-            title: "Erfolg",
-            description: "Service wurde erfolgreich aktiviert",
-          });
-        }}
-      />
-
-      <InvoicesSection profile={profile} />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <FinancingSimulator />
         <AIChat />
       </div>
 
+      <InvoicesSection profile={mockProfile} />
+
       <ServicesSection 
-        profile={profile}
-        services={services}
-        claimedServices={claimedServices}
-        setClaimedServices={setClaimedServices}
+        profile={mockProfile}
+        services={mockServices}
+        claimedServices={mockClaimedServices}
+        setClaimedServices={() => {}}
       />
     </div>
   );
