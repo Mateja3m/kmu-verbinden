@@ -19,18 +19,27 @@ export function ExpertHeader({
     <div className="mb-8">
       <div className="flex flex-col md:flex-row gap-8 items-start">
         <div className="w-full md:w-1/3">
-          <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+          <div className="aspect-square relative overflow-hidden rounded-lg mb-4 bg-gray-100">
             <img
               src={imageUrl || "/placeholder.svg"}
               alt={companyName}
               className="object-cover w-full h-full"
             />
           </div>
-          <div className="flex items-center gap-2 text-yellow-500">
-            <Star className="h-6 w-6 fill-current" />
-            <span className="text-xl font-medium">{averageRating}</span>
+          <div className="flex items-center gap-2">
+            <div className="flex text-yellow-500">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-5 w-5 ${
+                    i < Math.floor(averageRating) ? "fill-current" : ""
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-lg font-medium">{averageRating}</span>
             <span className="text-gray-500 text-sm">
-              ({totalReviews} Bewertungen)
+              ({totalReviews} {totalReviews === 1 ? 'Bewertung' : 'Bewertungen'})
             </span>
           </div>
         </div>

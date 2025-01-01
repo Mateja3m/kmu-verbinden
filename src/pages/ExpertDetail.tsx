@@ -19,10 +19,14 @@ export default function ExpertDetail() {
       console.log('Fetching expert details for ID:', id);
       if (!id) throw new Error('Expert ID is required');
       
-      const { data, error } = await supabase
+      const { data: expertData, error: expertError } = await supabase
         .from('experts')
         .select(`
           *,
+          profile:profiles(
+            company_name,
+            contact_person
+          ),
           reviews:expert_reviews(
             id,
             rating,
@@ -33,18 +37,49 @@ export default function ExpertDetail() {
           )
         `)
         .eq('id', id)
-        .maybeSingle();
+        .single();
       
-      if (error) {
-        console.error('Error fetching expert:', error);
-        throw error;
+      if (expertError) {
+        console.error('Error fetching expert:', expertError);
+        throw expertError;
       }
       
-      console.log('Fetched expert data:', data);
-      return data;
+      console.log('Fetched expert data:', expertData);
+      return expertData;
     },
     enabled: !!id
   });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-grow flex items-center justify-center">
+          <Loader className="h-8 w-8 animate-spin text-swiss-red" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!expert) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-grow py-12 px-4">
+          <div className="max-w-7xl mx-auto text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Expert nicht gefunden
+            </h1>
+            <p className="text-gray-600">
+              Der gesuchte Expert konnte nicht gefunden werden.
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const calculateAverageRating = (reviews: any[]) => {
     if (!reviews || reviews.length === 0) return 0;
@@ -57,53 +92,41 @@ export default function ExpertDetail() {
       <Navigation />
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          {isLoading ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <Loader className="h-8 w-8 animate-spin text-swiss-red" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <ExpertHeader
+                companyName={expert.company_name || expert.profile?.company_name}
+                averageRating={calculateAverageRating(expert.reviews)}
+                totalReviews={expert.reviews?.length || 0}
+                description={expert.description}
+                imageUrl={expert.image_url}
+              />
+
+              <ExpertServices
+                services={expert.services || []}
+                regions={expert.regions || []}
+              />
+
+              <ExpertReviews 
+                expertId={expert.id} 
+                reviews={expert.reviews || []} 
+              />
             </div>
-          ) : !expert ? (
-            <div className="text-center py-12">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">
-                Expert nicht gefunden
-              </h1>
-              <p className="text-gray-600">
-                Der gesuchte Expert konnte nicht gefunden werden.
-              </p>
+
+            <div className="space-y-6">
+              <ExpertContact
+                contactPerson={expert.profile?.contact_person}
+                address={expert.address}
+                postalCode={expert.postal_code}
+                city={expert.city}
+                phone={expert.phone}
+                email={expert.email}
+                website={expert.website}
+              />
+
+              <ExpertReviewForm expertId={expert.id} />
             </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2">
-                <ExpertHeader
-                  companyName={expert.company_name}
-                  averageRating={calculateAverageRating(expert.reviews)}
-                  totalReviews={expert.reviews?.length || 0}
-                  description={expert.description}
-                  imageUrl={expert.image_url}
-                />
-
-                <ExpertServices
-                  services={expert.services || []}
-                  regions={expert.regions || []}
-                />
-
-                <ExpertReviews expertId={expert.id} reviews={expert.reviews} />
-              </div>
-
-              <div className="space-y-6">
-                <ExpertContact
-                  contactPerson={expert.company_name}
-                  address={expert.address}
-                  postalCode={expert.postal_code}
-                  city={expert.city}
-                  phone={expert.phone}
-                  email={expert.email}
-                  website={expert.website}
-                />
-
-                <ExpertReviewForm expertId={expert.id} />
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </main>
       <Footer />
