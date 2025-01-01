@@ -11,7 +11,11 @@ import { ExpertPreview } from "./ExpertPreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExpertFormData } from "@/types/database/experts";
 
-const ExpertSubmissionForm = () => {
+interface ExpertSubmissionFormProps {
+  onExpertSubmitted: (expertName: string) => void;
+}
+
+const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) => {
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ExpertFormData>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -116,6 +120,9 @@ const ExpertSubmissionForm = () => {
         title: "Profil erfolgreich eingereicht",
         description: "Wir werden Ihre Anfrage prüfen und uns in Kürze bei Ihnen melden.",
       });
+      
+      // Call the onExpertSubmitted callback with the expert's name
+      onExpertSubmitted(data.contact_person);
       
       // Reset form
       setValue('expertise_area', '');
