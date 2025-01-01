@@ -23,16 +23,16 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Fetching session...");
+        console.log("Dashboard - Fetching session...");
         const { data: { session } } = await supabase.auth.getSession();
         
         if (!session) {
-          console.log("No session found, redirecting to auth");
+          console.log("Dashboard - No session found, redirecting to auth");
           navigate("/auth");
           return;
         }
 
-        console.log("Fetching profile data...");
+        console.log("Dashboard - Fetching profile data...");
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("*")
@@ -40,34 +40,34 @@ const Dashboard = () => {
           .single();
 
         if (profileError) {
-          console.error("Profile fetch error:", profileError);
+          console.error("Dashboard - Profile fetch error:", profileError);
           throw profileError;
         }
 
-        console.log("Profile data:", profileData);
+        console.log("Dashboard - Profile data:", profileData);
         setProfile(profileData);
 
-        console.log("Fetching services...");
+        console.log("Dashboard - Fetching services...");
         const { data: servicesData, error: servicesError } = await supabase
           .from("services")
           .select("*");
 
         if (servicesError) {
-          console.error("Services fetch error:", servicesError);
+          console.error("Dashboard - Services fetch error:", servicesError);
           throw servicesError;
         }
 
-        console.log("Services data:", servicesData);
+        console.log("Dashboard - Services data:", servicesData);
         setServices(servicesData || []);
 
-        console.log("Fetching claimed services...");
+        console.log("Dashboard - Fetching claimed services...");
         const { data: claimedServicesData, error: claimedError } = await supabase
           .from("profile_services")
           .select("service_id")
           .eq("profile_id", session.user.id);
 
         if (claimedError) {
-          console.error("Claimed services fetch error:", claimedError);
+          console.error("Dashboard - Claimed services fetch error:", claimedError);
           throw claimedError;
         }
 
@@ -76,12 +76,11 @@ const Dashboard = () => {
           const claimedServicesList = servicesData.filter(service => 
             claimedServiceIds.includes(service.id)
           );
-          console.log("Claimed services:", claimedServicesList);
+          console.log("Dashboard - Claimed services:", claimedServicesList);
           setClaimedServices(claimedServicesList);
         }
-        setLoading(false);
       } catch (error) {
-        console.error("Dashboard error:", error);
+        console.error("Dashboard - Error:", error);
         setError("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
         toast({
           title: "Fehler",
@@ -89,6 +88,7 @@ const Dashboard = () => {
           variant: "destructive",
         });
       } finally {
+        console.log("Dashboard - Setting loading to false");
         setLoading(false);
       }
     };

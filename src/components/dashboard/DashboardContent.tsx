@@ -28,6 +28,15 @@ export const DashboardContent = ({
 }: DashboardContentProps) => {
   const { toast } = useToast();
 
+  console.log("DashboardContent - Profile:", profile);
+  console.log("DashboardContent - Services:", services);
+  console.log("DashboardContent - Claimed Services:", claimedServices);
+
+  if (!profile) {
+    console.log("DashboardContent - No profile data");
+    return <div>Loading profile data...</div>;
+  }
+
   return (
     <div className="max-w-7xl mx-auto space-y-8">
       <ProfileSection profile={profile} setProfile={setProfile} />
@@ -37,6 +46,8 @@ export const DashboardContent = ({
         claimedServices={claimedServices}
         onClaimService={async (serviceId) => {
           if (!profile) return;
+          
+          console.log("Claiming service:", serviceId);
           const { error } = await supabase
             .from("profile_services")
             .insert({
@@ -45,6 +56,7 @@ export const DashboardContent = ({
             });
 
           if (error) {
+            console.error("Error claiming service:", error);
             toast({
               title: "Fehler",
               description: "Service konnte nicht aktiviert werden",
