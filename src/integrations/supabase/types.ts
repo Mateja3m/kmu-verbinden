@@ -74,6 +74,7 @@ export type Database = {
           profile_id: string
           regions: string[] | null
           services: string[] | null
+          status: string | null
           website: string | null
         }
         Insert: {
@@ -92,6 +93,7 @@ export type Database = {
           profile_id: string
           regions?: string[] | null
           services?: string[] | null
+          status?: string | null
           website?: string | null
         }
         Update: {
@@ -110,6 +112,7 @@ export type Database = {
           profile_id?: string
           regions?: string[] | null
           services?: string[] | null
+          status?: string | null
           website?: string | null
         }
         Relationships: [
