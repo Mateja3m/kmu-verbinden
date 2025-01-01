@@ -55,6 +55,13 @@ export const NavigationMobileMenu = ({
             >
               UNTERNEHMENSPROFIL
             </Link>
+            <Link
+              to="/partner-dashboard"
+              className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
+              onClick={onClose}
+            >
+              PARTNER DASHBOARD
+            </Link>
             <Button
               onClick={() => {
                 handleLogout();

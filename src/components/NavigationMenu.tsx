@@ -45,6 +45,12 @@ export const NavigationMenu = ({ isLoggedIn, isAdmin, handleLogout }: Navigation
           >
             UNTERNEHMENSPROFIL
           </Link>
+          <Link
+            to="/partner-dashboard"
+            className="text-swiss-darkblue hover:text-swiss-red px-3 py-2 text-sm font-medium transition-colors duration-300"
+          >
+            PARTNER DASHBOARD
+          </Link>
           <Button
             onClick={handleLogout}
             variant="ghost"
