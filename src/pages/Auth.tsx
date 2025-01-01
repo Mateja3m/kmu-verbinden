@@ -12,10 +12,9 @@ const AuthPage = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is already logged in
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      console.log("Initial session check:", session);
+      console.log("[Auth] Initial session check:", session);
       if (session) {
         handleAuthChange('SIGNED_IN', session);
       }
@@ -23,7 +22,6 @@ const AuthPage = () => {
     
     checkUser();
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthChange);
 
     return () => {
@@ -32,44 +30,43 @@ const AuthPage = () => {
   }, []);
 
   const handleAuthChange = async (event: string, session: any) => {
-    console.log("Auth state changed:", event);
-    console.log("Session data:", session);
+    console.log("[Auth] Auth state changed:", event);
+    console.log("[Auth] Session data:", session);
     
     if (event === 'SIGNED_IN' && session) {
       try {
-        console.log("Checking profile for user:", session.user.id);
+        console.log("[Auth] Checking profile for user:", session.user.id);
         
-        // Check if user has completed registration
         const { data: profile, error } = await supabase
           .from('profiles')
           .select('company_name, terms_accepted, is_admin')
           .eq('id', session.user.id)
           .single();
 
-        console.log("Profile query result:", { profile, error });
+        console.log("[Auth] Profile query result:", { profile, error });
 
         if (error) {
-          console.error("Profile query error:", error);
+          console.error("[Auth] Profile query error:", error);
           throw error;
         }
 
         // Check if profile exists and if required fields are filled
         if (!profile || !profile.company_name || !profile.terms_accepted) {
-          console.log("Profile incomplete, redirecting to registration");
+          console.log("[Auth] Profile incomplete, redirecting to registration");
           navigate('/membership/register');
           return;
         }
 
         if (profile.is_admin) {
-          console.log("User is admin, redirecting to admin dashboard");
+          console.log("[Auth] User is admin, redirecting to admin dashboard");
           navigate('/admin');
         } else {
-          console.log("User profile complete, redirecting to dashboard");
+          console.log("[Auth] User profile complete, redirecting to dashboard");
           navigate('/dashboard');
         }
 
       } catch (error) {
-        console.error("Error in profile check:", error);
+        console.error("[Auth] Error in profile check:", error);
         toast({
           title: "Fehler",
           description: "Es gab einen Fehler beim Überprüfen Ihres Profils.",
