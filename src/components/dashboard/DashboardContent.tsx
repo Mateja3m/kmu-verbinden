@@ -26,25 +26,61 @@ const mockProfile: Tables<"profiles"> = {
 const mockServices: Tables<"services">[] = [
   {
     id: "1",
-    name: "Digitale Präsenz",
-    description: "Optimieren Sie Ihre Online-Sichtbarkeit",
+    name: "Buchhaltung",
+    description: "Professionelle Buchhaltung und Finanzberatung für KMU",
     created_at: new Date().toISOString()
   },
   {
     id: "2",
-    name: "Rechtliche Beratung",
-    description: "Professionelle juristische Unterstützung",
+    name: "Treuhand",
+    description: "Umfassende Treuhanddienstleistungen für Ihr Unternehmen",
     created_at: new Date().toISOString()
   },
   {
     id: "3",
-    name: "Marketing Support",
-    description: "Strategische Marketingberatung",
+    name: "Web Redesign",
+    description: "Moderne Webauftritte für mehr digitale Präsenz",
     created_at: new Date().toISOString()
   },
+  {
+    id: "4",
+    name: "Automatisierungsberatung",
+    description: "Optimierung Ihrer Geschäftsprozesse durch Automatisierung",
+    created_at: new Date().toISOString()
+  },
+  {
+    id: "5",
+    name: "Versicherungsoptimierung",
+    description: "Massgeschneiderte Versicherungslösungen für KMU",
+    created_at: new Date().toISOString()
+  },
+  {
+    id: "6",
+    name: "Redaktionelle Angebote",
+    description: "Professionelle Textgestaltung und Content-Erstellung",
+    created_at: new Date().toISOString()
+  },
+  {
+    id: "7",
+    name: "Seite im Unternehmensblick",
+    description: "Präsentation Ihres Unternehmens im KMU-Netzwerk",
+    created_at: new Date().toISOString()
+  },
+  {
+    id: "8",
+    name: "Interview im Unternehmensblick",
+    description: "Exklusives Interview in unserem KMU Journal",
+    created_at: new Date().toISOString()
+  },
+  {
+    id: "9",
+    name: "Digitale Präsenz",
+    description: "Optimieren Sie Ihre Online-Sichtbarkeit",
+    created_at: new Date().toISOString()
+  }
 ];
 
-const mockClaimedServices: Tables<"services">[] = [mockServices[0]];
+const mockClaimedServices: Tables<"services">[] = [mockServices[0], mockServices[2]];
 
 export const DashboardContent = () => {
   return (
