@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, Globe, Calendar, Lock, Users } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Calendar, Lock, Users, User, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -31,7 +31,12 @@ const offices = [
   }
 ];
 
-const Footer = () => {
+interface FooterProps {
+  isLoggedIn?: boolean;
+  handleLogout?: () => void;
+}
+
+const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
   const navigate = useNavigate();
 
   const handleAdminLogin = () => {
@@ -96,22 +101,44 @@ const Footer = () => {
               <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
               <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstelle</Link>
               <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
-              <div className="flex flex-col gap-2">
-                <button 
-                  onClick={handleAdminLogin}
-                  className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
-                >
-                  <Lock className="h-4 w-4" />
-                  Admin Login
-                </button>
-                <button 
-                  onClick={handlePartnerLogin}
-                  className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
-                >
-                  <Users className="h-4 w-4" />
-                  Partner Login
-                </button>
-              </div>
+              {isLoggedIn ? (
+                <>
+                  <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors">
+                    <User className="h-4 w-4" />
+                    Unternehmensprofil
+                  </Link>
+                  <Link to="/partner-dashboard" className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors">
+                    <Users className="h-4 w-4" />
+                    Partner Dashboard
+                  </Link>
+                  {handleLogout && (
+                    <button 
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Abmelden
+                    </button>
+                  )}
+                </>
+              ) : (
+                <>
+                  <button 
+                    onClick={handleAdminLogin}
+                    className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
+                  >
+                    <Lock className="h-4 w-4" />
+                    Admin Login
+                  </button>
+                  <button 
+                    onClick={handlePartnerLogin}
+                    className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
+                  >
+                    <Users className="h-4 w-4" />
+                    Partner Login
+                  </button>
+                </>
+              )}
             </nav>
           </div>
 

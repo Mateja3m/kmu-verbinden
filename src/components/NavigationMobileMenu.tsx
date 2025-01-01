@@ -21,7 +21,6 @@ interface NavigationMobileMenuProps {
 export const NavigationMobileMenu = ({
   isLoggedIn,
   isAdmin,
-  handleLogout,
   onClose,
 }: NavigationMobileMenuProps) => {
   return (
@@ -37,43 +36,14 @@ export const NavigationMobileMenu = ({
             {item.name}
           </Link>
         ))}
-        {isLoggedIn && (
-          <>
-            {isAdmin && (
-              <Link
-                to="/admin"
-                className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
-                onClick={onClose}
-              >
-                ADMIN
-              </Link>
-            )}
-            <Link
-              to="/dashboard"
-              className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
-              onClick={onClose}
-            >
-              UNTERNEHMENSPROFIL
-            </Link>
-            <Link
-              to="/partner-dashboard"
-              className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
-              onClick={onClose}
-            >
-              PARTNER DASHBOARD
-            </Link>
-            <Button
-              onClick={() => {
-                handleLogout();
-                onClose();
-              }}
-              variant="ghost"
-              className="w-full justify-start text-swiss-darkblue hover:text-swiss-red"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Abmelden
-            </Button>
-          </>
+        {isLoggedIn && isAdmin && (
+          <Link
+            to="/admin"
+            className="text-swiss-darkblue hover:text-swiss-red block px-3 py-2 text-base font-medium transition-colors duration-300"
+            onClick={onClose}
+          >
+            ADMIN
+          </Link>
         )}
       </div>
     </div>

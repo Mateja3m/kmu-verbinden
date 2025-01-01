@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, LogOut } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from './ui/button';
 import { useToast } from "@/hooks/use-toast";
 import { NavigationMenu } from './NavigationMenu';
 import { NavigationMobileMenu } from './NavigationMobileMenu';
 import { NavigationLogo } from './NavigationLogo';
-import { NavigationAuthItems } from './NavigationAuthItems';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
