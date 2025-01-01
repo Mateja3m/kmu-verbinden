@@ -21,6 +21,7 @@ import AGB from "@/pages/AGB";
 import Impressum from "@/pages/Impressum";
 import Datenschutz from "@/pages/Datenschutz";
 import Kontakt from "@/pages/Kontakt";
+import ExpertSubmission from "@/pages/ExpertSubmission";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/kontakt" element={<Kontakt />} />
+          <Route path="/expert-submission" element={<ExpertSubmission />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
