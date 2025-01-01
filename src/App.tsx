@@ -20,6 +20,7 @@ import AktuelleProjekte from "@/pages/AktuelleProjekte";
 import AGB from "@/pages/AGB";
 import Impressum from "@/pages/Impressum";
 import Datenschutz from "@/pages/Datenschutz";
+import Kontakt from "@/pages/Kontakt";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/agb" element={<AGB />} />
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
+          <Route path="/kontakt" element={<Kontakt />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
