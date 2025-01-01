@@ -6,7 +6,7 @@ export interface Lead {
   service: string;
   message: string;
   status: 'pending' | 'success' | 'lost';
-  createdAt: string;
   revenue?: number;
   lostReason?: string;
+  createdAt: string;
 }
