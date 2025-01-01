@@ -9,24 +9,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Upload, Plus, Trash2 } from "lucide-react";
 import { ExpertPreview } from "./ExpertPreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface ExpertSubmissionFormData {
-  expertise_area: string;
-  description: string;
-  company_name: string;
-  contact_person: string;
-  email: string;
-  phone: string;
-  website?: string;
-  linkedin?: string;
-  address: string;
-  postal_code: string;
-  city: string;
-  services: string[];
-}
+import { ExpertFormData } from "@/types/database/experts";
 
 const ExpertSubmissionForm = () => {
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ExpertSubmissionFormData>();
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ExpertFormData>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [logoImage, setLogoImage] = useState<File | null>(null);
@@ -61,7 +47,7 @@ const ExpertSubmissionForm = () => {
     setValue('services', newServices);
   };
 
-  const onSubmit = async (data: ExpertSubmissionFormData) => {
+  const onSubmit = async (data: ExpertFormData) => {
     setIsSubmitting(true);
     try {
       let profileImageUrl = null;
@@ -70,23 +56,33 @@ const ExpertSubmissionForm = () => {
       if (profileImage) {
         const fileExt = profileImage.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
-        const { error: uploadError, data: uploadData } = await supabase.storage
+        const { error: uploadError } = await supabase.storage
           .from('images')
           .upload(`expert-profiles/${fileName}`, profileImage);
 
         if (uploadError) throw uploadError;
-        profileImageUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/images/expert-profiles/${fileName}`;
+        
+        const { data: { publicUrl } } = supabase.storage
+          .from('images')
+          .getPublicUrl(`expert-profiles/${fileName}`);
+        
+        profileImageUrl = publicUrl;
       }
 
       if (logoImage) {
         const fileExt = logoImage.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
-        const { error: uploadError, data: uploadData } = await supabase.storage
+        const { error: uploadError } = await supabase.storage
           .from('images')
           .upload(`expert-logos/${fileName}`, logoImage);
 
         if (uploadError) throw uploadError;
-        logoImageUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/images/expert-logos/${fileName}`;
+        
+        const { data: { publicUrl } } = supabase.storage
+          .from('images')
+          .getPublicUrl(`expert-logos/${fileName}`);
+        
+        logoImageUrl = publicUrl;
       }
 
       const { error: expertError } = await supabase
@@ -327,6 +323,7 @@ const ExpertSubmissionForm = () => {
       </div>
     </div>
   );
+
 };
 
 export default ExpertSubmissionForm;

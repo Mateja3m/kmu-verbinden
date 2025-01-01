@@ -69,6 +69,8 @@ export type Database = {
           google_place_id: string | null
           id: string
           image_url: string | null
+          linkedin: string | null
+          logo_url: string | null
           phone: string | null
           postal_code: string | null
           profile_id: string
@@ -88,6 +90,8 @@ export type Database = {
           google_place_id?: string | null
           id?: string
           image_url?: string | null
+          linkedin?: string | null
+          logo_url?: string | null
           phone?: string | null
           postal_code?: string | null
           profile_id: string
@@ -107,6 +111,8 @@ export type Database = {
           google_place_id?: string | null
           id?: string
           image_url?: string | null
+          linkedin?: string | null
+          logo_url?: string | null
           phone?: string | null
           postal_code?: string | null
           profile_id?: string
