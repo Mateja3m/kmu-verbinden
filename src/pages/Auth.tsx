@@ -39,7 +39,7 @@ const AuthPage = () => {
         
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('company_name, terms_accepted, is_admin')
+          .select('company_name, terms_accepted, membership_status')
           .eq('id', session.user.id)
           .single();
 
@@ -50,20 +50,16 @@ const AuthPage = () => {
           throw error;
         }
 
-        // Check if profile exists and if required fields are filled
-        if (!profile || !profile.company_name || !profile.terms_accepted) {
-          console.log("[Auth] Profile incomplete, redirecting to registration");
-          navigate('/membership/register');
+        // If profile exists and has required fields, redirect to dashboard
+        if (profile && profile.company_name && profile.terms_accepted) {
+          console.log("[Auth] User profile complete, redirecting to dashboard");
+          navigate('/dashboard');
           return;
         }
 
-        if (profile.is_admin) {
-          console.log("[Auth] User is admin, redirecting to admin dashboard");
-          navigate('/admin');
-        } else {
-          console.log("[Auth] User profile complete, redirecting to dashboard");
-          navigate('/dashboard');
-        }
+        // If profile is incomplete, redirect to registration
+        console.log("[Auth] Profile incomplete, redirecting to registration");
+        navigate('/membership/register');
 
       } catch (error) {
         console.error("[Auth] Error in profile check:", error);
@@ -73,13 +69,6 @@ const AuthPage = () => {
           variant: "destructive",
         });
       }
-    }
-
-    if (event === 'USER_UPDATED' && session) {
-      toast({
-        title: "Erfolgreich",
-        description: "Ihre E-Mail wurde bestätigt.",
-      });
     }
   };
 

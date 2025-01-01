@@ -291,6 +291,7 @@ export type Database = {
           id: string
           is_admin: boolean | null
           member_type: string | null
+          membership_status: string | null
           phone: string | null
           postal_code: string | null
           terms_accepted: boolean | null
@@ -305,6 +306,7 @@ export type Database = {
           id: string
           is_admin?: boolean | null
           member_type?: string | null
+          membership_status?: string | null
           phone?: string | null
           postal_code?: string | null
           terms_accepted?: boolean | null
@@ -319,6 +321,7 @@ export type Database = {
           id?: string
           is_admin?: boolean | null
           member_type?: string | null
+          membership_status?: string | null
           phone?: string | null
           postal_code?: string | null
           terms_accepted?: boolean | null
