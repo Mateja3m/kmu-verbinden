@@ -85,14 +85,29 @@ const ExpertSubmissionForm = () => {
         logoImageUrl = publicUrl;
       }
 
+      // Get the current user's profile ID
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('No user found');
+
       const { error: expertError } = await supabase
         .from('experts')
         .insert({
-          ...data,
+          profile_id: user.id,
           image_url: profileImageUrl,
           logo_url: logoImageUrl,
           services: services.filter(Boolean),
-          status: 'pending'
+          status: 'pending',
+          expertise_area: data.expertise_area,
+          description: data.description,
+          company_name: data.company_name,
+          contact_person: data.contact_person,
+          email: data.email,
+          phone: data.phone,
+          website: data.website,
+          linkedin: data.linkedin,
+          address: data.address,
+          postal_code: data.postal_code,
+          city: data.city
         });
 
       if (expertError) throw expertError;
@@ -101,6 +116,27 @@ const ExpertSubmissionForm = () => {
         title: "Profil erfolgreich eingereicht",
         description: "Wir werden Ihre Anfrage prüfen und uns in Kürze bei Ihnen melden.",
       });
+      
+      // Reset form
+      setFormData({ 
+        expertise_area: '', 
+        description: '', 
+        company_name: '',
+        contact_person: '',
+        email: '',
+        phone: '',
+        website: '',
+        linkedin: '',
+        address: '',
+        postal_code: '',
+        city: '',
+        services: [''],
+        image_url: '',
+        logo_url: ''
+      });
+      setProfileImage(null);
+      setLogoImage(null);
+      setServices(['']);
     } catch (error) {
       console.error('Error submitting expert profile:', error);
       toast({
