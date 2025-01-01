@@ -2,8 +2,17 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ExpertSubmissionForm from "@/components/experts/ExpertSubmissionForm";
 import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { UserPlus } from "lucide-react";
 
 const ExpertSubmission = () => {
+  const [submittedExperts, setSubmittedExperts] = useState<string[]>([]);
+
+  const handleExpertSubmitted = (expertName: string) => {
+    setSubmittedExperts([...submittedExperts, expertName]);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -14,7 +23,8 @@ const ExpertSubmission = () => {
               Werden Sie SKV-Experte
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Teilen Sie Ihre Expertise mit Schweizer KMUs und werden Sie Teil unseres exklusiven Expertennetzwerks.
+              Sie sind eingeladen, sich als Experte in unserem Expertenrat zu positionieren. 
+              Als Partner können Sie so viele Experten wie Sie möchten einfügen.
             </p>
           </div>
 
@@ -42,7 +52,37 @@ const ExpertSubmission = () => {
             </Card>
           </div>
 
-          <ExpertSubmissionForm />
+          {submittedExperts.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">Eingereichte Experten:</h2>
+              <div className="space-y-2">
+                {submittedExperts.map((expert, index) => (
+                  <div key={index} className="p-4 bg-white rounded-lg shadow">
+                    {expert}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-8">
+            {submittedExperts.map((_, index) => (
+              <div key={index} className="collapse">
+                <ExpertSubmissionForm onExpertSubmitted={handleExpertSubmitted} />
+              </div>
+            ))}
+            <ExpertSubmissionForm onExpertSubmitted={handleExpertSubmitted} />
+            
+            <div className="text-center">
+              <Button 
+                onClick={() => setSubmittedExperts([...submittedExperts, ""])}
+                className="bg-swiss-red hover:bg-swiss-red/90"
+              >
+                <UserPlus className="mr-2 h-4 w-4" />
+                Weiteren Experten hinzufügen
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
