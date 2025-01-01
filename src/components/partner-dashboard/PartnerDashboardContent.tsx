@@ -2,6 +2,8 @@ import { useState } from "react";
 import { LeadCard } from "./LeadCard";
 import { LeadDetailsModal } from "./LeadDetailsModal";
 import { Lead } from "@/types/leads";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Award, BookOpen, Megaphone, Calendar } from "lucide-react";
 
 const mockLeads: Lead[] = [
   {
@@ -54,7 +56,6 @@ export const PartnerDashboardContent = () => {
   };
 
   const handleFeedbackSubmit = () => {
-    // This would be connected to Supabase later
     console.log("Feedback submitted:", {
       leadId: selectedLead?.id,
       status: feedbackStatus,
@@ -66,21 +67,121 @@ export const PartnerDashboardContent = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Lead Management</h1>
-        <p className="text-muted-foreground mt-2">
-          Übersicht Ihrer Web Redesign Leads
-        </p>
+      {/* Partner Header Section */}
+      <div className="mb-8 bg-white rounded-lg shadow-sm p-6 border">
+        <div className="flex items-center gap-6">
+          <img
+            src="https://hhomepage.ch/wp-content/uploads/2021/08/hhomepage_Logo-FullColor_retina.png.webp"
+            alt="hhomepage.ch logo"
+            className="h-16 object-contain"
+          />
+          <div>
+            <h1 className="text-3xl font-bold">hhomepage.ch Partner Dashboard</h1>
+            <p className="text-muted-foreground mt-2">
+              Webdesign und professionelle Online-Auftritte für KMU
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="grid gap-4">
-        {mockLeads.map((lead) => (
-          <LeadCard 
-            key={lead.id}
-            lead={lead}
-            onClick={handleLeadClick}
-          />
-        ))}
+      {/* Quick Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Aktive Leads</CardTitle>
+            <Award className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">3</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Aktive Kampagnen</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">2</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Publikationen</CardTitle>
+            <BookOpen className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">1</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Lead Kampagnen</CardTitle>
+            <Megaphone className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">1</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Active Campaigns Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Aktive Kampagnen</h2>
+        <div className="grid gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Web Redesign Frühlingsaktion</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Spezialangebot für KMU: Professionelles Web Redesign mit 15% Rabatt.
+                Laufzeit: März - Mai 2024
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>KMU Digitalisierungspaket</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Komplettpaket für digitale Transformation: Website, SEO & Social Media.
+                Laufzeit: Januar - Juni 2024
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Publications Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Publikationen & Medien</h2>
+        <div className="grid gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Interview im KMU Journal</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                "Digitale Transformation im KMU-Sektor" - Erscheinungsdatum: April 2024
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Leads Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Aktuelle Leads</h2>
+        <div className="grid gap-4">
+          {mockLeads.map((lead) => (
+            <LeadCard 
+              key={lead.id}
+              lead={lead}
+              onClick={handleLeadClick}
+            />
+          ))}
+        </div>
       </div>
 
       <LeadDetailsModal
