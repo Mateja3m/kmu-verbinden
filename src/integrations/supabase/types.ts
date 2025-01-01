@@ -293,6 +293,8 @@ export type Database = {
           member_type: string | null
           phone: string | null
           postal_code: string | null
+          terms_accepted: boolean | null
+          website: string | null
         }
         Insert: {
           address?: string | null
@@ -305,6 +307,8 @@ export type Database = {
           member_type?: string | null
           phone?: string | null
           postal_code?: string | null
+          terms_accepted?: boolean | null
+          website?: string | null
         }
         Update: {
           address?: string | null
@@ -317,6 +321,8 @@ export type Database = {
           member_type?: string | null
           phone?: string | null
           postal_code?: string | null
+          terms_accepted?: boolean | null
+          website?: string | null
         }
         Relationships: []
       }

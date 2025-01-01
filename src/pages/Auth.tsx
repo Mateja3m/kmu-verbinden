@@ -35,13 +35,17 @@ const AuthPage = () => {
       console.log("Auth state changed:", event, session);
       
       if (event === 'SIGNED_IN' && session) {
+        // Check if user has completed registration
         const { data: profile } = await supabase
           .from('profiles')
-          .select('is_admin')
+          .select('company_name, terms_accepted')
           .eq('id', session.user.id)
           .single();
 
-        if (profile?.is_admin) {
+        if (!profile?.company_name || !profile?.terms_accepted) {
+          // Redirect to registration form if profile is incomplete
+          navigate('/membership/register');
+        } else if (profile?.is_admin) {
           navigate('/admin');
         } else {
           navigate('/dashboard');
@@ -76,7 +80,7 @@ const AuthPage = () => {
                 Anmelden
               </h2>
               <p className="mt-3 text-center text-sm text-gray-600">
-                Melden Sie sich an, um von allen Vorteilen zu profitieren
+                Melden Sie sich an oder erstellen Sie ein neues Konto
               </p>
             </div>
             <Auth
