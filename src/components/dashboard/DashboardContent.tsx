@@ -21,7 +21,8 @@ const mockProfile: Tables<"profiles"> = {
   membership_status: "active",
   terms_accepted: true,
   website: "www.muster-ag.ch",
-  partner_type: null // Add the missing partner_type field
+  partner_type: null,
+  member_number: "KMU-00001" // Added the required member_number field
 };
 
 const mockServices: Tables<"services">[] = [
