@@ -163,6 +163,54 @@ export type Database = {
           },
         ]
       }
+      leads: {
+        Row: {
+          created_at: string
+          id: string
+          member_id: string | null
+          message: string | null
+          partner_id: string | null
+          service_name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_id?: string | null
+          message?: string | null
+          partner_id?: string | null
+          service_name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_id?: string | null
+          message?: string | null
+          partner_id?: string | null
+          service_name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       news_posts: {
         Row: {
           author_id: string
@@ -290,6 +338,7 @@ export type Database = {
           created_at: string
           id: string
           is_admin: boolean | null
+          member_number: string | null
           member_type: string | null
           membership_status: string | null
           partner_type: string | null
@@ -306,6 +355,7 @@ export type Database = {
           created_at?: string
           id: string
           is_admin?: boolean | null
+          member_number?: string | null
           member_type?: string | null
           membership_status?: string | null
           partner_type?: string | null
@@ -322,6 +372,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_admin?: boolean | null
+          member_number?: string | null
           member_type?: string | null
           membership_status?: string | null
           partner_type?: string | null
