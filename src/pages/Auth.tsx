@@ -38,7 +38,7 @@ const AuthPage = () => {
         // Check if user has completed registration
         const { data: profile } = await supabase
           .from('profiles')
-          .select('company_name, terms_accepted')
+          .select('company_name, terms_accepted, is_admin')
           .eq('id', session.user.id)
           .single();
 
