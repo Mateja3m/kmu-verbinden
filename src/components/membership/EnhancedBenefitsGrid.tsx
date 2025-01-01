@@ -1,4 +1,4 @@
-import { DollarSign, Robot, Newspaper, Network, TrendingUp, Users, Percent, UserPlus } from 'lucide-react';
+import { DollarSign, Bot, Newspaper, Network, TrendingUp, Users, Percent, UserPlus } from 'lucide-react';
 import { cn } from "@/lib/utils";
 
 interface BenefitCardProps {
@@ -38,7 +38,7 @@ const benefits = [
   {
     title: "Kostenlose KI-Beratung",
     description: "Profitieren Sie 2025 von unserer kostenlosen Beratung zu Automatisierung und künstlicher Intelligenz für Ihr Unternehmen.",
-    icon: <Robot size={32} />,
+    icon: <Bot size={32} />,
     tag: "Exklusiver Vorteil",
     tagColor: "bg-purple-500"
   },
