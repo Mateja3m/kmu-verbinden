@@ -42,6 +42,8 @@ const AuthPage = () => {
           .eq('id', session.user.id)
           .single();
 
+        console.log("Profile data:", profile);
+
         if (!profile?.company_name || !profile?.terms_accepted) {
           // Redirect to registration form if profile is incomplete
           navigate('/membership/register');
