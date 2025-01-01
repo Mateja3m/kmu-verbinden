@@ -12,31 +12,31 @@ const AuthPage = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Listen for auth errors
-    const handleAuthError = (error: any) => {
-      console.log("Auth error:", error);
-      
-      if (error?.message?.includes("User already registered")) {
-        toast({
-          title: "Benutzer existiert bereits",
-          description: "Bitte melden Sie sich mit Ihrem bestehenden Konto an.",
-          variant: "destructive",
-        });
-      } else if (error) {
-        toast({
-          title: "Fehler",
-          description: "Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.",
-          variant: "destructive",
-        });
+    // Check if user is already logged in
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        handleAuthChange('SIGNED_IN', session);
       }
     };
+    
+    checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed:", event, session);
-      
-      if (event === 'SIGNED_IN' && session) {
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthChange);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate, toast]);
+
+  const handleAuthChange = async (event: string, session: any) => {
+    console.log("Auth state changed:", event, session);
+    
+    if (event === 'SIGNED_IN' && session) {
+      try {
         // Check if user has completed registration
-        const { data: profile } = await supabase
+        const { data: profile, error } = await supabase
           .from('profiles')
           .select('company_name, terms_accepted, is_admin')
           .eq('id', session.user.id)
@@ -44,32 +44,35 @@ const AuthPage = () => {
 
         console.log("Profile data:", profile);
 
+        if (error) throw error;
+
         if (!profile?.company_name || !profile?.terms_accepted) {
-          // Redirect to registration form if profile is incomplete
+          console.log("Redirecting to registration form - incomplete profile");
           navigate('/membership/register');
         } else if (profile?.is_admin) {
+          console.log("Redirecting to admin - is admin user");
           navigate('/admin');
         } else {
+          console.log("Redirecting to dashboard - complete profile");
           navigate('/dashboard');
         }
-      }
-
-      if (event === 'USER_UPDATED' && session) {
+      } catch (error) {
+        console.error("Error checking profile:", error);
         toast({
-          title: "Erfolgreich",
-          description: "Ihre E-Mail wurde bestätigt.",
+          title: "Fehler",
+          description: "Es gab einen Fehler beim Überprüfen Ihres Profils.",
+          variant: "destructive",
         });
       }
-    });
+    }
 
-    // Add error event listener
-    window.addEventListener('supabase.auth.error', handleAuthError);
-
-    return () => {
-      subscription.unsubscribe();
-      window.removeEventListener('supabase.auth.error', handleAuthError);
-    };
-  }, [navigate, toast]);
+    if (event === 'USER_UPDATED' && session) {
+      toast({
+        title: "Erfolgreich",
+        description: "Ihre E-Mail wurde bestätigt.",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
