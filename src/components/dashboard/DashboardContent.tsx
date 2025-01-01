@@ -5,6 +5,8 @@ import { InvoicesSection } from "./InvoicesSection";
 import AIChat from "@/components/AIChat";
 import FinancingSimulator from "@/components/FinancingSimulator";
 import { Tables } from "@/integrations/supabase/types";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 type Profile = Tables<"profiles">;
 type Service = Tables<"services">;
@@ -24,6 +26,8 @@ export const DashboardContent = ({
   setProfile,
   setClaimedServices,
 }: DashboardContentProps) => {
+  const { toast } = useToast();
+
   return (
     <div className="max-w-7xl mx-auto space-y-8">
       <ProfileSection profile={profile} setProfile={setProfile} />
