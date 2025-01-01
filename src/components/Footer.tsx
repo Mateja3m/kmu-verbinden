@@ -84,11 +84,31 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <MapPin className="h-5 w-5 text-swiss-red" />
                 <span>Dammweg 11D | CH-3904 Naters</span>
               </div>
-              <div className="flex items-center gap-3">
-                <Globe className="h-5 w-5 text-swiss-red" />
-                <a href="https://www.kmu-verein.ch" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
-                  www.kmu-verein.ch
-                </a>
+              <div className="flex flex-col space-y-3">
+                <div className="flex items-center gap-3">
+                  <Globe className="h-5 w-5 text-swiss-red" />
+                  <a href="https://www.kmu-verein.ch" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
+                    www.kmu-verein.ch
+                  </a>
+                </div>
+                {!isLoggedIn && (
+                  <div className="flex flex-col space-y-2 pl-8">
+                    <button 
+                      onClick={handleAdminLogin}
+                      className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors text-sm"
+                    >
+                      <Lock className="h-4 w-4" />
+                      Admin Login
+                    </button>
+                    <button 
+                      onClick={handlePartnerLogin}
+                      className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors text-sm"
+                    >
+                      <Users className="h-4 w-4" />
+                      Partner Login
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -101,7 +121,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
               <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
               <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
               <Link to="/aktuelle-projekte" className="block hover:text-swiss-red transition-colors">Aktuelle Projekte</Link>
-              {isLoggedIn ? (
+              {isLoggedIn && (
                 <>
                   <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors">
                     <User className="h-4 w-4" />
@@ -120,23 +140,6 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                       Abmelden
                     </button>
                   )}
-                </>
-              ) : (
-                <>
-                  <button 
-                    onClick={handleAdminLogin}
-                    className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
-                  >
-                    <Lock className="h-4 w-4" />
-                    Admin Login
-                  </button>
-                  <button 
-                    onClick={handlePartnerLogin}
-                    className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
-                  >
-                    <Users className="h-4 w-4" />
-                    Partner Login
-                  </button>
                 </>
               )}
             </nav>
@@ -169,20 +172,20 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
 
         {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div className="flex flex-col items-center space-y-4">
+            {/* Made with Love */}
+            <div className="flex items-center justify-center text-sm">
+              <span className="flex items-center gap-1">
+                Made with <Heart className="h-4 w-4 text-swiss-red" /> in Switzerland
+              </span>
+            </div>
             {/* Legal Links */}
-            <div className="flex flex-wrap gap-4 text-sm justify-center md:justify-start">
+            <div className="flex flex-wrap gap-4 text-sm justify-center">
               <Link to="/agb" className="hover:text-swiss-red transition-colors">AGB</Link>
               <span className="text-gray-500">|</span>
               <Link to="/impressum" className="hover:text-swiss-red transition-colors">Impressum</Link>
               <span className="text-gray-500">|</span>
               <Link to="/datenschutz" className="hover:text-swiss-red transition-colors">Datenschutz</Link>
-            </div>
-            {/* Made with Love */}
-            <div className="flex items-center justify-center md:justify-end text-sm">
-              <span className="flex items-center gap-1">
-                Made with <Heart className="h-4 w-4 text-swiss-red" /> in Switzerland
-              </span>
             </div>
           </div>
         </div>
