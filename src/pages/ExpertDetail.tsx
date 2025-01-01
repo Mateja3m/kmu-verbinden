@@ -25,7 +25,11 @@ export default function ExpertDetail() {
           *,
           profile:profiles(
             company_name,
-            contact_person
+            contact_person,
+            address,
+            postal_code,
+            city,
+            phone
           ),
           reviews:expert_reviews(
             id,
@@ -37,7 +41,7 @@ export default function ExpertDetail() {
           )
         `)
         .eq('id', id)
-        .single();
+        .maybeSingle();
       
       if (expertError) {
         console.error('Error fetching expert:', expertError);
