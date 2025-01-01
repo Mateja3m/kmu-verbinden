@@ -34,7 +34,7 @@ function App() {
           <Route path="/news/:slug" element={<NewsDetail />} />
           <Route path="/experts" element={<Experts />} />
           <Route path="/experts/:id" element={<ExpertDetail />} />
-          <Route path="/partner-dashboard" element={<PartnerDashboard />} />
+          <Route path="/partner-dashboard/:partnerType" element={<PartnerDashboard />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
