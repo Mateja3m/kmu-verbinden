@@ -23,7 +23,6 @@ export default function ExpertDetail() {
         .from('experts')
         .select(`
           *,
-          profile:profiles(company_name, contact_person),
           reviews:expert_reviews(
             id,
             rating,
@@ -34,7 +33,7 @@ export default function ExpertDetail() {
           )
         `)
         .eq('id', id)
-        .maybeSingle();
+        .single();
       
       if (error) {
         console.error('Error fetching expert:', error);
@@ -50,7 +49,7 @@ export default function ExpertDetail() {
   const calculateAverageRating = (reviews: any[]) => {
     if (!reviews || reviews.length === 0) return 0;
     const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / reviews.length).toFixed(1);
+    return Number((sum / reviews.length).toFixed(1));
   };
 
   return (
@@ -75,8 +74,8 @@ export default function ExpertDetail() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <ExpertHeader
-                  companyName={expert.company_name || expert.profile?.company_name}
-                  averageRating={Number(calculateAverageRating(expert.reviews))}
+                  companyName={expert.company_name}
+                  averageRating={calculateAverageRating(expert.reviews)}
                   totalReviews={expert.reviews?.length || 0}
                   description={expert.description}
                   imageUrl={expert.image_url}
@@ -92,7 +91,7 @@ export default function ExpertDetail() {
 
               <div className="space-y-6">
                 <ExpertContact
-                  contactPerson={expert.profile?.contact_person}
+                  contactPerson={expert.company_name}
                   address={expert.address}
                   postalCode={expert.postal_code}
                   city={expert.city}

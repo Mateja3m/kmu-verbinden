@@ -17,23 +17,32 @@ export function ExpertHeader({
 }: ExpertHeaderProps) {
   return (
     <div className="mb-8">
-      <h1 className="text-3xl font-bold text-swiss-darkblue mb-2">
-        {companyName}
-      </h1>
-      <div className="flex items-center gap-2 text-yellow-500 mb-4">
-        <Star className="h-6 w-6 fill-current" />
-        <span className="text-xl font-medium">{averageRating}</span>
-        <span className="text-gray-500 text-sm">
-          ({totalReviews} Bewertungen)
-        </span>
-      </div>
-      <p className="text-lg text-gray-600 mb-8">{description}</p>
-      <div className="aspect-video relative overflow-hidden rounded-lg">
-        <img
-          src={imageUrl || "/placeholder.svg"}
-          alt={companyName}
-          className="object-cover w-full h-full"
-        />
+      <div className="flex flex-col md:flex-row gap-8 items-start">
+        <div className="w-full md:w-1/3">
+          <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+            <img
+              src={imageUrl || "/placeholder.svg"}
+              alt={companyName}
+              className="object-cover w-full h-full"
+            />
+          </div>
+          <div className="flex items-center gap-2 text-yellow-500">
+            <Star className="h-6 w-6 fill-current" />
+            <span className="text-xl font-medium">{averageRating}</span>
+            <span className="text-gray-500 text-sm">
+              ({totalReviews} Bewertungen)
+            </span>
+          </div>
+        </div>
+        
+        <div className="w-full md:w-2/3">
+          <h1 className="text-3xl font-bold text-swiss-darkblue mb-4">
+            {companyName}
+          </h1>
+          <p className="text-lg text-gray-600 whitespace-pre-wrap">
+            {description}
+          </p>
+        </div>
       </div>
     </div>
   );
