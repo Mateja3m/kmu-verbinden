@@ -4,9 +4,10 @@ import { BenefitsMenu } from "./BenefitsMenu";
 import { InvoicesSection } from "./InvoicesSection";
 import AIChat from "@/components/AIChat";
 import FinancingSimulator from "@/components/FinancingSimulator";
+import { Tables } from "@/integrations/supabase/types";
 
-// Mock data
-const mockProfile = {
+// Mock data with all required fields
+const mockProfile: Tables<"profiles"> = {
   id: "1",
   company_name: "Muster AG",
   contact_person: "Hans Muster",
@@ -14,27 +15,36 @@ const mockProfile = {
   postal_code: "3900",
   city: "Brig",
   phone: "+41 79 123 45 67",
+  created_at: new Date().toISOString(),
+  is_admin: false,
+  member_type: "member",
+  membership_status: "active",
+  terms_accepted: true,
+  website: "www.muster-ag.ch"
 };
 
-const mockServices = [
+const mockServices: Tables<"services">[] = [
   {
     id: "1",
     name: "Digitale Präsenz",
     description: "Optimieren Sie Ihre Online-Sichtbarkeit",
+    created_at: new Date().toISOString()
   },
   {
     id: "2",
     name: "Rechtliche Beratung",
     description: "Professionelle juristische Unterstützung",
+    created_at: new Date().toISOString()
   },
   {
     id: "3",
     name: "Marketing Support",
     description: "Strategische Marketingberatung",
+    created_at: new Date().toISOString()
   },
 ];
 
-const mockClaimedServices = [mockServices[0]];
+const mockClaimedServices: Tables<"services">[] = [mockServices[0]];
 
 export const DashboardContent = () => {
   return (
