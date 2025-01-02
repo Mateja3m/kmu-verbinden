@@ -9,17 +9,10 @@ export default function Experts() {
   const { data: experts, isLoading } = useQuery({
     queryKey: ['experts'],
     queryFn: async () => {
-      console.log('Fetching experts...');
+      console.log('Starting to fetch experts...');
       const { data, error } = await supabase
         .from('experts')
-        .select(`
-          id,
-          company_name,
-          expertise_area,
-          description,
-          city,
-          image_url
-        `)
+        .select('id, company_name, expertise_area, description')
         .eq('status', 'approved');
       
       if (error) {
@@ -27,10 +20,13 @@ export default function Experts() {
         throw error;
       }
       
-      console.log('Experts found:', data);
+      console.log('Experts data received:', data);
       return data;
     }
   });
+
+  console.log('Current experts state:', experts);
+  console.log('Is loading:', isLoading);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -48,27 +44,15 @@ export default function Experts() {
           ) : experts && experts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {experts.map((expert) => (
-                <Card key={expert.id} className="h-full hover:shadow-lg transition-shadow duration-300">
-                  <CardContent className="pt-6">
+                <Card key={expert.id} className="h-full">
+                  <CardContent className="p-6">
                     <h2 className="text-xl font-semibold mb-2 text-swiss-darkblue">
                       {expert.company_name || "Unbenanntes Unternehmen"}
                     </h2>
-                    <p className="text-gray-600 mb-2 font-medium">
+                    <p className="text-gray-600 mb-2">
                       {expert.expertise_area}
                     </p>
-                    {expert.city && (
-                      <p className="text-gray-500 mb-4">{expert.city}</p>
-                    )}
-                    {expert.image_url && (
-                      <div className="mb-4 aspect-video relative overflow-hidden rounded-lg">
-                        <img
-                          src={expert.image_url}
-                          alt={expert.company_name || "Expert"}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                    )}
-                    <p className="text-gray-600 line-clamp-3">
+                    <p className="text-gray-600">
                       {expert.description}
                     </p>
                   </CardContent>
