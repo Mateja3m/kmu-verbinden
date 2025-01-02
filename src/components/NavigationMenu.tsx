@@ -8,6 +8,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { ExternalLink } from "lucide-react";
 
 interface NavigationMenuDemoProps {
   isLoggedIn: boolean;
@@ -138,10 +139,16 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
           </Link>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <Link to="/news" className="text-sm font-medium">
-            KMU News
-          </Link>
+        <NavigationMenuItem className="ml-4">
+          <a 
+            href="https://unternehmensjournal.ch" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-sm font-medium inline-flex items-center hover:text-swiss-red transition-colors"
+          >
+            UnternehmensJournal
+            <ExternalLink className="ml-1 h-3 w-3" />
+          </a>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
