@@ -10,7 +10,7 @@ export default function Experts() {
   const { data: experts, isLoading, error } = useQuery({
     queryKey: ['experts'],
     queryFn: async () => {
-      console.log('Fetching experts...');
+      console.log('Starting experts fetch...');
       const { data, error } = await supabase
         .from('experts')
         .select(`
@@ -25,7 +25,10 @@ export default function Experts() {
         throw error;
       }
       
-      console.log('Fetched experts:', data);
+      console.log('Fetched experts data:', data);
+      if (!data || data.length === 0) {
+        console.log('No experts found or data is empty');
+      }
       return data;
     }
   });
@@ -63,53 +66,56 @@ export default function Experts() {
             </div>
           ) : experts && experts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {experts.map((expert) => (
-                <Link key={expert.id} to={`/experts/${expert.id}`}>
-                  <Card className="h-full hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <div className="aspect-video relative overflow-hidden rounded-lg mb-4">
-                        <img
-                          src={expert.image_url || "/placeholder.svg"}
-                          alt={expert.company_name}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                      <CardTitle className="text-xl mb-2">
-                        {expert.company_name || "Unbenanntes Unternehmen"}
-                      </CardTitle>
-                      <div className="flex items-center gap-1 text-yellow-500 mb-2">
-                        <Star className="h-5 w-5 fill-current" />
-                        <span className="font-medium">
-                          {calculateAverageRating(expert.reviews)}
-                        </span>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-600 mb-4">{expert.expertise_area}</p>
-                      <div className="space-y-2 text-sm text-gray-500">
-                        {expert.city && (
-                          <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4" />
-                            <span>{expert.city}</span>
-                          </div>
-                        )}
-                        {expert.phone && (
-                          <div className="flex items-center gap-2">
-                            <Phone className="h-4 w-4" />
-                            <span>{expert.phone}</span>
-                          </div>
-                        )}
-                        {expert.email && (
-                          <div className="flex items-center gap-2">
-                            <Mail className="h-4 w-4" />
-                            <span>{expert.email}</span>
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
+              {experts.map((expert) => {
+                console.log('Rendering expert:', expert);
+                return (
+                  <Link key={expert.id} to={`/experts/${expert.id}`}>
+                    <Card className="h-full hover:shadow-lg transition-shadow">
+                      <CardHeader>
+                        <div className="aspect-video relative overflow-hidden rounded-lg mb-4">
+                          <img
+                            src={expert.image_url || "/placeholder.svg"}
+                            alt={expert.profile?.company_name || "Expert"}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                        <CardTitle className="text-xl mb-2">
+                          {expert.profile?.company_name || "Unbenanntes Unternehmen"}
+                        </CardTitle>
+                        <div className="flex items-center gap-1 text-yellow-500 mb-2">
+                          <Star className="h-5 w-5 fill-current" />
+                          <span className="font-medium">
+                            {calculateAverageRating(expert.reviews)}
+                          </span>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-gray-600 mb-4">{expert.expertise_area}</p>
+                        <div className="space-y-2 text-sm text-gray-500">
+                          {expert.city && (
+                            <div className="flex items-center gap-2">
+                              <MapPin className="h-4 w-4" />
+                              <span>{expert.city}</span>
+                            </div>
+                          )}
+                          {expert.phone && (
+                            <div className="flex items-center gap-2">
+                              <Phone className="h-4 w-4" />
+                              <span>{expert.phone}</span>
+                            </div>
+                          )}
+                          {expert.email && (
+                            <div className="flex items-center gap-2">
+                              <Mail className="h-4 w-4" />
+                              <span>{expert.email}</span>
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                );
+              })}
             </div>
           ) : (
             <div className="text-center text-gray-500 py-12">
