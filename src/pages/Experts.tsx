@@ -80,7 +80,7 @@ export default function Experts() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <main className="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-swiss-darkblue mb-4">
