@@ -109,7 +109,7 @@ const Navigation = () => {
     }
   };
 
-  return (
+return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white shadow-lg' : 'bg-white'
     }`}
@@ -118,8 +118,8 @@ const Navigation = () => {
         <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 20L20 0M20 20L40 0M0 0L-20 20M20 40L0 20" 
                 stroke="#93C5FD" 
-                stroke-width="0.1" 
-                stroke-opacity="0.1" 
+                stroke-width="0.3" 
+                stroke-opacity="0.3" 
                 fill="none"/>
         </svg>
       `)}')`,
