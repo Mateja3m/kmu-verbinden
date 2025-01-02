@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ExpertPreview } from "@/components/experts/ExpertPreview";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Static expert data
 const staticExperts = [
@@ -58,7 +61,31 @@ const staticExperts = [
   }
 ];
 
+// Get unique expertise areas from experts
+const expertiseAreas = [...new Set(staticExperts.map(expert => expert.expertise_area))];
+
 export default function Experts() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedExpertise, setSelectedExpertise] = useState<string>("");
+  const [selectedCompany, setSelectedCompany] = useState<string>("");
+
+  // Filter experts based on search query and selected filters
+  const filteredExperts = staticExperts.filter(expert => {
+    const matchesSearch = searchQuery === "" || 
+      Object.values(expert).some(value => 
+        typeof value === 'string' && 
+        value.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    
+    const matchesExpertise = selectedExpertise === "" || 
+      expert.expertise_area === selectedExpertise;
+    
+    const matchesCompany = selectedCompany === "" || 
+      expert.company_name === selectedCompany;
+
+    return matchesSearch && matchesExpertise && matchesCompany;
+  });
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -68,12 +95,61 @@ export default function Experts() {
             Expertenrat
           </h1>
 
+          {/* Filter Section */}
+          <div className="mb-8 space-y-4 md:space-y-0 md:flex md:gap-4 bg-white p-6 rounded-lg shadow-sm">
+            <div className="flex-1">
+              <Input
+                type="text"
+                placeholder="Suchen Sie nach Experten..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full"
+              />
+            </div>
+            <div className="md:w-64">
+              <Select value={selectedExpertise} onValueChange={setSelectedExpertise}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Fachgebiet auswählen" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Alle Fachgebiete</SelectItem>
+                  {expertiseAreas.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {area}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="md:w-64">
+              <Select value={selectedCompany} onValueChange={setSelectedCompany}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Unternehmen auswählen" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Alle Unternehmen</SelectItem>
+                  {staticExperts.map((expert) => (
+                    <SelectItem key={expert.id} value={expert.company_name}>
+                      {expert.company_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Results Section */}
           <div className="grid grid-cols-1 gap-8">
-            {staticExperts.map((expert) => (
+            {filteredExperts.map((expert) => (
               <Link key={expert.id} to={`/experts/${expert.id}`} className="block transition-transform hover:scale-[1.01]">
                 <ExpertPreview formData={expert} />
               </Link>
             ))}
+            {filteredExperts.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                Keine Experten gefunden, die Ihren Filterkriterien entsprechen.
+              </div>
+            )}
           </div>
         </div>
       </main>
