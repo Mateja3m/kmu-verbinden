@@ -66,8 +66,8 @@ const expertiseAreas = [...new Set(staticExperts.map(expert => expert.expertise_
 
 export default function Experts() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedExpertise, setSelectedExpertise] = useState<string>("");
-  const [selectedCompany, setSelectedCompany] = useState<string>("");
+  const [selectedExpertise, setSelectedExpertise] = useState<string>("all_areas");
+  const [selectedCompany, setSelectedCompany] = useState<string>("all_companies");
 
   // Filter experts based on search query and selected filters
   const filteredExperts = staticExperts.filter(expert => {
@@ -77,10 +77,10 @@ export default function Experts() {
         value.toLowerCase().includes(searchQuery.toLowerCase())
       );
     
-    const matchesExpertise = selectedExpertise === "" || 
+    const matchesExpertise = selectedExpertise === "all_areas" || 
       expert.expertise_area === selectedExpertise;
     
-    const matchesCompany = selectedCompany === "" || 
+    const matchesCompany = selectedCompany === "all_companies" || 
       expert.company_name === selectedCompany;
 
     return matchesSearch && matchesExpertise && matchesCompany;
@@ -112,7 +112,7 @@ export default function Experts() {
                   <SelectValue placeholder="Fachgebiet auswählen" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Alle Fachgebiete</SelectItem>
+                  <SelectItem value="all_areas">Alle Fachgebiete</SelectItem>
                   {expertiseAreas.map((area) => (
                     <SelectItem key={area} value={area}>
                       {area}
@@ -127,7 +127,7 @@ export default function Experts() {
                   <SelectValue placeholder="Unternehmen auswählen" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Alle Unternehmen</SelectItem>
+                  <SelectItem value="all_companies">Alle Unternehmen</SelectItem>
                   {staticExperts.map((expert) => (
                     <SelectItem key={expert.id} value={expert.company_name}>
                       {expert.company_name}

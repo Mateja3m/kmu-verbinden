@@ -8,7 +8,7 @@ import { useState } from "react";
 import { subMonths } from "date-fns";
 
 export function LeadsSection() {
-  const [timeFilter, setTimeFilter] = useState("all");
+  const [timeFilter, setTimeFilter] = useState("all_time");
   const startDate = timeFilter === "last_month" ? subMonths(new Date(), 1) : null;
 
   const { data: leads, isLoading } = useQuery({
@@ -61,7 +61,7 @@ export function LeadsSection() {
             <SelectValue placeholder="Zeitraum auswählen" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Alle Zeit</SelectItem>
+            <SelectItem value="all_time">Alle Zeit</SelectItem>
             <SelectItem value="last_month">Letzter Monat</SelectItem>
           </SelectContent>
         </Select>
