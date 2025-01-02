@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Star } from "lucide-react";
+import { MapPin, Phone, Mail, Star, AlertCircle, LoaderCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -21,11 +21,11 @@ export default function Experts() {
         .eq('status', 'approved');
       
       if (error) {
-        console.error('Error fetching experts:', error);
+        console.error('Supabase error:', error);
         throw error;
       }
       
-      console.log('Supabase response:', data);
+      console.log('Fetched experts:', data);
       return data;
     }
   });
@@ -51,23 +51,15 @@ export default function Experts() {
           </div>
 
           {error && (
-            <div className="text-center text-red-600 mb-8">
-              Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.
+            <div className="text-center text-red-600 mb-8 flex items-center justify-center gap-2">
+              <AlertCircle className="h-5 w-5" />
+              <span>Ein Fehler ist aufgetreten: {error.message}</span>
             </div>
           )}
 
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3].map((n) => (
-                <Card key={n} className="animate-pulse">
-                  <CardHeader className="h-48 bg-gray-200" />
-                  <CardContent className="space-y-3">
-                    <div className="h-6 bg-gray-200 rounded" />
-                    <div className="h-4 bg-gray-200 rounded w-2/3" />
-                    <div className="h-4 bg-gray-200 rounded w-1/2" />
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="flex justify-center items-center py-12">
+              <LoaderCircle className="h-8 w-8 animate-spin text-swiss-red" />
             </div>
           ) : experts && experts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -121,7 +113,7 @@ export default function Experts() {
             </div>
           ) : (
             <div className="text-center text-gray-500 py-12">
-              Keine Experten gefunden
+              Keine Experten gefunden. Bitte versuchen Sie es später erneut.
             </div>
           )}
         </div>
