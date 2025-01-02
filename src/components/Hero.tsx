@@ -2,15 +2,15 @@ import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
-    <div className="relative bg-swiss-darkblue min-h-[80vh] flex items-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] via-[#1A1F2C]/80 to-swiss-red/70"></div>
+    <div className="relative bg-gradient-to-br from-[#F0F9FF] via-[#93C5FD] to-swiss-red/40 min-h-[80vh] flex items-center">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-[#93C5FD]/70 to-swiss-red/30"></div>
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           <div className="lg:w-1/2 space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-swiss-darkblue leading-tight">
               Werden Sie Mitglied im KMU Verein
             </h1>
-            <p className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl">
+            <p className="text-lg sm:text-xl text-swiss-darkblue/90 leading-relaxed max-w-2xl">
               Nutzen Sie exklusive Vorteile, vernetzen Sie sich mit Branchenführern und treiben Sie Ihr Unternehmen voran.
             </p>
             <div className="pt-4">
