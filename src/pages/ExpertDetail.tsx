@@ -7,7 +7,6 @@ import { ExpertHeader } from "@/components/experts/ExpertHeader";
 import { ExpertServices } from "@/components/experts/ExpertServices";
 import { ExpertContact } from "@/components/experts/ExpertContact";
 import { ExpertReviews } from "@/components/experts/ExpertReviews";
-import { ExpertReviewForm } from "@/components/experts/ExpertReviewForm";
 import { Loader } from "lucide-react";
 
 export default function ExpertDetail() {
@@ -127,8 +126,6 @@ export default function ExpertDetail() {
                 email={expert.email}
                 website={expert.website}
               />
-
-              <ExpertReviewForm expertId={expert.id} />
             </div>
           </div>
         </div>

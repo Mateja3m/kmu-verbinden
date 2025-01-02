@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
-import { Button } from './ui/button';
 
 const menuItems = [
   { name: 'PRÄSIDIUM', href: '/presidency' },
