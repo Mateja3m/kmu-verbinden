@@ -31,7 +31,7 @@ export default {
         },
         swiss: {
           red: "#EF4444",
-          darkblue: "#1E3A8A",
+          darkblue: "#0F172A", // Updated to a darker, more luxury blue
           lightblue: "#93C5FD",
           gray: "#F1F5F9",
         },

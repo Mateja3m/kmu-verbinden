@@ -22,7 +22,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
       <NavigationMenuList className="relative w-full justify-between">
         <div className="flex items-center space-x-4">
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Über uns</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="text-white hover:text-swiss-red">Über uns</NavigationMenuTrigger>
             <NavigationMenuContent className="bg-white">
               <ul className="grid gap-3 p-6 w-[400px] bg-white">
                 <li>
@@ -64,7 +64,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="text-white hover:text-swiss-red">Services</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-6 w-[400px] bg-white">
                 <li>
@@ -125,7 +125,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
           <NavigationMenuItem>
             <Link 
               to="/membership" 
-              className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent"
+              className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent text-white hover:text-swiss-red"
             >
               Mitglieder
             </Link>
@@ -134,7 +134,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
           <NavigationMenuItem>
             <Link 
               to="/partners" 
-              className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent"
+              className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent text-white hover:text-swiss-red"
             >
               Partner
             </Link>
@@ -146,7 +146,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
             href="https://unternehmensjournal.ch" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-sm font-medium inline-flex items-center hover:text-swiss-red transition-colors"
+            className="text-sm font-medium inline-flex items-center text-white hover:text-swiss-red transition-colors"
           >
             KMU News
             <ExternalLink className="ml-1 h-3 w-3" />
