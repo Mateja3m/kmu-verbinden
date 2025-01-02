@@ -12,6 +12,7 @@ export default function Experts() {
     queryFn: async () => {
       console.log('Starting experts fetch...');
       try {
+        console.log('Executing Supabase query...');
         const { data, error } = await supabase
           .from('experts')
           .select(`
@@ -26,9 +27,19 @@ export default function Experts() {
           throw error;
         }
         
-        console.log('Fetched experts data:', data);
+        console.log('Raw experts data:', data);
         if (!data || data.length === 0) {
           console.log('No experts found or data is empty');
+        } else {
+          console.log(`Found ${data.length} experts`);
+          data.forEach((expert, index) => {
+            console.log(`Expert ${index + 1}:`, {
+              id: expert.id,
+              company: expert.profile?.company_name,
+              status: expert.status,
+              reviews: expert.reviews?.length
+            });
+          });
         }
         return data;
       } catch (err) {
@@ -38,6 +49,8 @@ export default function Experts() {
     },
     retry: 1
   });
+
+  console.log('Component render state:', { isLoading, error, expertsCount: experts?.length });
 
   const calculateAverageRating = (reviews: any[]) => {
     if (!reviews || reviews.length === 0) return 0;
