@@ -111,8 +111,17 @@ export default function ExpertDetail() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <main className="flex-grow pt-32 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-swiss-darkblue mb-4">
+              Expertenrat
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Entdecken Sie die Expertise unserer qualifizierten Berater
+            </p>
+          </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
               <ExpertHeader
@@ -134,7 +143,7 @@ export default function ExpertDetail() {
               />
             </div>
 
-            <div className="lg:sticky lg:top-24 space-y-6 self-start">
+            <div className="lg:sticky lg:top-32 space-y-6 self-start">
               <ExpertContact
                 contactPerson={expert.contact_person}
                 address={expert.address}
