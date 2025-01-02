@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ExpertPreview } from "@/components/experts/ExpertPreview";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -69,7 +70,9 @@ export default function Experts() {
 
           <div className="grid grid-cols-1 gap-8">
             {staticExperts.map((expert) => (
-              <ExpertPreview key={expert.id} formData={expert} />
+              <Link key={expert.id} to={`/experts/${expert.id}`} className="block transition-transform hover:scale-[1.01]">
+                <ExpertPreview formData={expert} />
+              </Link>
             ))}
           </div>
         </div>
