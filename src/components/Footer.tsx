@@ -1,36 +1,10 @@
-import { Mail, MapPin, Phone, Globe, Calendar, Lock, Users, User, LogOut, Heart } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Calendar, Heart } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
+import { Link } from "react-router-dom";
 import { SitemapModal } from "./SitemapModal";
-
-const offices = [
-  {
-    city: "Genf",
-    phone: "022 / 518 05 09",
-    email: "genf@kmu-verein.ch"
-  },
-  {
-    city: "Luzern",
-    phone: "041 / 588 22 49",
-    email: "luzern@kmu-verein.ch"
-  },
-  {
-    city: "Bern",
-    phone: "031 / 528 05 51",
-    email: "bern@kmu-verein.ch"
-  },
-  {
-    city: "Naters",
-    phone: "044 / 585 20 81",
-    email: "naters@kmu-verein.ch"
-  }
-];
+import { OfficeLocations } from "./footer/OfficeLocations";
+import { QuickLinks } from "./footer/QuickLinks";
+import { LoginButtons } from "./footer/LoginButtons";
 
 interface FooterProps {
   isLoggedIn?: boolean;
@@ -38,16 +12,6 @@ interface FooterProps {
 }
 
 const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
-  const navigate = useNavigate();
-
-  const handleAdminLogin = () => {
-    navigate('/auth');
-  };
-
-  const handlePartnerLogin = () => {
-    navigate('/auth?type=partner');
-  };
-
   return (
     <footer className="bg-swiss-darkblue text-white">
       <div className="container mx-auto px-4 py-12">
@@ -55,31 +19,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
           {/* Contact Information */}
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-6">Schweizerischer KMU Verein (SKV)</h3>
-            <div className="flex flex-wrap gap-4 text-sm text-gray-300">
-              <TooltipProvider>
-                {offices.map((office) => (
-                  <Tooltip key={office.city}>
-                    <TooltipTrigger className="hover:text-swiss-red transition-colors">
-                      {office.city}
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-swiss-darkblue border-swiss-red p-3">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-swiss-red" />
-                          <span>{office.phone}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-swiss-red" />
-                          <a href={`mailto:${office.email}`} className="hover:text-swiss-red">
-                            {office.email}
-                          </a>
-                        </div>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
-              </TooltipProvider>
-            </div>
+            <OfficeLocations />
             <div className="space-y-3 mt-6">
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-swiss-red" />
@@ -93,21 +33,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                   </a>
                 </div>
                 {!isLoggedIn && (
-                  <div className="flex flex-col space-y-2 pl-8">
-                    <button 
-                      onClick={handleAdminLogin}
-                      className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors text-sm"
-                    >
-                      <Lock className="h-4 w-4" />
-                      Admin Login
-                    </button>
-                    <button 
-                      onClick={handlePartnerLogin}
-                      className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors text-sm"
-                    >
-                      <Users className="h-4 w-4" />
-                      Partner Login
-                    </button>
+                  <div className="pl-8">
+                    <LoginButtons />
                   </div>
                 )}
               </div>
@@ -117,33 +44,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
           {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
-            <nav className="space-y-3">
-              <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
-              <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
-              <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
-              <Link to="/aktuelle-projekte" className="block hover:text-swiss-red transition-colors">Aktuelle Projekte</Link>
-              {isLoggedIn && (
-                <>
-                  <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors">
-                    <User className="h-4 w-4" />
-                    Unternehmensprofil
-                  </Link>
-                  <Link to="/partner-dashboard" className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors">
-                    <Users className="h-4 w-4" />
-                    Partner Dashboard
-                  </Link>
-                  {handleLogout && (
-                    <button 
-                      onClick={handleLogout}
-                      className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Abmelden
-                    </button>
-                  )}
-                </>
-              )}
-            </nav>
+            <QuickLinks isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
           </div>
 
           {/* Services & Projects */}
