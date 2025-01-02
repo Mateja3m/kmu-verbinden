@@ -39,7 +39,7 @@ const AuthPage = () => {
         
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('company_name, terms_accepted, membership_status')
+          .select('is_admin, company_name, terms_accepted, membership_status')
           .eq('id', session.user.id)
           .single();
 
@@ -48,6 +48,13 @@ const AuthPage = () => {
         if (error) {
           console.error("[Auth] Profile query error:", error);
           throw error;
+        }
+
+        // If user is admin, redirect to admin dashboard
+        if (profile && profile.is_admin) {
+          console.log("[Auth] User is admin, redirecting to admin dashboard");
+          navigate('/admin');
+          return;
         }
 
         // If profile exists and has required fields, redirect to dashboard
