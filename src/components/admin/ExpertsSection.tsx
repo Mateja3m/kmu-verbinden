@@ -14,7 +14,18 @@ export function ExpertsSection() {
     expertise_area: '',
     description: '',
     image_url: '',
-    profile_id: ''
+    profile_id: '',
+    company_name: '',
+    contact_person: '',
+    email: '',
+    phone: '',
+    website: '',
+    linkedin: '',
+    address: '',
+    postal_code: '',
+    city: '',
+    services: [] as string[],
+    status: 'pending'
   });
   const [uploading, setUploading] = useState(false);
 
@@ -63,10 +74,21 @@ export function ExpertsSection() {
         description: "Experte wurde erfolgreich hinzugefügt."
       });
       setFormData({ 
-        expertise_area: '', 
-        description: '', 
-        image_url: '', 
-        profile_id: '' 
+        expertise_area: '',
+        description: '',
+        image_url: '',
+        profile_id: '',
+        company_name: '',
+        contact_person: '',
+        email: '',
+        phone: '',
+        website: '',
+        linkedin: '',
+        address: '',
+        postal_code: '',
+        city: '',
+        services: [],
+        status: 'pending'
       });
     }
   };
@@ -99,11 +121,43 @@ export function ExpertsSection() {
             </div>
 
             <div>
+              <label className="block text-sm font-medium mb-1">Firmenname</label>
+              <Input
+                value={formData.company_name}
+                onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
+                required
+                placeholder="Name der Firma"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Kontaktperson</label>
+              <Input
+                value={formData.contact_person}
+                onChange={(e) => setFormData({ ...formData, contact_person: e.target.value })}
+                required
+                placeholder="Name der Kontaktperson"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">E-Mail</label>
+              <Input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+                placeholder="E-Mail Adresse"
+              />
+            </div>
+
+            <div>
               <label className="block text-sm font-medium mb-1">Fachgebiet</label>
               <Input
                 value={formData.expertise_area}
                 onChange={(e) => setFormData({ ...formData, expertise_area: e.target.value })}
                 required
+                placeholder="z.B. Digitalisierung, Recht, Finanzen"
               />
             </div>
 
@@ -133,6 +187,7 @@ export function ExpertsSection() {
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 required
                 className="min-h-[200px]"
+                placeholder="Detaillierte Beschreibung der Expertise"
               />
             </div>
 
