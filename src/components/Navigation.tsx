@@ -11,13 +11,23 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      console.log("Current session:", session); // Debug log
+      console.log("Current session:", session);
       
       if (session?.user) {
         const { data: profile } = await supabase
@@ -26,7 +36,7 @@ const Navigation = () => {
           .eq('id', session.user.id)
           .single();
         
-        console.log("Profile data:", profile); // Debug log
+        console.log("Profile data:", profile);
         setIsAdmin(!!profile?.is_admin);
         setIsLoggedIn(true);
       } else {
@@ -38,7 +48,7 @@ const Navigation = () => {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed:", event, session); // Debug log
+      console.log("Auth state changed:", event, session);
       
       if (session?.user) {
         const { data: profile } = await supabase
@@ -61,7 +71,7 @@ const Navigation = () => {
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      console.error("Logout error:", error); // Debug log
+      console.error("Logout error:", error);
       toast({
         title: "Fehler beim Abmelden",
         description: error.message,
@@ -77,17 +87,19 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-white/90 backdrop-blur-md shadow-lg fixed w-full z-50">
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white/90 backdrop-blur-sm'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <NavigationLogo />
           <NavigationMenu isLoggedIn={isLoggedIn} isAdmin={isAdmin} handleLogout={handleLogout} />
           
-          {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-swiss-darkblue hover:text-swiss-red transition-colors duration-300"
+              className="text-swiss-darkblue hover:text-swiss-red transition-colors duration-300 p-2"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -95,7 +107,6 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isOpen && (
         <NavigationMobileMenu
           isLoggedIn={isLoggedIn}

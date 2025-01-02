@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
 }
 
@@ -39,4 +39,38 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Mobile-first responsive styles */
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
+/* Ensure proper spacing on mobile */
+.mobile-container {
+  padding: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Fix mobile overflow issues */
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Improve touch targets on mobile */
+button, 
+a {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
 }
