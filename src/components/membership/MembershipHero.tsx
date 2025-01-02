@@ -6,8 +6,7 @@ interface MembershipHeroProps {
 
 const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
   return (
-    <div className="relative bg-luxury-gradient pt-32 pb-20 text-white">
-      <div className="absolute inset-0 bg-gradient-to-br from-swiss-darkblue/90 to-swiss-red/90 mix-blend-multiply"></div>
+    <div className="relative bg-swiss-red pt-32 pb-20 text-white">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl mb-6">
           Werden Sie Mitglied im KMU Verein
