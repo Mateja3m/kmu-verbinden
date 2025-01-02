@@ -114,9 +114,17 @@ const Navigation = () => {
       isScrolled ? 'bg-white shadow-lg' : 'bg-white'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 relative bg-white z-10">
+        <div className="flex justify-between h-20 items-center relative bg-white z-10">
           <NavigationLogo />
-          <NavigationMenuDemo isLoggedIn={isLoggedIn} isAdmin={isAdmin} handleLogout={handleLogout} />
+          
+          <div className="hidden md:block flex-1 px-4">
+            <NavigationMenuDemo 
+              isLoggedIn={isLoggedIn} 
+              isAdmin={isAdmin} 
+              handleLogout={handleLogout} 
+            />
+          </div>
+
           <div className="hidden md:flex items-center space-x-4">
             <NavigationAuthItems 
               isLoggedIn={isLoggedIn} 
@@ -125,15 +133,20 @@ const Navigation = () => {
             />
           </div>
           
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-swiss-darkblue hover:text-swiss-red transition-colors duration-300 p-2"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-swiss-darkblue hover:text-swiss-red hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-swiss-red transition-colors duration-200"
+            aria-expanded={isOpen}
+          >
+            <span className="sr-only">
+              {isOpen ? 'Close menu' : 'Open menu'}
+            </span>
+            {isOpen ? (
+              <X className="block h-6 w-6" aria-hidden="true" />
+            ) : (
+              <Menu className="block h-6 w-6" aria-hidden="true" />
+            )}
+          </button>
         </div>
       </div>
 
