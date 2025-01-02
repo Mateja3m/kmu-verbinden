@@ -8,13 +8,13 @@ const Hero = () => {
           <svg width="7" height="7" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 7L7 0M7 7L14 0M0 0L-7 7M7 14L0 7" 
                   stroke="#93C5FD" 
-                  stroke-width="0.3" 
-                  stroke-opacity="0.3" 
+                  stroke-width="0.5" 
+                  stroke-opacity="0.5" 
                   fill="none"/>
           </svg>
         `)}')`,
         backgroundSize: '7px 7px',
-        opacity: '0.5'
+        opacity: '0.7'
       }}></div>
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
