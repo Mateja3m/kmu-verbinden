@@ -9,7 +9,13 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ExternalLink } from "lucide-react";
 
-const NavigationMenuDemo = () => {
+interface NavigationMenuDemoProps {
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+  handleLogout: () => void;
+}
+
+export const NavigationMenuDemo = ({ isLoggedIn, isAdmin, handleLogout }: NavigationMenuDemoProps) => {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-white via-swiss-lightblue to-swiss-red/20 backdrop-blur-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,7 +24,7 @@ const NavigationMenuDemo = () => {
             {/* Left side menu items */}
             <div className="flex items-center space-x-4">
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-white/50 text-swiss-darkblue font-medium">
+                <NavigationMenuTrigger className="bg-white/95 hover:bg-white/80 text-swiss-darkblue font-medium">
                   Über uns
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-white/95 backdrop-blur-sm shadow-lg rounded-lg border border-gray-100">
@@ -54,7 +60,7 @@ const NavigationMenuDemo = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-white/50 text-swiss-darkblue font-medium">
+                <NavigationMenuTrigger className="bg-white/95 hover:bg-white/80 text-swiss-darkblue font-medium">
                   Services
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-white/95 backdrop-blur-sm shadow-lg rounded-lg border border-gray-100">
@@ -126,5 +132,3 @@ const NavigationMenuDemo = () => {
     </div>
   );
 };
-
-export default NavigationMenuDemo;
