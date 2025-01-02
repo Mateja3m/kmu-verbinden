@@ -14,7 +14,7 @@ const placeholderExperts = [
       contact_person: 'Dr. Maria Weber'
     },
     expertise_area: 'Digitale Transformation & IT-Beratung',
-    image_url: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7',
+    image_url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158',
     city: 'Zürich',
     phone: '044 123 45 67',
     email: 'kontakt@digitalsolutions.ch',
@@ -27,7 +27,7 @@ const placeholderExperts = [
       contact_person: 'Thomas Müller'
     },
     expertise_area: 'Finanzberatung & Controlling',
-    image_url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c',
+    image_url: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952',
     city: 'Basel',
     phone: '061 234 56 78',
     email: 'info@financeexperts.ch',
@@ -40,7 +40,7 @@ const placeholderExperts = [
       contact_person: 'Sarah Schmidt'
     },
     expertise_area: 'Innovationsmanagement & Strategie',
-    image_url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d',
+    image_url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e',
     city: 'Bern',
     phone: '031 345 67 89',
     email: 'contact@innovationlab.ch',
