@@ -6,27 +6,33 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 export default function Experts() {
-  const { data: experts, isLoading } = useQuery({
+  console.log('Experts component rendered');
+  
+  const { data: experts, isLoading, error } = useQuery({
     queryKey: ['experts'],
     queryFn: async () => {
-      console.log('Starting to fetch experts...');
+      console.log('Starting experts fetch...');
       const { data, error } = await supabase
         .from('experts')
         .select('id, company_name, expertise_area, description')
         .eq('status', 'approved');
       
       if (error) {
-        console.error('Error fetching experts:', error);
+        console.error('Supabase error:', error);
         throw error;
       }
       
-      console.log('Experts data received:', data);
+      console.log('Experts fetch successful:', data);
       return data;
     }
   });
 
-  console.log('Current experts state:', experts);
-  console.log('Is loading:', isLoading);
+  console.log('Current state:', { isLoading, error, expertsCount: experts?.length });
+
+  if (error) {
+    console.error('Query error:', error);
+    return <div>Error loading experts. Please try again later.</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,9 +50,9 @@ export default function Experts() {
           ) : experts && experts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {experts.map((expert) => (
-                <Card key={expert.id} className="h-full">
+                <Card key={expert.id}>
                   <CardContent className="p-6">
-                    <h2 className="text-xl font-semibold mb-2 text-swiss-darkblue">
+                    <h2 className="text-xl font-semibold mb-2">
                       {expert.company_name || "Unbenanntes Unternehmen"}
                     </h2>
                     <p className="text-gray-600 mb-2">
