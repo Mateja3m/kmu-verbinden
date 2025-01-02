@@ -6,9 +6,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export function SitemapModal() {
-  const sitemapLinks = [
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      return session;
+    },
+  });
+
+  const publicLinks = [
     { name: "Home", path: "/" },
     { name: "Präsidium", path: "/presidency" },
     { name: "Mitgliedschaft", path: "/membership" },
@@ -25,6 +35,16 @@ export function SitemapModal() {
     { name: "Datenschutz", path: "/datenschutz" },
   ];
 
+  const authenticatedLinks = [
+    { name: "Unternehmensprofil", path: "/dashboard" },
+    { name: "Partner Dashboard", path: "/partner-dashboard" },
+    { name: "Admin Dashboard", path: "/admin" },
+  ];
+
+  const allLinks = session 
+    ? [...publicLinks, ...authenticatedLinks]
+    : publicLinks;
+
   return (
     <Dialog>
       <DialogTrigger className="hover:text-swiss-red transition-colors">
@@ -35,7 +55,7 @@ export function SitemapModal() {
           <DialogTitle className="text-2xl font-bold mb-4">Sitemap</DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-4">
-          {sitemapLinks.map((link) => (
+          {allLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
