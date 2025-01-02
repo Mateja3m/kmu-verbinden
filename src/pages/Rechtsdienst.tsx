@@ -11,7 +11,7 @@ export default function Rechtsdienst() {
       
       {/* Hero Section */}
       <BackgroundPattern>
-        <div className="bg-swiss-red text-white py-24 mt-16 relative">
+        <div className="bg-swiss-red text-white py-48 mt-16 relative">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold mb-3">Orientierung und Sicherheit dank meinJurist.ch</h1>
             <p className="text-lg max-w-3xl mb-4">
@@ -31,7 +31,7 @@ export default function Rechtsdienst() {
 
       {/* Main Content */}
       <BackgroundPattern>
-        <div className="container mx-auto px-4 -mt-8">
+        <div className="container mx-auto px-4 -mt-16">
           {/* Free Consultation Banner */}
           <div className="bg-swiss-darkblue text-white p-6 rounded-lg mb-6 relative">
             <div className="flex flex-col md:flex-row items-center justify-between">
