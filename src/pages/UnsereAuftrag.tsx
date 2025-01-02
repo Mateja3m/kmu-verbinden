@@ -9,9 +9,22 @@ const UnsereAuftrag = () => {
     <>
       <Navigation />
       <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-        {/* Hero Section - Updated padding-top to pt-32 */}
-        <div className="bg-luxury-gradient text-white pt-32 pb-20 px-4">
-          <div className="container mx-auto text-center">
+        {/* Hero Section - Updated with Swiss red background */}
+        <div className="bg-swiss-red text-white pt-32 pb-20 px-4 relative">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
+              <svg width="7" height="7" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 7L7 0M7 7L14 0M0 0L-7 7M7 14L0 7" 
+                      stroke="#FFFFFF" 
+                      stroke-width="0.5" 
+                      stroke-opacity="0.5" 
+                      fill="none"/>
+              </svg>
+            `)}')`,
+            backgroundSize: '7px 7px',
+            opacity: '0.7'
+          }}></div>
+          <div className="container mx-auto text-center relative z-10">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">PORTRAIT</h1>
             <p className="text-2xl md:text-3xl mb-8">IM DIENST DER KMU.</p>
             <p className="text-xl mb-8">EIN PORTRAIT ÜBER DEN SKV.</p>
