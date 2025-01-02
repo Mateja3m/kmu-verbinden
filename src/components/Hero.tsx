@@ -27,7 +27,7 @@ const Hero = () => {
             </p>
             <div className="pt-4">
               <Button 
-                className="w-full sm:w-auto shine-effect text-lg px-6 sm:px-8 py-4 sm:py-6 bg-gradient-to-r from-swiss-red to-swiss-red/80 hover:from-swiss-red/90 hover:to-swiss-red/70 text-white border-none shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105"
+                className="w-full sm:w-auto shine-effect text-lg px-6 sm:px-8 py-4 sm:py-6 bg-swiss-red hover:bg-swiss-red/90 text-white border-none shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105"
               >
                 Mitglied werden
               </Button>
