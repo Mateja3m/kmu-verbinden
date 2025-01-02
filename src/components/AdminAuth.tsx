@@ -12,7 +12,6 @@ const AdminAuth = () => {
   useEffect(() => {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      console.log("[AdminAuth] Initial session check:", session);
       if (session) {
         handleAuthChange('SIGNED_IN', session);
       }
@@ -21,38 +20,23 @@ const AdminAuth = () => {
     checkUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthChange);
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
   const handleAuthChange = async (event: string, session: any) => {
-    console.log("[AdminAuth] Auth state changed:", event);
-    console.log("[AdminAuth] Session data:", session);
-    
     if (event === 'SIGNED_IN' && session) {
       try {
-        console.log("[AdminAuth] Checking profile for user:", session.user.id);
-        
         const { data: profile, error } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .single();
 
-        if (error) {
-          console.error("[AdminAuth] Profile query error:", error);
-          throw error;
-        }
-
-        console.log("[AdminAuth] Profile data:", profile);
+        if (error) throw error;
 
         if (profile?.is_admin) {
-          console.log("[AdminAuth] User is admin, redirecting to admin dashboard");
           navigate('/admin');
         } else {
-          console.log("[AdminAuth] User is not admin, showing error");
           toast({
             title: "Zugriff verweigert",
             description: "Sie haben keine Administratorrechte.",
@@ -60,11 +44,10 @@ const AdminAuth = () => {
           });
           await supabase.auth.signOut();
         }
-      } catch (error: any) {
-        console.error("[AdminAuth] Error in auth change handler:", error);
+      } catch (error) {
         toast({
           title: "Fehler",
-          description: "Es gab ein Problem beim Überprüfen Ihres Profils. Bitte versuchen Sie es erneut.",
+          description: "Bitte überprüfen Sie Ihre Anmeldedaten und versuchen Sie es erneut.",
           variant: "destructive",
         });
       }
@@ -93,23 +76,13 @@ const AdminAuth = () => {
                 brandAccent: '#B91C1C',
                 brandButtonText: 'white',
               },
-              borderWidths: {
-                buttonBorderWidth: '1px',
-                inputBorderWidth: '1px',
-              },
-              radii: {
-                borderRadiusButton: '0.5rem',
-                buttonBorderRadius: '0.5rem',
-                inputBorderRadius: '0.5rem',
-              },
             },
           },
           className: {
             container: 'w-full',
-            button: 'w-full px-4 py-2.5 rounded-lg font-medium transition-colors duration-200',
-            input: 'w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-swiss-red focus:border-transparent transition-shadow duration-200',
+            button: 'w-full px-4 py-2.5 rounded-lg font-medium',
+            input: 'w-full px-4 py-2.5 rounded-lg border focus:ring-2',
             label: 'block text-sm font-medium text-gray-700 mb-2',
-            anchor: 'text-swiss-red hover:text-swiss-darkblue transition-colors duration-200',
           },
         }}
         theme="light"
@@ -118,15 +91,9 @@ const AdminAuth = () => {
         localization={{
           variables: {
             sign_in: {
-              email_label: "E-Mail Adresse",
+              email_label: "E-Mail",
               password_label: "Passwort",
               button_label: "Anmelden",
-              loading_button_label: "Anmeldung...",
-            },
-            forgotten_password: {
-              button_label: "Passwort zurücksetzen",
-              loading_button_label: "Sende Anweisungen...",
-              confirmation_text: "Überprüfen Sie Ihre E-Mail für den Reset-Link",
             },
           },
         }}
