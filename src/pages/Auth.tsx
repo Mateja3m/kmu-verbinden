@@ -76,14 +76,15 @@ const AuthPage = () => {
           <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-xl border border-gray-100 my-8">
             <div>
               <h2 className="mt-2 text-center text-3xl font-extrabold text-swiss-darkblue">
-                Anmelden
+                Admin Anmeldung
               </h2>
               <p className="mt-3 text-center text-sm text-gray-600">
-                Melden Sie sich an oder erstellen Sie ein neues Konto
+                Bitte melden Sie sich mit Ihren Admin-Zugangsdaten an
               </p>
             </div>
             <Auth
               supabaseClient={supabase}
+              view="sign_in"
               appearance={{
                 theme: ThemeSupa,
                 variables: {
@@ -117,27 +118,12 @@ const AuthPage = () => {
               redirectTo={window.location.origin + '/auth'}
               localization={{
                 variables: {
-                  sign_up: {
-                    email_label: "E-Mail Adresse",
-                    password_label: "Passwort",
-                    button_label: "Registrieren",
-                    loading_button_label: "Registrierung...",
-                    social_provider_text: "Anmelden mit {{provider}}",
-                    link_text: "Noch kein Konto? Registrieren",
-                    confirmation_text: "Überprüfen Sie Ihre E-Mail für den Bestätigungslink",
-                  },
                   sign_in: {
                     email_label: "E-Mail Adresse",
                     password_label: "Passwort",
                     button_label: "Anmelden",
                     loading_button_label: "Anmeldung...",
                     social_provider_text: "Anmelden mit {{provider}}",
-                    link_text: "Bereits ein Konto? Anmelden",
-                  },
-                  magic_link: {
-                    button_label: "Mit Magic Link anmelden",
-                    loading_button_label: "Magic Link wird gesendet...",
-                    confirmation_text: "Überprüfen Sie Ihre E-Mail für den Magic Link",
                   },
                   forgotten_password: {
                     button_label: "Passwort zurücksetzen",
