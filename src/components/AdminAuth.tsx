@@ -122,7 +122,6 @@ const AdminAuth = () => {
               password_label: "Passwort",
               button_label: "Anmelden",
               loading_button_label: "Anmeldung...",
-              social_provider_text: "Anmelden mit {{provider}}",
             },
             forgotten_password: {
               button_label: "Passwort zurücksetzen",
