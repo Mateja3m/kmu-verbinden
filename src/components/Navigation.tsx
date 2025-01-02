@@ -3,7 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { NavigationMenu } from './NavigationMenu';
+import { NavigationMenuDemo } from './NavigationMenu';
 import { NavigationMobileMenu } from './NavigationMobileMenu';
 import { NavigationLogo } from './NavigationLogo';
 import { NavigationAuthItems } from './NavigationAuthItems';
@@ -106,7 +106,7 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <NavigationLogo />
-          <NavigationMenu isLoggedIn={isLoggedIn} isAdmin={isAdmin} handleLogout={handleLogout} />
+          <NavigationMenuDemo isLoggedIn={isLoggedIn} isAdmin={isAdmin} handleLogout={handleLogout} />
           <div className="hidden md:flex items-center space-x-4">
             <NavigationAuthItems 
               isLoggedIn={isLoggedIn} 

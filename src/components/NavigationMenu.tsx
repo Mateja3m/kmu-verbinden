@@ -10,7 +10,13 @@ import {
 import { cn } from "@/lib/utils";
 import { NavigationAuthItems } from "./NavigationAuthItems";
 
-export function NavigationMenuDemo() {
+interface NavigationMenuDemoProps {
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+  handleLogout: () => void;
+}
+
+export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: NavigationMenuDemoProps) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -139,7 +145,11 @@ export function NavigationMenuDemo() {
           </Link>
         </NavigationMenuItem>
 
-        <NavigationAuthItems />
+        <NavigationAuthItems 
+          isLoggedIn={isLoggedIn}
+          isAdmin={isAdmin}
+          handleLogout={handleLogout}
+        />
       </NavigationMenuList>
     </NavigationMenu>
   );
