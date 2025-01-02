@@ -16,10 +16,10 @@ export const NavigationAuthItems = ({
   if (!isLoggedIn) {
     return (
       <Link
-        to="/auth"
+        to="/admin-auth"
         className="text-swiss-darkblue hover:text-swiss-red px-3 py-2 text-sm font-medium transition-colors duration-300"
       >
-        Anmelden
+        Admin Anmelden
       </Link>
     );
   }

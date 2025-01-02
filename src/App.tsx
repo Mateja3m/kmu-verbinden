@@ -20,6 +20,7 @@ import AGB from "@/pages/AGB";
 import Impressum from "@/pages/Impressum";
 import Datenschutz from "@/pages/Datenschutz";
 import UnsereAuftrag from "@/pages/UnsereAuftrag";
+import AdminAuthPage from "@/pages/AdminAuth";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/partner-dashboard" element={<PartnerDashboard />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin-auth" element={<AdminAuthPage />} />
         <Route path="/presidency" element={<Presidency />} />
         <Route path="/rechtsdienst" element={<Rechtsdienst />} />
         <Route path="/aktuelle-projekte" element={<AktuelleProjekte />} />
