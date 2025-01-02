@@ -12,56 +12,29 @@ export default function Experts() {
     queryFn: async () => {
       console.log('Starting experts fetch...');
       try {
-        console.log('Executing Supabase query...');
         const { data, error } = await supabase
           .from('experts')
           .select(`
             *,
-            profile:profiles(company_name, contact_person),
-            reviews:expert_reviews(rating)
+            profile:profiles(company_name, contact_person)
           `)
           .eq('status', 'approved');
         
         if (error) {
           console.error('Supabase error:', error);
-          console.error('Error details:', {
-            message: error.message,
-            details: error.details,
-            hint: error.hint
-          });
           throw error;
         }
         
-        console.log('Raw experts data:', data);
-        if (!data || data.length === 0) {
-          console.log('No experts found or data is empty');
-          console.log('Query parameters:', {
-            table: 'experts',
-            status: 'approved',
-            joins: ['profiles', 'expert_reviews']
-          });
-        } else {
-          console.log(`Found ${data.length} experts`);
-          data.forEach((expert, index) => {
-            console.log(`Expert ${index + 1}:`, {
-              id: expert.id,
-              company: expert.profile?.company_name,
-              status: expert.status,
-              reviews: expert.reviews?.length
-            });
-          });
-        }
+        console.log('Experts data:', data);
         return data;
       } catch (err) {
         console.error('Error in queryFn:', err);
-        console.error('Error stack:', err instanceof Error ? err.stack : 'No stack trace available');
         throw err;
       }
-    },
-    retry: 1
+    }
   });
 
-  console.log('Component render state:', { isLoading, error, expertsCount: experts?.length });
+  console.log('Render state:', { isLoading, error, expertsCount: experts?.length });
 
   const calculateAverageRating = (reviews: any[]) => {
     if (!reviews || reviews.length === 0) return 0;
@@ -96,56 +69,53 @@ export default function Experts() {
             </div>
           ) : experts && experts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {experts.map((expert) => {
-                console.log('Rendering expert:', expert);
-                return (
-                  <Link key={expert.id} to={`/experts/${expert.id}`}>
-                    <Card className="h-full hover:shadow-lg transition-shadow">
-                      <CardHeader>
-                        <div className="aspect-video relative overflow-hidden rounded-lg mb-4">
-                          <img
-                            src={expert.image_url || "/placeholder.svg"}
-                            alt={expert.profile?.company_name || "Expert"}
-                            className="object-cover w-full h-full"
-                          />
-                        </div>
-                        <CardTitle className="text-xl mb-2">
-                          {expert.profile?.company_name || "Unbenanntes Unternehmen"}
-                        </CardTitle>
-                        <div className="flex items-center gap-1 text-yellow-500 mb-2">
-                          <Star className="h-5 w-5 fill-current" />
-                          <span className="font-medium">
-                            {calculateAverageRating(expert.reviews)}
-                          </span>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-gray-600 mb-4">{expert.expertise_area}</p>
-                        <div className="space-y-2 text-sm text-gray-500">
-                          {expert.city && (
-                            <div className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4" />
-                              <span>{expert.city}</span>
-                            </div>
-                          )}
-                          {expert.phone && (
-                            <div className="flex items-center gap-2">
-                              <Phone className="h-4 w-4" />
-                              <span>{expert.phone}</span>
-                            </div>
-                          )}
-                          {expert.email && (
-                            <div className="flex items-center gap-2">
-                              <Mail className="h-4 w-4" />
-                              <span>{expert.email}</span>
-                            </div>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                );
-              })}
+              {experts.map((expert) => (
+                <Link key={expert.id} to={`/experts/${expert.id}`}>
+                  <Card className="h-full hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <div className="aspect-video relative overflow-hidden rounded-lg mb-4">
+                        <img
+                          src={expert.image_url || "/placeholder.svg"}
+                          alt={expert.profile?.company_name || "Expert"}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                      <CardTitle className="text-xl mb-2">
+                        {expert.profile?.company_name || "Unbenanntes Unternehmen"}
+                      </CardTitle>
+                      <div className="flex items-center gap-1 text-yellow-500 mb-2">
+                        <Star className="h-5 w-5 fill-current" />
+                        <span className="font-medium">
+                          {calculateAverageRating(expert.reviews)}
+                        </span>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 mb-4">{expert.expertise_area}</p>
+                      <div className="space-y-2 text-sm text-gray-500">
+                        {expert.city && (
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4" />
+                            <span>{expert.city}</span>
+                          </div>
+                        )}
+                        {expert.phone && (
+                          <div className="flex items-center gap-2">
+                            <Phone className="h-4 w-4" />
+                            <span>{expert.phone}</span>
+                          </div>
+                        )}
+                        {expert.email && (
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-4 w-4" />
+                            <span>{expert.email}</span>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
             </div>
           ) : (
             <div className="text-center text-gray-500 py-12">
