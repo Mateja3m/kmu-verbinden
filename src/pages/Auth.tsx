@@ -115,14 +115,6 @@ const AuthPage = () => {
               theme="light"
               providers={[]}
               redirectTo={window.location.origin + '/auth'}
-              onError={(error) => {
-                console.error("[Auth] Auth error:", error);
-                toast({
-                  title: "Anmeldefehler",
-                  description: "Ungültige Anmeldedaten. Bitte überprüfen Sie Ihre E-Mail und Ihr Passwort.",
-                  variant: "destructive",
-                });
-              }}
               localization={{
                 variables: {
                   sign_up: {
@@ -132,6 +124,7 @@ const AuthPage = () => {
                     loading_button_label: "Registrierung...",
                     social_provider_text: "Anmelden mit {{provider}}",
                     link_text: "Noch kein Konto? Registrieren",
+                    confirmation_text: "Überprüfen Sie Ihre E-Mail für den Bestätigungslink",
                   },
                   sign_in: {
                     email_label: "E-Mail Adresse",
@@ -140,6 +133,16 @@ const AuthPage = () => {
                     loading_button_label: "Anmeldung...",
                     social_provider_text: "Anmelden mit {{provider}}",
                     link_text: "Bereits ein Konto? Anmelden",
+                  },
+                  magic_link: {
+                    button_label: "Mit Magic Link anmelden",
+                    loading_button_label: "Magic Link wird gesendet...",
+                    confirmation_text: "Überprüfen Sie Ihre E-Mail für den Magic Link",
+                  },
+                  forgotten_password: {
+                    button_label: "Passwort zurücksetzen",
+                    loading_button_label: "Sende Anweisungen...",
+                    confirmation_text: "Überprüfen Sie Ihre E-Mail für den Reset-Link",
                   },
                 },
               }}
