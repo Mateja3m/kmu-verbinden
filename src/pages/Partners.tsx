@@ -13,7 +13,7 @@ const Partners = () => {
     <div className="flex flex-col min-h-screen">
       <Navigation />
       <main className="flex-grow pt-20">
-        <header className="w-full bg-luxury-gradient text-white">
+        <header className="w-full bg-gradient-to-r from-swiss-lightblue to-swiss-gray text-swiss-darkblue">
           <div className="container mx-auto px-4 py-16">
             <h1 className="text-4xl font-bold mb-4">Unsere Partner</h1>
             <p className="text-xl max-w-3xl">
@@ -22,7 +22,7 @@ const Partners = () => {
           </div>
         </header>
 
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 py-8 bg-white">
           <PartnerSection
             title="Nationale Partner"
             description="Größere Unternehmen mit landesweiter Präsenz, die Dienstleistungen in der ganzen Schweiz anbieten"

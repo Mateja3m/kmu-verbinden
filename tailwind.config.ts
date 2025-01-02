@@ -25,20 +25,23 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1E3A8A",
-          light: "#2563EB",
-          dark: "#1E3A8A",
+          DEFAULT: "#2563EB",
+          light: "#60A5FA",
+          dark: "#1E40AF",
         },
         swiss: {
-          red: "#DC2626",
-          darkblue: "#1a1f3c",
+          red: "#EF4444",
+          darkblue: "#1E3A8A",
+          lightblue: "#93C5FD",
+          gray: "#F1F5F9",
         },
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
       },
       backgroundImage: {
-        'luxury-gradient': 'linear-gradient(135deg, #1a1f3c 0%, #DC2626 100%)',
+        'luxury-gradient': 'linear-gradient(135deg, #F0F9FF 0%, #EF4444 100%)',
+        'card-gradient': 'linear-gradient(to bottom right, #F0F9FF, #FEE2E2)',
       },
       keyframes: {
         "accordion-down": {

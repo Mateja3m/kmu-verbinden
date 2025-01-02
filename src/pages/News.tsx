@@ -45,10 +45,10 @@ export default function News() {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <main className="flex-grow container mx-auto px-4 py-24">
+      <main className="flex-grow container mx-auto px-4 py-24 bg-swiss-gray">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-swiss-red to-swiss-darkblue">
+            <h1 className="text-5xl font-bold mb-4 text-swiss-darkblue">
               KMU News
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -58,7 +58,7 @@ export default function News() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {placeholderPosts.map((post) => (
-              <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white">
                 <div className="h-48 overflow-hidden">
                   <img
                     src={post.imageUrl}
@@ -91,9 +91,9 @@ export default function News() {
           </div>
 
           <div className="flex justify-center gap-2 mt-16">
-            <Button variant="outline">1</Button>
+            <Button variant="outline" className="bg-white">1</Button>
             <Button className="bg-swiss-red hover:bg-swiss-red/90">2</Button>
-            <Button variant="outline">3</Button>
+            <Button variant="outline" className="bg-white">3</Button>
           </div>
         </div>
       </main>
