@@ -28,7 +28,6 @@ const Navigation = () => {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        // Get the initial session
         const { data: { session } } = await supabase.auth.getSession();
         console.log("[Navigation] Initial session check:", session);
         
@@ -57,7 +56,6 @@ const Navigation = () => {
 
     initializeAuth();
 
-    // Set up the auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("[Navigation] Auth state changed:", event);
       console.log("[Navigation] Session data:", session);
@@ -113,8 +111,20 @@ const Navigation = () => {
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white/90 backdrop-blur-sm'
-    }`}>
+      isScrolled ? 'bg-white shadow-lg' : 'bg-white'
+    }`}
+    style={{
+      backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
+        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 20L20 0M20 20L40 0M0 0L-20 20M20 40L0 20" 
+                stroke="#93C5FD" 
+                stroke-width="0.1" 
+                stroke-opacity="0.1" 
+                fill="none"/>
+        </svg>
+      `)}')`,
+      backgroundSize: '20px 20px'
+    }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <NavigationLogo />
