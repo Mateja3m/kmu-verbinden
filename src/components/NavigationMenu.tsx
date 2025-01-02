@@ -23,8 +23,8 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
         <div className="flex items-center space-x-4">
           <NavigationMenuItem>
             <NavigationMenuTrigger>Über uns</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 w-[400px]">
+            <NavigationMenuContent className="bg-white">
+              <ul className="grid gap-3 p-6 w-[400px] bg-white">
                 <li>
                   <NavigationMenuLink asChild>
                     <Link
@@ -66,7 +66,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
           <NavigationMenuItem>
             <NavigationMenuTrigger>Services</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 w-[400px]">
+              <ul className="grid gap-3 p-6 w-[400px] bg-white">
                 <li>
                   <NavigationMenuLink asChild>
                     <Link
@@ -148,7 +148,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
             rel="noopener noreferrer" 
             className="text-sm font-medium inline-flex items-center hover:text-swiss-red transition-colors"
           >
-            UnternehmensJournal
+            KMU News
             <ExternalLink className="ml-1 h-3 w-3" />
           </a>
         </NavigationMenuItem>
