@@ -7,7 +7,7 @@ interface MembershipHeroProps {
 
 const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
   return (
-    <div className="relative bg-[#FFDEE2] pt-32 pb-20 text-swiss-darkblue">
+    <div className="relative bg-swiss-red pt-32 pb-20 text-white">
       <BackgroundPattern>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="relative z-10">
@@ -19,14 +19,14 @@ const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
             </p>
             <div className="flex justify-center gap-4">
               <Button 
-                className="bg-swiss-darkblue text-white hover:bg-swiss-darkblue/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="bg-white text-swiss-red hover:bg-white/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300"
                 onClick={onGetStartedClick}
               >
                 Jetzt Mitglied werden
               </Button>
               <Button
                 variant="outline"
-                className="border-swiss-darkblue text-swiss-darkblue hover:bg-swiss-darkblue/10 text-lg px-8 py-6"
+                className="border-white text-white hover:bg-white/10 text-lg px-8 py-6"
                 onClick={() => window.location.href = '/auth'}
               >
                 Anmelden
