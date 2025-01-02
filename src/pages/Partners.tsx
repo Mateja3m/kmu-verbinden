@@ -15,7 +15,7 @@ const Partners = () => {
       <div className="flex flex-col min-h-screen">
         <Navigation />
         <main className="flex-grow pt-20">
-          <header className="w-full bg-gradient-to-r from-swiss-lightblue to-swiss-gray text-swiss-darkblue">
+          <header className="w-full bg-swiss-darkblue text-white">
             <div className="container mx-auto px-4 py-16">
               <h1 className="text-4xl font-bold mb-4">Unsere Partner</h1>
               <p className="text-xl max-w-3xl">
