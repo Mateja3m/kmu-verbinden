@@ -11,7 +11,7 @@ export default function Rechtsdienst() {
       
       {/* Hero Section */}
       <BackgroundPattern>
-        <div className="bg-swiss-red text-white py-6 mt-16 relative">
+        <div className="bg-swiss-red text-white py-24 mt-16 relative">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold mb-3">Orientierung und Sicherheit dank meinJurist.ch</h1>
             <p className="text-lg max-w-3xl mb-4">
@@ -31,9 +31,9 @@ export default function Rechtsdienst() {
 
       {/* Main Content */}
       <BackgroundPattern>
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 -mt-8">
           {/* Free Consultation Banner */}
-          <div className="bg-swiss-darkblue text-white p-4 rounded-lg mb-4 relative">
+          <div className="bg-swiss-darkblue text-white p-6 rounded-lg mb-6 relative">
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-2">Kostenlose Rechtsberatung für Mitglieder</h2>
@@ -51,7 +51,7 @@ export default function Rechtsdienst() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             <ServiceCard
               icon={<Gavel className="h-8 w-8 text-swiss-red" />}
               title="Strategische Rechtsberatung"
@@ -85,7 +85,7 @@ export default function Rechtsdienst() {
           </div>
 
           {/* Covid Credit Section */}
-          <div className="bg-white relative shadow-sm p-4 rounded-lg mb-4">
+          <div className="bg-white relative shadow-sm p-6 rounded-lg mb-6">
             <h2 className="text-2xl font-bold mb-3">Drückt der Covid-Kredit?</h2>
             <p className="mb-3">
               Mitte Mai 2024 haben rund 75'000 Unternehmen ihre Covid-19-Kredite noch nicht zurückbezahlt. 
@@ -97,7 +97,7 @@ export default function Rechtsdienst() {
           </div>
 
           {/* AGB Section */}
-          <div className="bg-white relative shadow-sm p-4 rounded-lg">
+          <div className="bg-white relative shadow-sm p-6 rounded-lg">
             <h2 className="text-2xl font-bold mb-3">Überprüfung oder Neufassung Ihrer AGB</h2>
             <p className="mb-3">
               Waren Sie schon einmal in einen Streit über Allgemeine Geschäftsbedingungen (AGB) verwickelt? 
@@ -127,7 +127,7 @@ interface ServiceCardProps {
 
 function ServiceCard({ icon, title, description }: ServiceCardProps) {
   return (
-    <div className="bg-white relative shadow-sm p-4 rounded-lg hover:shadow-md transition-shadow">
+    <div className="bg-white relative shadow-sm p-6 rounded-lg hover:shadow-md transition-shadow">
       <div className="mb-3">
         {icon}
       </div>
