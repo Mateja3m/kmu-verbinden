@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Star, AlertCircle, LoaderCircle } from "lucide-react";
+import { MapPin, Phone, Mail, LoaderCircle, AlertCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -35,12 +35,6 @@ export default function Experts() {
   });
 
   console.log('Render state:', { isLoading, error, expertsCount: experts?.length });
-
-  const calculateAverageRating = (reviews: any[]) => {
-    if (!reviews || reviews.length === 0) return 0;
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / reviews.length).toFixed(1);
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -76,19 +70,13 @@ export default function Experts() {
                       <div className="aspect-video relative overflow-hidden rounded-lg mb-4">
                         <img
                           src={expert.image_url || "/placeholder.svg"}
-                          alt={expert.profile?.company_name || "Expert"}
+                          alt={expert.company_name || "Expert"}
                           className="object-cover w-full h-full"
                         />
                       </div>
                       <CardTitle className="text-xl mb-2">
-                        {expert.profile?.company_name || "Unbenanntes Unternehmen"}
+                        {expert.company_name || "Unbenanntes Unternehmen"}
                       </CardTitle>
-                      <div className="flex items-center gap-1 text-yellow-500 mb-2">
-                        <Star className="h-5 w-5 fill-current" />
-                        <span className="font-medium">
-                          {calculateAverageRating(expert.reviews)}
-                        </span>
-                      </div>
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-600 mb-4">{expert.expertise_area}</p>
