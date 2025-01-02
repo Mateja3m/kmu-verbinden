@@ -2,7 +2,7 @@ const stats = [
   { number: "2000+", label: "Mitglieder" },
   { number: "5", label: "Sprachen" },
   { number: "100%", label: "Mehr Kunden" },
-  { number: "40", label: "Jahre Verbands-Erfahrung" },
+  { number: "4", label: "Sekretariate" },
 ];
 
 const Stats = () => {
