@@ -6,6 +6,48 @@ import { MapPin, Phone, Mail, Star } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
+const placeholderExperts = [
+  {
+    id: '1',
+    profile: {
+      company_name: 'Digital Solutions AG',
+      contact_person: 'Dr. Maria Weber'
+    },
+    expertise_area: 'Digitale Transformation & IT-Beratung',
+    image_url: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7',
+    city: 'Zürich',
+    phone: '044 123 45 67',
+    email: 'kontakt@digitalsolutions.ch',
+    reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }]
+  },
+  {
+    id: '2',
+    profile: {
+      company_name: 'Finance Experts GmbH',
+      contact_person: 'Thomas Müller'
+    },
+    expertise_area: 'Finanzberatung & Controlling',
+    image_url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c',
+    city: 'Basel',
+    phone: '061 234 56 78',
+    email: 'info@financeexperts.ch',
+    reviews: [{ rating: 4 }, { rating: 5 }]
+  },
+  {
+    id: '3',
+    profile: {
+      company_name: 'Innovation Lab AG',
+      contact_person: 'Sarah Schmidt'
+    },
+    expertise_area: 'Innovationsmanagement & Strategie',
+    image_url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d',
+    city: 'Bern',
+    phone: '031 345 67 89',
+    email: 'contact@innovationlab.ch',
+    reviews: [{ rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 5 }]
+  }
+];
+
 export default function Experts() {
   const { data: experts, isLoading, error } = useQuery({
     queryKey: ['experts'],
@@ -24,8 +66,8 @@ export default function Experts() {
         throw error;
       }
       
-      console.log('Fetched experts:', data);
-      return data;
+      // If no real data, use placeholder data
+      return data?.length ? data : placeholderExperts;
     }
   });
 

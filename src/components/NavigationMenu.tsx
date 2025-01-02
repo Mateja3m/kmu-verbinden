@@ -7,8 +7,8 @@ const menuItems = [
   { name: 'MITGLIEDSCHAFT', href: '/membership' },
   { name: 'PARTNER', href: '/partners' },
   { name: 'EXPERTENRAT', href: '/experts' },
-  { name: 'KONTAKT', href: '#' },
-  { name: 'KMU-NEWS', href: '#' },
+  { name: 'KONTAKT', href: '/#contact' },
+  { name: 'KMU-NEWS', href: '/news' },
 ];
 
 interface NavigationMenuProps {
