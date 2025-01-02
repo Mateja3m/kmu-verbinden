@@ -4,213 +4,334 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
-      experts: {
-        Row: {
-          created_at: string
-          description: string
-          expertise_area: string
-          id: string
-          image_url: string | null
-          profile_id: string
-        }
-        Insert: {
-          created_at?: string
-          description: string
-          expertise_area: string
-          id?: string
-          image_url?: string | null
-          profile_id: string
-        }
-        Update: {
-          created_at?: string
-          description?: string
-          expertise_area?: string
-          id?: string
-          image_url?: string | null
-          profile_id?: string
-        }
-      }
-      invoices: {
-        Row: {
-          amount: number
-          created_at: string
-          due_date: string
-          id: string
-          paid_at: string | null
-          profile_id: string
-          status: string
-          year: number
-        }
-        Insert: {
-          amount: number
-          created_at?: string
-          due_date: string
-          id?: string
-          paid_at?: string | null
-          profile_id: string
-          status?: string
-          year: number
-        }
-        Update: {
-          amount?: number
-          created_at?: string
-          due_date?: string
-          id?: string
-          paid_at?: string | null
-          profile_id?: string
-          status?: string
-          year?: number
-        }
-      }
-      news_posts: {
-        Row: {
-          author_id: string
-          content: string
-          created_at: string
-          id: string
-          image_url: string | null
-          meta_description: string | null
-          meta_keywords: string | null
-          published_at: string | null
-          slug: string
-          title: string
-        }
-        Insert: {
-          author_id: string
-          content: string
-          created_at?: string
-          id?: string
-          image_url?: string | null
-          meta_description?: string | null
-          meta_keywords?: string | null
-          published_at?: string | null
-          slug: string
-          title: string
-        }
-        Update: {
-          author_id?: string
-          content?: string
-          created_at?: string
-          id?: string
-          image_url?: string | null
-          meta_description?: string | null
-          meta_keywords?: string | null
-          published_at?: string | null
-          slug?: string
-          title?: string
-        }
-      }
-      partners: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          logo: string | null
-          name: string
-          profile_id: string | null
-          website: string | null
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          logo?: string | null
-          name: string
-          profile_id?: string | null
-          website?: string | null
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          logo?: string | null
-          name?: string
-          profile_id?: string | null
-          website?: string | null
-        }
-      }
-      profile_services: {
-        Row: {
-          claimed_at: string
-          profile_id: string
-          service_id: string
-        }
-        Insert: {
-          claimed_at?: string
-          profile_id: string
-          service_id: string
-        }
-        Update: {
-          claimed_at?: string
-          profile_id?: string
-          service_id?: string
-        }
-      }
       profiles: {
         Row: {
-          address: string | null
-          city: string | null
-          company_name: string | null
-          contact_person: string | null
-          created_at: string
-          id: string
-          is_admin: boolean | null
-          member_type: string | null
-          phone: string | null
-          postal_code: string | null
-        }
+          id: string;
+          company_name: string | null;
+          contact_person: string | null;
+          address: string | null;
+          postal_code: string | null;
+          city: string | null;
+          phone: string | null;
+          is_admin: boolean | null;
+          member_type: string | null;
+          membership_status: string | null;
+          terms_accepted: boolean | null;
+          website: string | null;
+          partner_type: string | null;
+          member_number: string | null;
+          created_at: string;
+        };
         Insert: {
-          address?: string | null
-          city?: string | null
-          company_name?: string | null
-          contact_person?: string | null
-          created_at?: string
-          id: string
-          is_admin?: boolean | null
-          member_type?: string | null
-          phone?: string | null
-          postal_code?: string | null
-        }
+          id: string;
+          company_name?: string | null;
+          contact_person?: string | null;
+          address?: string | null;
+          postal_code?: string | null;
+          city?: string | null;
+          phone?: string | null;
+          is_admin?: boolean | null;
+          member_type?: string | null;
+          membership_status?: string | null;
+          terms_accepted?: boolean | null;
+          website?: string | null;
+          partner_type?: string | null;
+          member_number?: string | null;
+          created_at?: string;
+        };
         Update: {
-          address?: string | null
-          city?: string | null
-          company_name?: string | null
-          contact_person?: string | null
-          created_at?: string
-          id?: string
-          is_admin?: boolean | null
-          member_type?: string | null
-          phone?: string | null
-          postal_code?: string | null
-        }
-      }
+          id?: string;
+          company_name?: string | null;
+          contact_person?: string | null;
+          address?: string | null;
+          postal_code?: string | null;
+          city?: string | null;
+          phone?: string | null;
+          is_admin?: boolean | null;
+          member_type?: string | null;
+          membership_status?: string | null;
+          terms_accepted?: boolean | null;
+          website?: string | null;
+          partner_type?: string | null;
+          member_number?: string | null;
+          created_at?: string;
+        };
+      };
       services: {
         Row: {
-          created_at: string
-          description: string | null
-          id: string
-          name: string
-        }
+          id: string;
+          name: string;
+          description: string | null;
+          created_at: string;
+        };
         Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          name: string
-        }
+          id?: string;
+          name: string;
+          description?: string | null;
+          created_at?: string;
+        };
         Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          name?: string
-        }
-      }
-    }
-  }
+          id?: string;
+          name?: string;
+          description?: string | null;
+          created_at?: string;
+        };
+      };
+      profile_services: {
+        Row: {
+          profile_id: string;
+          service_id: string;
+          claimed_at: string;
+        };
+        Insert: {
+          profile_id: string;
+          service_id: string;
+          claimed_at?: string;
+        };
+        Update: {
+          profile_id?: string;
+          service_id?: string;
+          claimed_at?: string;
+        };
+      };
+      partners: {
+        Row: {
+          id: string;
+          profile_id: string;
+          name: string;
+          logo: string | null;
+          website: string | null;
+          description: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          profile_id: string;
+          name: string;
+          logo?: string | null;
+          website?: string | null;
+          description?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          profile_id?: string;
+          name?: string;
+          logo?: string | null;
+          website?: string | null;
+          description?: string | null;
+          created_at?: string;
+        };
+      };
+      experts: {
+        Row: {
+          id: string;
+          profile_id: string;
+          expertise_area: string;
+          description: string;
+          image_url: string | null;
+          logo_url: string | null;
+          services: string[];
+          status: string;
+          company_name: string;
+          contact_person: string;
+          email: string;
+          phone: string | null;
+          website: string | null;
+          linkedin: string | null;
+          address: string | null;
+          postal_code: string | null;
+          city: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          profile_id: string;
+          expertise_area: string;
+          description: string;
+          image_url?: string | null;
+          logo_url?: string | null;
+          services?: string[];
+          status?: string;
+          company_name: string;
+          contact_person: string;
+          email: string;
+          phone?: string | null;
+          website?: string | null;
+          linkedin?: string | null;
+          address?: string | null;
+          postal_code?: string | null;
+          city?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          profile_id?: string;
+          expertise_area?: string;
+          description?: string;
+          image_url?: string | null;
+          logo_url?: string | null;
+          services?: string[];
+          status?: string;
+          company_name?: string;
+          contact_person?: string;
+          email?: string;
+          phone?: string | null;
+          website?: string | null;
+          linkedin?: string | null;
+          address?: string | null;
+          postal_code?: string | null;
+          city?: string | null;
+          created_at?: string;
+        };
+      };
+      expert_reviews: {
+        Row: {
+          id: string;
+          expert_id: string;
+          reviewer_profile_id: string;
+          rating: number;
+          comment: string | null;
+          is_anonymous: boolean;
+          is_public: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          expert_id: string;
+          reviewer_profile_id: string;
+          rating: number;
+          comment?: string | null;
+          is_anonymous?: boolean;
+          is_public?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          expert_id?: string;
+          reviewer_profile_id?: string;
+          rating?: number;
+          comment?: string | null;
+          is_anonymous?: boolean;
+          is_public?: boolean;
+          created_at?: string;
+        };
+      };
+      news_posts: {
+        Row: {
+          id: string;
+          author_id: string;
+          title: string;
+          content: string;
+          slug: string;
+          image_url: string | null;
+          meta_description: string | null;
+          meta_keywords: string | null;
+          published_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          author_id: string;
+          title: string;
+          content: string;
+          slug: string;
+          image_url?: string | null;
+          meta_description?: string | null;
+          meta_keywords?: string | null;
+          published_at?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          author_id?: string;
+          title?: string;
+          content?: string;
+          slug?: string;
+          image_url?: string | null;
+          meta_description?: string | null;
+          meta_keywords?: string | null;
+          published_at?: string | null;
+          created_at?: string;
+        };
+      };
+      leads: {
+        Row: {
+          id: string;
+          member_id: string;
+          partner_id: string;
+          service_name: string;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          member_id: string;
+          partner_id: string;
+          service_name: string;
+          status?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          member_id?: string;
+          partner_id?: string;
+          service_name?: string;
+          status?: string;
+          created_at?: string;
+        };
+      };
+      invoices: {
+        Row: {
+          id: string;
+          profile_id: string;
+          amount: number;
+          year: number;
+          due_date: string;
+          status: string;
+          paid_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          profile_id: string;
+          amount: number;
+          year: number;
+          due_date: string;
+          status?: string;
+          paid_at?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          profile_id?: string;
+          amount?: number;
+          year?: number;
+          due_date?: string;
+          status?: string;
+          paid_at?: string | null;
+          created_at?: string;
+        };
+      };
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
 }
 
 export type Tables<
@@ -219,20 +340,20 @@ export type Tables<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
   : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
   ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
-  : never
+  : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -240,20 +361,20 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
   ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
-  : never
+  : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -261,17 +382,17 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
   ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
-  : never
+  : never;
