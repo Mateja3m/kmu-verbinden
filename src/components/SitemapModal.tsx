@@ -24,6 +24,7 @@ export function SitemapModal() {
     { name: "Mitgliedschaft", path: "/membership" },
     { name: "Partner", path: "/partners" },
     { name: "Expertenrat", path: "/experts" },
+    { name: "Experte werden", path: "/expert-submission" },
     { name: "Kontakt", path: "/kontakt" },
     { name: "KMU-News", path: "/news" },
     { name: "Redaktion", path: "/redaktion" },
