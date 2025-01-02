@@ -51,7 +51,7 @@ const AuthPage = () => {
         }
 
         // If user is admin, redirect to admin dashboard
-        if (profile && profile.is_admin) {
+        if (profile?.is_admin === true) {
           console.log("[Auth] User is admin, redirecting to admin dashboard");
           navigate('/admin');
           return;
