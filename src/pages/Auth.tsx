@@ -39,7 +39,7 @@ const AuthPage = () => {
         
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('is_admin, company_name, terms_accepted, membership_status')
+          .select('is_admin')
           .eq('id', session.user.id)
           .single();
 
@@ -50,29 +50,18 @@ const AuthPage = () => {
           throw error;
         }
 
-        // If user is admin, redirect to admin dashboard
-        if (profile?.is_admin === true) {
+        if (profile?.is_admin) {
           console.log("[Auth] User is admin, redirecting to admin dashboard");
           navigate('/admin');
-          return;
-        }
-
-        // If profile exists and has required fields, redirect to dashboard
-        if (profile && profile.company_name && profile.terms_accepted) {
-          console.log("[Auth] User profile complete, redirecting to dashboard");
+        } else {
+          console.log("[Auth] User is not admin, redirecting to dashboard");
           navigate('/dashboard');
-          return;
         }
-
-        // If profile is incomplete, redirect to registration
-        console.log("[Auth] Profile incomplete, redirecting to registration");
-        navigate('/membership/register');
-
       } catch (error) {
-        console.error("[Auth] Error in profile check:", error);
+        console.error("[Auth] Error in auth change handler:", error);
         toast({
-          title: "Fehler",
-          description: "Es gab einen Fehler beim Überprüfen Ihres Profils.",
+          title: "Error",
+          description: "There was a problem checking your profile. Please try again.",
           variant: "destructive",
         });
       }
@@ -126,6 +115,14 @@ const AuthPage = () => {
               theme="light"
               providers={[]}
               redirectTo={window.location.origin + '/auth'}
+              onError={(error) => {
+                console.error("[Auth] Auth error:", error);
+                toast({
+                  title: "Anmeldefehler",
+                  description: "Ungültige Anmeldedaten. Bitte überprüfen Sie Ihre E-Mail und Ihr Passwort.",
+                  variant: "destructive",
+                });
+              }}
               localization={{
                 variables: {
                   sign_up: {
