@@ -12,7 +12,14 @@ export default function Experts() {
       console.log('Fetching experts...');
       const { data, error } = await supabase
         .from('experts')
-        .select('company_name, expertise_area, city, description')
+        .select(`
+          id,
+          company_name,
+          expertise_area,
+          description,
+          city,
+          image_url
+        `)
         .eq('status', 'approved');
       
       if (error) {
@@ -40,17 +47,28 @@ export default function Experts() {
             </div>
           ) : experts && experts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {experts.map((expert, index) => (
-                <Card key={index} className="h-full">
+              {experts.map((expert) => (
+                <Card key={expert.id} className="h-full hover:shadow-lg transition-shadow duration-300">
                   <CardContent className="pt-6">
-                    <h2 className="text-xl font-semibold mb-2">
+                    <h2 className="text-xl font-semibold mb-2 text-swiss-darkblue">
                       {expert.company_name || "Unbenanntes Unternehmen"}
                     </h2>
-                    <p className="text-gray-600 mb-2">{expert.expertise_area}</p>
+                    <p className="text-gray-600 mb-2 font-medium">
+                      {expert.expertise_area}
+                    </p>
                     {expert.city && (
-                      <p className="text-gray-500">{expert.city}</p>
+                      <p className="text-gray-500 mb-4">{expert.city}</p>
                     )}
-                    <p className="text-gray-600 mt-4 line-clamp-3">
+                    {expert.image_url && (
+                      <div className="mb-4 aspect-video relative overflow-hidden rounded-lg">
+                        <img
+                          src={expert.image_url}
+                          alt={expert.company_name || "Expert"}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                    )}
+                    <p className="text-gray-600 line-clamp-3">
                       {expert.description}
                     </p>
                   </CardContent>
