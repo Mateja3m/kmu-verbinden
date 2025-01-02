@@ -111,10 +111,10 @@ export default function ExpertDetail() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <main className="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 space-y-8">
               <ExpertHeader
                 companyName={expert.company_name}
                 averageRating={expert.reviews?.length ? expert.reviews.reduce((acc, rev) => acc + rev.rating, 0) / expert.reviews.length : 0}
@@ -134,7 +134,7 @@ export default function ExpertDetail() {
               />
             </div>
 
-            <div className="space-y-6">
+            <div className="lg:sticky lg:top-24 space-y-6 self-start">
               <ExpertContact
                 contactPerson={expert.contact_person}
                 address={expert.address}
