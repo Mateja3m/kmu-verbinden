@@ -127,6 +127,12 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
         </NavigationMenuItem>
 
         <NavigationMenuItem>
+          <Link to="/membership" className="text-sm font-medium">
+            Mitglieder
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
           <Link to="/partners" className="text-sm font-medium">
             Partner
           </Link>
@@ -134,7 +140,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
 
         <NavigationMenuItem>
           <Link to="/news" className="text-sm font-medium">
-            News
+            KMU News
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
