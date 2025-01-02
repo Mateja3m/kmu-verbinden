@@ -30,8 +30,9 @@ export const PartnerCard = ({ partner }: PartnerCardProps) => {
   return (
     <>
       <Card 
-        className="h-full cursor-pointer transition-transform hover:scale-105 bg-white border shadow-sm"
+        className="h-full cursor-pointer transition-transform hover:scale-105 bg-white border shadow-sm relative isolate overflow-hidden"
         onClick={() => setIsOpen(true)}
+        style={{ background: 'white' }}
       >
         <CardHeader className="space-y-4">
           <div className={`flex items-center justify-center h-32 p-4 ${getLogoBackgroundClass()}`}>
