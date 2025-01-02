@@ -43,12 +43,12 @@ const AuthPage = () => {
           .eq('id', session.user.id)
           .single();
 
-        console.log("[Auth] Profile query result:", { profile, error });
-
         if (error) {
           console.error("[Auth] Profile query error:", error);
           throw error;
         }
+
+        console.log("[Auth] Profile data:", profile);
 
         if (profile?.is_admin) {
           console.log("[Auth] User is admin, redirecting to admin dashboard");
@@ -57,11 +57,11 @@ const AuthPage = () => {
           console.log("[Auth] User is not admin, redirecting to dashboard");
           navigate('/dashboard');
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("[Auth] Error in auth change handler:", error);
         toast({
-          title: "Error",
-          description: "There was a problem checking your profile. Please try again.",
+          title: "Fehler",
+          description: "Es gab ein Problem beim Überprüfen Ihres Profils. Bitte versuchen Sie es erneut.",
           variant: "destructive",
         });
       }
