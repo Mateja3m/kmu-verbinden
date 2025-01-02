@@ -21,7 +21,7 @@ interface PartnerCardProps {
 export const PartnerCard = ({ partner }: PartnerCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const getBackgroundClass = () => {
+  const getLogoBackgroundClass = () => {
     if (partner.requiresRedBackground) return 'bg-swiss-red';
     if (partner.customBackground) return partner.customBackground;
     return 'bg-white';
@@ -30,11 +30,11 @@ export const PartnerCard = ({ partner }: PartnerCardProps) => {
   return (
     <>
       <Card 
-        className="h-full cursor-pointer transition-transform hover:scale-105 bg-white"
+        className="h-full cursor-pointer transition-transform hover:scale-105 bg-white border shadow-sm"
         onClick={() => setIsOpen(true)}
       >
         <CardHeader className="space-y-4">
-          <div className={`flex items-center justify-center h-32 p-4 ${getBackgroundClass()}`}>
+          <div className={`flex items-center justify-center h-32 p-4 ${getLogoBackgroundClass()}`}>
             <img
               src={partner.logo}
               alt={`${partner.name} logo`}
@@ -55,7 +55,7 @@ export const PartnerCard = ({ partner }: PartnerCardProps) => {
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold mb-4">{partner.name}</DialogTitle>
           </DialogHeader>
-          <div className={`flex items-center justify-center h-40 p-4 mb-4 rounded-lg ${getBackgroundClass()}`}>
+          <div className={`flex items-center justify-center h-40 p-4 mb-4 rounded-lg ${getLogoBackgroundClass()}`}>
             <img
               src={partner.logo}
               alt={`${partner.name} logo`}
