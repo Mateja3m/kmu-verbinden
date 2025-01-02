@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { SitemapModal } from "./SitemapModal";
 
 const offices = [
   {
@@ -186,6 +187,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
               <Link to="/impressum" className="hover:text-swiss-red transition-colors">Impressum</Link>
               <span className="text-gray-500">|</span>
               <Link to="/datenschutz" className="hover:text-swiss-red transition-colors">Datenschutz</Link>
+              <span className="text-gray-500">|</span>
+              <SitemapModal />
             </div>
           </div>
         </div>

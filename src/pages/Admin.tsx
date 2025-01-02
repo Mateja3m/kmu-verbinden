@@ -9,7 +9,9 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen } from "lucide-react";
+import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen, FileText } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function Admin() {
   const { data: profile } = useQuery({
@@ -33,13 +35,21 @@ export default function Admin() {
       <Navigation />
       <main className="flex-grow container mx-auto px-4 py-24">
         <div className="max-w-7xl mx-auto">
-          <div className="space-y-4 mb-8">
-            <h1 className="text-3xl font-light text-swiss-darkblue">
-              Willkommen Fabian
-            </h1>
-            <p className="text-gray-600">
-              Hier finden Sie eine Übersicht aller wichtigen Kennzahlen und Verwaltungsfunktionen.
-            </p>
+          <div className="flex justify-between items-center mb-8">
+            <div className="space-y-4">
+              <h1 className="text-3xl font-light text-swiss-darkblue">
+                Willkommen Fabian
+              </h1>
+              <p className="text-gray-600">
+                Hier finden Sie eine Übersicht aller wichtigen Kennzahlen und Verwaltungsfunktionen.
+              </p>
+            </div>
+            <Link to="/expert-submission">
+              <Button className="bg-swiss-red hover:bg-swiss-red/90">
+                <FileText className="mr-2 h-4 w-4" />
+                Experte Hinzufügen
+              </Button>
+            </Link>
           </div>
           
           <DashboardStats />
