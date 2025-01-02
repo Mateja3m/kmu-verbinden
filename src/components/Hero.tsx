@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
-    <div className="relative bg-gradient-to-br from-[#F0F9FF] via-[#93C5FD] to-swiss-red/40 min-h-[80vh] flex items-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-[#93C5FD]/70 to-swiss-red/30"></div>
+    <div className="relative bg-gradient-to-br from-white via-[#EBF8FF] to-[#BFDBFE] min-h-[80vh] flex items-center">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAwIDBoMTAwdjEwMEgxMDBWMFptMCAxMDBoMTAwdjEwMEgxMDBWMTAwWk0wIDBoMTAwdjEwMEgwVjBabTAgMTAwaDEwMHYxMDBIMFYxMDBaIiBmaWxsPSIjOTNDNUZEIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz48L3N2Zz4=')] opacity-50"></div>
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           <div className="lg:w-1/2 space-y-6">
