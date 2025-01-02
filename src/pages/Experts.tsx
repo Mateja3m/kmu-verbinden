@@ -11,26 +11,18 @@ export default function Experts() {
     queryKey: ['experts'],
     queryFn: async () => {
       console.log('Starting experts fetch...');
-      try {
-        const { data, error } = await supabase
-          .from('experts')
-          .select(`
-            *,
-            profile:profiles(company_name, contact_person)
-          `)
-          .eq('status', 'approved');
-        
-        if (error) {
-          console.error('Supabase error:', error);
-          throw error;
-        }
-        
-        console.log('Experts data:', data);
-        return data;
-      } catch (err) {
-        console.error('Error in queryFn:', err);
-        throw err;
+      const { data, error } = await supabase
+        .from('experts')
+        .select('*')
+        .eq('status', 'approved');
+      
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
       }
+      
+      console.log('Experts data:', data);
+      return data;
     }
   });
 
