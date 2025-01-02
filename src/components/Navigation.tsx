@@ -26,76 +26,88 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      console.log("[Navigation] Current session:", session);
-      
-      if (session?.user) {
-        const { data: profile, error } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', session.user.id)
-          .single();
+    const initializeAuth = async () => {
+      try {
+        // Get the initial session
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("[Navigation] Initial session check:", session);
         
-        console.log("[Navigation] Profile data:", profile);
-        console.log("[Navigation] Is admin?", profile?.is_admin);
-        
-        if (error) {
-          console.error("[Navigation] Error fetching profile:", error);
+        if (session?.user) {
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .single();
+          
+          if (error) {
+            console.error("[Navigation] Error fetching profile:", error);
+            return;
+          }
+          
+          setIsAdmin(!!profile?.is_admin);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          setIsAdmin(false);
         }
-        
-        setIsAdmin(!!profile?.is_admin);
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
+      } catch (error) {
+        console.error("[Navigation] Error during auth initialization:", error);
       }
     };
 
-    checkAuth();
+    initializeAuth();
 
+    // Set up the auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("[Navigation] Auth state changed:", event);
       console.log("[Navigation] Session data:", session);
       
-      if (session?.user) {
-        const { data: profile, error } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', session.user.id)
-          .single();
-        
-        if (error) {
-          console.error("[Navigation] Error fetching profile:", error);
+      if (event === 'SIGNED_IN' && session?.user) {
+        try {
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .single();
+          
+          if (error) {
+            console.error("[Navigation] Error fetching profile:", error);
+            return;
+          }
+          
+          setIsAdmin(!!profile?.is_admin);
+          setIsLoggedIn(true);
+        } catch (error) {
+          console.error("[Navigation] Error handling auth change:", error);
         }
-        
-        console.log("[Navigation] Profile after auth change:", profile);
-        setIsAdmin(!!profile?.is_admin);
-        setIsLoggedIn(true);
-      } else {
+      } else if (event === 'SIGNED_OUT') {
         setIsLoggedIn(false);
         setIsAdmin(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      toast({
+        title: "Erfolgreich abgemeldet",
+        description: "Auf Wiedersehen!",
+      });
+      navigate('/');
+    } catch (error: any) {
       console.error("[Navigation] Logout error:", error);
       toast({
         title: "Fehler beim Abmelden",
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Erfolgreich abgemeldet",
-        description: "Auf Wiedersehen!",
-      });
-      navigate('/');
     }
   };
 
