@@ -6,75 +6,27 @@ import { MapPin, Phone, Mail, Star } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const placeholderExperts = [
-  {
-    id: '1',
-    profile: {
-      company_name: 'Digital Solutions AG',
-      contact_person: 'Dr. Maria Weber'
-    },
-    expertise_area: 'Digitale Transformation & IT-Beratung',
-    image_url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158',
-    city: 'Zürich',
-    phone: '044 123 45 67',
-    email: 'kontakt@digitalsolutions.ch',
-    reviews: [{ rating: 5 }, { rating: 4 }, { rating: 5 }]
-  },
-  {
-    id: '2',
-    profile: {
-      company_name: 'Finance Experts GmbH',
-      contact_person: 'Thomas Müller'
-    },
-    expertise_area: 'Finanzberatung & Controlling',
-    image_url: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952',
-    city: 'Basel',
-    phone: '061 234 56 78',
-    email: 'info@financeexperts.ch',
-    reviews: [{ rating: 4 }, { rating: 5 }]
-  },
-  {
-    id: '3',
-    profile: {
-      company_name: 'Innovation Lab AG',
-      contact_person: 'Sarah Schmidt'
-    },
-    expertise_area: 'Innovationsmanagement & Strategie',
-    image_url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e',
-    city: 'Bern',
-    phone: '031 345 67 89',
-    email: 'contact@innovationlab.ch',
-    reviews: [{ rating: 5 }, { rating: 5 }, { rating: 4 }, { rating: 5 }]
-  }
-];
-
 export default function Experts() {
   const { data: experts, isLoading, error } = useQuery({
     queryKey: ['experts'],
     queryFn: async () => {
       console.log('Fetching experts...');
-      try {
-        const { data, error } = await supabase
-          .from('experts')
-          .select(`
-            *,
-            profile:profiles(company_name, contact_person),
-            reviews:expert_reviews(rating)
-          `);
-        
-        if (error) {
-          console.error('Error fetching experts:', error);
-          throw error;
-        }
-        
-        console.log('Supabase response:', data);
-        
-        // Always return placeholder data for now to debug
-        return placeholderExperts;
-      } catch (err) {
-        console.error('Error in queryFn:', err);
-        return placeholderExperts;
+      const { data, error } = await supabase
+        .from('experts')
+        .select(`
+          *,
+          profile:profiles(company_name, contact_person),
+          reviews:expert_reviews(rating)
+        `)
+        .eq('status', 'approved');
+      
+      if (error) {
+        console.error('Error fetching experts:', error);
+        throw error;
       }
+      
+      console.log('Supabase response:', data);
+      return data;
     }
   });
 
@@ -126,12 +78,12 @@ export default function Experts() {
                       <div className="aspect-video relative overflow-hidden rounded-lg mb-4">
                         <img
                           src={expert.image_url || "/placeholder.svg"}
-                          alt={expert.profile?.company_name}
+                          alt={expert.company_name}
                           className="object-cover w-full h-full"
                         />
                       </div>
                       <CardTitle className="text-xl mb-2">
-                        {expert.profile?.company_name || "Unbenanntes Unternehmen"}
+                        {expert.company_name || "Unbenanntes Unternehmen"}
                       </CardTitle>
                       <div className="flex items-center gap-1 text-yellow-500 mb-2">
                         <Star className="h-5 w-5 fill-current" />
