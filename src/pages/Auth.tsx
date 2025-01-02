@@ -73,7 +73,7 @@ const AuthPage = () => {
       <Navigation />
       <main className="flex-grow flex flex-col overflow-y-auto">
         <div className="flex-grow flex items-start justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-xl border border-gray-100 my-8">
+          <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-xl border border-gray-100">
             <div>
               <h2 className="mt-2 text-center text-3xl font-extrabold text-swiss-darkblue">
                 Admin Anmeldung
@@ -123,7 +123,6 @@ const AuthPage = () => {
                     password_label: "Passwort",
                     button_label: "Anmelden",
                     loading_button_label: "Anmeldung...",
-                    social_provider_text: "Anmelden mit {{provider}}",
                   },
                   forgotten_password: {
                     button_label: "Passwort zurücksetzen",
