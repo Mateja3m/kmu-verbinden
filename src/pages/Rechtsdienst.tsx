@@ -31,7 +31,7 @@ export default function Rechtsdienst() {
 
       {/* Main Content */}
       <BackgroundPattern>
-        <div className="container mx-auto px-4 -mt-16">
+        <div className="container mx-auto px-4 -mt-32">
           {/* Free Consultation Banner */}
           <div className="bg-swiss-darkblue text-white p-6 rounded-lg mb-6 relative">
             <div className="flex flex-col md:flex-row items-center justify-between">
