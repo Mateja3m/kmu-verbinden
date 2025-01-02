@@ -3,7 +3,19 @@ import { Button } from "@/components/ui/button";
 const Hero = () => {
   return (
     <div className="relative bg-gradient-to-br from-white via-white to-[#F0F9FF] min-h-[80vh] flex items-center">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjBMMjAgME0yMCAyMEw0MCAwTTAgMEwtMjAgMjBNMjAgNDBMMCAyMCIgc3Ryb2tlPSIjOTNDNUZEIiBzdHJva2Utd2lkdGg9IjAuMyIgc3Ryb2tlLW9wYWNpdHk9IjAuMyIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==')] opacity-50"></div>
+      <div className="absolute inset-0" style={{
+        backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
+          <svg width="7" height="7" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 7L7 0M7 7L14 0M0 0L-7 7M7 14L0 7" 
+                  stroke="#93C5FD" 
+                  stroke-width="0.3" 
+                  stroke-opacity="0.3" 
+                  fill="none"/>
+          </svg>
+        `)}')`,
+        backgroundSize: '7px 7px',
+        opacity: '0.5'
+      }}></div>
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           <div className="lg:w-1/2 space-y-6">
