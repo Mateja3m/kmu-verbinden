@@ -5,6 +5,7 @@ import { SitemapModal } from "./SitemapModal";
 import { OfficeLocations } from "./footer/OfficeLocations";
 import { QuickLinks } from "./footer/QuickLinks";
 import { LoginButtons } from "./footer/LoginButtons";
+import BackgroundPattern from "./BackgroundPattern";
 
 interface FooterProps {
   isLoggedIn?: boolean;
@@ -13,9 +14,9 @@ interface FooterProps {
 
 const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
   return (
-    <footer className="bg-swiss-darkblue text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <BackgroundPattern>
+      <footer className="bg-swiss-darkblue text-white relative">
+        <div className="container mx-auto px-4 py-12">
           {/* Contact Information */}
           <div className="space-y-4">
             <h3 className="text-xl font-semibold mb-6">Schweizerischer KMU Verein (SKV)</h3>
@@ -93,8 +94,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </BackgroundPattern>
   );
 };
 
