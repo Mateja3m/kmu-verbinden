@@ -66,6 +66,7 @@ export default function Experts() {
         throw error;
       }
       
+      console.log('Supabase response:', data);
       // If no real data, use placeholder data
       return data?.length ? data : placeholderExperts;
     }
