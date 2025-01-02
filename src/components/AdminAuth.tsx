@@ -88,6 +88,8 @@ const AdminAuth = () => {
         theme="light"
         providers={[]}
         redirectTo={window.location.origin + '/admin-auth'}
+        showLinks={false}
+        magicLink={false}
         localization={{
           variables: {
             sign_in: {
