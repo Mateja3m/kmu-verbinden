@@ -7,7 +7,6 @@ const menuItems = [
   { name: 'MITGLIEDSCHAFT', href: '/membership' },
   { name: 'PARTNER', href: '/partners' },
   { name: 'EXPERTENRAT', href: '/experts' },
-  { name: 'KONTAKT', href: '/kontakt' },
   { name: 'KMU-NEWS', href: '/news' },
 ];
 
