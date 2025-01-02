@@ -91,4 +91,5 @@ footer {
   margin-top: auto;
   margin-bottom: 0;
   width: 100%;
+  flex-shrink: 0;
 }

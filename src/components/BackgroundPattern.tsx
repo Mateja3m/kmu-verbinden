@@ -6,7 +6,7 @@ interface BackgroundPatternProps {
 
 const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative flex-1">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
