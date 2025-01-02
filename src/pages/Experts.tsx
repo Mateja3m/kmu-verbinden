@@ -11,26 +11,32 @@ export default function Experts() {
     queryKey: ['experts'],
     queryFn: async () => {
       console.log('Starting experts fetch...');
-      const { data, error } = await supabase
-        .from('experts')
-        .select(`
-          *,
-          profile:profiles(company_name, contact_person),
-          reviews:expert_reviews(rating)
-        `)
-        .eq('status', 'approved');
-      
-      if (error) {
-        console.error('Supabase error:', error);
-        throw error;
+      try {
+        const { data, error } = await supabase
+          .from('experts')
+          .select(`
+            *,
+            profile:profiles(company_name, contact_person),
+            reviews:expert_reviews(rating)
+          `)
+          .eq('status', 'approved');
+        
+        if (error) {
+          console.error('Supabase error:', error);
+          throw error;
+        }
+        
+        console.log('Fetched experts data:', data);
+        if (!data || data.length === 0) {
+          console.log('No experts found or data is empty');
+        }
+        return data;
+      } catch (err) {
+        console.error('Error in queryFn:', err);
+        throw err;
       }
-      
-      console.log('Fetched experts data:', data);
-      if (!data || data.length === 0) {
-        console.log('No experts found or data is empty');
-      }
-      return data;
-    }
+    },
+    retry: 1
   });
 
   const calculateAverageRating = (reviews: any[]) => {
