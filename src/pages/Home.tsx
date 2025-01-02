@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import Benefits from "@/components/Benefits";
+import InteractiveBenefits from "@/components/InteractiveBenefits";
 import Stats from "@/components/Stats";
 import Footer from "@/components/Footer";
 import BackgroundPattern from "@/components/BackgroundPattern";
@@ -11,7 +11,7 @@ const Home = () => {
       <div className="flex flex-col min-h-screen">
         <Navigation />
         <Hero />
-        <Benefits />
+        <InteractiveBenefits />
         <Stats />
         <Footer />
       </div>
