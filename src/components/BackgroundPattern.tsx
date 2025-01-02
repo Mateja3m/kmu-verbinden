@@ -15,15 +15,14 @@ const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
             <path d="M0 7L7 0M7 7L14 0M0 0L-7 7M7 14L0 7" 
                   stroke="#93C5FD" 
                   stroke-width="0.5" 
-                  stroke-opacity="0.3" 
+                  stroke-opacity="0.5" 
                   fill="none"/>
           </svg>
         `)}')`,
           backgroundSize: '7px 7px',
-          opacity: '0.5'
+          opacity: '0.7'
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none" />
       {children}
     </div>
   );

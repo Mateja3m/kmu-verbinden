@@ -1,11 +1,11 @@
-import { Mail, MapPin, Phone, Globe, Heart } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Calendar, Heart } from "lucide-react";
+import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { SitemapModal } from "./SitemapModal";
 import { OfficeLocations } from "./footer/OfficeLocations";
 import { QuickLinks } from "./footer/QuickLinks";
 import { LoginButtons } from "./footer/LoginButtons";
 import BackgroundPattern from "./BackgroundPattern";
-import { CalendlyModal } from "./CalendlyModal";
 
 interface FooterProps {
   isLoggedIn?: boolean;
@@ -64,7 +64,13 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             {/* Call to Action */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-6">Noch Fragen?</h3>
-              <CalendlyModal />
+              <Button 
+                variant="outline" 
+                className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full"
+              >
+                <Calendar className="mr-2 h-4 w-4" />
+                Termin vereinbaren
+              </Button>
             </div>
           </div>
         </div>
