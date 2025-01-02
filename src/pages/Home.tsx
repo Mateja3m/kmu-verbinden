@@ -2,19 +2,20 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Benefits from "@/components/Benefits";
 import Stats from "@/components/Stats";
-import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import BackgroundPattern from "@/components/BackgroundPattern";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-white">
-      <Navigation />
-      <Hero />
-      <Benefits />
-      <Stats />
-      <Contact />
-      <Footer />
-    </div>
+    <BackgroundPattern>
+      <div className="flex flex-col min-h-screen">
+        <Navigation />
+        <Hero />
+        <Benefits />
+        <Stats />
+        <Footer />
+      </div>
+    </BackgroundPattern>
   );
 };
 
