@@ -30,7 +30,7 @@ export const PartnerCard = ({ partner }: PartnerCardProps) => {
   return (
     <>
       <Card 
-        className="h-full cursor-pointer transition-transform hover:scale-105"
+        className="h-full cursor-pointer transition-transform hover:scale-105 bg-white"
         onClick={() => setIsOpen(true)}
       >
         <CardHeader className="space-y-4">
