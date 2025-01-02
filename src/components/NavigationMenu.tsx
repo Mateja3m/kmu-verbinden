@@ -8,7 +8,6 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { NavigationAuthItems } from "./NavigationAuthItems";
 
 interface NavigationMenuDemoProps {
   isLoggedIn: boolean;
@@ -138,18 +137,6 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
             News
           </Link>
         </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <Link to="/kontakt" className="text-sm font-medium">
-            Kontakt
-          </Link>
-        </NavigationMenuItem>
-
-        <NavigationAuthItems 
-          isLoggedIn={isLoggedIn}
-          isAdmin={isAdmin}
-          handleLogout={handleLogout}
-        />
       </NavigationMenuList>
     </NavigationMenu>
   );
