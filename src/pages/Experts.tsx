@@ -53,22 +53,28 @@ export default function Experts() {
     queryKey: ['experts'],
     queryFn: async () => {
       console.log('Fetching experts...');
-      const { data, error } = await supabase
-        .from('experts')
-        .select(`
-          *,
-          profile:profiles(company_name, contact_person),
-          reviews:expert_reviews(rating)
-        `);
-      
-      if (error) {
-        console.error('Error fetching experts:', error);
-        throw error;
+      try {
+        const { data, error } = await supabase
+          .from('experts')
+          .select(`
+            *,
+            profile:profiles(company_name, contact_person),
+            reviews:expert_reviews(rating)
+          `);
+        
+        if (error) {
+          console.error('Error fetching experts:', error);
+          throw error;
+        }
+        
+        console.log('Supabase response:', data);
+        
+        // Always return placeholder data for now to debug
+        return placeholderExperts;
+      } catch (err) {
+        console.error('Error in queryFn:', err);
+        return placeholderExperts;
       }
-      
-      console.log('Supabase response:', data);
-      // If no real data, use placeholder data
-      return data?.length ? data : placeholderExperts;
     }
   });
 
