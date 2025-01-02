@@ -24,12 +24,22 @@ export default function Experts() {
         
         if (error) {
           console.error('Supabase error:', error);
+          console.error('Error details:', {
+            message: error.message,
+            details: error.details,
+            hint: error.hint
+          });
           throw error;
         }
         
         console.log('Raw experts data:', data);
         if (!data || data.length === 0) {
           console.log('No experts found or data is empty');
+          console.log('Query parameters:', {
+            table: 'experts',
+            status: 'approved',
+            joins: ['profiles', 'expert_reviews']
+          });
         } else {
           console.log(`Found ${data.length} experts`);
           data.forEach((expert, index) => {
@@ -44,6 +54,7 @@ export default function Experts() {
         return data;
       } catch (err) {
         console.error('Error in queryFn:', err);
+        console.error('Error stack:', err instanceof Error ? err.stack : 'No stack trace available');
         throw err;
       }
     },
