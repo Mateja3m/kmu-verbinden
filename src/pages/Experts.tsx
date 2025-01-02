@@ -1,56 +1,63 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { ExpertPreview } from "@/components/experts/ExpertPreview";
-import { LoaderCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-// Fallback data in case no experts are found
-const fallbackExperts = [
+// Static expert data
+const staticExperts = [
   {
-    id: "fallback-1",
+    id: "1",
     company_name: "Digital Solutions AG",
     contact_person: "Maria Schmidt",
     expertise_area: "Digitale Transformation",
-    description: "Spezialisiert auf die digitale Transformation von KMU mit über 15 Jahren Erfahrung.",
-    services: ["Digitalisierung", "Prozessoptimierung", "Cloud Migration"],
+    description: "Spezialisiert auf die digitale Transformation von KMU mit über 15 Jahren Erfahrung. Wir bieten massgeschneiderte Lösungen für die Digitalisierung Ihres Unternehmens.",
+    services: ["Digitalisierung", "Prozessoptimierung", "Cloud Migration", "IT-Beratung"],
+    email: "contact@digitalsolutions.ch",
+    phone: "+41 44 123 45 67",
+    website: "www.digitalsolutions.ch",
+    address: "Technikstrasse 123",
+    postal_code: "8000",
+    city: "Zürich",
+    linkedin: "linkedin.com/company/digital-solutions",
     image_url: "/placeholder.svg",
     logo_url: "/placeholder.svg"
   },
   {
-    id: "fallback-2",
+    id: "2",
     company_name: "KMU Consulting GmbH",
     contact_person: "Thomas Weber",
     expertise_area: "Unternehmensberatung",
-    description: "Ganzheitliche Beratung für KMU mit Fokus auf nachhaltigem Wachstum.",
-    services: ["Strategieberatung", "Finanzplanung", "Organisationsentwicklung"],
+    description: "Ganzheitliche Beratung für KMU mit Fokus auf nachhaltigem Wachstum. Wir unterstützen Sie bei der strategischen Entwicklung Ihres Unternehmens.",
+    services: ["Strategieberatung", "Finanzplanung", "Organisationsentwicklung", "Prozessoptimierung"],
+    email: "info@kmu-consulting.ch",
+    phone: "+41 44 987 65 43",
+    website: "www.kmu-consulting.ch",
+    address: "Businessplatz 45",
+    postal_code: "8400",
+    city: "Winterthur",
+    linkedin: "linkedin.com/company/kmu-consulting",
+    image_url: "/placeholder.svg",
+    logo_url: "/placeholder.svg"
+  },
+  {
+    id: "3",
+    company_name: "Innovation Labs AG",
+    contact_person: "Sarah Müller",
+    expertise_area: "Innovationsmanagement",
+    description: "Ihr Partner für Innovation und Zukunftsfähigkeit. Wir helfen Ihnen dabei, neue Geschäftsmodelle zu entwickeln und Ihre Innovationskraft zu stärken.",
+    services: ["Innovationsworkshops", "Design Thinking", "Geschäftsmodellentwicklung", "Trendanalysen"],
+    email: "hello@innovation-labs.ch",
+    phone: "+41 44 333 22 11",
+    website: "www.innovation-labs.ch",
+    address: "Innovationsweg 78",
+    postal_code: "6300",
+    city: "Zug",
+    linkedin: "linkedin.com/company/innovation-labs",
     image_url: "/placeholder.svg",
     logo_url: "/placeholder.svg"
   }
 ];
 
 export default function Experts() {
-  console.log('Experts component rendered');
-  
-  const { data: experts, isLoading } = useQuery({
-    queryKey: ['experts'],
-    queryFn: async () => {
-      console.log('Starting experts fetch...');
-      const { data, error } = await supabase
-        .from('experts')
-        .select('*')
-        .eq('status', 'approved');
-      
-      if (error) {
-        console.error('Supabase error:', error);
-        return fallbackExperts; // Use fallback data if there's an error
-      }
-      
-      console.log('Experts fetch successful:', data);
-      return data?.length > 0 ? data : fallbackExperts; // Use fallback if no data
-    }
-  });
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -60,21 +67,11 @@ export default function Experts() {
             Expertenrat
           </h1>
 
-          {isLoading ? (
-            <div className="flex justify-center items-center py-12">
-              <LoaderCircle className="h-8 w-8 animate-spin text-swiss-red" />
-            </div>
-          ) : experts ? (
-            <div className="grid grid-cols-1 gap-8">
-              {experts.map((expert) => (
-                <ExpertPreview key={expert.id} formData={expert} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-center text-gray-500">
-              Keine Experten gefunden.
-            </p>
-          )}
+          <div className="grid grid-cols-1 gap-8">
+            {staticExperts.map((expert) => (
+              <ExpertPreview key={expert.id} formData={expert} />
+            ))}
+          </div>
         </div>
       </main>
       <Footer />
