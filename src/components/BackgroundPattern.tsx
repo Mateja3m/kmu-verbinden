@@ -8,7 +8,7 @@ const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
   return (
     <div className="relative flex-1">
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none -z-10"
         style={{
           backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
           <svg width="7" height="7" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,9 @@ const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
           opacity: '0.7'
         }}
       />
-      {children}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 };
