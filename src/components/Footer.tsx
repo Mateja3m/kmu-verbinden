@@ -36,7 +36,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                   </div>
                   <div className="flex items-center gap-3">
                     <Linkedin className="h-5 w-5 text-swiss-red" />
-                    <a href="https://www.linkedin.com/company/schweizerischer-kmu-verein" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
+                    <a href="https://www.linkedin.com/company/schweizerischer-kmu-verein-skv" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
                       LinkedIn
                     </a>
                   </div>
@@ -50,7 +50,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             </div>
 
             {/* Über uns */}
-            <div className="space-y-4">
+            <div className="space-y-4 lg:ml-8">
               <h3 className="text-xl font-semibold mb-6">Über uns</h3>
               <nav className="space-y-3">
                 <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
