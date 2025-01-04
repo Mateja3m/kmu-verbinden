@@ -1,4 +1,3 @@
-import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Benefits from "@/components/Benefits";
 import Stats from "@/components/Stats";
@@ -11,9 +10,9 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <BackgroundPattern>
-      <div className="flex flex-col min-h-screen">
-        <main>
+    <>
+      <BackgroundPattern>
+        <main className="flex-grow">
           <Hero />
           <Benefits />
           <Stats />
@@ -54,9 +53,9 @@ const Home = () => {
             </div>
           </div>
         </main>
-        <Footer />
-      </div>
-    </BackgroundPattern>
+      </BackgroundPattern>
+      <Footer />
+    </>
   );
 };
 

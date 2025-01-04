@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from './components/Navigation';
-import Footer from './components/Footer';
 import Home from './pages/Home';
 import Presidency from './pages/Presidency';
 import Membership from './pages/Membership';
@@ -63,22 +62,6 @@ const App = () => {
     };
   }, []);
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast({
-        title: "Fehler beim Abmelden",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Erfolgreich abgemeldet",
-        description: "Auf Wiedersehen!",
-      });
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navigation />
@@ -109,7 +92,6 @@ const App = () => {
           <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
         </Routes>
       </main>
-      <Footer isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
     </div>
   );
 };
