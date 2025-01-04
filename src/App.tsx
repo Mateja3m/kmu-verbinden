@@ -28,6 +28,7 @@ import Datenschutz from './pages/Datenschutz';
 import Geschaeftsstelle from './pages/Geschaeftsstelle';
 import EventKalender from './pages/EventKalender';
 import VersicherungsRechner from './pages/VersicherungsRechner';
+import Empfehlen from './pages/Empfehlen';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -94,6 +95,7 @@ const App = () => {
           <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
           <Route path="/events" element={<EventKalender />} />
           <Route path="/versicherungsrechner" element={<VersicherungsRechner />} />
+          <Route path="/empfehlen" element={<Empfehlen />} />
         </Routes>
       </main>
     </div>

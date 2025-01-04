@@ -13,6 +13,7 @@ export const QuickLinks = ({ isLoggedIn, handleLogout }: QuickLinksProps) => {
       <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
       <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
       <Link to="/aktuelle-projekte" className="block hover:text-swiss-red transition-colors">Aktuelle Projekte</Link>
+      <Link to="/empfehlen" className="block hover:text-swiss-red transition-colors">Empfehlen Sie uns weiter</Link>
       {isLoggedIn && (
         <>
           <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-swiss-red transition-colors">
