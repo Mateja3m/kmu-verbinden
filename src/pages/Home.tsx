@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import InteractiveBenefits from "@/components/InteractiveBenefits";
+import Benefits from "@/components/Benefits";
 import Stats from "@/components/Stats";
 import RandomPartnerShowcase from "@/components/RandomPartnerShowcase";
 import Footer from "@/components/Footer";
@@ -12,7 +12,7 @@ const Home = () => {
       <div className="flex flex-col min-h-screen">
         <Navigation />
         <Hero />
-        <InteractiveBenefits />
+        <Benefits />
         <Stats />
         <RandomPartnerShowcase />
         <Footer />
