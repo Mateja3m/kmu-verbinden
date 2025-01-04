@@ -7,10 +7,15 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
-export function NavigationMenuDemo() {
+interface NavigationMenuDemoProps {
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+  handleLogout: () => Promise<void>;
+}
+
+export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: NavigationMenuDemoProps) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
