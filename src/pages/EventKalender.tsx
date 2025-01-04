@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 interface Event {
   id: number;
@@ -75,7 +77,8 @@ const EventKalender = () => {
     .slice(0, 5);
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen flex flex-col">
+      <Navigation />
       {/* Header Banner */}
       <div className="bg-swiss-red py-8 px-4">
         <div className="container mx-auto">
@@ -170,6 +173,7 @@ const EventKalender = () => {
           </div>
         </BackgroundPattern>
       </div>
+      <Footer />
     </div>
   );
 };
