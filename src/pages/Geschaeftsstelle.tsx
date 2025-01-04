@@ -1,5 +1,28 @@
 import { Building, MapPin, Mail, Phone, Clock, Calendar } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
+const offices = [
+  {
+    city: "Bern",
+    phone: "031 / 528 05 51",
+    email: "bern@kmu-verein.ch"
+  },
+  {
+    city: "Luzern",
+    phone: "041 / 588 22 49",
+    email: "luzern@kmu-verein.ch"
+  },
+  {
+    city: "Genf",
+    phone: "022 / 518 05 09",
+    email: "genf@kmu-verein.ch"
+  }
+];
 
 const Geschaeftsstelle = () => {
   return (
@@ -95,13 +118,39 @@ const Geschaeftsstelle = () => {
           </p>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {["Bern", "Luzern", "Genf"].map((city) => (
-              <div key={city} className="bg-gray-100 p-6 rounded-lg">
-                <div className="flex items-center space-x-2 text-swiss-darkblue">
-                  <MapPin className="h-5 w-5 text-swiss-red" />
-                  <span className="font-semibold">{city}</span>
-                </div>
-              </div>
+            {offices.map((office) => (
+              <HoverCard key={office.city}>
+                <HoverCardTrigger>
+                  <div className="bg-gray-100 p-6 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
+                    <div className="flex items-center space-x-2 text-swiss-darkblue">
+                      <MapPin className="h-5 w-5 text-swiss-red" />
+                      <span className="font-semibold">{office.city}</span>
+                    </div>
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80 bg-white p-4">
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-4 w-4 text-swiss-red" />
+                      <a 
+                        href={`tel:${office.phone.replace(/\s/g, '')}`}
+                        className="hover:text-swiss-red transition-colors"
+                      >
+                        {office.phone}
+                      </a>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4 text-swiss-red" />
+                      <a 
+                        href={`mailto:${office.email}`}
+                        className="hover:text-swiss-red transition-colors"
+                      >
+                        {office.email}
+                      </a>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
             ))}
           </div>
         </div>
