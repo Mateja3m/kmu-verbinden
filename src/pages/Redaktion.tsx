@@ -1,7 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Users, MessageSquare, Newspaper, Mic } from "lucide-react";
+import { BookOpen, Users, MessageSquare, Newspaper, Mic, Globe, Calendar, Mail, Share2 } from "lucide-react";
 
 const Redaktion = () => {
   return (
@@ -13,10 +13,11 @@ const Redaktion = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
-              <h1 className="text-4xl font-bold">Mehr Wissen. Mehr Erreichen!</h1>
+              <h1 className="text-4xl font-bold">Unsere Redaktion: Ihre Plattform für schweizweite Medienpräsenz und Kundengewinnung</h1>
               <p className="text-lg">
-                Entdecken Sie im Unternehmensblick exklusive Berichte, tiefgehende Interviews und 
-                wertvolle Tipps für die KMU-Welt – jetzt auch als verkürzte Online-Ausgabe.
+                Die Redaktion des Schweizerischen KMU Vereins (SKV) verfolgt ein klares Ziel: KMUs eine 
+                schweizweite Medienpräsenz zu ermöglichen – sowohl in Print als auch digital. Unser Fokus liegt 
+                darauf, Ihre Sichtbarkeit zu erhöhen und Ihnen zu helfen, mehr Kunden zu gewinnen.
               </p>
               <Button 
                 variant="outline"
@@ -36,104 +37,129 @@ const Redaktion = () => {
         </div>
       </section>
 
-      {/* Magazine Overview */}
+      {/* Print Offerings Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-swiss-darkblue mb-4">
-              Rubriken im Unternehmensblick
-            </h2>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Newspaper className="h-8 w-8 text-swiss-red" />
+              <h2 className="text-3xl font-bold text-swiss-darkblue">Print-Angebote</h2>
+            </div>
             <p className="text-gray-600 max-w-3xl mx-auto">
-              Der Unternehmensblick erscheint viermal jährlich, mit einer Sonderausgabe im Dezember. 
-              Jede Ausgabe enthält feste Rubriken wie Editorial, Treuhand, Büroservice, Informatik, 
-              KI, Marketing, Strategie, Rechtsberatung, Finanzierung, Versicherungen, Leadership, 
-              Fach- und Expertenbeiträge, Interviews, Werbung und Impressum.
+              Unsere Print-Publikationen sind bewährte Plattformen, die Ihre Themen nachhaltig ins Rampenlicht rücken.
             </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Unternehmensblick</h3>
+              <p className="text-gray-600">Unsere quartalsweise erscheinende Zeitung ist die Stimme der Schweizer KMU-Landschaft.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Branchenmagazine</h3>
+              <p className="text-gray-600">Spezifische Publikationen für Technologie, Finanzen oder Marketing.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">KMU-Praxisratgeber</h3>
+              <p className="text-gray-600">Individuell erstellte Ratgeber für Ihre Expertenpositionierung.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Feature-Berichte</h3>
+              <p className="text-gray-600">Individuelle Artikel über Ihre Produkte und Innovationen.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Content Sections */}
+      {/* Online Offerings Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Interviews Section */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 text-swiss-red">
-                <Mic className="h-6 w-6" />
-                <h3 className="text-2xl font-bold text-swiss-darkblue">INTERVIEWS</h3>
-              </div>
-              <p className="text-gray-600">
-                Im Unternehmensblick bieten Interviews spannende Einblicke in die Gedankenwelt 
-                und Erfahrungen von Branchenexperten, erfolgreichen Unternehmern und Vordenkern. 
-                Diese Gespräche decken aktuelle Themen und Trends ab, bieten wertvolle Tipps und 
-                Inspirationen und beleuchten die Herausforderungen und Erfolge der Interviewpartner.
-              </p>
-              <p className="text-gray-600">
-                Die Interviews sind eine wertvolle Ressource für unsere Leser, um von den 
-                Erfahrungen und Einsichten anderer zu lernen und neue Perspektiven zu gewinnen.
-              </p>
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Globe className="h-8 w-8 text-swiss-red" />
+              <h2 className="text-3xl font-bold text-swiss-darkblue">Online-Angebote</h2>
             </div>
-            <div>
-              <img
-                src="https://static.wixstatic.com/media/0c82d3_bab25c7359704ae491f88cec40357b2c~mv2.png"
-                alt="Interview Page"
-                className="rounded-lg shadow-lg"
-              />
+            <p className="text-gray-600 max-w-3xl mx-auto">
+              Unsere digitalen Plattformen sind die ideale Ergänzung, um moderne Zielgruppen zu erreichen.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Unternehmensjournal</h3>
+              <p className="text-gray-600">Täglich aktualisiertes Online-Magazin mit Artikeln und Analysen.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Social-Media-Strategie</h3>
+              <p className="text-gray-600">Gezielte Social-Media-Beiträge für mehr Sichtbarkeit.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Eventkalender & Webinare</h3>
+              <p className="text-gray-600">Digitale Veranstaltungen und Schulungen für Mitglieder.</p>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Expert Articles Section */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-            <div className="order-2 md:order-1">
-              <img
-                src="https://static.wixstatic.com/media/0c82d3_f5739d4597ea43d39f7fbf39948b662f~mv2.png"
-                alt="Expert Article"
-                className="rounded-lg shadow-lg"
-              />
+      {/* External Communication Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Share2 className="h-8 w-8 text-swiss-red" />
+              <h2 className="text-3xl font-bold text-swiss-darkblue">Externe Kommunikation</h2>
             </div>
-            <div className="space-y-6 order-1 md:order-2">
-              <div className="flex items-center gap-3 text-swiss-red">
-                <BookOpen className="h-6 w-6" />
-                <h3 className="text-2xl font-bold text-swiss-darkblue">Experten- und Fachbeiträge</h3>
-              </div>
-              <p className="text-gray-600">
-                Im Unternehmensblick bieten Experten- und Fachbeiträge tiefgehende Analysen und 
-                fundiertes Wissen zu verschiedenen Themenbereichen. Verfasst von Fachleuten und 
-                Branchenexperten, liefern diese Artikel wertvolle Einblicke und praxisnahe 
-                Lösungen für aktuelle Herausforderungen, die KMUs betreffen.
-              </p>
-              <p className="text-gray-600">
-                Die Beiträge decken ein breites Spektrum an Themen ab und helfen unseren Lesern, 
-                ihre Kenntnisse zu erweitern und informierte Entscheidungen zu treffen.
-              </p>
+            <p className="text-gray-600 max-w-3xl mx-auto">
+              Wir nutzen externe Kommunikationskanäle gezielt für Ihre Reichweite.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Newsletter & Partnerplattformen</h3>
+              <p className="text-gray-600">Ihre Inhalte auf Plattformen unserer Partner.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Medienpartnerschaften</h3>
+              <p className="text-gray-600">Zusammenarbeit mit etablierten Medien.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-swiss-darkblue mb-3">Pressearbeit</h3>
+              <p className="text-gray-600">Entwicklung und Verbreitung redaktioneller Inhalte.</p>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Member Communications Section */}
+      {/* Mission and Contact Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <div className="flex items-center gap-3 text-swiss-red">
-                <MessageSquare className="h-6 w-6" />
-                <h3 className="text-2xl font-bold text-swiss-darkblue">
-                  Mitteilungen für SKV-Mitglieder
-                </h3>
+              <h2 className="text-3xl font-bold text-swiss-darkblue">Auftrag der Redaktion</h2>
+              <p className="text-gray-600">
+                Die SKV-Redaktion unterstützt KMUs dabei, durch redaktionelle Präsenz ihre Kundenbasis zu 
+                erweitern. Mit einer durchdachten Kombination aus Print-, Digital- und externer Kommunikation 
+                schaffen wir für unsere Mitglieder und Partner einzigartige Mehrwerte.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button 
+                  className="flex items-center gap-2"
+                  onClick={() => window.location.href = "mailto:redaktion@kmu-verein.ch"}
+                >
+                  <Mail className="h-4 w-4" />
+                  E-Mail senden
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Termin vereinbaren
+                </Button>
               </div>
-              <p className="text-gray-600">
-                Im Unternehmensblick finden SKV-Mitglieder exklusive Mitteilungen und Updates, 
-                die speziell auf ihre Interessen und Bedürfnisse zugeschnitten sind. Diese 
-                Mitteilungen informieren über neue Projekte, Veranstaltungen, Mitgliedervorteile 
-                und wichtige Entwicklungen im Verein.
-              </p>
-              <p className="text-gray-600">
-                Sie bieten eine Plattform für den Austausch und die Vernetzung innerhalb der 
-                SKV-Community und halten die Mitglieder über relevante Themen auf dem Laufenden.
-              </p>
             </div>
             <div>
               <img
                 src="https://static.wixstatic.com/media/0c82d3_2da4db47c0734c6092506969dd256f2f~mv2.png"
-                alt="Member Communications"
+                alt="Editorial Team"
                 className="rounded-lg shadow-lg"
               />
             </div>
