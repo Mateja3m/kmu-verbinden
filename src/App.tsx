@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from './components/Navigation';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Presidency from './pages/Presidency';
 import Membership from './pages/Membership';
@@ -67,6 +68,7 @@ const App = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
       <Navigation />
       <main className="flex-grow">
         <Routes>
