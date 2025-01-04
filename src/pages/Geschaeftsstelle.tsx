@@ -38,7 +38,7 @@ const Geschaeftsstelle = () => {
       <Navigation />
       {/* Hero Section */}
       <BackgroundPattern>
-        <div className="bg-swiss-red text-white py-16">
+        <div className="bg-swiss-red text-white py-16 mt-20">
           <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold mb-4">Unsere Geschäftsstelle</h1>
           </div>

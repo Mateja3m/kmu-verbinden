@@ -80,7 +80,7 @@ const EventKalender = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       {/* Header Banner */}
-      <div className="bg-swiss-red py-8 px-4">
+      <div className="bg-swiss-red py-8 px-4 mt-20">
         <div className="container mx-auto">
           <h1 className="text-4xl font-bold mb-4 text-white">KMU Verein SKV</h1>
           <p className="text-xl text-white">Events in der Schweiz - Ihr Partner für Weiterbildung und Networking</p>
