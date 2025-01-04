@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import InteractiveBenefits from "@/components/InteractiveBenefits";
 import Stats from "@/components/Stats";
+import RandomPartnerShowcase from "@/components/RandomPartnerShowcase";
 import Footer from "@/components/Footer";
 import BackgroundPattern from "@/components/BackgroundPattern";
 
@@ -13,6 +14,7 @@ const Home = () => {
         <Hero />
         <InteractiveBenefits />
         <Stats />
+        <RandomPartnerShowcase />
         <Footer />
       </div>
     </BackgroundPattern>
