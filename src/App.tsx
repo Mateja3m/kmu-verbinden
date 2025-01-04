@@ -26,7 +26,6 @@ import AGB from './pages/AGB';
 import Impressum from './pages/Impressum';
 import Datenschutz from './pages/Datenschutz';
 import Geschaeftsstelle from './pages/Geschaeftsstelle';
-import EventKalender from './pages/EventKalender';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -91,7 +90,6 @@ const App = () => {
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
-          <Route path="/eventkalender" element={<EventKalender />} />
         </Routes>
       </main>
     </div>
