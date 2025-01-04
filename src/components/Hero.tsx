@@ -1,6 +1,46 @@
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
+  const headlines = [
+    "Multimediale Sichtbarkeit",
+    "Redaktionelle Angebote",
+    "SKV Partner Angebote",
+    "Experten Positionierung",
+    "Stärken Sie Ihr Unternehmen"
+  ];
+
+  const [displayText, setDisplayText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    
+    if (isTyping) {
+      if (displayText.length < headlines[currentIndex].length) {
+        timeout = setTimeout(() => {
+          setDisplayText(headlines[currentIndex].slice(0, displayText.length + 1));
+        }, 100);
+      } else {
+        timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, 2000);
+      }
+    } else {
+      if (displayText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, 50);
+      } else {
+        setCurrentIndex((prev) => (prev + 1) % headlines.length);
+        setIsTyping(true);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, currentIndex, isTyping, headlines]);
+
   return (
     <div className="relative bg-gradient-to-br from-white via-white to-[#F0F9FF] min-h-[80vh] flex items-center">
       <div className="absolute inset-0" style={{
@@ -19,8 +59,9 @@ const Hero = () => {
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           <div className="lg:w-1/2 space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-swiss-darkblue leading-tight">
-              Werden Sie Mitglied im KMU Verein
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-swiss-darkblue leading-tight min-h-[1.2em]">
+              {displayText}
+              <span className="animate-pulse">|</span>
             </h1>
             <p className="text-lg sm:text-xl text-swiss-darkblue/90 leading-relaxed max-w-2xl">
               Nutzen Sie exklusive Vorteile, vernetzen Sie sich mit Branchenführern und treiben Sie Ihr Unternehmen voran.
