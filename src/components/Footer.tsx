@@ -58,6 +58,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <Link to="/partners" className="block hover:text-swiss-red transition-colors">Partner</Link>
                 <Link to="/news" className="block hover:text-swiss-red transition-colors">KMU-News</Link>
                 <Link to="/unsere-auftrag" className="block hover:text-swiss-red transition-colors">Unser Auftrag</Link>
+                <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstelle</Link>
               </nav>
             </div>
 

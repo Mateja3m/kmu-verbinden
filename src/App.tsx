@@ -1,58 +1,117 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ExpertSubmission from "@/pages/ExpertSubmission";
-import Home from "@/pages/Home";
-import Kontakt from "@/pages/Kontakt";
-import Partners from "@/pages/Partners";
-import Membership from "@/pages/Membership";
-import Redaktion from "@/pages/Redaktion";
-import Dashboard from "@/pages/Dashboard";
-import PartnerDashboard from "@/pages/PartnerDashboard";
-import Admin from "@/pages/Admin";
-import Presidency from "@/pages/Presidency";
-import Rechtsdienst from "@/pages/Rechtsdienst";
-import AktuelleProjekte from "@/pages/AktuelleProjekte";
-import News from "@/pages/News";
-import NewsDetail from "@/pages/NewsDetail";
-import Experts from "@/pages/Experts";
-import ExpertDetail from "@/pages/ExpertDetail";
-import Auth from "@/pages/Auth";
-import AGB from "@/pages/AGB";
-import Impressum from "@/pages/Impressum";
-import Datenschutz from "@/pages/Datenschutz";
-import UnsereAuftrag from "@/pages/UnsereAuftrag";
-import AdminAuthPage from "@/pages/AdminAuth";
-import { Toaster } from "react-hot-toast";
+import { Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import Navigation from './components/Navigation';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Presidency from './pages/Presidency';
+import Membership from './pages/Membership';
+import Partners from './pages/Partners';
+import Experts from './pages/Experts';
+import ExpertDetail from './pages/ExpertDetail';
+import ExpertSubmission from './pages/ExpertSubmission';
+import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
+import Dashboard from './pages/Dashboard';
+import Admin from './pages/Admin';
+import AdminAuth from './pages/AdminAuth';
+import PartnerDashboard from './pages/PartnerDashboard';
+import Auth from './pages/Auth';
+import Kontakt from './pages/Kontakt';
+import Redaktion from './pages/Redaktion';
+import Rechtsdienst from './pages/Rechtsdienst';
+import AktuelleProjekte from './pages/AktuelleProjekte';
+import UnsereAuftrag from './pages/UnsereAuftrag';
+import AGB from './pages/AGB';
+import Impressum from './pages/Impressum';
+import Datenschutz from './pages/Datenschutz';
+import Geschaeftsstelle from './pages/Geschaeftsstelle';
 
-function App() {
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setIsLoggedIn(true);
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+        setIsAdmin(!!profile?.is_admin);
+      }
+    };
+
+    initializeAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        setIsLoggedIn(true);
+      } else if (event === 'SIGNED_OUT') {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: "Fehler beim Abmelden",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Erfolgreich abgemeldet",
+        description: "Auf Wiedersehen!",
+      });
+    }
+  };
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/kontakt" element={<Kontakt />} />
-        <Route path="/expert-submission" element={<ExpertSubmission />} />
-        <Route path="/partners" element={<Partners />} />
-        <Route path="/membership" element={<Membership />} />
-        <Route path="/redaktion" element={<Redaktion />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/partner-dashboard" element={<PartnerDashboard />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin-auth" element={<AdminAuthPage />} />
-        <Route path="/presidency" element={<Presidency />} />
-        <Route path="/rechtsdienst" element={<Rechtsdienst />} />
-        <Route path="/aktuelle-projekte" element={<AktuelleProjekte />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/news/:slug" element={<NewsDetail />} />
-        <Route path="/experts" element={<Experts />} />
-        <Route path="/experts/:id" element={<ExpertDetail />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/agb" element={<AGB />} />
-        <Route path="/impressum" element={<Impressum />} />
-        <Route path="/datenschutz" element={<Datenschutz />} />
-        <Route path="/unsere-auftrag" element={<UnsereAuftrag />} />
-      </Routes>
-      <Toaster />
-    </Router>
+    <div className="flex flex-col min-h-screen">
+      <Navigation />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/presidency" element={<Presidency />} />
+          <Route path="/membership" element={<Membership />} />
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/experts" element={<Experts />} />
+          <Route path="/experts/:id" element={<ExpertDetail />} />
+          <Route path="/expert-submission" element={<ExpertSubmission />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:slug" element={<NewsDetail />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/auth" element={<AdminAuth />} />
+          <Route path="/partner-dashboard" element={<PartnerDashboard />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/kontakt" element={<Kontakt />} />
+          <Route path="/redaktion" element={<Redaktion />} />
+          <Route path="/rechtsdienst" element={<Rechtsdienst />} />
+          <Route path="/aktuelle-projekte" element={<AktuelleProjekte />} />
+          <Route path="/unsere-auftrag" element={<UnsereAuftrag />} />
+          <Route path="/agb" element={<AGB />} />
+          <Route path="/impressum" element={<Impressum />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
+          <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
+        </Routes>
+      </main>
+      <Footer isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+    </div>
   );
-}
+};
 
 export default App;
