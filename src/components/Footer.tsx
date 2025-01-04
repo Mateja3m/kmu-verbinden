@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, Globe, Calendar, Heart } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Calendar, Heart, Linkedin } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { SitemapModal } from "./SitemapModal";
@@ -20,7 +20,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Contact Information */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Schweizerischer KMU Verein (SKV)</h3>
+              <h3 className="text-xl font-semibold mb-6 whitespace-nowrap">Schweizerischer KMU Verein (SKV)</h3>
               <OfficeLocations />
               <div className="space-y-3 mt-6">
                 <div className="flex items-center gap-3">
@@ -34,6 +34,12 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                       www.kmu-verein.ch
                     </a>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <Linkedin className="h-5 w-5 text-swiss-red" />
+                    <a href="https://www.linkedin.com/company/schweizerischer-kmu-verein" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
+                      LinkedIn
+                    </a>
+                  </div>
                   {!isLoggedIn && (
                     <div className="pl-8">
                       <LoginButtons />
@@ -43,22 +49,30 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
               </div>
             </div>
 
-            {/* Quick Links */}
+            {/* Über uns */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
-              <QuickLinks isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+              <h3 className="text-xl font-semibold mb-6">Über uns</h3>
+              <nav className="space-y-3">
+                <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
+                <Link to="/organisation" className="block hover:text-swiss-red transition-colors">Organisation</Link>
+                <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstellen</Link>
+                <Link to="/unsere-auftrag" className="block hover:text-swiss-red transition-colors">Unser Auftrag</Link>
+                <Link to="/empfehlen" className="block hover:text-swiss-red transition-colors">Empfehlen Sie den SKV weiter</Link>
+              </nav>
             </div>
 
-            {/* Services & Projects */}
+            {/* Angebote und Projekte */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Services & Projekte</h3>
+              <h3 className="text-xl font-semibold mb-6">Angebote und Projekte</h3>
               <nav className="space-y-3">
+                <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
+                <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
                 <Link to="/experts" className="block hover:text-swiss-red transition-colors">Expertenrat</Link>
                 <Link to="/membership" className="block hover:text-swiss-red transition-colors">Mitgliedschaft</Link>
-                <Link to="/partners" className="block hover:text-swiss-red transition-colors">Partner</Link>
-                <Link to="/news" className="block hover:text-swiss-red transition-colors">KMU-News</Link>
-                <Link to="/unsere-auftrag" className="block hover:text-swiss-red transition-colors">Unser Auftrag</Link>
-                <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstelle</Link>
+                <Link to="/partners" className="block hover:text-swiss-red transition-colors">SKV-Partner</Link>
+                <Link to="/versicherungsrechner" className="block hover:text-swiss-red transition-colors">KMU-Versicherungsrechner</Link>
+                <Link to="/presse" className="block hover:text-swiss-red transition-colors">Medienmitteilungen und Presse</Link>
+                <Link to="/events" className="block hover:text-swiss-red transition-colors">Eventkalender</Link>
               </nav>
             </div>
 

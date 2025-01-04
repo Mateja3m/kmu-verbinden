@@ -9,16 +9,22 @@ import {
 const offices = [
   {
     city: "Bern",
+    address: "Bundesgasse 20",
+    postal: "3001 Bern",
     phone: "031 / 528 05 51",
     email: "bern@kmu-verein.ch"
   },
   {
     city: "Luzern",
+    address: "Pilatusstrasse 35",
+    postal: "6003 Luzern",
     phone: "041 / 588 22 49",
     email: "luzern@kmu-verein.ch"
   },
   {
     city: "Genf",
+    address: "Rue du Rhône 14",
+    postal: "1204 Genève",
     phone: "022 / 518 05 09",
     email: "genf@kmu-verein.ch"
   }
@@ -40,7 +46,7 @@ const Geschaeftsstelle = () => {
         {/* Main Office Section */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-swiss-darkblue mb-6">
-            Hauptgeschäftsstelle Naters
+            Zentralsekretariat Naters
           </h2>
           <p className="text-gray-700 mb-8">
             Die Geschäftsstelle in Naters ist das Herzstück des Schweizerischen KMU Vereins (SKV). Von hier
@@ -80,7 +86,7 @@ const Geschaeftsstelle = () => {
                 <Clock className="h-6 w-6 text-swiss-red flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-semibold mb-1">Öffnungszeiten:</h3>
-                  <p>Montag bis Freitag, 08:00 - 12:00 Uhr</p>
+                  <p>Mo-Fr: 8:00–12:00 Uhr</p>
                 </div>
               </div>
             </div>
@@ -108,13 +114,11 @@ const Geschaeftsstelle = () => {
         {/* Other Offices Section */}
         <div>
           <h2 className="text-2xl font-bold text-swiss-darkblue mb-6">
-            Weitere Sekretariate in der Schweiz
+            Weitere Geschäftsstellen
           </h2>
           <p className="text-gray-700 mb-8">
-            Neben unserer Hauptgeschäftsstelle in Naters haben wir weitere Sekretariate in der Schweiz
-            eingerichtet, um unseren Mitgliedern schweizweit persönlichen Service zu bieten. Unsere Standorte
-            in Bern, Luzern und Genf ermöglichen es uns, nahe bei unseren Mitgliedern und Partnern zu sein
-            und sie effizient zu unterstützen.
+            Neben unserem Zentralsekretariat in Naters haben wir weitere Geschäftsstellen in der Schweiz
+            eingerichtet, um unseren Mitgliedern schweizweit persönlichen Service zu bieten.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -130,6 +134,13 @@ const Geschaeftsstelle = () => {
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80 bg-white p-4">
                   <div className="space-y-4">
+                    <div className="flex items-start space-x-2">
+                      <MapPin className="h-4 w-4 text-swiss-red flex-shrink-0 mt-1" />
+                      <div>
+                        <p>{office.address}</p>
+                        <p>{office.postal}</p>
+                      </div>
+                    </div>
                     <div className="flex items-center space-x-2">
                       <Phone className="h-4 w-4 text-swiss-red" />
                       <a 
@@ -148,6 +159,10 @@ const Geschaeftsstelle = () => {
                         {office.email}
                       </a>
                     </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-swiss-red" />
+                      <span>Mo-Fr: 8:00–12:00 Uhr</span>
+                    </div>
                   </div>
                 </HoverCardContent>
               </HoverCard>
@@ -162,8 +177,8 @@ const Geschaeftsstelle = () => {
             daran, Ihre Ziele zu erreichen.
           </p>
           <p className="text-swiss-darkblue font-semibold">
-            Wir freuen uns, Sie in einer unserer Sekretariate oder in der Geschäftsstelle Naters willkommen zu
-            heißen! Kontaktieren Sie uns jederzeit, wir sind für Sie da.
+            Wir freuen uns, Sie in einer unserer Geschäftsstellen willkommen zu heißen! 
+            Kontaktieren Sie uns jederzeit, wir sind für Sie da.
           </p>
         </div>
       </div>
