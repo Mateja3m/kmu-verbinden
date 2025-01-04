@@ -75,6 +75,11 @@ const VersicherungsRechner = () => {
             </p>
           </div>
 
+          {/* AI Explanation Section */}
+          <div className="mb-12">
+            <AIExplanation />
+          </div>
+
           {/* Calculator Section with Loading Simulation */}
           <div className="bg-white rounded-lg shadow-md p-8 mb-16">
             <h2 className="text-2xl font-bold text-swiss-darkblue mb-6 text-center">
@@ -105,9 +110,6 @@ const VersicherungsRechner = () => {
           <div className="mb-16">
             <InsuranceTypeGrid insuranceTypes={insuranceTypes} />
           </div>
-
-          {/* AI Tool Explanation */}
-          <AIExplanation />
         </div>
       </BackgroundPattern>
       <Footer />
