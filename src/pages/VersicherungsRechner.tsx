@@ -65,7 +65,6 @@ const VersicherungsRechner = () => {
     <div className="flex flex-col min-h-screen">
       <BackgroundPattern>
         <div className="container mx-auto px-4 py-24">
-          {/* Header Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-swiss-darkblue mb-4">
               Versicherungs Rechner & KI Beratung
@@ -75,38 +74,38 @@ const VersicherungsRechner = () => {
             </p>
           </div>
 
-          {/* AI Explanation Section */}
           <div className="mb-12">
             <AIExplanation />
           </div>
 
-          {/* Calculator Section with Loading Simulation */}
           <div className="bg-white rounded-lg shadow-md p-8 mb-16">
             <h2 className="text-2xl font-bold text-swiss-darkblue mb-6 text-center">
-              Premium-Rechner
+              Prämienrechner
             </h2>
             
-            {isLoading ? (
+            <div className="mb-8">
               <LoadingSimulation loadingSteps={loadingSteps} />
-            ) : (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="w-full bg-swiss-red hover:bg-red-700 text-white">
-                    Premium-Rechner starten
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="w-[85vw] h-[85vh] max-w-none">
-                  <iframe 
-                    className="chatBot w-full h-full"
-                    src="https://avaia.io/chat/authorize-chat/84bf5794-983e-4d57-8377-1ad6aaddd4d2/"
-                    title="KMU Versicherungsrechner"
-                  />
-                </DialogContent>
-              </Dialog>
-            )}
+            </div>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  disabled={isLoading}
+                  className="w-full bg-swiss-red hover:bg-red-700 text-white"
+                >
+                  Beratung starten
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-[85vw] h-[85vh] max-w-none">
+                <iframe 
+                  className="chatBot w-full h-full"
+                  src="https://avaia.io/chat/authorize-chat/84bf5794-983e-4d57-8377-1ad6aaddd4d2/"
+                  title="KMU Versicherungsrechner"
+                />
+              </DialogContent>
+            </Dialog>
           </div>
 
-          {/* Insurance Types Grid */}
           <div className="mb-16">
             <InsuranceTypeGrid insuranceTypes={insuranceTypes} />
           </div>
