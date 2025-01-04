@@ -75,92 +75,102 @@ const EventKalender = () => {
     .slice(0, 5);
 
   return (
-    <BackgroundPattern>
-      <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-20">
+      {/* Header Banner */}
+      <div className="bg-swiss-red py-8 px-4">
+        <div className="container mx-auto">
+          <h1 className="text-4xl font-bold mb-4 text-white">KMU Verein SKV</h1>
+          <p className="text-xl text-white">Events in der Schweiz - Ihr Partner für Weiterbildung und Networking</p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-12">
         {/* KITS 2025 Banner */}
-        <div className="bg-swiss-red py-8 px-4">
-          <div className="container mx-auto">
-            <h1 className="text-4xl font-bold mb-4 text-white">KITS 2025</h1>
-            <p className="text-xl mb-2 text-white">KMU Innovation Technology Summit</p>
-            <p className="mb-4 text-white">1. Juli 2025 | Zürich</p>
-            <p className="max-w-2xl text-white">
-              Entdecken Sie die Zukunft der KMU-Innovation! Der KITS 2025 bringt führende Experten, 
-              innovative Technologien und zukunftsweisende Lösungen zusammen. Seien Sie dabei, wenn 
-              die Schweizer KMU-Landschaft die digitale Transformation gestaltet.
-            </p>
-          </div>
+        <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-red rounded-lg p-8 mb-12 text-white">
+          <h2 className="text-3xl font-bold mb-4">KITS 2025</h2>
+          <p className="text-xl mb-2">KMU Innovation Technology Summit</p>
+          <p className="mb-4">1. Juli 2025 | Zürich</p>
+          <p className="max-w-2xl">
+            Entdecken Sie die Zukunft der KMU-Innovation! Der KITS 2025 bringt führende Experten, 
+            innovative Technologien und zukunftsweisende Lösungen zusammen. Seien Sie dabei, wenn 
+            die Schweizer KMU-Landschaft die digitale Transformation gestaltet.
+          </p>
         </div>
 
-        <div className="container mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold mb-8 text-swiss-darkblue">KMU Events in der Schweiz</h2>
-          
+        <h2 className="text-3xl font-bold mb-8 text-swiss-darkblue">KMU Events in der Schweiz</h2>
+        
+        <BackgroundPattern>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Calendar Section */}
-            <Card className="p-6 bg-white shadow-lg">
-              <div className="flex items-center mb-4">
-                <CalendarIcon className="mr-2 h-5 w-5 text-swiss-red" />
-                <h3 className="text-xl font-semibold">Eventkalender</h3>
-              </div>
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border bg-white"
-              />
-              
-              {selectedDateEvents.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="font-semibold mb-2">Events an diesem Tag:</h4>
-                  {selectedDateEvents.map(event => (
-                    <div key={event.id} className="p-2 bg-gray-50 rounded-md mb-2">
-                      <p className="font-medium">{event.title}</p>
-                      {event.endDate && (
-                        <p className="text-sm text-gray-600">
-                          Bis: {event.endDate.toLocaleDateString()}
-                        </p>
+            <div className="relative">
+              <Card className="p-6 bg-white shadow-lg relative z-10">
+                <div className="flex items-center mb-4">
+                  <CalendarIcon className="mr-2 h-5 w-5 text-swiss-red" />
+                  <h3 className="text-xl font-semibold">Eventkalender</h3>
+                </div>
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  className="rounded-md border bg-white"
+                />
+                
+                {selectedDateEvents.length > 0 && (
+                  <div className="mt-4">
+                    <h4 className="font-semibold mb-2">Events an diesem Tag:</h4>
+                    {selectedDateEvents.map(event => (
+                      <div key={event.id} className="p-2 bg-gray-50 rounded-md mb-2">
+                        <p className="font-medium">{event.title}</p>
+                        {event.endDate && (
+                          <p className="text-sm text-gray-600">
+                            Bis: {event.endDate.toLocaleDateString()}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Card>
+            </div>
+
+            {/* Upcoming Events Section */}
+            <div className="relative">
+              <Card className="p-6 bg-white shadow-lg relative z-10">
+                <h3 className="text-xl font-semibold mb-4">Nächste Events</h3>
+                <div className="space-y-4">
+                  {upcomingEvents.map(event => (
+                    <div
+                      key={event.id}
+                      className="p-4 rounded-lg border border-gray-200 hover:border-swiss-red transition-colors bg-white"
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-medium">{event.title}</h4>
+                          <p className="text-sm text-gray-600">
+                            {event.date.toLocaleDateString()}
+                            {event.endDate && ` - ${event.endDate.toLocaleDateString()}`}
+                          </p>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          event.type === 'course' 
+                            ? 'bg-swiss-red text-white' 
+                            : 'bg-swiss-lightblue text-swiss-darkblue'
+                        }`}>
+                          {event.type === 'course' ? 'Kurs' : 'Info'}
+                        </span>
+                      </div>
+                      {event.description && (
+                        <p className="text-sm text-gray-600 mt-2">{event.description}</p>
                       )}
                     </div>
                   ))}
                 </div>
-              )}
-            </Card>
-
-            {/* Upcoming Events Section */}
-            <Card className="p-6 bg-white shadow-lg">
-              <h3 className="text-xl font-semibold mb-4">Nächste Events</h3>
-              <div className="space-y-4">
-                {upcomingEvents.map(event => (
-                  <div
-                    key={event.id}
-                    className="p-4 rounded-lg border border-gray-200 hover:border-swiss-red transition-colors bg-white"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-medium">{event.title}</h4>
-                        <p className="text-sm text-gray-600">
-                          {event.date.toLocaleDateString()}
-                          {event.endDate && ` - ${event.endDate.toLocaleDateString()}`}
-                        </p>
-                      </div>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        event.type === 'course' 
-                          ? 'bg-swiss-red text-white' 
-                          : 'bg-swiss-lightblue text-swiss-darkblue'
-                      }`}>
-                        {event.type === 'course' ? 'Kurs' : 'Info'}
-                      </span>
-                    </div>
-                    {event.description && (
-                      <p className="text-sm text-gray-600 mt-2">{event.description}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
-        </div>
+        </BackgroundPattern>
       </div>
-    </BackgroundPattern>
+    </div>
   );
 };
 
