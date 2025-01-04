@@ -17,7 +17,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
     <BackgroundPattern>
       <footer className="bg-swiss-darkblue text-white relative">
         <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {/* Contact Information */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-6 whitespace-nowrap">Schweizerischer KMU Verein (SKV)</h3>
@@ -50,7 +51,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             </div>
 
             {/* Über uns */}
-            <div className="space-y-4 lg:ml-8">
+            <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-6">Über uns</h3>
               <nav className="space-y-3">
                 <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
@@ -75,13 +76,18 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <Link to="/events" className="block hover:text-swiss-red transition-colors">Eventkalender</Link>
               </nav>
             </div>
+          </div>
 
-            {/* Call to Action */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Noch Fragen?</h3>
+          {/* Noch Fragen Section */}
+          <div className="border-t border-white/10 pt-8 mt-8">
+            <div className="max-w-md mx-auto text-center">
+              <h3 className="text-xl font-semibold mb-4">Noch Fragen?</h3>
+              <p className="text-white/80 mb-6">
+                Wir sind für Sie da und beantworten gerne Ihre Fragen.
+              </p>
               <Button 
                 variant="outline" 
-                className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full"
+                className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full max-w-xs"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Termin vereinbaren
