@@ -18,7 +18,7 @@ const Partners = () => {
           <header 
             className="w-full relative bg-swiss-darkblue text-white"
             style={{
-              minHeight: '300px'
+              minHeight: '500px' // Increased from 300px to 500px
             }}
           >
             {/* Background image with overlay */}
