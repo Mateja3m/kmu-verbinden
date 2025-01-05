@@ -6,6 +6,7 @@ import { OfficeLocations } from "./footer/OfficeLocations";
 import { QuickLinks } from "./footer/QuickLinks";
 import { LoginButtons } from "./footer/LoginButtons";
 import BackgroundPattern from "./BackgroundPattern";
+import { DatenschutzModal } from "./DatenschutzModal";
 
 interface FooterProps {
   isLoggedIn?: boolean;
@@ -106,7 +107,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <span className="text-gray-500">|</span>
                 <Link to="/impressum" className="hover:text-swiss-red transition-colors">Impressum</Link>
                 <span className="text-gray-500">|</span>
-                <Link to="/datenschutz" className="hover:text-swiss-red transition-colors">Datenschutz</Link>
+                <DatenschutzModal />
                 <span className="text-gray-500">|</span>
                 <SitemapModal />
               </div>
