@@ -79,11 +79,25 @@ const EventKalender = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      {/* Header Banner */}
-      <div className="bg-swiss-red py-8 px-4 mt-20">
-        <div className="container mx-auto">
-          <h1 className="text-4xl font-bold mb-4 text-white">KMU Verein SKV</h1>
-          <p className="text-xl text-white">Events in der Schweiz - Ihr Partner für Weiterbildung und Networking</p>
+      {/* Header Banner with Background Image */}
+      <div className="relative mt-20">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/lovable-uploads/e8fe9475-a9bf-4636-9512-ac9c74ccbf80.png')",
+            filter: "brightness(0.7)"
+          }}
+        />
+        <div className="relative bg-gradient-to-b from-swiss-darkblue/80 to-swiss-red/80 py-16 px-4">
+          <div className="container mx-auto text-center">
+            <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
+              KMU Verein SKV Events
+            </h1>
+            <p className="text-2xl text-white max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+              Entdecken Sie unsere exklusiven Veranstaltungen für Schweizer KMU - 
+              Ihr Partner für Weiterbildung und Networking
+            </p>
+          </div>
         </div>
       </div>
 
