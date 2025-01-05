@@ -9,7 +9,7 @@ const Praxisratgeber = () => {
       <Navigation />
       
       {/* Hero Section with Background Image */}
-      <section className="relative pt-32 pb-24 text-white">
+      <section className="relative pt-48 pb-32 text-white">
         {/* Background Image with Overlay */}
         <div 
           className="absolute inset-0 z-0"
@@ -23,7 +23,6 @@ const Praxisratgeber = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-swiss-red/90 to-swiss-darkblue/90" />
         </div>
 
-        {/* Background Pattern Overlay */}
         <div
           className="absolute inset-0 pointer-events-none opacity-10"
           style={{
@@ -38,6 +37,7 @@ const Praxisratgeber = () => {
             backgroundSize: '20px 20px'
           }}
         />
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-6">KMU-Praxisratgeber: Ihre klare Positionierung als Branchenexperte</h1>
