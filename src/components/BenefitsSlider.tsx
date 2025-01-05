@@ -24,7 +24,7 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
     "Multimediale Sichtbarkeit": "/lovable-uploads/0acf33a2-7fab-4e4c-8c4a-07c6053ae67b.png",
     "Redaktionelle Angebote": "/lovable-uploads/86e1093f-d110-4675-89d5-b99e23c5a312.png",
     "SKV-Partner Angebote": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
-    "Experten-Positionierung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "Experten-Positionierung": "/lovable-uploads/e6fa6c1c-101e-4106-90a1-7ce1fca25636.png",
     "Netzwerk": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
     "KI-Beratung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
     "Zertifizierung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
