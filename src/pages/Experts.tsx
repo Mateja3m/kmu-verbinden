@@ -89,12 +89,26 @@ export default function Experts() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-swiss-darkblue mb-8 text-center">
-            Expertenrat
-          </h1>
+      <div 
+        className="relative h-[400px] w-full bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/lovable-uploads/e6fa6c1c-101e-4106-90a1-7ce1fca25636.png')",
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Expertenrat
+            </h1>
+            <p className="text-xl text-white/90 max-w-2xl">
+              Profitieren Sie von unserem Netzwerk qualifizierter Experten für Ihr Unternehmen
+            </p>
+          </div>
+        </div>
+      </div>
 
+      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
           {/* Filter Section */}
           <div className="mb-8 space-y-4 md:space-y-0 md:flex md:gap-4 bg-white p-6 rounded-lg shadow-sm">
             <div className="flex-1">
