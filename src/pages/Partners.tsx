@@ -33,8 +33,8 @@ const Partners = () => {
             </div>
 
             {/* Content - Centered vertically */}
-            <div className="container mx-auto px-4 relative z-10 h-full flex items-center justify-center">
-              <div className="mt-20">
+            <div className="container mx-auto px-4 relative z-10 h-full flex items-center">
+              <div className="mt-32">
                 <h1 className="text-4xl font-bold mb-4">Unsere Partner</h1>
                 <p className="text-xl max-w-3xl">
                   Entdecken Sie unser Netzwerk von vertrauenswürdigen Partnern, die den Schweizerischen KMU Verein unterstützen
