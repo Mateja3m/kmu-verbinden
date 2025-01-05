@@ -23,7 +23,6 @@ import Redaktion from './pages/Redaktion';
 import Rechtsdienst from './pages/Rechtsdienst';
 import AktuelleProjekte from './pages/AktuelleProjekte';
 import UnsereAuftrag from './pages/UnsereAuftrag';
-import AGB from './pages/AGB';
 import Impressum from './pages/Impressum';
 import Datenschutz from './pages/Datenschutz';
 import Geschaeftsstelle from './pages/Geschaeftsstelle';
@@ -92,7 +91,6 @@ const App = () => {
           <Route path="/rechtsdienst" element={<Rechtsdienst />} />
           <Route path="/aktuelle-projekte" element={<AktuelleProjekte />} />
           <Route path="/unsere-auftrag" element={<UnsereAuftrag />} />
-          <Route path="/agb" element={<AGB />} />
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
