@@ -59,10 +59,7 @@ const Hero = () => {
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           <div className="lg:w-1/2 space-y-6">
-            <h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-swiss-darkblue leading-tight"
-              style={{ minHeight: '1.2em', marginBottom: '0.5em' }} // Prevent layout shift
-            >
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-swiss-darkblue leading-tight min-h-[1.2em]">
               {displayText}
               <span className="animate-pulse">|</span>
             </h1>
@@ -78,17 +75,11 @@ const Hero = () => {
             </div>
           </div>
           <div className="hidden lg:block lg:w-1/2 lg:pl-12">
-            <div style={{ aspectRatio: '16/9', width: '100%' }}> {/* Fixed aspect ratio container */}
-              <img
-                src="https://static.wixstatic.com/media/0c82d3_2ad093992c9042fbaffe72bf4ea724c9~mv2.png"
-                alt="KMU Magazine"
-                width="800"
-                height="450"
-                loading="eager"
-                decoding="async"
-                className="w-full h-full rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300 object-cover"
-              />
-            </div>
+            <img
+              src="https://static.wixstatic.com/media/0c82d3_2ad093992c9042fbaffe72bf4ea724c9~mv2.png"
+              alt="KMU Magazine"
+              className="w-full h-auto rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
+            />
           </div>
         </div>
       </div>

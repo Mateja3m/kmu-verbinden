@@ -118,7 +118,8 @@ const AuthPage = () => {
                     loading_button_label: "Anmeldung läuft...",
                     password_input_placeholder: "Ihr Passwort",
                     email_input_placeholder: "Ihre E-Mail-Adresse",
-                    link_text: "Sie haben noch kein Konto? Registrieren"
+                    forgot_password_text: "Passwort vergessen?",
+                    link_text: "Sie haben noch kein Konto? Registrieren",
                   },
                   sign_up: {
                     email_label: "E-Mail",
@@ -127,16 +128,16 @@ const AuthPage = () => {
                     loading_button_label: "Registrierung läuft...",
                     password_input_placeholder: "Ihr Passwort",
                     email_input_placeholder: "Ihre E-Mail-Adresse",
-                    link_text: "Bereits ein Konto? Anmelden"
+                    link_text: "Bereits ein Konto? Anmelden",
                   },
                   forgotten_password: {
                     email_label: "E-Mail",
                     password_label: "Passwort",
                     button_label: "Passwort zurücksetzen",
                     loading_button_label: "Senden der Anweisungen...",
-                    link_text: "Passwort vergessen?"
-                  }
-                }
+                    link_text: "Zurück zur Anmeldung",
+                  },
+                },
               }}
             />
           </div>
