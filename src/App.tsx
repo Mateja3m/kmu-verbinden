@@ -30,6 +30,7 @@ import Geschaeftsstelle from './pages/Geschaeftsstelle';
 import EventKalender from './pages/EventKalender';
 import VersicherungsRechner from './pages/VersicherungsRechner';
 import Empfehlen from './pages/Empfehlen';
+import Organisation from './pages/Organisation';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -98,6 +99,7 @@ const App = () => {
           <Route path="/events" element={<EventKalender />} />
           <Route path="/versicherungsrechner" element={<VersicherungsRechner />} />
           <Route path="/empfehlen" element={<Empfehlen />} />
+          <Route path="/organisation" element={<Organisation />} />
         </Routes>
       </main>
     </div>
