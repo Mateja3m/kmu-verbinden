@@ -75,25 +75,11 @@ const Hero = () => {
             </div>
           </div>
           <div className="hidden lg:block lg:w-1/2 lg:pl-12">
-            <picture>
-              <source
-                srcSet="https://static.wixstatic.com/media/0c82d3_2ad093992c9042fbaffe72bf4ea724c9~mv2.webp"
-                type="image/webp"
-              />
-              <source
-                srcSet="https://static.wixstatic.com/media/0c82d3_2ad093992c9042fbaffe72bf4ea724c9~mv2.png"
-                type="image/png"
-              />
-              <img
-                src="https://static.wixstatic.com/media/0c82d3_2ad093992c9042fbaffe72bf4ea724c9~mv2.png"
-                alt="KMU Magazine"
-                className="w-full h-auto rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
-                loading="eager"
-                decoding="async"
-                width="600"
-                height="400"
-              />
-            </picture>
+            <img
+              src="https://static.wixstatic.com/media/0c82d3_2ad093992c9042fbaffe72bf4ea724c9~mv2.png"
+              alt="KMU Magazine"
+              className="w-full h-auto rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
+            />
           </div>
         </div>
       </div>
