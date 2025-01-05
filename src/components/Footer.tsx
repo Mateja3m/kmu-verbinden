@@ -7,6 +7,7 @@ import { QuickLinks } from "./footer/QuickLinks";
 import { LoginButtons } from "./footer/LoginButtons";
 import BackgroundPattern from "./BackgroundPattern";
 import { DatenschutzModal } from "./DatenschutzModal";
+import { AGBModal } from "./AGBModal";
 
 interface FooterProps {
   isLoggedIn?: boolean;
@@ -103,7 +104,9 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
               </div>
               {/* Legal Links */}
               <div className="flex flex-wrap gap-4 text-sm justify-center">
-                <Link to="/agb" className="hover:text-swiss-red transition-colors">AGB</Link>
+                <AGBModal>
+                  <button className="hover:text-swiss-red transition-colors">AGB</button>
+                </AGBModal>
                 <span className="text-gray-500">|</span>
                 <Link to="/impressum" className="hover:text-swiss-red transition-colors">Impressum</Link>
                 <span className="text-gray-500">|</span>
