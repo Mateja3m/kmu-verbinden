@@ -8,8 +8,21 @@ const Praxisratgeber = () => {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="relative pt-24 pb-12 bg-swiss-red text-white">
+      {/* Hero Section with Background Image */}
+      <section className="relative pt-24 pb-12 text-white">
+        {/* Background Image with Overlay */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/lovable-uploads/874b0f8c-856e-42ef-b959-a1393f89478c.png')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-swiss-red/90 to-swiss-darkblue/90" />
+        </div>
+
         {/* Background Pattern Overlay */}
         <div
           className="absolute inset-0 pointer-events-none opacity-10"
@@ -25,7 +38,7 @@ const Praxisratgeber = () => {
             backgroundSize: '20px 20px'
           }}
         />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-6">KMU-Praxisratgeber: Ihre klare Positionierung als Branchenexperte</h1>
             <p className="text-lg max-w-3xl mx-auto">
