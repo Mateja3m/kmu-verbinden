@@ -19,16 +19,40 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
     return <IconComponent size={48} className="text-white" />;
   };
 
-  // Map benefits to their corresponding background images
+  // Map benefits to their corresponding background images with WebP format
   const benefitBackgrounds = {
-    "Multimediale Sichtbarkeit": "/lovable-uploads/0acf33a2-7fab-4e4c-8c4a-07c6053ae67b.png",
-    "Redaktionelle Angebote": "/lovable-uploads/86e1093f-d110-4675-89d5-b99e23c5a312.png",
-    "SKV-Partner Angebote": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
-    "Experten-Positionierung": "/lovable-uploads/e6fa6c1c-101e-4106-90a1-7ce1fca25636.png",
-    "Netzwerk": "/lovable-uploads/92861bd1-ae59-4f38-bca2-4ebdf4b3f65d.png",
-    "KI-Beratung": "/lovable-uploads/b872ef6d-b2bb-45b5-91aa-2c610a888f5e.png",
-    "Zertifizierung": "/lovable-uploads/710d5524-1ea6-450d-a56f-e200a0de134b.png",
-    "Community": "/lovable-uploads/93ebe747-0f2e-4eca-bba4-d0c04de26152.png",
+    "Multimediale Sichtbarkeit": {
+      webp: "/lovable-uploads/0acf33a2-7fab-4e4c-8c4a-07c6053ae67b.webp",
+      fallback: "/lovable-uploads/0acf33a2-7fab-4e4c-8c4a-07c6053ae67b.png"
+    },
+    "Redaktionelle Angebote": {
+      webp: "/lovable-uploads/86e1093f-d110-4675-89d5-b99e23c5a312.webp",
+      fallback: "/lovable-uploads/86e1093f-d110-4675-89d5-b99e23c5a312.png"
+    },
+    "SKV-Partner Angebote": {
+      webp: "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.webp",
+      fallback: "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png"
+    },
+    "Experten-Positionierung": {
+      webp: "/lovable-uploads/e6fa6c1c-101e-4106-90a1-7ce1fca25636.webp",
+      fallback: "/lovable-uploads/e6fa6c1c-101e-4106-90a1-7ce1fca25636.png"
+    },
+    "Netzwerk": {
+      webp: "/lovable-uploads/92861bd1-ae59-4f38-bca2-4ebdf4b3f65d.webp",
+      fallback: "/lovable-uploads/92861bd1-ae59-4f38-bca2-4ebdf4b3f65d.png"
+    },
+    "KI-Beratung": {
+      webp: "/lovable-uploads/b872ef6d-b2bb-45b5-91aa-2c610a888f5e.webp",
+      fallback: "/lovable-uploads/b872ef6d-b2bb-45b5-91aa-2c610a888f5e.png"
+    },
+    "Zertifizierung": {
+      webp: "/lovable-uploads/710d5524-1ea6-450d-a56f-e200a0de134b.webp",
+      fallback: "/lovable-uploads/710d5524-1ea6-450d-a56f-e200a0de134b.png"
+    },
+    "Community": {
+      webp: "/lovable-uploads/93ebe747-0f2e-4eca-bba4-d0c04de26152.webp",
+      fallback: "/lovable-uploads/93ebe747-0f2e-4eca-bba4-d0c04de26152.png"
+    },
   };
 
   return (
@@ -45,11 +69,21 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
           {benefits.map((benefit, index) => (
             <CarouselItem key={index} className="md:basis-1/1">
               <div className="relative h-[400px] w-full overflow-hidden rounded-xl">
-                <img 
-                  src={benefitBackgrounds[benefit.title] || "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png"}
-                  alt={benefit.title}
-                  className="w-full h-full object-cover"
-                />
+                <picture>
+                  <source
+                    srcSet={benefitBackgrounds[benefit.title]?.webp}
+                    type="image/webp"
+                  />
+                  <img 
+                    src={benefitBackgrounds[benefit.title]?.fallback || "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png"}
+                    alt={benefit.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    width="1280"
+                    height="400"
+                  />
+                </picture>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
                   <div className={cn(
