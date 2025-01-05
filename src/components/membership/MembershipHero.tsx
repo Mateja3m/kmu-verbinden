@@ -18,7 +18,7 @@ const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
       />
       
       {/* Content positioned in lower third */}
-      <div className="absolute bottom-16 left-0 right-0 w-full bg-gradient-to-t from-swiss-red/90 to-swiss-red/0 pt-32">
+      <div className="absolute bottom-16 left-0 right-0 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl mb-6 text-white">
             Werden Sie Mitglied im KMU Verein
