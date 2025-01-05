@@ -9,8 +9,23 @@ const Redaktion = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-12 bg-luxury-gradient text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative pt-24 pb-12 bg-swiss-red text-white">
+        {/* Background Pattern Overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-10"
+          style={{
+            backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
+              <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 20L20 0M20 20L40 0M0 0L-20 20M20 40L0 20" 
+                      stroke="#FFFFFF" 
+                      stroke-width="0.5" 
+                      fill="none"/>
+              </svg>
+            `)}')`,
+            backgroundSize: '20px 20px'
+          }}
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl font-bold">Unsere Redaktion: Ihre Plattform für schweizweite Medienpräsenz und Kundengewinnung</h1>
@@ -21,7 +36,7 @@ const Redaktion = () => {
               </p>
               <Button 
                 variant="outline"
-                className="bg-transparent border-white text-white hover:bg-white hover:text-swiss-darkblue"
+                className="bg-transparent border-white text-white hover:bg-white hover:text-swiss-red"
               >
                 Zur Online-Ausgabe
               </Button>
