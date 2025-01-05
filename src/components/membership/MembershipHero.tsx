@@ -20,7 +20,7 @@ const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
       <div className="absolute inset-0 bg-black/20" />
       
       {/* Content positioned lower */}
-      <div className="absolute bottom-16 left-0 right-0 w-full">
+      <div className="absolute bottom-8 left-0 right-0 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl mb-6 text-white">
             Werden Sie Mitglied im KMU Verein
