@@ -3,12 +3,12 @@
   "short_name": "SKV",
   "icons": [
     {
-      "src": "https://static.wixstatic.com/media/0c82d3_99a00cf83db144a5ab37dde66cd07e27~mv2.png",
+      "src": "/lovable-uploads/dc322c3e-2a15-42e7-9036-baf2deb11b0b.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://static.wixstatic.com/media/0c82d3_99a00cf83db144a5ab37dde66cd07e27~mv2.png",
+      "src": "/lovable-uploads/dc322c3e-2a15-42e7-9036-baf2deb11b0b.png",
       "sizes": "512x512",
       "type": "image/png"
     }
