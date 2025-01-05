@@ -42,6 +42,10 @@ export default function BenefitsSlider({ activeIndex, setActiveIndex }: Benefits
         }}
         className="w-full"
         setApi={setApi}
+        onSelect={(api) => {
+          const selectedIndex = api.selectedScrollSnap();
+          setActiveIndex(selectedIndex);
+        }}
       >
         <CarouselContent>
           {benefits.map((benefit, index) => (
