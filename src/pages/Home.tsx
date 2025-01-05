@@ -1,12 +1,15 @@
+import { Suspense, lazy } from "react";
 import Hero from "@/components/Hero";
-import Benefits from "@/components/Benefits";
 import Stats from "@/components/Stats";
-import RandomPartnerShowcase from "@/components/RandomPartnerShowcase";
 import Footer from "@/components/Footer";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
+
+// Lazy load components that are not immediately visible
+const Benefits = lazy(() => import("@/components/Benefits"));
+const RandomPartnerShowcase = lazy(() => import("@/components/RandomPartnerShowcase"));
 
 const Home = () => {
   return (
@@ -14,9 +17,17 @@ const Home = () => {
       <BackgroundPattern>
         <main className="flex-grow">
           <Hero />
-          <Benefits />
+          
+          {/* Wrap non-critical components in Suspense */}
+          <Suspense fallback={<div className="h-96 bg-gray-50 animate-pulse" />}>
+            <Benefits />
+          </Suspense>
+          
           <Stats />
-          <RandomPartnerShowcase />
+          
+          <Suspense fallback={<div className="h-96 bg-gray-50 animate-pulse" />}>
+            <RandomPartnerShowcase />
+          </Suspense>
           
           {/* Legal Consultation Banner */}
           <div className="w-full py-16 px-4">
