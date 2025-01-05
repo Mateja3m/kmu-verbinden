@@ -9,7 +9,6 @@ import type { NewsPost } from "@/types/database/news";
 const Presse = () => {
   const [news, setNews] = useState<NewsPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -20,16 +19,15 @@ const Presse = () => {
   const fetchNews = async () => {
     try {
       setIsLoading(true);
-      setError(null);
+      console.log("Fetching news...");
       
-      const { data, error: supabaseError } = await supabase
+      const { data, error } = await supabase
         .from("news_posts")
         .select("*")
         .order("published_at", { ascending: false });
 
-      if (supabaseError) {
-        console.error("Error fetching news:", supabaseError);
-        setError(supabaseError.message);
+      if (error) {
+        console.error("Error fetching news:", error);
         toast({
           title: "Fehler",
           description: "Nachrichten konnten nicht geladen werden.",
@@ -38,12 +36,13 @@ const Presse = () => {
         return;
       }
 
+      console.log("Fetched news data:", data);
+
       if (data) {
         setNews(data);
       }
     } catch (error) {
       console.error("Error:", error);
-      setError(error instanceof Error ? error.message : 'Ein unerwarteter Fehler ist aufgetreten');
       toast({
         title: "Fehler",
         description: "Ein unerwarteter Fehler ist aufgetreten.",
@@ -87,14 +86,6 @@ const Presse = () => {
         {isLoading ? (
           <div className="flex justify-center items-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-swiss-red"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center py-12">
-            <p className="text-red-600">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.</p>
-          </div>
-        ) : news.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600">Keine Nachrichten verfügbar.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
