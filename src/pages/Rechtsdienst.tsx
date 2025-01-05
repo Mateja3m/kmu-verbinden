@@ -33,7 +33,7 @@ export default function Rechtsdienst() {
                 </p>
                 <Button 
                   size="lg"
-                  className="bg-white hover:bg-gray-100 text-swiss-red w-fit"
+                  className="bg-white hover:bg-swiss-red hover:text-white text-swiss-red w-fit transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                   onClick={() => window.location.href = 'mailto:termin@meinjurist.ch'}
                 >
                   <Calendar className="mr-2 h-5 w-5" />
