@@ -1,6 +1,8 @@
 import { Monitor, Users, Award, Lightbulb, Network, FileText, BadgeCheck, Bot } from 'lucide-react';
+import { useState } from 'react';
+import { BenefitsSlider } from './BenefitsSlider';
 
-const benefits = [
+export const benefits = [
   {
     title: "Multimediale Sichtbarkeit",
     icon: Monitor,
@@ -44,6 +46,8 @@ const benefits = [
 ];
 
 const Benefits = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <div className="py-24 bg-gradient-to-br from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,7 +64,10 @@ const Benefits = () => {
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="relative bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-gradient-to-br from-white to-swiss-gray"
+              className={`relative bg-white p-8 rounded-xl shadow-lg transition-all duration-300 transform cursor-pointer
+                ${activeIndex === index ? 'ring-2 ring-swiss-red scale-105' : 'hover:-translate-y-1 hover:shadow-xl'}
+              `}
+              onClick={() => setActiveIndex(index)}
             >
               <div className="h-12 w-12 text-swiss-red mb-6">
                 <benefit.icon size={32} strokeWidth={1.5} />
@@ -74,6 +81,8 @@ const Benefits = () => {
             </div>
           ))}
         </div>
+
+        <BenefitsSlider activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
       </div>
     </div>
   );
