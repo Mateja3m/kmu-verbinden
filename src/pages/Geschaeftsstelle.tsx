@@ -37,13 +37,21 @@ const Geschaeftsstelle = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       {/* Hero Section */}
-      <BackgroundPattern>
-        <div className="bg-swiss-red text-white py-16 mt-20">
+      <div className="relative h-[400px] mt-20">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ 
+            backgroundImage: 'url("/lovable-uploads/6c53de1c-cf6c-4c5c-8bf6-31499e6fe8f4.png")',
+          }}
+        >
+          <div className="absolute inset-0 bg-black/40" /> {/* Overlay for better text readability */}
+        </div>
+        <div className="relative h-full flex items-center">
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl font-bold mb-4">Unsere Geschäftsstelle</h1>
+            <h1 className="text-4xl font-bold text-white mb-4">Unsere Geschäftsstelle</h1>
           </div>
         </div>
-      </BackgroundPattern>
+      </div>
 
       <div className="container mx-auto px-4 py-12">
         {/* Main Office Section */}
