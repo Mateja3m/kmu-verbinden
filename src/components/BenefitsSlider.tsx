@@ -19,7 +19,6 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
     return <IconComponent size={48} className="text-white" />;
   };
 
-  // Map benefits to their corresponding background images
   const benefitBackgrounds = {
     "Multimediale Sichtbarkeit": "/lovable-uploads/0acf33a2-7fab-4e4c-8c4a-07c6053ae67b.png",
     "Redaktionelle Angebote": "/lovable-uploads/86e1093f-d110-4675-89d5-b99e23c5a312.png",
@@ -44,10 +43,17 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
         <CarouselContent>
           {benefits.map((benefit, index) => (
             <CarouselItem key={index} className="md:basis-1/1">
-              <div className="relative h-[400px] w-full overflow-hidden rounded-xl">
+              <div 
+                className="relative overflow-hidden rounded-xl"
+                style={{ aspectRatio: '16/9' }} // Fixed aspect ratio
+              >
                 <img 
                   src={benefitBackgrounds[benefit.title] || "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png"}
                   alt={benefit.title}
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20" />
