@@ -21,7 +21,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
       <footer className="bg-swiss-darkblue text-white relative">
         <div className="container mx-auto px-4 py-12">
           {/* Main Content Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Contact Information */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-6 whitespace-nowrap">Schweizerischer KMU Verein (SKV)</h3>
@@ -60,6 +60,10 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                       Termin vereinbaren
                     </Button>
                   </div>
+                  {/* Newsletter Signup */}
+                  <div className="pl-8 pt-4">
+                    <NewsletterSignup />
+                  </div>
                 </div>
               </div>
             </div>
@@ -89,11 +93,6 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <Link to="/presse" className="block hover:text-swiss-red transition-colors">Medienmitteilungen und Presse</Link>
                 <Link to="/events" className="block hover:text-swiss-red transition-colors">Eventkalender</Link>
               </nav>
-            </div>
-
-            {/* Newsletter Signup */}
-            <div>
-              <NewsletterSignup />
             </div>
           </div>
         </div>
