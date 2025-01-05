@@ -19,8 +19,8 @@ const Praxisratgeber = () => {
             backgroundPosition: 'center',
           }}
         >
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-swiss-red/90 to-swiss-darkblue/90" />
+          {/* Red Overlay */}
+          <div className="absolute inset-0 bg-swiss-red/90" />
         </div>
 
         <div
