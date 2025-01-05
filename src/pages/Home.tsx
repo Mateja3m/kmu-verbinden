@@ -4,9 +4,7 @@ import Stats from "@/components/Stats";
 import RandomPartnerShowcase from "@/components/RandomPartnerShowcase";
 import Footer from "@/components/Footer";
 import BackgroundPattern from "@/components/BackgroundPattern";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
+import { CalendlyButton } from "@/components/CalendlyButton";
 
 const Home = () => {
   return (
@@ -32,21 +30,10 @@ const Home = () => {
                     </p>
                   </div>
                   <div className="flex gap-4">
-                    <Link to="/rechtsdienst">
-                      <Button 
-                        variant="outline" 
-                        className="bg-transparent border-white text-white hover:bg-white hover:text-swiss-darkblue"
-                      >
-                        Mehr erfahren
-                      </Button>
-                    </Link>
-                    <Button 
-                      className="bg-swiss-red hover:bg-red-700 text-white"
-                      onClick={() => window.location.href = 'mailto:termin@meinjurist.ch'}
-                    >
-                      <Calendar className="mr-2 h-5 w-5" />
-                      Jetzt Termin vereinbaren
-                    </Button>
+                    <CalendlyButton 
+                      variant="outline"
+                      className="bg-transparent border-white text-white hover:bg-white hover:text-swiss-darkblue"
+                    />
                   </div>
                 </div>
               </div>

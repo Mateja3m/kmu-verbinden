@@ -3,6 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Calendar, Gavel, Shield, Briefcase, Building, HandshakeIcon } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import { CalendlyButton } from "@/components/CalendlyButton";
 
 export default function Rechtsdienst() {
   return (
@@ -31,14 +32,9 @@ export default function Rechtsdienst() {
                   Der Weg durch juristische Angelegenheiten kann mit Herausforderungen gespickt sein, 
                   die eine sorgfältige Navigation erfordern.
                 </p>
-                <Button 
-                  size="lg"
+                <CalendlyButton 
                   className="bg-white hover:bg-swiss-red hover:text-white text-swiss-red w-fit transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                  onClick={() => window.location.href = 'mailto:termin@meinjurist.ch'}
-                >
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Kostenlosen Termin vereinbaren
-                </Button>
+                />
               </div>
             </div>
           </div>
@@ -53,14 +49,9 @@ export default function Rechtsdienst() {
                 <h2 className="text-2xl font-bold mb-2">Kostenlose Rechtsberatung für Mitglieder</h2>
                 <p className="text-lg">Jeden Mittwoch Nachmittag - Sichern Sie sich Ihren Termin</p>
               </div>
-              <Button 
-                size="lg" 
+              <CalendlyButton 
                 className="mt-4 md:mt-0 bg-swiss-red hover:bg-red-700 text-white"
-                onClick={() => window.location.href = 'mailto:termin@meinjurist.ch'}
-              >
-                <Calendar className="mr-2 h-5 w-5" />
-                Jetzt Termin vereinbaren
-              </Button>
+              />
             </div>
           </div>
 
