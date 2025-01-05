@@ -82,7 +82,6 @@ const App = () => {
           <Route path="/experts/:id" element={<ExpertDetail />} />
           <Route path="/expert-submission" element={<ExpertSubmission />} />
           <Route path="/news" element={<Presse />} />
-          <Route path="/presse" element={<Presse />} /> {/* Added this line to handle both routes */}
           <Route path="/news/:slug" element={<NewsDetail />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Admin />} />
