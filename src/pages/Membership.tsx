@@ -1,23 +1,30 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import MembershipHero from "@/components/membership/MembershipHero";
 import EnhancedBenefitsGrid from "@/components/membership/EnhancedBenefitsGrid";
 import Testimonials from "@/components/membership/Testimonials";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import RegistrationForm from "@/components/membership/RegistrationForm";
 
 const Membership = () => {
-  const navigate = useNavigate();
   const benefitsRef = useRef<HTMLDivElement>(null);
+  const [showRegistration, setShowRegistration] = useState(false);
 
   const scrollToBenefits = () => {
     benefitsRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleGetStarted = () => {
-    navigate('/auth');
+    setShowRegistration(true);
+    // Add a small delay to ensure the state has updated before scrolling
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 100);
   };
 
   return (
@@ -44,6 +51,7 @@ const Membership = () => {
             </Button>
           </div>
         </div>
+        {showRegistration && <RegistrationForm />}
         <Testimonials />
         <Footer />
       </div>
