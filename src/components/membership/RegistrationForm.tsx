@@ -46,7 +46,10 @@ const RegistrationForm = () => {
           password: formData.password,
         });
 
-        if (authError) throw authError;
+        if (authError) {
+          console.error('Registration error:', authError);
+          throw authError;
+        }
 
         if (authData.user) {
           const { error: profileError } = await supabase
@@ -62,7 +65,10 @@ const RegistrationForm = () => {
             })
             .eq('id', authData.user.id);
 
-          if (profileError) throw profileError;
+          if (profileError) {
+            console.error('Profile update error:', profileError);
+            throw profileError;
+          }
 
           toast({
             title: "Registrierung erfolgreich",
@@ -71,11 +77,11 @@ const RegistrationForm = () => {
           
           setStep(3);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Registration error:', error);
         toast({
           title: "Fehler bei der Registrierung",
-          description: "Bitte versuchen Sie es erneut.",
+          description: error.message || "Bitte versuchen Sie es erneut.",
           variant: "destructive",
         });
       } finally {
