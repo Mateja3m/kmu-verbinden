@@ -27,7 +27,7 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
     "Experten-Positionierung": "/lovable-uploads/e6fa6c1c-101e-4106-90a1-7ce1fca25636.png",
     "Netzwerk": "/lovable-uploads/92861bd1-ae59-4f38-bca2-4ebdf4b3f65d.png",
     "KI-Beratung": "/lovable-uploads/b872ef6d-b2bb-45b5-91aa-2c610a888f5e.png",
-    "Zertifizierung": "/lovable-uploads/19cbbc4e-2aa2-407e-9b31-d950e577c9cb.png",
+    "Zertifizierung": "/lovable-uploads/710d5524-1ea6-450d-a56f-e200a0de134b.png",
     "Community": "/lovable-uploads/93ebe747-0f2e-4eca-bba4-d0c04de26152.png",
   };
 
