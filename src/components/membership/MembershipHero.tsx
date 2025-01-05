@@ -7,7 +7,7 @@ interface MembershipHeroProps {
 const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
   return (
     <div className="relative h-[600px] overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image with dark overlay */}
       <div 
         className="absolute inset-0 w-full h-full"
         style={{
@@ -16,9 +16,11 @@ const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
           backgroundPosition: 'center',
         }}
       />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/20" />
       
-      {/* Content positioned in lower third */}
-      <div className="absolute bottom-32 left-0 right-0 w-full">
+      {/* Content positioned lower */}
+      <div className="absolute bottom-16 left-0 right-0 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl mb-6 text-white">
             Werden Sie Mitglied im KMU Verein
