@@ -1,7 +1,8 @@
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, MapPin, Clock, Users, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -88,12 +89,12 @@ const EventKalender = () => {
             filter: "brightness(0.7)"
           }}
         />
-        <div className="relative bg-gradient-to-b from-swiss-darkblue/80 to-swiss-red/80 py-16 px-4">
+        <div className="relative bg-gradient-to-b from-swiss-darkblue/80 to-swiss-red/80 py-24 px-4">
           <div className="container mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
+            <h1 className="text-6xl font-bold mb-8 text-white drop-shadow-lg">
               KMU Verein SKV Events
             </h1>
-            <p className="text-2xl text-white max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+            <p className="text-2xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
               Entdecken Sie unsere exklusiven Veranstaltungen für Schweizer KMU - 
               Ihr Partner für Weiterbildung und Networking
             </p>
@@ -103,15 +104,72 @@ const EventKalender = () => {
 
       <div className="container mx-auto px-4 py-12">
         {/* KITS 2025 Banner */}
-        <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-red rounded-lg p-8 mb-12 text-white">
-          <h2 className="text-3xl font-bold mb-4">KITS 2025</h2>
-          <p className="text-xl mb-2">KMU Innovation Technology Summit</p>
-          <p className="mb-4">1. Juli 2025 | Zürich</p>
-          <p className="max-w-2xl">
-            Entdecken Sie die Zukunft der KMU-Innovation! Der KITS 2025 bringt führende Experten, 
-            innovative Technologien und zukunftsweisende Lösungen zusammen. Seien Sie dabei, wenn 
-            die Schweizer KMU-Landschaft die digitale Transformation gestaltet.
-          </p>
+        <div className="bg-white rounded-lg shadow-xl overflow-hidden mb-12">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-swiss-darkblue to-swiss-red opacity-90" />
+            <div className="relative p-8 md:p-12">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="text-white">
+                  <div className="inline-block px-4 py-2 bg-white/20 rounded-full text-sm mb-4">
+                    1. Juli 2025
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-bold mb-4">KITS 2025</h2>
+                  <p className="text-2xl mb-4">KMU Innovation Technology Summit</p>
+                  
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center gap-3">
+                      <MapPin className="h-5 w-5" />
+                      <span>Zürich, Switzerland</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock className="h-5 w-5" />
+                      <span>09:00 - 18:00</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Users className="h-5 w-5" />
+                      <span>500+ Teilnehmer erwartet</span>
+                    </div>
+                  </div>
+
+                  <p className="text-lg mb-6">
+                    Entdecken Sie die Zukunft der KMU-Innovation! Der KITS 2025 bringt führende 
+                    Experten, innovative Technologien und zukunftsweisende Lösungen zusammen.
+                  </p>
+
+                  <Button 
+                    className="bg-white text-swiss-darkblue hover:bg-swiss-gray transition-colors group"
+                  >
+                    Jetzt Anmelden
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
+
+                <div className="space-y-6 text-white">
+                  <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+                    <h3 className="text-xl font-semibold mb-3">Highlights</h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2">
+                        <div className="h-2 w-2 bg-swiss-red rounded-full" />
+                        Keynote Speakers aus der Tech-Industrie
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="h-2 w-2 bg-swiss-red rounded-full" />
+                        Networking mit führenden KMU-Innovatoren
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="h-2 w-2 bg-swiss-red rounded-full" />
+                        Hands-on Workshops & Live Demos
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="h-2 w-2 bg-swiss-red rounded-full" />
+                        Startup Pitch Competition
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <h2 className="text-3xl font-bold mb-8 text-swiss-darkblue">KMU Events in der Schweiz</h2>
