@@ -156,7 +156,7 @@ const Redaktion = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
-                  className="flex items-center gap-2"
+                  className="bg-swiss-red hover:bg-swiss-red/90 text-white flex items-center gap-2 shadow-lg transition-all duration-300 hover:translate-y-[-2px]"
                   onClick={() => window.location.href = "mailto:redaktion@kmu-verein.ch"}
                 >
                   <Mail className="h-4 w-4" />
