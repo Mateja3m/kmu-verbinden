@@ -18,6 +18,8 @@ const RegistrationForm = () => {
     postalCode: "",
     city: "",
     email: "",
+    phone: "",
+    website: "",
     password: "",
   });
 
@@ -55,6 +57,8 @@ const RegistrationForm = () => {
               address: formData.address,
               postal_code: formData.postalCode,
               city: formData.city,
+              phone: formData.phone,
+              website: formData.website,
             })
             .eq('id', authData.user.id);
 
@@ -62,7 +66,7 @@ const RegistrationForm = () => {
 
           toast({
             title: "Registrierung erfolgreich",
-            description: "Bitte bestätigen Sie Ihre E-Mail-Adresse.",
+            description: "Ihre Anmeldung wurde erfolgreich übermittelt.",
           });
           
           setStep(3);
@@ -78,10 +82,6 @@ const RegistrationForm = () => {
         setLoading(false);
       }
     }
-  };
-
-  const handleLogin = () => {
-    navigate("/auth");
   };
 
   return (
@@ -150,6 +150,20 @@ const RegistrationForm = () => {
                   onChange={handleInputChange}
                 />
               </div>
+              <Input 
+                placeholder="Telefon" 
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="w-full" 
+              />
+              <Input 
+                placeholder="Website" 
+                name="website"
+                value={formData.website}
+                onChange={handleInputChange}
+                className="w-full" 
+              />
               <Button 
                 className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white mt-6"
                 onClick={() => setStep(2)}
@@ -185,17 +199,6 @@ const RegistrationForm = () => {
               >
                 {loading ? "Wird verarbeitet..." : "Registrieren"}
               </Button>
-              <div className="text-center mt-4">
-                <p className="text-sm text-gray-600">
-                  Bereits Mitglied?{" "}
-                  <button
-                    onClick={handleLogin}
-                    className="text-swiss-red hover:text-swiss-darkblue"
-                  >
-                    Hier einloggen
-                  </button>
-                </p>
-              </div>
             </div>
           )}
 
@@ -203,7 +206,7 @@ const RegistrationForm = () => {
             <div className="text-center space-y-4">
               <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Registrierung erfolgreich!</h3>
               <p className="text-gray-600">
-                Bitte überprüfen Sie Ihre E-Mail-Adresse und bestätigen Sie Ihre Registrierung.
+                Vielen Dank für Ihre Registrierung. Wir werden Ihre Anfrage prüfen und uns in Kürze bei Ihnen melden.
               </p>
               <Button 
                 className="mt-6"
