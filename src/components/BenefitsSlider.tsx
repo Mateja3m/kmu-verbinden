@@ -12,6 +12,22 @@ interface BenefitsSliderProps {
 
 export default function BenefitsSlider({ activeIndex, setActiveIndex }: BenefitsSliderProps) {
   const [api, setApi] = useState<CarouselApi>();
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  // Effect for auto-scrolling
+  useEffect(() => {
+    if (!api || !autoPlay) return;
+
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 3000); // Scroll every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [api, autoPlay]);
+
+  // Pause auto-scroll on hover
+  const handleMouseEnter = () => setAutoPlay(false);
+  const handleMouseLeave = () => setAutoPlay(true);
 
   useEffect(() => {
     if (!api) return;
@@ -35,7 +51,11 @@ export default function BenefitsSlider({ activeIndex, setActiveIndex }: Benefits
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div 
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <Carousel
         opts={{
           align: "start",
