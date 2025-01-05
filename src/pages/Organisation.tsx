@@ -155,7 +155,7 @@ const Organisation = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+      <main className="flex-grow py-24 px-4 sm:px-6 lg:px-8"> {/* Changed py-12 to py-24 for more top spacing */}
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-swiss-darkblue mb-12 text-center">
             Organisation des Schweizerischen KMU Vereins (SKV)
