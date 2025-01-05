@@ -1,6 +1,6 @@
 import { Monitor, Users, Award, Lightbulb, Network, FileText, BadgeCheck, Bot } from 'lucide-react';
 import { useState } from 'react';
-import BenefitsSlider from './BenefitsSlider';
+import { BenefitsSlider } from './BenefitsSlider';
 
 export const benefits = [
   {

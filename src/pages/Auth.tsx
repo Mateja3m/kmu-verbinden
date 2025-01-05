@@ -118,6 +118,7 @@ const AuthPage = () => {
                     loading_button_label: "Anmeldung läuft...",
                     password_input_placeholder: "Ihr Passwort",
                     email_input_placeholder: "Ihre E-Mail-Adresse",
+                    forgot_password_text: "Passwort vergessen?",
                     link_text: "Sie haben noch kein Konto? Registrieren",
                   },
                   sign_up: {

@@ -2,11 +2,6 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 
-interface BenefitsSliderProps {
-  activeIndex: number;
-  setActiveIndex: (index: number) => void;
-}
-
 const benefits = [
   {
     id: 1,
@@ -40,21 +35,23 @@ const benefits = [
   },
 ];
 
-const BenefitsSlider = ({ activeIndex, setActiveIndex }: BenefitsSliderProps) => {
+const BenefitsSlider = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % benefits.length);
+      setCurrentIndex((current) => (current + 1) % benefits.length);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [setActiveIndex]);
+  }, []);
 
   const nextSlide = () => {
-    setActiveIndex((current) => (current + 1) % benefits.length);
+    setCurrentIndex((current) => (current + 1) % benefits.length);
   };
 
   const prevSlide = () => {
-    setActiveIndex((current) => (current - 1 + benefits.length) % benefits.length);
+    setCurrentIndex((current) => (current - 1 + benefits.length) % benefits.length);
   };
 
   return (
@@ -62,11 +59,11 @@ const BenefitsSlider = ({ activeIndex, setActiveIndex }: BenefitsSliderProps) =>
       <div className="relative overflow-hidden rounded-xl bg-white shadow-lg">
         <div 
           className="aspect-[16/9] w-full relative"
-          style={{ minHeight: '300px' }}
+          style={{ minHeight: '300px' }} // Prevent layout shift
         >
           <img
-            src={benefits[activeIndex].image}
-            alt={benefits[activeIndex].title}
+            src={benefits[currentIndex].image}
+            alt={benefits[currentIndex].title}
             className="w-full h-full object-cover"
             width={1280}
             height={720}
@@ -75,8 +72,8 @@ const BenefitsSlider = ({ activeIndex, setActiveIndex }: BenefitsSliderProps) =>
           
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
             <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-              <h3 className="text-2xl font-bold mb-2">{benefits[activeIndex].title}</h3>
-              <p className="text-lg opacity-90">{benefits[activeIndex].description}</p>
+              <h3 className="text-2xl font-bold mb-2">{benefits[currentIndex].title}</h3>
+              <p className="text-lg opacity-90">{benefits[currentIndex].description}</p>
             </div>
           </div>
         </div>
@@ -106,9 +103,9 @@ const BenefitsSlider = ({ activeIndex, setActiveIndex }: BenefitsSliderProps) =>
             <button
               key={index}
               className={`w-2 h-2 rounded-full transition-colors ${
-                index === activeIndex ? 'bg-white' : 'bg-white/50'
+                index === currentIndex ? 'bg-white' : 'bg-white/50'
               }`}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => setCurrentIndex(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
