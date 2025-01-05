@@ -4,10 +4,12 @@ import { Monitor, Users, Award, Lightbulb, Network, FileText, BadgeCheck, Bot } 
 import { benefits } from './Benefits';
 import { cn } from '@/lib/utils';
 
-export const BenefitsSlider = ({ activeIndex, setActiveIndex }: { 
+interface BenefitsSliderProps {
   activeIndex: number;
   setActiveIndex: (index: number) => void;
-}) => {
+}
+
+export default function BenefitsSlider({ activeIndex, setActiveIndex }: BenefitsSliderProps) {
   const [api, setApi] = useState<any>();
 
   useEffect(() => {
@@ -72,4 +74,4 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
       </Carousel>
     </div>
   );
-};
+}
