@@ -163,20 +163,21 @@ const Organisation = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="w-full h-[300px] relative overflow-hidden">
+      <div className="w-full h-[400px] relative overflow-hidden">
         <img
           src="/lovable-uploads/2ab9c652-f480-41b0-ac77-07f3a01849f2.png"
           alt="SKV Office"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/30 backdrop-blur-[2px]" />
-      </div>
-      <main className="flex-grow py-24 px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-swiss-darkblue mb-12 text-center bg-white/95 py-6 px-8 rounded-lg shadow-sm backdrop-blur-sm">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-white/70" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h1 className="text-4xl font-bold text-white mb-12 text-center max-w-4xl mx-auto px-8 py-6 bg-swiss-darkblue/30 backdrop-blur-sm rounded-lg shadow-lg">
             Organisation des Schweizerischen KMU Vereins (SKV)
           </h1>
-          
+        </div>
+      </div>
+      <main className="flex-grow py-24 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto">
           {renderSection(presidencySection)}
           {renderSection(managementSection)}
           {renderSection(advisoryBoard)}
