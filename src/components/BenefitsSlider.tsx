@@ -3,6 +3,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Monitor, Users, Award, Lightbulb, Network, FileText, BadgeCheck, Bot } from 'lucide-react';
 import { benefits } from './Benefits';
 import { cn } from '@/lib/utils';
+import { type CarouselApi } from "@/components/ui/carousel";
 
 interface BenefitsSliderProps {
   activeIndex: number;
@@ -10,7 +11,7 @@ interface BenefitsSliderProps {
 }
 
 export default function BenefitsSlider({ activeIndex, setActiveIndex }: BenefitsSliderProps) {
-  const [api, setApi] = useState<any>();
+  const [api, setApi] = useState<CarouselApi>();
 
   useEffect(() => {
     if (!api) return;
@@ -42,9 +43,9 @@ export default function BenefitsSlider({ activeIndex, setActiveIndex }: Benefits
         }}
         className="w-full"
         setApi={setApi}
-        onSelect={(api) => {
-          const selectedIndex = api.selectedScrollSnap();
-          setActiveIndex(selectedIndex);
+        onSelect={() => {
+          if (!api) return;
+          setActiveIndex(api.selectedScrollSnap());
         }}
       >
         <CarouselContent>
