@@ -15,6 +15,10 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
     api.scrollTo(activeIndex);
   }, [activeIndex, api]);
 
+  const renderIcon = (IconComponent: React.ElementType) => {
+    return <IconComponent size={48} className="text-white" />;
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
       <Carousel
@@ -40,7 +44,7 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
                     "mb-6 p-4 rounded-full bg-white/10 backdrop-blur-sm",
                     activeIndex === index ? "ring-2 ring-white" : ""
                   )}>
-                    {React.createElement(benefit.icon, { size: 48, className: "text-white" })}
+                    {renderIcon(benefit.icon)}
                   </div>
                   <h3 className="text-3xl font-bold mb-4 text-center">{benefit.title}</h3>
                   <p className="text-lg text-center max-w-2xl">{benefit.description}</p>
