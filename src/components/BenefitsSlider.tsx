@@ -22,7 +22,7 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
   // Map benefits to their corresponding background images
   const benefitBackgrounds = {
     "Multimediale Sichtbarkeit": "/lovable-uploads/0acf33a2-7fab-4e4c-8c4a-07c6053ae67b.png",
-    "Redaktionelle Angebote": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "Redaktionelle Angebote": "/lovable-uploads/874b0f8c-856e-42ef-b959-a1393f89478c.png",
     "SKV-Partner Angebote": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
     "Experten-Positionierung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
     "Netzwerk": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
