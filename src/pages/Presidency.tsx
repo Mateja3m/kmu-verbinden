@@ -9,7 +9,7 @@ const Presidency = () => {
       <BackgroundPattern>
         <main className="container mx-auto px-4 pt-32 pb-16">
           <div className="max-w-6xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-swiss-darkblue mb-12 text-center relative z-10 bg-white/80 py-4 px-6 rounded-lg shadow-sm backdrop-blur-sm">
+            <h1 className="text-3xl md:text-4xl font-bold text-swiss-darkblue mb-12 text-center relative z-10 bg-white/80 py-4 px-6 rounded-lg shadow-sm backdrop-blur-sm whitespace-nowrap inline-block mx-auto">
               Präsidium des Schweizerischen KMU Vereins (SKV)
             </h1>
             
