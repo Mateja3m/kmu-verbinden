@@ -11,7 +11,7 @@ import Partners from './pages/Partners';
 import Experts from './pages/Experts';
 import ExpertDetail from './pages/ExpertDetail';
 import ExpertSubmission from './pages/ExpertSubmission';
-import News from './pages/News';
+import Presse from './pages/Presse';
 import NewsDetail from './pages/NewsDetail';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
@@ -80,7 +80,7 @@ const App = () => {
           <Route path="/experts" element={<Experts />} />
           <Route path="/experts/:id" element={<ExpertDetail />} />
           <Route path="/expert-submission" element={<ExpertSubmission />} />
-          <Route path="/news" element={<News />} />
+          <Route path="/presse" element={<Presse />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Admin />} />
@@ -99,7 +99,7 @@ const App = () => {
           <Route path="/versicherungsrechner" element={<VersicherungsRechner />} />
           <Route path="/empfehlen" element={<Empfehlen />} />
           <Route path="/organisation" element={<Organisation />} />
-          <Route path="/praxisratgeber" element={<Praxisratgeber />} />
+          <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
         </Routes>
       </main>
     </div>

@@ -17,14 +17,14 @@ export const NewsMenu = () => {
           <li>
             <NavigationMenuLink asChild>
               <Link
-                to="/news"
+                to="/news/praxisratgeber"
                 className={cn(
                   "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                 )}
               >
-                <div className="text-sm font-medium leading-none">KMU-Zeitung: Unternehmensblick</div>
+                <div className="text-sm font-medium leading-none">KMU-Praxisratgeber</div>
                 <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                  Unsere Quartalszeitung für KMUs
+                  Positionieren Sie sich als Branchenexperte
                 </p>
               </Link>
             </NavigationMenuLink>
@@ -47,21 +47,6 @@ export const NewsMenu = () => {
                   Tägliche News und Analysen
                 </p>
               </a>
-            </NavigationMenuLink>
-          </li>
-          <li>
-            <NavigationMenuLink asChild>
-              <Link
-                to="/news/praxisratgeber"
-                className={cn(
-                  "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                )}
-              >
-                <div className="text-sm font-medium leading-none">KMU Praxisratgeber</div>
-                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                  Praktische Leitfäden für Ihren Geschäftsalltag
-                </p>
-              </Link>
             </NavigationMenuLink>
           </li>
           <li>
@@ -90,6 +75,21 @@ export const NewsMenu = () => {
                 <div className="text-sm font-medium leading-none">eBooks & digitale Leitfäden</div>
                 <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                   Digitale Ressourcen für Ihr Unternehmen
+                </p>
+              </Link>
+            </NavigationMenuLink>
+          </li>
+          <li>
+            <NavigationMenuLink asChild>
+              <Link
+                to="/presse"
+                className={cn(
+                  "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                )}
+              >
+                <div className="text-sm font-medium leading-none">Medienmitteilungen und Presse</div>
+                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                  Aktuelle Medienmitteilungen und Presseberichte
                 </p>
               </Link>
             </NavigationMenuLink>
