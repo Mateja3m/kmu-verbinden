@@ -33,9 +33,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
                         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       )}
                     >
-                      <div className="text-sm font-medium leading-none">
-                        Präsidium
-                      </div>
+                      <div className="text-sm font-medium leading-none">Präsidium</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Lernen Sie unseren Präsidenten kennen
                       </p>
@@ -45,16 +43,29 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
                 <li>
                   <NavigationMenuLink asChild>
                     <Link
-                      to="/unsere-auftrag"
+                      to="/organisation"
                       className={cn(
                         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       )}
                     >
-                      <div className="text-sm font-medium leading-none">
-                        Unsere Auftrag
-                      </div>
+                      <div className="text-sm font-medium leading-none">Organisation</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Erfahren Sie mehr über unsere Mission
+                        Unsere Organisationsstruktur
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/geschaeftsstelle"
+                      className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      )}
+                    >
+                      <div className="text-sm font-medium leading-none">Geschäftsstelle</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Unsere Standorte und Team
                       </p>
                     </Link>
                   </NavigationMenuLink>
@@ -70,16 +81,14 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
                 <li>
                   <NavigationMenuLink asChild>
                     <Link
-                      to="/rechtsdienst"
+                      to="/redaktion"
                       className={cn(
                         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       )}
                     >
-                      <div className="text-sm font-medium leading-none">
-                        Rechtsdienst
-                      </div>
+                      <div className="text-sm font-medium leading-none">Redaktion</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Rechtliche Unterstützung für KMU
+                        Unsere redaktionellen Dienstleistungen
                       </p>
                     </Link>
                   </NavigationMenuLink>
@@ -87,16 +96,14 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
                 <li>
                   <NavigationMenuLink asChild>
                     <Link
-                      to="/experts"
+                      to="/versicherungsrechner"
                       className={cn(
                         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       )}
                     >
-                      <div className="text-sm font-medium leading-none">
-                        Expertenrat
-                      </div>
+                      <div className="text-sm font-medium leading-none">KMU-Versicherungsrechner</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Fachexperten für Ihre Bedürfnisse
+                        Berechnen Sie Ihre Versicherungsprämien
                       </p>
                     </Link>
                   </NavigationMenuLink>
@@ -104,16 +111,102 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
                 <li>
                   <NavigationMenuLink asChild>
                     <Link
-                      to="/expert-submission"
+                      to="/events"
                       className={cn(
                         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       )}
                     >
-                      <div className="text-sm font-medium leading-none">
-                        Experte werden
+                      <div className="text-sm font-medium leading-none">Eventkalender</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Aktuelle Veranstaltungen und Events
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>KMU-News</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid gap-3 p-6 w-[400px] bg-white">
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/news"
+                      className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      )}
+                    >
+                      <div className="text-sm font-medium leading-none">KMU-Zeitung: Unternehmensblick</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Unsere Quartalszeitung für KMUs
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink asChild>
+                    <a
+                      href="https://unternehmensjournal.ch"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      )}
+                    >
+                      <div className="text-sm font-medium leading-none flex items-center">
+                        KMU Unternehmensjournal
+                        <ExternalLink className="ml-1 h-3 w-3" />
                       </div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Werden Sie Teil unseres Expertennetzwerks
+                        Tägliche News und Analysen
+                      </p>
+                    </a>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/news/praxisratgeber"
+                      className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      )}
+                    >
+                      <div className="text-sm font-medium leading-none">KMU Praxisratgeber</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Praktische Leitfäden für Ihren Geschäftsalltag
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/news/branchenmagazine"
+                      className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      )}
+                    >
+                      <div className="text-sm font-medium leading-none">Branchenmagazine</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Spezifische Publikationen für Ihre Branche
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/news/ebooks"
+                      className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      )}
+                    >
+                      <div className="text-sm font-medium leading-none">eBooks & digitale Leitfäden</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Digitale Ressourcen für Ihr Unternehmen
                       </p>
                     </Link>
                   </NavigationMenuLink>
@@ -127,7 +220,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
               to="/membership" 
               className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent"
             >
-              Mitglieder
+              Mitgliedschaft
             </Link>
           </NavigationMenuItem>
 
@@ -140,18 +233,6 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
             </Link>
           </NavigationMenuItem>
         </div>
-
-        <NavigationMenuItem>
-          <a 
-            href="https://unternehmensjournal.ch" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-sm font-medium inline-flex items-center hover:text-swiss-red transition-colors"
-          >
-            KMU News
-            <ExternalLink className="ml-1 h-3 w-3" />
-          </a>
-        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
