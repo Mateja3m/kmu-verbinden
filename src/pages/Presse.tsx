@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
 import { CalendarIcon, ArrowRightIcon } from "lucide-react";
+import type { NewsPost } from "@/types/database/news";
 
 const Presse = () => {
-  const [news, setNews] = useState<any[]>([]);
+  const [news, setNews] = useState<NewsPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -18,6 +19,8 @@ const Presse = () => {
   const fetchNews = async () => {
     try {
       setIsLoading(true);
+      console.log("Fetching news...");
+      
       const { data, error } = await supabase
         .from("news_posts")
         .select("*")
@@ -32,6 +35,8 @@ const Presse = () => {
         });
         return;
       }
+
+      console.log("Fetched news data:", data);
 
       if (data) {
         setNews(data);
@@ -102,7 +107,7 @@ const Presse = () => {
                 <div className="p-6">
                   <div className="flex items-center text-sm text-gray-500 mb-3">
                     <CalendarIcon className="h-4 w-4 mr-2" />
-                    {formatDate(post.published_at)}
+                    {formatDate(post.published_at || post.created_at)}
                   </div>
                   <h2 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-swiss-red transition-colors line-clamp-2">
                     {post.title}
