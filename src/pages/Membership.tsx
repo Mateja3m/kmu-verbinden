@@ -10,6 +10,7 @@ import RegistrationForm from "@/components/membership/RegistrationForm";
 
 const Membership = () => {
   const benefitsRef = useRef<HTMLDivElement>(null);
+  const registrationFormRef = useRef<HTMLDivElement>(null);
   const [showRegistration, setShowRegistration] = useState(false);
 
   const scrollToBenefits = () => {
@@ -18,11 +19,11 @@ const Membership = () => {
 
   const handleGetStarted = () => {
     setShowRegistration(true);
-    // Add a small delay to ensure the state has updated before scrolling
+    // Add a small delay to ensure the state has updated and the form is rendered
     setTimeout(() => {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth'
+      registrationFormRef.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
       });
     }, 100);
   };
@@ -51,7 +52,11 @@ const Membership = () => {
             </Button>
           </div>
         </div>
-        {showRegistration && <RegistrationForm />}
+        {showRegistration && (
+          <div ref={registrationFormRef}>
+            <RegistrationForm />
+          </div>
+        )}
         <Testimonials />
         <Footer />
       </div>
