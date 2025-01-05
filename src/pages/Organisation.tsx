@@ -17,6 +17,26 @@ const Organisation = () => {
     ]
   };
 
+  const managementSection = {
+    title: "Geschäftsführung",
+    members: [
+      {
+        name: "Fabian Reinarz",
+        role: "Redaktionsleitung",
+        image: "/lovable-uploads/1613560366192.jpeg"
+      },
+      {
+        name: "Benjamin Wagner",
+        role: "Leiter KMU-Versicherungen und AI"
+      },
+      {
+        name: "David Schwander-Vogt",
+        role: "Leiter Marketing, Mitglieder und Partnerschaften",
+        image: "/lovable-uploads/1628785358205.jpeg"
+      }
+    ]
+  };
+
   const advisoryBoard = {
     title: "Beirat",
     members: [
@@ -77,10 +97,6 @@ const Organisation = () => {
         subRole: "Rubrik Wirtschaft / D-A-CH"
       },
       {
-        name: "Fabian Reinarz",
-        role: "Redaktionsleitung"
-      },
-      {
         name: "Dr. Martin Heinemann",
         role: "Finanzierungen"
       },
@@ -89,17 +105,9 @@ const Organisation = () => {
         role: "Software Architekt"
       },
       {
-        name: "Benjamin Wagner",
-        role: "Leitung KMU-Versicherungen"
-      },
-      {
         name: "Deepal Soneji",
         role: "Redaktionsmitarbeiter / Design",
         subRole: "Ratgeber & eBook"
-      },
-      {
-        name: "David Schwander-Vogt",
-        role: "Marketing & Partnerschaften"
       }
     ]
   };
@@ -155,13 +163,14 @@ const Organisation = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-grow py-24 px-4 sm:px-6 lg:px-8"> {/* Changed py-12 to py-24 for more top spacing */}
+      <main className="flex-grow py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-swiss-darkblue mb-12 text-center">
             Organisation des Schweizerischen KMU Vereins (SKV)
           </h1>
           
           {renderSection(presidencySection)}
+          {renderSection(managementSection)}
           {renderSection(advisoryBoard)}
           {renderSection(officeTeam)}
           {renderSection(extendedTeam)}
