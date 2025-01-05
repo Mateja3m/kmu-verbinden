@@ -19,6 +19,18 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
     return <IconComponent size={48} className="text-white" />;
   };
 
+  // Map benefits to their corresponding background images
+  const benefitBackgrounds = {
+    "Multimediale Sichtbarkeit": "/lovable-uploads/0acf33a2-7fab-4e4c-8c4a-07c6053ae67b.png",
+    "Redaktionelle Angebote": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "SKV-Partner Angebote": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "Experten-Positionierung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "Netzwerk": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "KI-Beratung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "Zertifizierung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "Community": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
       <Carousel
@@ -34,7 +46,7 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
             <CarouselItem key={index} className="md:basis-1/1">
               <div className="relative h-[400px] w-full overflow-hidden rounded-xl">
                 <img 
-                  src="/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png"
+                  src={benefitBackgrounds[benefit.title] || "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png"}
                   alt={benefit.title}
                   className="w-full h-full object-cover"
                 />
