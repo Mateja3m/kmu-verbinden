@@ -163,9 +163,17 @@ const Organisation = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <main className="flex-grow py-24 px-4 sm:px-6 lg:px-8">
+      <div className="w-full h-[300px] relative overflow-hidden">
+        <img
+          src="/lovable-uploads/2ab9c652-f480-41b0-ac77-07f3a01849f2.png"
+          alt="SKV Office"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/30 backdrop-blur-[2px]" />
+      </div>
+      <main className="flex-grow py-24 px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-swiss-darkblue mb-12 text-center">
+          <h1 className="text-4xl font-bold text-swiss-darkblue mb-12 text-center bg-white/95 py-6 px-8 rounded-lg shadow-sm backdrop-blur-sm">
             Organisation des Schweizerischen KMU Vereins (SKV)
           </h1>
           
