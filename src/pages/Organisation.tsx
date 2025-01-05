@@ -51,13 +51,11 @@ const Organisation = () => {
       },
       {
         name: "Maksim Wagner",
-        role: "Praktikant Redaktion",
-        image: "/lovable-uploads/Lebenslauf Maksim Wagner.pdf (1).png"
+        role: "Praktikant Redaktion"
       },
       {
         name: "Rauschan Kumar",
-        role: "IT",
-        image: "/lovable-uploads/0013c923-dd9f-412e-b106-0d9ade063cd1.png"
+        role: "IT"
       },
       {
         name: "Maxim Makendonsky",
@@ -76,28 +74,23 @@ const Organisation = () => {
       {
         name: "Alexander Lares",
         role: "Freischaffender Redaktionsmitarbeiter",
-        subRole: "Rubrik Wirtschaft / D-A-CH",
-        image: "/lovable-uploads/e4fffdcc-347a-4aab-8b10-aaa920bc32bc.png"
+        subRole: "Rubrik Wirtschaft / D-A-CH"
       },
       {
         name: "Fabian Reinarz",
-        role: "Redaktionsleitung",
-        image: "/lovable-uploads/1613560366192.jpeg"
+        role: "Redaktionsleitung"
       },
       {
         name: "Dr. Martin Heinemann",
-        role: "Finanzierungen",
-        image: "/lovable-uploads/fc5af5b1-6925-4b60-8a9c-fa45339e451f.png"
+        role: "Finanzierungen"
       },
       {
         name: "Igor Velickovic",
-        role: "Software Architekt",
-        image: "/lovable-uploads/6003c7c0-c111-45cb-94a6-74b3036dbb8c.png"
+        role: "Software Architekt"
       },
       {
         name: "Benjamin Wagner",
-        role: "Leitung KMU-Versicherungen",
-        image: "/lovable-uploads/39df9860-332b-419c-9a05-04bd6938ca6b.png"
+        role: "Leitung KMU-Versicherungen"
       },
       {
         name: "Deepal Soneji",
@@ -106,8 +99,7 @@ const Organisation = () => {
       },
       {
         name: "David Schwander-Vogt",
-        role: "Marketing & Partnerschaften",
-        image: "/lovable-uploads/1628785358205.jpeg"
+        role: "Marketing & Partnerschaften"
       }
     ]
   };
@@ -117,7 +109,12 @@ const Organisation = () => {
       <h2 className="text-2xl font-bold text-swiss-darkblue mb-8">{section.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {section.members.map((member: any, index: number) => (
-          <Card key={index} className="p-6 hover:shadow-lg transition-shadow duration-300">
+          <Card 
+            key={index} 
+            className={`p-6 hover:shadow-lg transition-shadow duration-300 ${
+              !member.image ? 'bg-gradient-to-br from-white to-swiss-gray' : ''
+            }`}
+          >
             {member.image && (
               <div className="mb-4 aspect-square relative overflow-hidden rounded-lg">
                 <img
@@ -125,6 +122,11 @@ const Organisation = () => {
                   alt={member.name}
                   className="object-cover w-full h-full"
                 />
+              </div>
+            )}
+            {!member.image && (
+              <div className="mb-4 text-3xl font-bold text-swiss-darkblue opacity-25">
+                {member.name.charAt(0)}
               </div>
             )}
             <h3 className="text-xl font-semibold text-swiss-darkblue mb-2">{member.name}</h3>
