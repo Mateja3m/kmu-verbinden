@@ -9,7 +9,7 @@ const Praxisratgeber = () => {
       <Navigation />
       
       {/* Hero Section with Background Image */}
-      <section className="relative pt-24 pb-12 text-white">
+      <section className="relative pt-32 pb-24 text-white">
         {/* Background Image with Overlay */}
         <div 
           className="absolute inset-0 z-0"
