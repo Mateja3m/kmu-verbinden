@@ -31,6 +31,7 @@ import VersicherungsRechner from './pages/VersicherungsRechner';
 import Empfehlen from './pages/Empfehlen';
 import Organisation from './pages/Organisation';
 import Praxisratgeber from './pages/Praxisratgeber';
+import Branchenmagazine from './pages/Branchenmagazine';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -100,6 +101,7 @@ const App = () => {
           <Route path="/empfehlen" element={<Empfehlen />} />
           <Route path="/organisation" element={<Organisation />} />
           <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
+          <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
         </Routes>
       </main>
     </div>
