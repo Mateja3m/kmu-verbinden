@@ -28,7 +28,7 @@ export const BenefitsSlider = ({ activeIndex, setActiveIndex }: {
     "Netzwerk": "/lovable-uploads/92861bd1-ae59-4f38-bca2-4ebdf4b3f65d.png",
     "KI-Beratung": "/lovable-uploads/b872ef6d-b2bb-45b5-91aa-2c610a888f5e.png",
     "Zertifizierung": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
-    "Community": "/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png",
+    "Community": "/lovable-uploads/93ebe747-0f2e-4eca-bba4-d0c04de26152.png",
   };
 
   return (
