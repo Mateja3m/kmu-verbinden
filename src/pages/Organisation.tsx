@@ -11,7 +11,7 @@ const Organisation = () => {
         name: "Diego Schnydrig",
         role: "Präsident",
         email: "diego.schnydrig@kmu-verein.ch",
-        image: "/lovable-uploads/0d64f4ef-3056-4a82-aa47-7ab680b7a57a.png",
+        image: "https://www.konsumentenbund.ch/wp-content/uploads/2023/11/Diego-Schnydrig-SD-Treuhand-und-Dienste-GmbH.jpg",
         description: "Der Schweizerische KMU Verein (SKV) setzt sich seit seiner Gründung engagiert für die Belange der kleinen und mittleren Unternehmen (KMU) in der Schweiz ein. Wir bieten unseren Mitgliedern praxisnahe Beratung, umfassende Dienstleistungen und ein starkes Netzwerk an Experten. Mit einem engagierten Vorstand, einem erfahrenen Beirat und einer kompetenten Geschäftsstelle in Naters im Wallis vertreten wir die Interessen unserer Mitglieder wirkungsvoll und begleiten sie auf ihrem Weg zum Erfolg."
       }
     ]
@@ -119,12 +119,12 @@ const Organisation = () => {
         {section.members.map((member: any, index: number) => (
           <Card 
             key={index} 
-            className={`p-6 hover:shadow-lg transition-shadow duration-300 ${
+            className={`p-6 hover:shadow-lg transition-shadow duration-300 bg-white ${
               !member.image ? 'bg-gradient-to-br from-white to-swiss-gray' : ''
             }`}
           >
             {member.image && (
-              <div className="mb-4 aspect-square relative overflow-hidden rounded-lg">
+              <div className="mb-4 aspect-square relative overflow-hidden rounded-lg bg-white">
                 <img
                   src={member.image}
                   alt={member.name}
