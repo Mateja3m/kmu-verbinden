@@ -6,12 +6,32 @@ import { toast } from "sonner";
 
 export const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically handle the newsletter signup
-    toast.success("Vielen Dank für Ihre Anmeldung!");
-    setEmail("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xgveqvww", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        toast.success("Vielen Dank für Ihre Anmeldung!");
+        setEmail("");
+      } else {
+        toast.error("Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es später erneut.");
+      }
+    } catch (error) {
+      toast.error("Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es später erneut.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -29,11 +49,13 @@ export const NewsletterSignup = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+            disabled={isSubmitting}
           />
           <Button 
             type="submit"
             variant="outline"
             className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors"
+            disabled={isSubmitting}
           >
             <Mail className="h-4 w-4" />
           </Button>
