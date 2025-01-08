@@ -20,6 +20,7 @@ const AdminAuth = () => {
         console.log("[AdminAuth] Current session:", session);
         
         if (session?.user) {
+          console.log("[AdminAuth] User found in session, checking admin status");
           setIsLoading(true);
           setShowAuth(false);
           await checkAdminAndRedirect(session.user.id);
@@ -36,6 +37,7 @@ const AdminAuth = () => {
       console.log("[AdminAuth] Auth state changed:", event, session?.user?.id);
       
       if (event === 'SIGNED_IN' && session?.user) {
+        console.log("[AdminAuth] Sign in detected, checking admin status");
         setIsLoading(true);
         setShowAuth(false);
         await checkAdminAndRedirect(session.user.id);
@@ -66,7 +68,7 @@ const AdminAuth = () => {
       if (profile?.is_admin) {
         console.log("[AdminAuth] Admin access confirmed, redirecting");
         navigate('/admin');
-        return; // Add return statement here
+        return;
       } else {
         console.log("[AdminAuth] User is not an admin, signing out");
         await supabase.auth.signOut();
@@ -80,7 +82,6 @@ const AdminAuth = () => {
     } catch (error) {
       console.error("[AdminAuth] Admin check error:", error);
       handleError(error as AuthError);
-      setShowAuth(true);
     } finally {
       setIsLoading(false);
     }
