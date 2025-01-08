@@ -2,19 +2,25 @@ import { Check } from "lucide-react";
 
 const benefits = [
   {
-    tag: "NEU",
+    tag: "KMU Mitgliedschaft",
     title: "KMU Finanzierung",
     description: "10'000 zinslos und laufzeitfrei.",
+    price: "CHF 550.-",
+    type: "Passiv"
   },
   {
-    tag: "Exklusiver Vorteil",
+    tag: "Einzelmitgliedschaft",
     title: "Kostenlose KI-Beratung",
     description: "Profitieren Sie 2025 von unserer kostenlosen Beratung zu Automatisierung und künstlicher Intelligenz für Ihr Unternehmen.",
+    price: "CHF 300.-",
+    type: "Passiv"
   },
   {
     tag: "Sichtbarkeit",
     title: "Unternehmensblick",
     description: "Präsentieren Sie Ihr Unternehmen in unserem exklusiven Magazin und erreichen Sie tausende Entscheidungsträger.",
+    price: "",
+    type: ""
   },
 ];
 
@@ -29,7 +35,15 @@ const BenefitsGrid = () => {
                 {benefit.tag}
               </span>
               <h3 className="text-xl font-bold mb-2 text-swiss-darkblue">{benefit.title}</h3>
-              <p className="text-gray-600">{benefit.description}</p>
+              <p className="text-gray-600 mb-4">{benefit.description}</p>
+              {benefit.price && (
+                <div className="mt-auto">
+                  <div className="flex items-center justify-between border-t pt-4">
+                    <span className="text-sm text-gray-500">{benefit.type}</span>
+                    <span className="text-lg font-bold text-swiss-red">{benefit.price}</span>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
