@@ -66,6 +66,7 @@ const AdminAuth = () => {
       if (profile?.is_admin) {
         console.log("[AdminAuth] Admin access confirmed, redirecting");
         navigate('/admin');
+        return; // Add return statement here
       } else {
         console.log("[AdminAuth] User is not an admin, signing out");
         await supabase.auth.signOut();
