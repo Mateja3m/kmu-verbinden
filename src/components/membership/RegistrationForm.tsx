@@ -41,20 +41,12 @@ const RegistrationForm = () => {
     if (step === 2) {
       setLoading(true);
       try {
+        // Sign up the user with email and password
         const { data: authData, error: authError } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
-        });
-
-        if (authError) {
-          console.error('Registration error:', authError);
-          throw authError;
-        }
-
-        if (authData.user) {
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .update({
+          options: {
+            data: {
               company_name: formData.companyName,
               contact_person: formData.contactPerson,
               address: formData.address,
@@ -62,13 +54,20 @@ const RegistrationForm = () => {
               city: formData.city,
               phone: formData.phone,
               website: formData.website,
-            })
-            .eq('id', authData.user.id);
-
-          if (profileError) {
-            console.error('Profile update error:', profileError);
-            throw profileError;
+            }
           }
+        });
+
+        if (authError) throw authError;
+
+        if (authData.user) {
+          // Sign in immediately after registration
+          const { error: signInError } = await supabase.auth.signInWithPassword({
+            email: formData.email,
+            password: formData.password,
+          });
+
+          if (signInError) throw signInError;
 
           toast({
             title: "Registrierung erfolgreich",
@@ -212,7 +211,7 @@ const RegistrationForm = () => {
             <div className="text-center space-y-4">
               <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Registrierung erfolgreich!</h3>
               <p className="text-gray-600">
-                Vielen Dank für Ihre Registrierung. Wir werden Ihre Anfrage prüfen und uns in Kürze bei Ihnen melden.
+                Vielen Dank für Ihre Registrierung. Sie können sich jetzt einloggen.
               </p>
               <Button 
                 className="mt-6"
