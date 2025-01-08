@@ -102,6 +102,7 @@ const App = () => {
           <Route path="/organisation" element={<Organisation />} />
           <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
           <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
+          <Route path="*" element={<Home />} /> {/* Add catch-all route */}
         </Routes>
       </main>
     </div>
