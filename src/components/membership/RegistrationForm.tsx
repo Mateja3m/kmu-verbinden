@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Check } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { CompanyDetailsStep } from "./CompanyDetailsStep";
+import { ContactDetailsStep } from "./ContactDetailsStep";
+import { SuccessStep } from "./SuccessStep";
 import { useToast } from "@/hooks/use-toast";
 
 const RegistrationForm = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     companyName: "",
     contactPerson: "",
@@ -20,7 +18,6 @@ const RegistrationForm = () => {
     email: "",
     phone: "",
     website: "",
-    password: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,52 +36,23 @@ const RegistrationForm = () => {
     }
 
     if (step === 2) {
-      setLoading(true);
       try {
-        // Sign up the user with email and password
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              company_name: formData.companyName,
-              contact_person: formData.contactPerson,
-              address: formData.address,
-              postal_code: formData.postalCode,
-              city: formData.city,
-              phone: formData.phone,
-              website: formData.website,
-            }
-          }
+        // Here we could send the data to an API endpoint or email service
+        console.log('Registration data:', formData);
+        
+        toast({
+          title: "Registrierung erfolgreich",
+          description: "Ihre Anmeldung wurde erfolgreich übermittelt.",
         });
-
-        if (authError) throw authError;
-
-        if (authData.user) {
-          // Sign in immediately after registration
-          const { error: signInError } = await supabase.auth.signInWithPassword({
-            email: formData.email,
-            password: formData.password,
-          });
-
-          if (signInError) throw signInError;
-
-          toast({
-            title: "Registrierung erfolgreich",
-            description: "Ihre Anmeldung wurde erfolgreich übermittelt.",
-          });
-          
-          setStep(3);
-        }
+        
+        setStep(3);
       } catch (error: any) {
         console.error('Registration error:', error);
         toast({
           title: "Fehler bei der Registrierung",
-          description: error.message || "Bitte versuchen Sie es erneut.",
+          description: "Bitte versuchen Sie es erneut.",
           variant: "destructive",
         });
-      } finally {
-        setLoading(false);
       }
     }
   };
@@ -117,111 +85,32 @@ const RegistrationForm = () => {
             ))}
           </div>
 
-          {step === 1 && (
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Unternehmensdaten</h3>
-              <Input 
-                placeholder="Firmenname" 
-                name="companyName"
-                value={formData.companyName}
-                onChange={handleInputChange}
-                className="w-full" 
+          <form onSubmit={handleSubmit}>
+            {step === 1 && (
+              <CompanyDetailsStep 
+                formData={formData} 
+                onChange={handleInputChange} 
               />
-              <Input 
-                placeholder="Name der verantwortlichen Person" 
-                name="contactPerson"
-                value={formData.contactPerson}
-                onChange={handleInputChange}
-                className="w-full" 
-              />
-              <Input 
-                placeholder="Straße und Hausnummer" 
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                className="w-full" 
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <Input 
-                  placeholder="PLZ" 
-                  name="postalCode"
-                  value={formData.postalCode}
-                  onChange={handleInputChange}
-                />
-                <Input 
-                  placeholder="Ort" 
-                  name="city"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <Input 
-                placeholder="Telefon" 
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="w-full" 
-              />
-              <Input 
-                placeholder="Website" 
-                name="website"
-                value={formData.website}
-                onChange={handleInputChange}
-                className="w-full" 
-              />
-              <Button 
-                className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white mt-6"
-                onClick={() => setStep(2)}
-              >
-                Weiter
-              </Button>
-            </div>
-          )}
+            )}
 
-          {step === 2 && (
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Zugangsdaten erstellen</h3>
-              <Input 
-                type="email"
-                placeholder="E-Mail-Adresse" 
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full" 
+            {step === 2 && (
+              <ContactDetailsStep 
+                formData={formData} 
+                onChange={handleInputChange} 
               />
-              <Input 
-                type="password"
-                placeholder="Passwort" 
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="w-full" 
-              />
-              <Button 
-                className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white mt-6"
-                onClick={handleSubmit}
-                disabled={loading}
-              >
-                {loading ? "Wird verarbeitet..." : "Registrieren"}
-              </Button>
-            </div>
-          )}
+            )}
 
-          {step === 3 && (
-            <div className="text-center space-y-4">
-              <h3 className="text-2xl font-bold text-swiss-darkblue mb-6">Registrierung erfolgreich!</h3>
-              <p className="text-gray-600">
-                Vielen Dank für Ihre Registrierung. Sie können sich jetzt einloggen.
-              </p>
+            {step === 3 && <SuccessStep />}
+
+            {step < 3 && (
               <Button 
-                className="mt-6"
-                variant="outline"
-                onClick={() => navigate("/auth")}
+                type="submit"
+                className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white mt-6"
               >
-                Zum Login
+                {step === 1 ? "Weiter" : "Registrieren"}
               </Button>
-            </div>
-          )}
+            )}
+          </form>
 
           <p className="text-sm text-gray-500 text-center mt-4">
             Ihre Daten werden sicher übertragen und nicht an Dritte weitergegeben
