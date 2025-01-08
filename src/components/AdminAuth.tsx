@@ -12,9 +12,12 @@ const AdminAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log("[AdminAuth] Component mounted");
     const checkSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
+        console.log("[AdminAuth] Current session:", session);
+        
         if (session?.user) {
           await checkAdminAndRedirect(session.user.id);
         }
@@ -43,6 +46,7 @@ const AdminAuth = () => {
 
   const checkAdminAndRedirect = async (userId: string) => {
     try {
+      console.log("[AdminAuth] Checking admin status for user:", userId);
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('is_admin')
