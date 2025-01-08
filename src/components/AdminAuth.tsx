@@ -11,6 +11,24 @@ const AdminAuth = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Check if user is already logged in and is admin
+    const checkAuthStatus = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile?.is_admin) {
+          navigate('/admin');
+        }
+      }
+    };
+
+    checkAuthStatus();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("[AdminAuth] Auth state changed:", event);
       console.log("[AdminAuth] Session data:", session);
@@ -20,7 +38,7 @@ const AdminAuth = () => {
           // First check if profile exists
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
-            .select('*')  // Select all fields for debugging
+            .select('*')
             .eq('id', session.user.id)
             .maybeSingle();
 
@@ -56,21 +74,8 @@ const AdminAuth = () => {
 
           console.log("[AdminAuth] Profile data:", profile);
 
-          // Double check the profile was properly updated with admin privileges
-          const { data: freshProfile, error: freshError } = await supabase
-            .from('profiles')
-            .select('is_admin')
-            .eq('id', session.user.id)
-            .maybeSingle();
-
-          if (freshError) {
-            console.error("[AdminAuth] Fresh profile query error:", freshError);
-            throw freshError;
-          }
-
-          console.log("[AdminAuth] Fresh profile data:", freshProfile);
-
-          if (freshProfile?.is_admin) {
+          // Check if user is admin and redirect
+          if (profile?.is_admin) {
             console.log("[AdminAuth] User is admin, redirecting to admin dashboard");
             navigate('/admin');
           } else {
