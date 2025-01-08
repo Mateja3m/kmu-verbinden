@@ -11,31 +11,35 @@ const AdminAuth = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is already logged in and is admin
     const checkAuthStatus = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log("[AdminAuth] Initial session check:", session);
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
+        if (sessionError) {
+          console.error("[AdminAuth] Session error:", sessionError);
+          return;
+        }
+
         if (session?.user) {
-          console.log("[AdminAuth] User ID:", session.user.id);
-          const { data: profile, error } = await supabase
+          console.log("[AdminAuth] Session found, checking admin status");
+          const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('is_admin')
             .eq('id', session.user.id)
-            .single();
+            .maybeSingle();
 
-          if (error) {
-            console.error("[AdminAuth] Profile query error:", error);
-            return;
+          if (profileError) {
+            console.error("[AdminAuth] Profile query error:", profileError);
+            throw profileError;
           }
 
-          console.log("[AdminAuth] Profile check:", profile);
+          console.log("[AdminAuth] Profile data:", profile);
+
           if (profile?.is_admin) {
-            console.log("[AdminAuth] User is admin, redirecting...");
+            console.log("[AdminAuth] Admin status confirmed, redirecting to dashboard");
             navigate('/admin');
           } else {
-            console.log("[AdminAuth] User is not admin");
+            console.log("[AdminAuth] User is not an admin");
             toast({
               title: "Zugriff verweigert",
               description: "Sie haben keine Administratorrechte.",
@@ -45,24 +49,23 @@ const AdminAuth = () => {
           }
         }
       } catch (error) {
-        console.error("[AdminAuth] Initial auth check error:", error);
+        console.error("[AdminAuth] Auth check error:", error);
+        handleAuthError(error as AuthError);
       }
     };
 
     checkAuthStatus();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("[AdminAuth] Auth state changed:", event);
-      console.log("[AdminAuth] Session data:", session);
+      console.log("[AdminAuth] Auth state changed:", event, "Session:", session?.user?.id);
 
       if (event === 'SIGNED_IN' && session) {
         try {
-          console.log("[AdminAuth] Checking profile for user:", session.user.id);
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('is_admin')
             .eq('id', session.user.id)
-            .single();
+            .maybeSingle();
 
           if (profileError) {
             console.error("[AdminAuth] Profile query error:", profileError);
@@ -72,10 +75,10 @@ const AdminAuth = () => {
           console.log("[AdminAuth] Profile data after sign in:", profile);
 
           if (profile?.is_admin) {
-            console.log("[AdminAuth] User is admin, redirecting to dashboard");
+            console.log("[AdminAuth] Admin access confirmed, redirecting");
             navigate('/admin');
           } else {
-            console.log("[AdminAuth] User is not admin, signing out");
+            console.log("[AdminAuth] User is not an admin, signing out");
             toast({
               title: "Zugriff verweigert",
               description: "Sie haben keine Administratorrechte.",
@@ -83,9 +86,9 @@ const AdminAuth = () => {
             });
             await supabase.auth.signOut();
           }
-        } catch (error: any) {
+        } catch (error) {
           console.error("[AdminAuth] Error in auth change handler:", error);
-          handleAuthError(error);
+          handleAuthError(error as AuthError);
         }
       }
     });
