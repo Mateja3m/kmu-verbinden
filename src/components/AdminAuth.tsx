@@ -17,15 +17,41 @@ const AdminAuth = () => {
 
       if (event === 'SIGNED_IN' && session) {
         try {
+          // First check if profile exists
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('is_admin')
             .eq('id', session.user.id)
-            .single();
+            .maybeSingle();
 
           if (profileError) {
             console.error("[AdminAuth] Profile query error:", profileError);
             throw profileError;
+          }
+
+          // If no profile exists, create one
+          if (!profile) {
+            console.log("[AdminAuth] No profile found, creating one");
+            const { error: insertError } = await supabase
+              .from('profiles')
+              .insert([{ 
+                id: session.user.id,
+                is_admin: false // Default to non-admin
+              }]);
+
+            if (insertError) {
+              console.error("[AdminAuth] Profile creation error:", insertError);
+              throw insertError;
+            }
+
+            // Show error since new users can't be admins by default
+            toast({
+              title: "Zugriff verweigert",
+              description: "Sie haben keine Administratorrechte.",
+              variant: "destructive",
+            });
+            await supabase.auth.signOut();
+            return;
           }
 
           console.log("[AdminAuth] Profile data:", profile);
