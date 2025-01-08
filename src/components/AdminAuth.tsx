@@ -13,17 +13,30 @@ const AdminAuth = () => {
   useEffect(() => {
     // Check if user is already logged in and is admin
     const checkAuthStatus = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', session.user.id)
-          .single();
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("[AdminAuth] Initial session check:", session);
+        
+        if (session?.user) {
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .single();
 
-        if (profile?.is_admin) {
-          navigate('/admin');
+          if (error) {
+            console.error("[AdminAuth] Profile query error:", error);
+            return;
+          }
+
+          console.log("[AdminAuth] Profile check:", profile);
+          if (profile?.is_admin) {
+            console.log("[AdminAuth] User is admin, redirecting...");
+            navigate('/admin');
+          }
         }
+      } catch (error) {
+        console.error("[AdminAuth] Initial auth check error:", error);
       }
     };
 
@@ -35,48 +48,21 @@ const AdminAuth = () => {
 
       if (event === 'SIGNED_IN' && session) {
         try {
-          // First check if profile exists
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
-            .select('*')
+            .select('is_admin')
             .eq('id', session.user.id)
-            .maybeSingle();
+            .single();
 
           if (profileError) {
             console.error("[AdminAuth] Profile query error:", profileError);
             throw profileError;
           }
 
-          // If no profile exists, create one
-          if (!profile) {
-            console.log("[AdminAuth] No profile found, creating one");
-            const { error: insertError } = await supabase
-              .from('profiles')
-              .insert([{ 
-                id: session.user.id,
-                is_admin: false // Default to non-admin
-              }]);
+          console.log("[AdminAuth] Profile data after sign in:", profile);
 
-            if (insertError) {
-              console.error("[AdminAuth] Profile creation error:", insertError);
-              throw insertError;
-            }
-
-            // Show error since new users can't be admins by default
-            toast({
-              title: "Zugriff verweigert",
-              description: "Sie haben keine Administratorrechte.",
-              variant: "destructive",
-            });
-            await supabase.auth.signOut();
-            return;
-          }
-
-          console.log("[AdminAuth] Profile data:", profile);
-
-          // Check if user is admin and redirect
           if (profile?.is_admin) {
-            console.log("[AdminAuth] User is admin, redirecting to admin dashboard");
+            console.log("[AdminAuth] User is admin, redirecting to dashboard");
             navigate('/admin');
           } else {
             console.log("[AdminAuth] User is not admin, signing out");
@@ -97,7 +83,7 @@ const AdminAuth = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, toast]);
 
   const handleAuthError = (error: AuthError | Error) => {
     console.error("[AdminAuth] Auth error:", error);
@@ -141,7 +127,7 @@ const AdminAuth = () => {
         }}
         theme="light"
         providers={[]}
-        redirectTo={window.location.origin + '/admin-auth'}
+        redirectTo={window.location.origin + '/admin/auth'}
         showLinks={false}
         magicLink={false}
         localization={{
