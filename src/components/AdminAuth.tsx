@@ -85,6 +85,7 @@ const AdminAuth = () => {
       description: error.message,
       variant: "destructive",
     });
+    setIsLoading(false);
   };
 
   if (isLoading) {
