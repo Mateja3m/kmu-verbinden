@@ -5,7 +5,7 @@ export const LoginButtons = () => {
   const navigate = useNavigate();
 
   const handleAdminLogin = () => {
-    navigate('/admin-auth');
+    navigate('/admin/auth');
   };
 
   const handlePartnerLogin = () => {
