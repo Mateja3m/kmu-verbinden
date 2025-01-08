@@ -4,6 +4,7 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { AuthError } from "@supabase/supabase-js";
 
 const AdminAuth = () => {
   const navigate = useNavigate();
@@ -11,9 +12,21 @@ const AdminAuth = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        handleAuthChange('SIGNED_IN', session);
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        console.log("[AdminAuth] Initial session check:", session);
+        
+        if (sessionError) {
+          console.error("[AdminAuth] Session error:", sessionError);
+          throw sessionError;
+        }
+
+        if (session) {
+          await handleAuthChange('SIGNED_IN', session);
+        }
+      } catch (error) {
+        console.error("[AdminAuth] Error checking session:", error);
+        handleAuthError(error);
       }
     };
     
@@ -23,20 +36,39 @@ const AdminAuth = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const handleAuthError = (error: AuthError | Error) => {
+    console.error("[AdminAuth] Auth error:", error);
+    toast({
+      title: "Fehler bei der Anmeldung",
+      description: error.message,
+      variant: "destructive",
+    });
+  };
+
   const handleAuthChange = async (event: string, session: any) => {
+    console.log("[AdminAuth] Auth state changed:", event);
+    console.log("[AdminAuth] Session data:", session);
+
     if (event === 'SIGNED_IN' && session) {
       try {
-        const { data: profile, error } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('is_admin')
           .eq('id', session.user.id)
           .single();
 
-        if (error) throw error;
+        if (profileError) {
+          console.error("[AdminAuth] Profile query error:", profileError);
+          throw profileError;
+        }
+
+        console.log("[AdminAuth] Profile data:", profile);
 
         if (profile?.is_admin) {
+          console.log("[AdminAuth] User is admin, redirecting to admin dashboard");
           navigate('/admin');
         } else {
+          console.log("[AdminAuth] User is not admin, signing out");
           toast({
             title: "Zugriff verweigert",
             description: "Sie haben keine Administratorrechte.",
@@ -44,12 +76,9 @@ const AdminAuth = () => {
           });
           await supabase.auth.signOut();
         }
-      } catch (error) {
-        toast({
-          title: "Fehler",
-          description: "Bitte überprüfen Sie Ihre Anmeldedaten und versuchen Sie es erneut.",
-          variant: "destructive",
-        });
+      } catch (error: any) {
+        console.error("[AdminAuth] Error in auth change handler:", error);
+        handleAuthError(error);
       }
     }
   };
@@ -96,6 +125,8 @@ const AdminAuth = () => {
               email_label: "E-Mail",
               password_label: "Passwort",
               button_label: "Anmelden",
+              email_input_placeholder: "Ihre E-Mail-Adresse",
+              password_input_placeholder: "Ihr Passwort",
             },
           },
         }}
