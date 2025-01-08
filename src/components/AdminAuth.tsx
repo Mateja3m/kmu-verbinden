@@ -9,7 +9,8 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
@@ -20,10 +21,15 @@ const AdminAuth = () => {
         
         if (session?.user) {
           await checkAdminAndRedirect(session.user.id);
+        } else {
+          setShowAuth(true);
         }
       } catch (error) {
         console.error("[AdminAuth] Session check error:", error);
         handleError(error as AuthError);
+        setShowAuth(true);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -34,6 +40,7 @@ const AdminAuth = () => {
       
       if (event === 'SIGNED_IN' && session?.user) {
         setIsLoading(true);
+        setShowAuth(false);
         await checkAdminAndRedirect(session.user.id);
       }
     });
@@ -70,10 +77,12 @@ const AdminAuth = () => {
           description: "Sie haben keine Administratorrechte.",
           variant: "destructive",
         });
+        setShowAuth(true);
       }
     } catch (error) {
       console.error("[AdminAuth] Admin check error:", error);
       handleError(error as AuthError);
+      setShowAuth(true);
     } finally {
       setIsLoading(false);
     }
@@ -87,6 +96,7 @@ const AdminAuth = () => {
       variant: "destructive",
     });
     setIsLoading(false);
+    setShowAuth(true);
   };
 
   return (
@@ -103,7 +113,7 @@ const AdminAuth = () => {
         <div className="flex items-center justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-swiss-red"></div>
         </div>
-      ) : (
+      ) : showAuth ? (
         <Auth
           supabaseClient={supabase}
           view="sign_in"
@@ -142,7 +152,7 @@ const AdminAuth = () => {
             },
           }}
         />
-      )}
+      ) : null}
     </div>
   );
 };
