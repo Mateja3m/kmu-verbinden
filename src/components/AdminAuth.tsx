@@ -20,7 +20,7 @@ const AdminAuth = () => {
           // First check if profile exists
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
-            .select('is_admin')
+            .select('*')  // Select all fields for debugging
             .eq('id', session.user.id)
             .maybeSingle();
 
@@ -56,7 +56,21 @@ const AdminAuth = () => {
 
           console.log("[AdminAuth] Profile data:", profile);
 
-          if (profile?.is_admin) {
+          // Double check the profile was properly updated with admin privileges
+          const { data: freshProfile, error: freshError } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .maybeSingle();
+
+          if (freshError) {
+            console.error("[AdminAuth] Fresh profile query error:", freshError);
+            throw freshError;
+          }
+
+          console.log("[AdminAuth] Fresh profile data:", freshProfile);
+
+          if (freshProfile?.is_admin) {
             console.log("[AdminAuth] User is admin, redirecting to admin dashboard");
             navigate('/admin');
           } else {
