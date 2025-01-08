@@ -9,7 +9,7 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
@@ -24,8 +24,6 @@ const AdminAuth = () => {
       } catch (error) {
         console.error("[AdminAuth] Session check error:", error);
         handleError(error as AuthError);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -35,6 +33,7 @@ const AdminAuth = () => {
       console.log("[AdminAuth] Auth state changed:", event, session?.user?.id);
       
       if (event === 'SIGNED_IN' && session?.user) {
+        setIsLoading(true);
         await checkAdminAndRedirect(session.user.id);
       }
     });
@@ -75,6 +74,8 @@ const AdminAuth = () => {
     } catch (error) {
       console.error("[AdminAuth] Admin check error:", error);
       handleError(error as AuthError);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,14 +89,6 @@ const AdminAuth = () => {
     setIsLoading(false);
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-swiss-red"></div>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-xl border border-gray-100">
       <div>
@@ -106,44 +99,50 @@ const AdminAuth = () => {
           Bitte melden Sie sich mit Ihren Admin-Zugangsdaten an
         </p>
       </div>
-      <Auth
-        supabaseClient={supabase}
-        view="sign_in"
-        appearance={{
-          theme: ThemeSupa,
-          variables: {
-            default: {
-              colors: {
-                brand: '#DC2626',
-                brandAccent: '#B91C1C',
-                brandButtonText: 'white',
+      {isLoading ? (
+        <div className="flex items-center justify-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-swiss-red"></div>
+        </div>
+      ) : (
+        <Auth
+          supabaseClient={supabase}
+          view="sign_in"
+          appearance={{
+            theme: ThemeSupa,
+            variables: {
+              default: {
+                colors: {
+                  brand: '#DC2626',
+                  brandAccent: '#B91C1C',
+                  brandButtonText: 'white',
+                },
               },
             },
-          },
-          className: {
-            container: 'w-full',
-            button: 'w-full px-4 py-2.5 rounded-lg font-medium',
-            input: 'w-full px-4 py-2.5 rounded-lg border focus:ring-2',
-            label: 'block text-sm font-medium text-gray-700 mb-2',
-          },
-        }}
-        theme="light"
-        providers={[]}
-        redirectTo={window.location.origin + '/admin/auth'}
-        showLinks={false}
-        magicLink={false}
-        localization={{
-          variables: {
-            sign_in: {
-              email_label: "E-Mail",
-              password_label: "Passwort",
-              button_label: "Anmelden",
-              email_input_placeholder: "Ihre E-Mail-Adresse",
-              password_input_placeholder: "Ihr Passwort",
+            className: {
+              container: 'w-full',
+              button: 'w-full px-4 py-2.5 rounded-lg font-medium',
+              input: 'w-full px-4 py-2.5 rounded-lg border focus:ring-2',
+              label: 'block text-sm font-medium text-gray-700 mb-2',
             },
-          },
-        }}
-      />
+          }}
+          theme="light"
+          providers={[]}
+          redirectTo={window.location.origin + '/admin/auth'}
+          showLinks={false}
+          magicLink={false}
+          localization={{
+            variables: {
+              sign_in: {
+                email_label: "E-Mail",
+                password_label: "Passwort",
+                button_label: "Anmelden",
+                email_input_placeholder: "Ihre E-Mail-Adresse",
+                password_input_placeholder: "Ihr Passwort",
+              },
+            },
+          }}
+        />
+      )}
     </div>
   );
 };
