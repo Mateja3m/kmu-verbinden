@@ -18,6 +18,7 @@ const AdminAuth = () => {
         console.log("[AdminAuth] Initial session check:", session);
         
         if (session?.user) {
+          console.log("[AdminAuth] User ID:", session.user.id);
           const { data: profile, error } = await supabase
             .from('profiles')
             .select('is_admin')
@@ -33,6 +34,14 @@ const AdminAuth = () => {
           if (profile?.is_admin) {
             console.log("[AdminAuth] User is admin, redirecting...");
             navigate('/admin');
+          } else {
+            console.log("[AdminAuth] User is not admin");
+            toast({
+              title: "Zugriff verweigert",
+              description: "Sie haben keine Administratorrechte.",
+              variant: "destructive",
+            });
+            await supabase.auth.signOut();
           }
         }
       } catch (error) {
@@ -48,6 +57,7 @@ const AdminAuth = () => {
 
       if (event === 'SIGNED_IN' && session) {
         try {
+          console.log("[AdminAuth] Checking profile for user:", session.user.id);
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('is_admin')
