@@ -9,8 +9,8 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(true);
-  const [showAuth, setShowAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showAuth, setShowAuth] = useState(true);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
@@ -20,16 +20,13 @@ const AdminAuth = () => {
         console.log("[AdminAuth] Current session:", session);
         
         if (session?.user) {
+          setIsLoading(true);
+          setShowAuth(false);
           await checkAdminAndRedirect(session.user.id);
-        } else {
-          setShowAuth(true);
         }
       } catch (error) {
         console.error("[AdminAuth] Session check error:", error);
         handleError(error as AuthError);
-        setShowAuth(true);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -69,7 +66,6 @@ const AdminAuth = () => {
       if (profile?.is_admin) {
         console.log("[AdminAuth] Admin access confirmed, redirecting");
         navigate('/admin');
-        return;
       } else {
         console.log("[AdminAuth] User is not an admin, signing out");
         await supabase.auth.signOut();
