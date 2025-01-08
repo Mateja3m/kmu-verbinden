@@ -36,37 +36,95 @@ import Branchenmagazine from './pages/Branchenmagazine';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
+    let isSubscribed = true;
+
     const initializeAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        setIsLoggedIn(true);
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', session.user.id)
-          .single();
-        setIsAdmin(!!profile?.is_admin);
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error("[App] Session error:", sessionError);
+          return;
+        }
+
+        if (session?.user && isSubscribed) {
+          setIsLoggedIn(true);
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .single();
+
+          if (profileError) {
+            console.error("[App] Profile fetch error:", profileError);
+            return;
+          }
+
+          if (isSubscribed) {
+            setIsAdmin(!!profile?.is_admin);
+          }
+        }
+      } catch (error) {
+        console.error("[App] Auth initialization error:", error);
+      } finally {
+        if (isSubscribed) {
+          setIsLoading(false);
+        }
       }
     };
 
     initializeAuth();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        setIsLoggedIn(true);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("[App] Auth state changed:", event);
+      
+      if (event === 'SIGNED_IN' && session?.user) {
+        if (isSubscribed) {
+          setIsLoggedIn(true);
+          try {
+            const { data: profile, error: profileError } = await supabase
+              .from('profiles')
+              .select('is_admin')
+              .eq('id', session.user.id)
+              .single();
+
+            if (profileError) {
+              console.error("[App] Profile fetch error:", profileError);
+              return;
+            }
+
+            if (isSubscribed) {
+              setIsAdmin(!!profile?.is_admin);
+            }
+          } catch (error) {
+            console.error("[App] Error handling auth change:", error);
+          }
+        }
       } else if (event === 'SIGNED_OUT') {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
+        if (isSubscribed) {
+          setIsLoggedIn(false);
+          setIsAdmin(false);
+        }
       }
     });
 
     return () => {
+      isSubscribed = false;
       subscription.unsubscribe();
     };
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-swiss-red"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -102,7 +160,7 @@ const App = () => {
           <Route path="/organisation" element={<Organisation />} />
           <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
           <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
-          <Route path="*" element={<Home />} /> {/* Add catch-all route */}
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
     </div>
