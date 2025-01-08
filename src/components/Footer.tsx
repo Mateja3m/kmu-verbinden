@@ -19,14 +19,14 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
   return (
     <BackgroundPattern>
       <footer className="bg-swiss-darkblue text-white relative">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-6">
           {/* Main Content Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Contact Information */}
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold mb-6 whitespace-nowrap">Schweizerischer KMU Verein (SKV)</h3>
+              <h3 className="text-xl font-semibold mb-4 whitespace-nowrap">Schweizerischer KMU Verein (SKV)</h3>
               <OfficeLocations />
-              <div className="space-y-3 mt-6">
+              <div className="space-y-3 mt-4">
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-swiss-red" />
                   <span>Dammweg 11D | CH-3904 Naters</span>
@@ -50,8 +50,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                     </div>
                   )}
                   {/* Noch Fragen section */}
-                  <div className="pl-8 pt-3">
-                    <h4 className="text-lg font-semibold mb-3">Noch Fragen?</h4>
+                  <div className="pl-8 pt-2">
+                    <h4 className="text-lg font-semibold mb-2">Noch Fragen?</h4>
                     <Button 
                       variant="outline" 
                       className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full"
@@ -61,7 +61,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                     </Button>
                   </div>
                   {/* Newsletter Signup */}
-                  <div className="pl-8 pt-3">
+                  <div className="pl-8 pt-2">
                     <NewsletterSignup />
                   </div>
                 </div>
@@ -70,8 +70,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
 
             {/* Über uns */}
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold mb-6">Über uns</h3>
-              <nav className="space-y-3">
+              <h3 className="text-xl font-semibold mb-4">Über uns</h3>
+              <nav className="space-y-2">
                 <Link to="/presidency" className="block hover:text-swiss-red transition-colors">Präsidium</Link>
                 <Link to="/organisation" className="block hover:text-swiss-red transition-colors">Organisation</Link>
                 <Link to="/geschaeftsstelle" className="block hover:text-swiss-red transition-colors">Geschäftsstellen</Link>
@@ -82,8 +82,8 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
 
             {/* Angebote und Projekte */}
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold mb-6">Angebote und Projekte</h3>
-              <nav className="space-y-3">
+              <h3 className="text-xl font-semibold mb-4">Angebote und Projekte</h3>
+              <nav className="space-y-2">
                 <Link to="/rechtsdienst" className="block hover:text-swiss-red transition-colors">Rechtsdienst</Link>
                 <Link to="/redaktion" className="block hover:text-swiss-red transition-colors">Redaktion</Link>
                 <Link to="/experts" className="block hover:text-swiss-red transition-colors">Expertenrat</Link>
@@ -98,9 +98,9 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-8 pt-6 border-t border-white/10">
-          <div className="container mx-auto px-4 pb-8">
-            <div className="flex flex-col items-center space-y-4">
+        <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="container mx-auto px-4 pb-6">
+            <div className="flex flex-col items-center space-y-3">
               {/* Made with Love */}
               <div className="flex items-center justify-center text-sm">
                 <span className="flex items-center gap-1">
