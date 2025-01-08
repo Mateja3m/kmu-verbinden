@@ -19,7 +19,6 @@ const Membership = () => {
 
   const handleGetStarted = () => {
     setShowRegistration(true);
-    // Add a small delay to ensure the state has updated and the form is rendered
     setTimeout(() => {
       registrationFormRef.current?.scrollIntoView({ 
         behavior: 'smooth',
@@ -33,6 +32,54 @@ const Membership = () => {
       <div className="min-h-screen flex flex-col">
         <Navigation />
         <MembershipHero onGetStartedClick={scrollToBenefits} />
+        
+        {/* New Pricing Section */}
+        <div className="bg-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-swiss-darkblue mb-4">
+                Mitgliedschaft Optionen
+              </h2>
+              <p className="text-lg text-gray-600">
+                Wählen Sie die passende Mitgliedschaft für Ihr Unternehmen
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {/* Individual Membership */}
+              <div className="bg-white rounded-xl shadow-lg p-8 border-2 border-gray-100 hover:border-swiss-red transition-colors">
+                <h3 className="text-xl font-bold text-swiss-darkblue mb-2">Einzelmitgliedschaft</h3>
+                <p className="text-gray-600 mb-4">Für Einzelunternehmer und Selbständige</p>
+                <div className="text-3xl font-bold text-swiss-red mb-6">CHF 300.-<span className="text-sm text-gray-500 font-normal">/Jahr</span></div>
+                <p className="text-sm text-gray-500 mb-6">Passiv-Mitgliedschaft mit allen Grundleistungen</p>
+                <Button 
+                  onClick={handleGetStarted}
+                  className="w-full bg-swiss-red hover:bg-swiss-red/90"
+                >
+                  Jetzt Mitglied werden
+                </Button>
+              </div>
+
+              {/* SME Membership */}
+              <div className="bg-white rounded-xl shadow-lg p-8 border-2 border-swiss-red relative">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-swiss-red text-white px-4 py-1 rounded-full text-sm">
+                  Empfohlen
+                </div>
+                <h3 className="text-xl font-bold text-swiss-darkblue mb-2">KMU Mitgliedschaft</h3>
+                <p className="text-gray-600 mb-4">Für kleine und mittlere Unternehmen</p>
+                <div className="text-3xl font-bold text-swiss-red mb-6">CHF 550.-<span className="text-sm text-gray-500 font-normal">/Jahr</span></div>
+                <p className="text-sm text-gray-500 mb-6">Passiv-Mitgliedschaft inkl. KMU Finanzierung</p>
+                <Button 
+                  onClick={handleGetStarted}
+                  className="w-full bg-swiss-red hover:bg-swiss-red/90"
+                >
+                  Jetzt Mitglied werden
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div ref={benefitsRef}>
           <EnhancedBenefitsGrid />
         </div>
