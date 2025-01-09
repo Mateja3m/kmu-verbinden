@@ -9,22 +9,27 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [showAuth, setShowAuth] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+  const [showAuth, setShowAuth] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(true);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
     
-    // Initial session check
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      console.log("[AdminAuth] Initial session check:", session);
-      
-      if (session?.user) {
-        handleSignedInUser(session.user.id);
-      } else {
-        setShowAuth(true);
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("[AdminAuth] Initial session check:", session);
+        
+        if (session?.user) {
+          await handleSignedInUser(session.user.id);
+        } else {
+          setShowAuth(true);
+        }
+      } catch (error) {
+        console.error("[AdminAuth] Session check error:", error);
+        handleError(error as AuthError);
+      } finally {
         setIsLoading(false);
       }
     };
@@ -51,6 +56,8 @@ const AdminAuth = () => {
   }, [navigate, toast]);
 
   const handleSignedInUser = async (userId: string) => {
+    if (!isSubscribed) return;
+    
     try {
       console.log("[AdminAuth] Checking admin status for user:", userId);
       setIsLoading(true);
