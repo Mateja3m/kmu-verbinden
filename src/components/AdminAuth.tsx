@@ -40,7 +40,36 @@ const AdminAuth = () => {
         console.log("[AdminAuth] Sign in detected, checking admin status");
         setIsLoading(true);
         setShowAuth(false);
-        await checkAdminAndRedirect(session.user.id);
+        
+        // Get a fresh profile query
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profileError) {
+          console.error("[AdminAuth] Profile query error:", profileError);
+          handleError(profileError);
+          return;
+        }
+
+        console.log("[AdminAuth] Profile data:", profile);
+
+        if (profile?.is_admin) {
+          console.log("[AdminAuth] Admin access confirmed, redirecting");
+          navigate('/admin');
+        } else {
+          console.log("[AdminAuth] User is not an admin, signing out");
+          await supabase.auth.signOut();
+          toast({
+            title: "Zugriff verweigert",
+            description: "Sie haben keine Administratorrechte.",
+            variant: "destructive",
+          });
+          setShowAuth(true);
+        }
+        setIsLoading(false);
       }
     });
 
@@ -68,7 +97,6 @@ const AdminAuth = () => {
       if (profile?.is_admin) {
         console.log("[AdminAuth] Admin access confirmed, redirecting");
         navigate('/admin');
-        return;
       } else {
         console.log("[AdminAuth] User is not an admin, signing out");
         await supabase.auth.signOut();
