@@ -9,8 +9,8 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(true);
-  const [showAuth, setShowAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  // Changed to false initially
+  const [showAuth, setShowAuth] = useState(true);     // Changed to true initially
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
