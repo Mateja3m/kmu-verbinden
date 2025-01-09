@@ -24,6 +24,9 @@ const AdminAuth = () => {
           setIsLoading(true);
           setShowAuth(false);
           await checkAdminAndRedirect(session.user.id);
+        } else {
+          setIsLoading(false);
+          setShowAuth(true);
         }
       } catch (error) {
         console.error("[AdminAuth] Session check error:", error);
@@ -41,13 +44,16 @@ const AdminAuth = () => {
         setIsLoading(true);
         setShowAuth(false);
         await checkAdminAndRedirect(session.user.id);
+      } else if (event === 'SIGNED_OUT') {
+        setIsLoading(false);
+        setShowAuth(true);
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate, toast]);
+  }, [navigate]);
 
   const checkAdminAndRedirect = async (userId: string) => {
     try {
@@ -56,7 +62,7 @@ const AdminAuth = () => {
         .from('profiles')
         .select('is_admin')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (profileError) {
         console.error("[AdminAuth] Profile query error:", profileError);
@@ -68,7 +74,6 @@ const AdminAuth = () => {
       if (profile?.is_admin) {
         console.log("[AdminAuth] Admin access confirmed, redirecting");
         navigate('/admin');
-        return;
       } else {
         console.log("[AdminAuth] User is not an admin, signing out");
         await supabase.auth.signOut();
