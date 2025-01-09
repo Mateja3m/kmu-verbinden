@@ -9,28 +9,25 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(true); // Start with loading true
-  const [showAuth, setShowAuth] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showAuth, setShowAuth] = useState(true);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
-    
     const checkSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        console.log("[AdminAuth] Initial session check:", session);
+        console.log("[AdminAuth] Current session:", session);
         
         if (session?.user) {
-          await handleSignedInUser(session.user.id);
-        } else {
-          setShowAuth(true);
+          console.log("[AdminAuth] User found in session, checking admin status");
+          setIsLoading(true);
+          setShowAuth(false);
+          await checkAdminAndRedirect(session.user.id);
         }
       } catch (error) {
         console.error("[AdminAuth] Session check error:", error);
         handleError(error as AuthError);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -40,75 +37,65 @@ const AdminAuth = () => {
       console.log("[AdminAuth] Auth state changed:", event, session?.user?.id);
       
       if (event === 'SIGNED_IN' && session?.user) {
-        await handleSignedInUser(session.user.id);
-      } else if (event === 'SIGNED_OUT') {
-        if (isSubscribed) {
-          setShowAuth(true);
-          setIsLoading(false);
-        }
+        console.log("[AdminAuth] Sign in detected, checking admin status");
+        setIsLoading(true);
+        setShowAuth(false);
+        await checkAdminAndRedirect(session.user.id);
       }
     });
 
     return () => {
-      setIsSubscribed(false);
       subscription.unsubscribe();
     };
   }, [navigate, toast]);
 
-  const handleSignedInUser = async (userId: string) => {
-    if (!isSubscribed) return;
-    
+  const checkAdminAndRedirect = async (userId: string) => {
     try {
       console.log("[AdminAuth] Checking admin status for user:", userId);
-      setIsLoading(true);
-      setShowAuth(false);
-
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('is_admin')
         .eq('id', userId)
         .single();
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        console.error("[AdminAuth] Profile query error:", profileError);
+        throw profileError;
+      }
 
       console.log("[AdminAuth] Profile data:", profile);
 
       if (profile?.is_admin) {
         console.log("[AdminAuth] Admin access confirmed, redirecting");
         navigate('/admin');
+        return;
       } else {
         console.log("[AdminAuth] User is not an admin, signing out");
         await supabase.auth.signOut();
-        if (isSubscribed) {
-          toast({
-            title: "Zugriff verweigert",
-            description: "Sie haben keine Administratorrechte.",
-            variant: "destructive",
-          });
-          setShowAuth(true);
-        }
+        toast({
+          title: "Zugriff verweigert",
+          description: "Sie haben keine Administratorrechte.",
+          variant: "destructive",
+        });
+        setShowAuth(true);
       }
     } catch (error) {
-      console.error("[AdminAuth] Error:", error);
+      console.error("[AdminAuth] Admin check error:", error);
       handleError(error as AuthError);
     } finally {
-      if (isSubscribed) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     }
   };
 
   const handleError = (error: AuthError | Error) => {
     console.error("[AdminAuth] Error:", error);
-    if (isSubscribed) {
-      toast({
-        title: "Fehler bei der Anmeldung",
-        description: error.message,
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      setShowAuth(true);
-    }
+    toast({
+      title: "Fehler bei der Anmeldung",
+      description: error.message,
+      variant: "destructive",
+    });
+    setIsLoading(false);
+    setShowAuth(true);
   };
 
   return (
