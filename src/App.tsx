@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from './components/Navigation';
@@ -37,43 +37,56 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const isMounted = useRef(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    let isSubscribed = true;
-
     const initializeAuth = async () => {
       try {
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
           console.error("[App] Session error:", sessionError);
+          if (isMounted.current) setIsLoading(false);
           return;
         }
 
-        if (session?.user && isSubscribed) {
-          setIsLoggedIn(true);
-          const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('is_admin')
-            .eq('id', session.user.id)
-            .single();
-
-          if (profileError) {
-            console.error("[App] Profile fetch error:", profileError);
-            return;
+        if (!session?.user) {
+          if (isMounted.current) {
+            setIsLoggedIn(false);
+            setIsAdmin(false);
+            setIsLoading(false);
           }
+          return;
+        }
 
-          if (isSubscribed) {
-            setIsAdmin(!!profile?.is_admin);
+        if (session.user && isMounted.current) {
+          setIsLoggedIn(true);
+          try {
+            const { data: profile, error: profileError } = await supabase
+              .from('profiles')
+              .select('is_admin')
+              .eq('id', session.user.id)
+              .maybeSingle();
+
+            if (profileError) {
+              console.error("[App] Profile fetch error:", profileError);
+              if (isMounted.current) setIsLoading(false);
+              return;
+            }
+
+            if (isMounted.current) {
+              setIsAdmin(!!profile?.is_admin);
+              setIsLoading(false);
+            }
+          } catch (error) {
+            console.error("[App] Profile check error:", error);
+            if (isMounted.current) setIsLoading(false);
           }
         }
       } catch (error) {
         console.error("[App] Auth initialization error:", error);
-      } finally {
-        if (isSubscribed) {
-          setIsLoading(false);
-        }
+        if (isMounted.current) setIsLoading(false);
       }
     };
 
@@ -83,41 +96,47 @@ const App = () => {
       console.log("[App] Auth state changed:", event);
       
       if (event === 'SIGNED_IN' && session?.user) {
-        if (isSubscribed) {
+        if (isMounted.current) {
           setIsLoggedIn(true);
+          setIsLoading(true);
           try {
             const { data: profile, error: profileError } = await supabase
               .from('profiles')
               .select('is_admin')
               .eq('id', session.user.id)
-              .single();
+              .maybeSingle();
 
             if (profileError) {
               console.error("[App] Profile fetch error:", profileError);
+              if (isMounted.current) setIsLoading(false);
               return;
             }
 
-            if (isSubscribed) {
+            if (isMounted.current) {
               setIsAdmin(!!profile?.is_admin);
+              setIsLoading(false);
             }
           } catch (error) {
             console.error("[App] Error handling auth change:", error);
+            if (isMounted.current) setIsLoading(false);
           }
         }
       } else if (event === 'SIGNED_OUT') {
-        if (isSubscribed) {
+        if (isMounted.current) {
           setIsLoggedIn(false);
           setIsAdmin(false);
+          setIsLoading(false);
         }
       }
     });
 
     return () => {
-      isSubscribed = false;
+      isMounted.current = false;
       subscription.unsubscribe();
     };
   }, []);
 
+  // Show loading spinner only for a brief moment during initial load
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
