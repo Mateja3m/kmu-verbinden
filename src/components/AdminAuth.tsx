@@ -14,62 +14,45 @@ const AdminAuth = () => {
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
-    const checkSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log("[AdminAuth] Current session:", session);
-        
-        if (session?.user) {
-          console.log("[AdminAuth] User found in session, checking admin status");
-          setIsLoading(true);
-          setShowAuth(false);
-          await checkAdminAndRedirect(session.user.id);
-        }
-      } catch (error) {
-        console.error("[AdminAuth] Session check error:", error);
-        handleError(error as AuthError);
-      }
-    };
-
-    checkSession();
-
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("[AdminAuth] Auth state changed:", event, session?.user?.id);
       
       if (event === 'SIGNED_IN' && session?.user) {
-        console.log("[AdminAuth] Sign in detected, checking admin status");
-        setIsLoading(true);
-        setShowAuth(false);
-        
-        // Get a fresh profile query
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', session.user.id)
-          .single();
+        try {
+          console.log("[AdminAuth] Sign in detected, checking admin status");
+          setIsLoading(true);
+          setShowAuth(false);
 
-        if (profileError) {
-          console.error("[AdminAuth] Profile query error:", profileError);
-          handleError(profileError);
-          return;
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .single();
+
+          if (profileError) throw profileError;
+
+          console.log("[AdminAuth] Profile data:", profile);
+
+          if (profile?.is_admin) {
+            console.log("[AdminAuth] Admin access confirmed, redirecting");
+            navigate('/admin');
+          } else {
+            console.log("[AdminAuth] User is not an admin, signing out");
+            await supabase.auth.signOut();
+            toast({
+              title: "Zugriff verweigert",
+              description: "Sie haben keine Administratorrechte.",
+              variant: "destructive",
+            });
+            setShowAuth(true);
+          }
+        } catch (error) {
+          console.error("[AdminAuth] Error:", error);
+          handleError(error as AuthError);
+        } finally {
+          setIsLoading(false);
         }
-
-        console.log("[AdminAuth] Profile data:", profile);
-
-        if (profile?.is_admin) {
-          console.log("[AdminAuth] Admin access confirmed, redirecting");
-          navigate('/admin');
-        } else {
-          console.log("[AdminAuth] User is not an admin, signing out");
-          await supabase.auth.signOut();
-          toast({
-            title: "Zugriff verweigert",
-            description: "Sie haben keine Administratorrechte.",
-            variant: "destructive",
-          });
-          setShowAuth(true);
-        }
-        setIsLoading(false);
       }
     });
 
@@ -77,43 +60,6 @@ const AdminAuth = () => {
       subscription.unsubscribe();
     };
   }, [navigate, toast]);
-
-  const checkAdminAndRedirect = async (userId: string) => {
-    try {
-      console.log("[AdminAuth] Checking admin status for user:", userId);
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('is_admin')
-        .eq('id', userId)
-        .single();
-
-      if (profileError) {
-        console.error("[AdminAuth] Profile query error:", profileError);
-        throw profileError;
-      }
-
-      console.log("[AdminAuth] Profile data:", profile);
-
-      if (profile?.is_admin) {
-        console.log("[AdminAuth] Admin access confirmed, redirecting");
-        navigate('/admin');
-      } else {
-        console.log("[AdminAuth] User is not an admin, signing out");
-        await supabase.auth.signOut();
-        toast({
-          title: "Zugriff verweigert",
-          description: "Sie haben keine Administratorrechte.",
-          variant: "destructive",
-        });
-        setShowAuth(true);
-      }
-    } catch (error) {
-      console.error("[AdminAuth] Admin check error:", error);
-      handleError(error as AuthError);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleError = (error: AuthError | Error) => {
     console.error("[AdminAuth] Error:", error);
