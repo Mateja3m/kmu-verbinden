@@ -9,11 +9,14 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen, FileText } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen, FileText, LogOut } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Admin() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const { data: profile } = useQuery({
     queryKey: ['admin-profile'],
     queryFn: async () => {
@@ -30,6 +33,26 @@ export default function Admin() {
     }
   });
 
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      toast({
+        title: "Erfolgreich abgemeldet",
+        description: "Auf Wiedersehen!",
+      });
+      navigate('/');
+    } catch (error: any) {
+      console.error("[Admin] Logout error:", error);
+      toast({
+        title: "Fehler beim Abmelden",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navigation />
@@ -44,12 +67,22 @@ export default function Admin() {
                 Hier finden Sie eine Übersicht aller wichtigen Kennzahlen und Verwaltungsfunktionen.
               </p>
             </div>
-            <Link to="/expert-submission">
-              <Button className="bg-swiss-red hover:bg-swiss-red/90">
-                <FileText className="mr-2 h-4 w-4" />
-                Experte Hinzufügen
+            <div className="flex gap-4">
+              <Link to="/expert-submission">
+                <Button className="bg-swiss-red hover:bg-swiss-red/90">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Experte Hinzufügen
+                </Button>
+              </Link>
+              <Button 
+                variant="outline" 
+                onClick={handleLogout}
+                className="border-swiss-red text-swiss-red hover:bg-swiss-red hover:text-white"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Abmelden
               </Button>
-            </Link>
+            </div>
           </div>
           
           <DashboardStats />
