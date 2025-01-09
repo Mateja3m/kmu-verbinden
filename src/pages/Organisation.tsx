@@ -23,16 +23,17 @@ const Organisation = () => {
       {
         name: "Fabian Reinarz",
         role: "Redaktionsleitung",
-        image: "/lovable-uploads/1613560366192.jpeg"
+        email: "fabian.reinarz@kmu-verein.ch"
       },
       {
         name: "Benjamin Wagner",
-        role: "Leiter KMU-Versicherungen und AI"
+        role: "Leiter KMU-Versicherungen und AI",
+        email: "benjamin.wagner@kmu-verein.ch"
       },
       {
         name: "David Schwander-Vogt",
         role: "Leiter Marketing, Mitglieder und Partnerschaften",
-        image: "/lovable-uploads/1628785358205.jpeg"
+        email: "david.schwander@kmu-verein.ch"
       }
     ]
   };
@@ -43,21 +44,22 @@ const Organisation = () => {
       {
         name: "Benjamin Wagner",
         role: "Mitglied des Beirats",
-        image: "/lovable-uploads/39df9860-332b-419c-9a05-04bd6938ca6b.png"
+        email: "benjamin.wagner@kmu-verein.ch"
       },
       {
         name: "Dominik Graf",
         role: "Mitglied des Beirats",
-        image: "/lovable-uploads/e58ea346-1d16-4ce9-a96f-c9c7dea40cb7.png"
+        email: "dominik.graf@kmu-verein.ch"
       },
       {
         name: "Timo Seeger",
         role: "Mitglied des Beirats",
-        image: "/lovable-uploads/b37c9e3d-c0ab-4a8a-a7d1-13616e4aa86e.png"
+        email: "timo.seeger@kmu-verein.ch"
       },
       {
         name: "Rafael Bettio",
-        role: "Mitglied des Beirats"
+        role: "Mitglied des Beirats",
+        email: "rafael.bettio@kmu-verein.ch"
       }
     ]
   };
@@ -67,19 +69,23 @@ const Organisation = () => {
     members: [
       {
         name: "Sofia Koval",
-        role: "Administration"
+        role: "Administration",
+        email: "sofia.koval@kmu-verein.ch"
       },
       {
         name: "Maksim Wagner",
-        role: "Praktikant Redaktion"
+        role: "Praktikant Redaktion",
+        email: "maksim.wagner@kmu-verein.ch"
       },
       {
         name: "Rauschan Kumar",
-        role: "IT"
+        role: "IT",
+        email: "rauschan.kumar@kmu-verein.ch"
       },
       {
         name: "Maxim Makendonsky",
-        role: "Public Relations"
+        role: "Public Relations",
+        email: "maxim.makendonsky@kmu-verein.ch"
       }
     ]
   };
@@ -89,25 +95,30 @@ const Organisation = () => {
     members: [
       {
         name: "Karina Ilina",
-        role: "Social Media Marketing"
+        role: "Social Media Marketing",
+        email: "karina.ilina@kmu-verein.ch"
       },
       {
         name: "Alexander Lares",
         role: "Freischaffender Redaktionsmitarbeiter",
-        subRole: "Rubrik Wirtschaft / D-A-CH"
+        subRole: "Rubrik Wirtschaft / D-A-CH",
+        email: "alexander.lares@kmu-verein.ch"
       },
       {
         name: "Dr. Martin Heinemann",
-        role: "Finanzierungen"
+        role: "Finanzierungen",
+        email: "martin.heinemann@kmu-verein.ch"
       },
       {
         name: "Igor Velickovic",
-        role: "Software Architekt"
+        role: "Software Architekt",
+        email: "igor.velickovic@kmu-verein.ch"
       },
       {
         name: "Deepal Soneji",
         role: "Redaktionsmitarbeiter / Design",
-        subRole: "Ratgeber & eBook"
+        subRole: "Ratgeber & eBook",
+        email: "deepal.soneji@kmu-verein.ch"
       }
     ]
   };
@@ -119,41 +130,40 @@ const Organisation = () => {
         {section.members.map((member: any, index: number) => (
           <Card 
             key={index} 
-            className={`p-6 hover:shadow-lg transition-shadow duration-300 bg-white ${
-              !member.image ? 'bg-gradient-to-br from-white to-swiss-gray' : ''
+            className={`p-6 hover:shadow-lg transition-shadow duration-300 ${
+              section.title === "Präsidium" ? 'lg:col-span-3' : ''
             }`}
           >
-            {member.image && (
-              <div className="mb-4 aspect-square relative overflow-hidden rounded-lg bg-white">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="object-cover w-full h-full"
-                />
+            <div className="flex flex-col h-full">
+              {section.title === "Präsidium" && member.image && (
+                <div className="mb-6 max-w-[300px] mx-auto">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="rounded-lg shadow-md w-full h-auto"
+                  />
+                </div>
+              )}
+              <div className="flex-grow">
+                <h3 className="text-xl font-semibold text-swiss-darkblue mb-2">{member.name}</h3>
+                <p className="text-gray-600 mb-2">{member.role}</p>
+                {member.subRole && (
+                  <p className="text-sm text-gray-500 mb-2">{member.subRole}</p>
+                )}
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="inline-flex items-center text-swiss-red hover:text-swiss-darkblue transition-colors mt-2"
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    {member.email}
+                  </a>
+                )}
+                {member.description && (
+                  <p className="mt-4 text-gray-700">{member.description}</p>
+                )}
               </div>
-            )}
-            {!member.image && (
-              <div className="mb-4 text-3xl font-bold text-swiss-darkblue opacity-25">
-                {member.name.charAt(0)}
-              </div>
-            )}
-            <h3 className="text-xl font-semibold text-swiss-darkblue mb-2">{member.name}</h3>
-            <p className="text-gray-600 mb-2">{member.role}</p>
-            {member.subRole && (
-              <p className="text-sm text-gray-500 mb-2">{member.subRole}</p>
-            )}
-            {member.email && (
-              <a
-                href={`mailto:${member.email}`}
-                className="inline-flex items-center text-swiss-red hover:text-swiss-darkblue transition-colors"
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                {member.email}
-              </a>
-            )}
-            {member.description && (
-              <p className="mt-4 text-gray-700 text-sm">{member.description}</p>
-            )}
+            </div>
           </Card>
         ))}
       </div>
