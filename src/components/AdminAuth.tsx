@@ -11,65 +11,97 @@ const AdminAuth = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showAuth, setShowAuth] = useState(true);
+  const [isSubscribed, setIsSubscribed] = useState(true);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
     
+    // Initial session check
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      console.log("[AdminAuth] Initial session check:", session);
+      
+      if (session?.user) {
+        handleSignedInUser(session.user.id);
+      } else {
+        setShowAuth(true);
+        setIsLoading(false);
+      }
+    };
+
+    checkSession();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("[AdminAuth] Auth state changed:", event, session?.user?.id);
       
       if (event === 'SIGNED_IN' && session?.user) {
-        try {
-          console.log("[AdminAuth] Sign in detected, checking admin status");
-          setIsLoading(true);
-          setShowAuth(false);
-
-          const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('is_admin')
-            .eq('id', session.user.id)
-            .single();
-
-          if (profileError) throw profileError;
-
-          console.log("[AdminAuth] Profile data:", profile);
-
-          if (profile?.is_admin) {
-            console.log("[AdminAuth] Admin access confirmed, redirecting");
-            navigate('/admin');
-          } else {
-            console.log("[AdminAuth] User is not an admin, signing out");
-            await supabase.auth.signOut();
-            toast({
-              title: "Zugriff verweigert",
-              description: "Sie haben keine Administratorrechte.",
-              variant: "destructive",
-            });
-            setShowAuth(true);
-          }
-        } catch (error) {
-          console.error("[AdminAuth] Error:", error);
-          handleError(error as AuthError);
-        } finally {
+        await handleSignedInUser(session.user.id);
+      } else if (event === 'SIGNED_OUT') {
+        if (isSubscribed) {
+          setShowAuth(true);
           setIsLoading(false);
         }
       }
     });
 
     return () => {
+      setIsSubscribed(false);
       subscription.unsubscribe();
     };
   }, [navigate, toast]);
 
+  const handleSignedInUser = async (userId: string) => {
+    try {
+      console.log("[AdminAuth] Checking admin status for user:", userId);
+      setIsLoading(true);
+      setShowAuth(false);
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', userId)
+        .single();
+
+      if (profileError) throw profileError;
+
+      console.log("[AdminAuth] Profile data:", profile);
+
+      if (profile?.is_admin) {
+        console.log("[AdminAuth] Admin access confirmed, redirecting");
+        navigate('/admin');
+      } else {
+        console.log("[AdminAuth] User is not an admin, signing out");
+        await supabase.auth.signOut();
+        if (isSubscribed) {
+          toast({
+            title: "Zugriff verweigert",
+            description: "Sie haben keine Administratorrechte.",
+            variant: "destructive",
+          });
+          setShowAuth(true);
+        }
+      }
+    } catch (error) {
+      console.error("[AdminAuth] Error:", error);
+      handleError(error as AuthError);
+    } finally {
+      if (isSubscribed) {
+        setIsLoading(false);
+      }
+    }
+  };
+
   const handleError = (error: AuthError | Error) => {
     console.error("[AdminAuth] Error:", error);
-    toast({
-      title: "Fehler bei der Anmeldung",
-      description: error.message,
-      variant: "destructive",
-    });
-    setIsLoading(false);
-    setShowAuth(true);
+    if (isSubscribed) {
+      toast({
+        title: "Fehler bei der Anmeldung",
+        description: error.message,
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      setShowAuth(true);
+    }
   };
 
   return (
