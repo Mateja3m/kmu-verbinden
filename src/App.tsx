@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from './components/Navigation';
@@ -36,8 +36,7 @@ import Branchenmagazine from './pages/Branchenmagazine';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const isMounted = useRef(true);
+  const [isLoading, setIsLoading] = useState(false);  // Changed to false by default
   const { toast } = useToast();
 
   useEffect(() => {
@@ -47,46 +46,31 @@ const App = () => {
         
         if (sessionError) {
           console.error("[App] Session error:", sessionError);
-          if (isMounted.current) setIsLoading(false);
           return;
         }
 
         if (!session?.user) {
-          if (isMounted.current) {
-            setIsLoggedIn(false);
-            setIsAdmin(false);
-            setIsLoading(false);
-          }
+          setIsLoggedIn(false);
+          setIsAdmin(false);
           return;
         }
 
-        if (session.user && isMounted.current) {
-          setIsLoggedIn(true);
-          try {
-            const { data: profile, error: profileError } = await supabase
-              .from('profiles')
-              .select('is_admin')
-              .eq('id', session.user.id)
-              .maybeSingle();
+        setIsLoggedIn(true);
+        
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .maybeSingle();
 
-            if (profileError) {
-              console.error("[App] Profile fetch error:", profileError);
-              if (isMounted.current) setIsLoading(false);
-              return;
-            }
-
-            if (isMounted.current) {
-              setIsAdmin(!!profile?.is_admin);
-              setIsLoading(false);
-            }
-          } catch (error) {
-            console.error("[App] Profile check error:", error);
-            if (isMounted.current) setIsLoading(false);
-          }
+        if (profileError) {
+          console.error("[App] Profile fetch error:", profileError);
+          return;
         }
+
+        setIsAdmin(!!profile?.is_admin);
       } catch (error) {
         console.error("[App] Auth initialization error:", error);
-        if (isMounted.current) setIsLoading(false);
       }
     };
 
@@ -96,54 +80,33 @@ const App = () => {
       console.log("[App] Auth state changed:", event);
       
       if (event === 'SIGNED_IN' && session?.user) {
-        if (isMounted.current) {
-          setIsLoggedIn(true);
-          setIsLoading(true);
-          try {
-            const { data: profile, error: profileError } = await supabase
-              .from('profiles')
-              .select('is_admin')
-              .eq('id', session.user.id)
-              .maybeSingle();
+        setIsLoggedIn(true);
+        try {
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .maybeSingle();
 
-            if (profileError) {
-              console.error("[App] Profile fetch error:", profileError);
-              if (isMounted.current) setIsLoading(false);
-              return;
-            }
-
-            if (isMounted.current) {
-              setIsAdmin(!!profile?.is_admin);
-              setIsLoading(false);
-            }
-          } catch (error) {
-            console.error("[App] Error handling auth change:", error);
-            if (isMounted.current) setIsLoading(false);
+          if (profileError) {
+            console.error("[App] Profile fetch error:", profileError);
+            return;
           }
+
+          setIsAdmin(!!profile?.is_admin);
+        } catch (error) {
+          console.error("[App] Error handling auth change:", error);
         }
       } else if (event === 'SIGNED_OUT') {
-        if (isMounted.current) {
-          setIsLoggedIn(false);
-          setIsAdmin(false);
-          setIsLoading(false);
-        }
+        setIsLoggedIn(false);
+        setIsAdmin(false);
       }
     });
 
     return () => {
-      isMounted.current = false;
       subscription.unsubscribe();
     };
   }, []);
-
-  // Show loading spinner only for a brief moment during initial load
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-swiss-red"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col min-h-screen">
