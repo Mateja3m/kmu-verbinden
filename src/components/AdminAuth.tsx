@@ -9,25 +9,32 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [showAuth, setShowAuth] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
     const checkSession = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         console.log("[AdminAuth] Current session:", session);
         
-        if (session?.user) {
-          console.log("[AdminAuth] User found in session, checking admin status");
-          setIsLoading(true);
-          setShowAuth(false);
-          await checkAdminAndRedirect(session.user.id);
-        } else {
+        if (sessionError) {
+          console.error("[AdminAuth] Session error:", sessionError);
           setIsLoading(false);
           setShowAuth(true);
+          return;
         }
+
+        if (!session?.user) {
+          console.log("[AdminAuth] No session found");
+          setIsLoading(false);
+          setShowAuth(true);
+          return;
+        }
+
+        console.log("[AdminAuth] User found in session, checking admin status");
+        await checkAdminAndRedirect(session.user.id);
       } catch (error) {
         console.error("[AdminAuth] Session check error:", error);
         handleError(error as AuthError);
