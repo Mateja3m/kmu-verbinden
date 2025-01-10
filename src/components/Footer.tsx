@@ -78,6 +78,11 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <Link to="/unsere-auftrag" className="block hover:text-swiss-red transition-colors">Unser Auftrag</Link>
                 <Link to="/empfehlen" className="block hover:text-swiss-red transition-colors">Empfehlen Sie den SKV weiter</Link>
               </nav>
+
+              <h3 className="text-xl font-semibold mb-4 mt-6">Webdienstleistungen</h3>
+              <nav className="space-y-2">
+                <Link to="/website-redesign" className="block hover:text-swiss-red transition-colors">Website Redesign</Link>
+              </nav>
             </div>
 
             {/* Angebote und Projekte */}
