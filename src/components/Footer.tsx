@@ -20,7 +20,6 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
     <BackgroundPattern>
       <footer className="bg-swiss-darkblue text-white relative">
         <div className="container mx-auto px-4 py-6">
-          {/* Main Content Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Contact Information */}
             <div className="space-y-3">
@@ -82,6 +81,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
               <h3 className="text-xl font-semibold mb-4 mt-6">Webdienstleistungen</h3>
               <nav className="space-y-2">
                 <Link to="/website-redesign" className="block hover:text-swiss-red transition-colors">Website Redesign</Link>
+                <Link to="/ki-automatisierung" className="block hover:text-swiss-red transition-colors">KI & Automatisierung</Link>
               </nav>
             </div>
 
