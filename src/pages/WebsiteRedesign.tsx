@@ -23,7 +23,7 @@ const WebsiteRedesign = () => {
   return (
     <BackgroundPattern>
       <div className="min-h-screen bg-gradient-to-b from-swiss-darkblue to-swiss-darkblue/90 text-white">
-        <div className="container mx-auto px-4 py-20">
+        <div className="container mx-auto px-4 py-32">
           <div className="max-w-4xl mx-auto text-center space-y-12">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
@@ -54,7 +54,7 @@ const WebsiteRedesign = () => {
                 />
                 <Button 
                   type="submit"
-                  className="bg-swiss-red hover:bg-swiss-red/90 text-white px-8"
+                  className="bg-swiss-red hover:bg-swiss-red/90 text-white px-8 shine-effect"
                 >
                   Jetzt prüfen
                 </Button>
