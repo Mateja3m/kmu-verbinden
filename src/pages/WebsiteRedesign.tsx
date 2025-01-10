@@ -11,11 +11,35 @@ const WebsiteRedesign = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you could add the logic to handle the submission
+    
+    // Form validation
+    if (!websiteUrl.match(/^(https?:\/\/)?[a-z\d\-]{1,62}\..*/i)) {
+      toast({
+        title: "Fehler",
+        description: "Bitte geben Sie eine gültige Website-URL ein.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!emailRegex.test(email)) {
+      toast({
+        title: "Fehler",
+        description: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Process form
+    window.open(`https://www.websiteauditserver.com/process-embedded.inc?domain=${encodeURIComponent(websiteUrl)}&email=${encodeURIComponent(email)}&uid=71495&type=web`, '_blank');
+    
     toast({
-      title: "Anfrage gesendet",
+      title: "Erfolgreich gesendet",
       description: "Wir werden uns in Kürze bei Ihnen melden.",
     });
+
     setWebsiteUrl('');
     setEmail('');
   };
