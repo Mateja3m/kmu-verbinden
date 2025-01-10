@@ -72,6 +72,31 @@ const WebsiteRedesign = () => {
                 Nutzen Sie jetzt die Gelegenheit und fordern Sie Ihre unverbindliche Offerte an. Starten Sie einfach den Chat mit unserer KI, und wir erstellen Ihnen schnell und persönlich ein passendes Angebot. So kommen Sie rasch und unkompliziert zu einer modernen, benutzerfreundlichen Website, die perfekt zu Ihrem Unternehmen passt.
               </p>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+              <div className="bg-[#F2FCE2]/10 backdrop-blur-sm p-8 rounded-xl text-left">
+                <h3 className="text-xl font-semibold mb-4">Professionelles Design</h3>
+                <p>Moderne, responsive Designs die Ihr Unternehmen perfekt repräsentieren. Optimiert für alle Geräte und Bildschirmgrößen.</p>
+              </div>
+              <div className="bg-[#D3E4FD]/10 backdrop-blur-sm p-8 rounded-xl text-left">
+                <h3 className="text-xl font-semibold mb-4">Faire Preise</h3>
+                <p>Transparente Preisgestaltung ohne versteckte Kosten. Profitieren Sie von unseren Mitgliederkonditionen.</p>
+              </div>
+            </div>
+
+            <div className="mt-12 bg-white/5 backdrop-blur-sm rounded-xl p-8">
+              <h3 className="text-2xl font-semibold mb-6">Sprechen Sie mit unserem KI-Assistenten</h3>
+              <div className="relative w-full aspect-[16/9] md:aspect-[2/1]">
+                <iframe 
+                  className="absolute inset-0 w-full h-full rounded-lg"
+                  src="https://avaia.io/chat/authorize-chat/2705b8b0-276f-4582-a41c-6ff896a461ad/"
+                  width="100%"
+                  height="600px"
+                  frameBorder="0"
+                  title="KI-Assistent"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
