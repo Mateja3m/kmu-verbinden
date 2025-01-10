@@ -19,129 +19,65 @@ const KIAutomatisierung = () => {
                   />
                 </div>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-                  Revolutionieren Sie Ihr Unternehmen mit KI und Automatisierung
+                  Evoya.ai – Ihre Plattform für smarte KI-Lösungen und Automatisierung
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-200 mt-4">
-                  Entdecken Sie, wie KI-Agenten und automatisierte Lösungen Ihre Prozesse optimieren, Kosten reduzieren und Ihre Effizienz steigern können.
+                  Mit der Evoya-Plattform bringen Sie Ihre Geschäftsprozesse auf das nächste Level: Nutzen Sie modernste KI-Technologien und maßgeschneiderte Automatisierungen, um Ihre Effizienz zu steigern und Kosten zu senken.
                 </p>
               </div>
 
               {/* Subheadline & Intro */}
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8">
-                <h2 className="text-2xl font-semibold mb-4">Ihr Partner für innovative KI-Lösungen</h2>
+                <h2 className="text-2xl font-semibold mb-4">Wir zeigen Ihnen, wie KI Ihre Unternehmensprozesse revolutioniert!</h2>
                 <p className="text-lg mb-6">
-                  Als Experten für KI-gestützte Beratung und Automatisierung zeigen wir Ihnen, wie moderne Technologien kleine und mittlere Unternehmen (KMU) transformieren können.
+                  Mit unserer Expertise und der innovativen Evoya-Plattform finden wir Lösungen, die perfekt auf Ihre Bedürfnisse zugeschnitten sind – für kleine und mittelständische Unternehmen (KMU).
                 </p>
                 <p className="text-lg mb-6">
-                  Die rasante Entwicklung von KI, insbesondere durch leistungsstarke Sprachmodelle (LLMs) wie ChatGPT, hat die Art und Weise verändert, wie Unternehmen arbeiten. Kleine und mittlere Unternehmen (KMU) profitieren besonders von diesen Technologien, da sie kostengünstige Automatisierungsmöglichkeiten bieten, die früher großen Unternehmen vorbehalten waren.
+                  Die Evoya-Plattform bietet Ihnen alles, was Sie benötigen, um KI-gestützte Prozesse in Ihrem Unternehmen einzusetzen. Ob intelligente Chatbots, E-Mail-Automatisierung oder Multi-Agenten-Systeme – wir helfen Ihnen, die passenden Lösungen zu finden und umzusetzen.
                 </p>
                 <p className="text-lg">
-                  Mit unserer Beratung unterstützen wir Sie dabei, KI-Agenten und Automatisierungen in Ihr Unternehmen zu integrieren. Erfahren Sie, welche Lösungen für Ihr Geschäftsfeld möglich sind und wie Sie Ihre Arbeitsabläufe smarter gestalten können.
+                  Unser Beratungsteam zeigt Ihnen praxisnah, wie Sie mit den Evoya-Funktionen nicht nur Zeit und Geld sparen, sondern auch Ihre Wettbewerbsfähigkeit steigern können.
                 </p>
               </div>
 
-              {/* Keypoints */}
+              {/* Platform Features */}
               <div className="space-y-8">
-                <h2 className="text-2xl font-semibold">Was ist möglich mit KI und Automatisierung?</h2>
+                <h2 className="text-2xl font-semibold">Was bietet die Evoya-Plattform?</h2>
                 
                 <div className="grid md:grid-cols-2 gap-6">
-                  {/* Intelligente Kundenbetreuung */}
+                  {/* LLM Hub */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                    <h3 className="text-xl font-semibold mb-3">Intelligente Kundenbetreuung</h3>
+                    <h3 className="text-xl font-semibold mb-3">LLM Hub</h3>
                     <ul className="space-y-2">
-                      <li>• 24/7-KI-Chatbots für Support und Anfragen</li>
-                      <li>• Automatische Antworten auf E-Mails und häufige Fragen</li>
-                      <li>• Mehrsprachige Kommunikation ohne zusätzliche Kosten</li>
+                      <li>• Zugriff auf führende KI-Modelle von OpenAI, Anthropic, Meta, Google und mehr</li>
+                      <li>• Immer die besten Technologien für Ihre Anforderungen</li>
                     </ul>
                   </div>
 
-                  {/* Automatisierte Marketinglösungen */}
+                  {/* Privacy Shield */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                    <h3 className="text-xl font-semibold mb-3">Automatisierte Marketinglösungen</h3>
+                    <h3 className="text-xl font-semibold mb-3">Privacy Shield</h3>
                     <ul className="space-y-2">
-                      <li>• KI-gestützte Erstellung von Social-Media-Inhalten</li>
-                      <li>• Automatisierte Kampagnenplanung und -optimierung</li>
-                      <li>• Personalisierte Kundenansprache basierend auf Datenanalysen</li>
+                      <li>• Datenschutzkonforme Anonymisierung sensibler Daten</li>
+                      <li>• Gehostet in der Schweiz – Ihre Daten bleiben sicher</li>
                     </ul>
                   </div>
 
-                  {/* Prozessoptimierung */}
+                  {/* Semantic Knowledge Base */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                    <h3 className="text-xl font-semibold mb-3">Optimierung von Geschäftsprozessen</h3>
+                    <h3 className="text-xl font-semibold mb-3">Semantische Wissensbasis</h3>
                     <ul className="space-y-2">
-                      <li>• Automatische Terminplanung und Ressourcenzuweisung</li>
-                      <li>• KI-basierte Datenanalyse für fundierte Entscheidungen</li>
-                      <li>• Automatisierung von wiederkehrenden Aufgaben</li>
+                      <li>• Präzise Verarbeitung und Informationsextraktion aus Dokumenten</li>
+                      <li>• Erleichtert die Arbeit mit großen Datenmengen</li>
                     </ul>
                   </div>
 
-                  {/* Personal- und Bewerbermanagement */}
+                  {/* Web Integration */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                    <h3 className="text-xl font-semibold mb-3">Personal- und Bewerbermanagement</h3>
+                    <h3 className="text-xl font-semibold mb-3">Universelle Webintegration</h3>
                     <ul className="space-y-2">
-                      <li>• Automatisierte Bewerbervorauswahl durch KI</li>
-                      <li>• Erstellen von individuellen Schulungsplänen</li>
-                      <li>• KI-gesteuerte Analysen zur Mitarbeiterzufriedenheit</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* KI-Agenten Section */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 mt-12">
-                  <h2 className="text-2xl font-semibold mb-6">Unsere KI-Agenten: Was ist schon verfügbar?</h2>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div>
-                      <h3 className="text-xl font-semibold mb-3">Virtuelle Assistenten</h3>
-                      <ul className="space-y-2">
-                        <li>• KI-Agenten für administrative Aufgaben</li>
-                        <li>• Unterstützung bei Datenverarbeitung</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-3">Branchenspezifische Lösungen</h3>
-                      <ul className="space-y-2">
-                        <li>• Automatisierte Buchhaltungsagenten</li>
-                        <li>• KI-gestützte Diagnose</li>
-                        <li>• Logistikoptimierung</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-3">Kundensupport-Bots</h3>
-                      <ul className="space-y-2">
-                        <li>• Selbstlernende Chatbots</li>
-                        <li>• Integration in bestehende Plattformen</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Benefits Section */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8">
-                  <h2 className="text-2xl font-semibold mb-6">Wie profitieren KMU?</h2>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <ul className="space-y-3">
-                      <li className="flex items-center gap-2">
-                        <span className="text-swiss-red">✓</span>
-                        <span>Zeitersparnis durch Automatisierung</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-swiss-red">✓</span>
-                        <span>Kostenreduktion durch effizientere Abläufe</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-swiss-red">✓</span>
-                        <span>Skalierbare Lösungen</span>
-                      </li>
-                    </ul>
-                    <ul className="space-y-3">
-                      <li className="flex items-center gap-2">
-                        <span className="text-swiss-red">✓</span>
-                        <span>Wettbewerbsvorteil durch Schnelligkeit</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-swiss-red">✓</span>
-                        <span>Niedrige Einstiegskosten</span>
-                      </li>
+                      <li>• KI-Agenten-Chats nahtlos integrieren</li>
+                      <li>• Kein Programmieraufwand erforderlich</li>
                     </ul>
                   </div>
                 </div>
@@ -164,23 +100,24 @@ const KIAutomatisierung = () => {
                   </div>
                 </div>
 
-                {/* Additional Services */}
+                {/* Benefits & CTA */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                    <h3 className="text-xl font-semibold mb-3">Zusatzangebote</h3>
+                    <h3 className="text-xl font-semibold mb-3">Wie kann das Ihrer KMU helfen?</h3>
                     <ul className="space-y-2">
-                      <li>• Live-Demo: KI-Agenten in Aktion</li>
-                      <li>• Individuelle Lösungen & Automatisierungen</li>
-                      <li>• Workshops & Mitarbeiterschulungen</li>
-                      <li>• Vernetzung mit Partnern</li>
+                      <li>• Zeitersparnis durch Automatisierung</li>
+                      <li>• Kostenreduktion durch optimierte Prozesse</li>
+                      <li>• Effizienzsteigerung durch KI-Unterstützung</li>
+                      <li>• Datenschutzkonforme Lösungen</li>
+                      <li>• Skalierbare Systeme</li>
                     </ul>
                   </div>
                   
                   {/* CTA Section */}
                   <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-xl p-6">
-                    <h3 className="text-2xl font-semibold mb-4">Bereit für die Zukunft?</h3>
+                    <h3 className="text-2xl font-semibold mb-4">Starten Sie Ihre Reise in die KI-gestützte Zukunft!</h3>
                     <p className="mb-6">
-                      Starten Sie jetzt mit einer kostenlosen Erstberatung! Unsere KI-Experten zeigen Ihnen die passenden Lösungen.
+                      Vereinbaren Sie jetzt Ihre kostenlose Beratung und entdecken Sie die Möglichkeiten der Evoya-Plattform.
                     </p>
                     <Button 
                       className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-lg shine-effect w-full"
