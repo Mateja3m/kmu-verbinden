@@ -33,12 +33,11 @@ import Organisation from './pages/Organisation';
 import Praxisratgeber from './pages/Praxisratgeber';
 import Branchenmagazine from './pages/Branchenmagazine';
 import WebsiteRedesign from './pages/WebsiteRedesign';
-import KIAutomatisierung from './pages/KIAutomatisierung';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);  // Changed to false by default
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -145,7 +144,6 @@ const App = () => {
           <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
           <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
           <Route path="/website-redesign" element={<WebsiteRedesign />} />
-          <Route path="/ki-automatisierung" element={<KIAutomatisierung />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
