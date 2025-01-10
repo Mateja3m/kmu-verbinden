@@ -121,6 +121,19 @@ const WebsiteRedesign = () => {
                 />
               </div>
             </div>
+
+            <div className="mt-8 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-xl p-8 text-center">
+              <h3 className="text-2xl font-semibold mb-4">Automatisierung & KI-Beratung</h3>
+              <p className="text-lg mb-6">
+                Entdecken Sie die Möglichkeiten der Prozessautomatisierung und künstlichen Intelligenz für Ihr Unternehmen. Unsere Experten beraten Sie gerne.
+              </p>
+              <Button 
+                onClick={() => window.location.href = '/ki-automatisierung'}
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-lg shine-effect"
+              >
+                Mehr erfahren
+              </Button>
+            </div>
           </div>
         </div>
       </div>
