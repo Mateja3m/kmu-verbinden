@@ -87,6 +87,27 @@ const WebsiteRedesign = () => {
                 </div>
               </form>
 
+              <div className="space-y-8 text-left">
+                <p className="text-lg leading-relaxed">
+                  Ihr Website-Redesign muss nicht teuer sein! Als KMU-Verein haben wir für Sie die besten Partner sorgfältig evaluiert und garantieren damit höchste Qualität und Vertrauenswürdigkeit. Mit fairen Angeboten, topaktuellen Designs und neusten Technologien erhalten Sie bei uns eine professionelle Neugestaltung Ihrer Homepage – und das zu Bestpreisen.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                    <h4 className="text-xl font-semibold mb-3">Professionelles Design</h4>
+                    <p>Moderne, responsive Designs die Ihr Unternehmen perfekt repräsentieren. Optimiert für alle Geräte und Bildschirmgrößen.</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                    <h4 className="text-xl font-semibold mb-3">Faire Preise</h4>
+                    <p>Transparente Preisgestaltung ohne versteckte Kosten. Profitieren Sie von unseren exklusiven Mitgliederkonditionen.</p>
+                  </div>
+                </div>
+
+                <p className="text-lg leading-relaxed">
+                  Nutzen Sie jetzt die Gelegenheit und fordern Sie Ihre unverbindliche Offerte an. Starten Sie einfach den Chat mit unserer KI, und wir erstellen Ihnen schnell und persönlich ein passendes Angebot. So kommen Sie rasch und unkompliziert zu einer modernen, benutzerfreundlichen Website, die perfekt zu Ihrem Unternehmen passt.
+                </p>
+              </div>
+
               <div className="mt-12 bg-white/5 backdrop-blur-sm rounded-xl p-8">
                 <h3 className="text-2xl font-semibold mb-6">Sprechen Sie mit unserem KI-Assistenten</h3>
                 <div className="relative w-full aspect-[16/9] md:aspect-[2/1]">
