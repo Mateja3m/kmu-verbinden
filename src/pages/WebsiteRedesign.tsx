@@ -89,7 +89,7 @@ const WebsiteRedesign = () => {
 
               <div className="space-y-8 text-left">
                 <p className="text-lg leading-relaxed">
-                  Ihr Website-Redesign muss nicht teuer sein! Als KMU-Verein haben wir für Sie die besten Partner sorgfältig evaluiert und garantieren damit höchste Qualität und Vertrauenswürdigkeit. Mit fairen Angeboten, topaktuellen Designs und neusten Technologien erhalten Sie bei uns eine professionelle Neugestaltung Ihrer Homepage – und das zu Bestpreisen.
+                  Profitieren Sie von unserer Expertise! Als KMU-Verein haben wir die besten Partner für Sie ausgewählt. Modernste Designs, faire Preise und höchste Qualität – das ist unser Versprechen für Ihr Website-Redesign.
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-6">
@@ -104,7 +104,7 @@ const WebsiteRedesign = () => {
                 </div>
 
                 <p className="text-lg leading-relaxed">
-                  Nutzen Sie jetzt die Gelegenheit und fordern Sie Ihre unverbindliche Offerte an. Starten Sie einfach den Chat mit unserer KI, und wir erstellen Ihnen schnell und persönlich ein passendes Angebot. So kommen Sie rasch und unkompliziert zu einer modernen, benutzerfreundlichen Website, die perfekt zu Ihrem Unternehmen passt.
+                  Starten Sie jetzt den Chat mit unserer KI und erhalten Sie ein massgeschneidertes Angebot. Schnell, unkompliziert und genau auf Ihre Bedürfnisse zugeschnitten.
                 </p>
               </div>
 
@@ -123,7 +123,6 @@ const WebsiteRedesign = () => {
               </div>
 
               <div className="mt-8 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-xl p-8 text-center relative overflow-hidden">
-                {/* New Ribbon */}
                 <div className="absolute -right-12 top-6 rotate-45 bg-swiss-red text-white px-12 py-1 text-sm font-semibold shadow-lg transform">
                   Jetzt neu
                 </div>
