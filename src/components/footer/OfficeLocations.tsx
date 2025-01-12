@@ -1,69 +1,48 @@
-import { Mail, Phone, Clock } from "lucide-react";
+import React from 'react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
+} from "@/components/ui/tooltip";
 
-const offices = [
-  {
-    city: "Genf",
-    address: "Rue du Rhône 14",
-    postal: "1204 Genève",
-    phone: "022 / 518 05 09",
-    email: "genf@kmu-verein.ch"
-  },
-  {
-    city: "Luzern",
-    address: "Pilatusstrasse 35",
-    postal: "6003 Luzern",
-    phone: "041 / 588 22 49",
-    email: "luzern@kmu-verein.ch"
-  },
-  {
-    city: "Bern",
-    address: "Bundesgasse 20",
-    postal: "3001 Bern",
-    phone: "031 / 528 05 51",
-    email: "bern@kmu-verein.ch"
-  }
-];
+export const OfficeLocations: React.FC = () => {
+  const offices = [
+    {
+      city: 'Naters',
+      address: 'Dammweg 11D',
+      postalCode: 'CH-3904',
+      phone: '+41 27 924 24 24',
+      email: 'info@kmu-verein.ch'
+    },
+    {
+      city: 'Zürich',
+      address: 'Bahnhofstrasse 21',
+      postalCode: 'CH-8001',
+      phone: '+41 44 221 08 88',
+      email: 'zuerich@kmu-verein.ch'
+    }
+  ];
 
-export const OfficeLocations = () => {
   return (
-    <div className="flex flex-wrap gap-4 text-sm text-gray-300">
-      <TooltipProvider>
-        {offices.map((office) => (
-          <Tooltip key={office.city}>
-            <TooltipTrigger className="hover:text-swiss-red transition-colors">
+    <div className="space-y-2">
+      {offices.map((office, index) => (
+        <TooltipProvider key={index}>
+          <Tooltip>
+            <TooltipTrigger className="text-white hover:text-swiss-red transition-colors">
               {office.city}
             </TooltipTrigger>
-            <TooltipContent className="bg-swiss-darkblue border-swiss-red p-3">
-              <div className="space-y-2">
-                <div>
-                  <p>{office.address}</p>
-                  <p>{office.postal}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-swiss-red" />
-                  <span>{office.phone}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-swiss-red" />
-                  <a href={`mailto:${office.email}`} className="hover:text-swiss-red">
-                    {office.email}
-                  </a>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-swiss-red" />
-                  <span>Mo-Fr: 8:00–12:00 Uhr</span>
-                </div>
+            <TooltipContent>
+              <div className="p-2">
+                <p>{office.address}</p>
+                <p>{office.postalCode}</p>
+                <p>{office.phone}</p>
+                <p>{office.email}</p>
               </div>
             </TooltipContent>
           </Tooltip>
-        ))}
-      </TooltipProvider>
+        </TooltipProvider>
+      ))}
     </div>
   );
 };
