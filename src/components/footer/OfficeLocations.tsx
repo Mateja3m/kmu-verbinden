@@ -27,7 +27,7 @@ const locations = [
   }
 ];
 
-const OfficeLocations = () => {
+export const OfficeLocations = () => {
   return (
     <div className="space-y-2">
       <h3 className="text-lg font-semibold mb-4">Geschäftsstellen</h3>
@@ -52,5 +52,3 @@ const OfficeLocations = () => {
     </div>
   );
 };
-
-export default OfficeLocations;
