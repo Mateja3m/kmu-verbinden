@@ -1,53 +1,68 @@
-import React from 'react';
+import { Mail, Phone, Clock } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "../ui/tooltip";
 
-const locations = [
+const offices = [
   {
-    city: 'Zürich',
-    address: 'Bahnhofstrasse 106',
-    postalCode: '8001',
-    phone: '+41 44 512 21 50'
+    city: "Genf",
+    address: "Rue du Rhône 14",
+    postal: "1204 Genève",
+    phone: "022 / 518 05 09",
+    email: "genf@kmu-verein.ch"
   },
   {
-    city: 'St.Gallen',
-    address: 'Spisergasse 41',
-    postalCode: '9000',
-    phone: '+41 71 571 20 11'
+    city: "Luzern",
+    address: "Pilatusstrasse 35",
+    postal: "6003 Luzern",
+    phone: "041 / 588 22 49",
+    email: "luzern@kmu-verein.ch"
   },
   {
-    city: 'Chur',
-    address: 'Poststrasse 9',
-    postalCode: '7000',
-    phone: '+41 81 511 04 11'
+    city: "Bern",
+    address: "Bundesgasse 20",
+    postal: "3001 Bern",
+    phone: "031 / 528 05 51",
+    email: "bern@kmu-verein.ch"
   }
 ];
 
-export const OfficeLocations: React.FC = () => {
+export const OfficeLocations = () => {
   return (
-    <div className="space-y-2">
-      <h3 className="text-lg font-semibold mb-4">Geschäftsstellen</h3>
+    <div className="flex flex-wrap gap-4 text-sm text-gray-300">
       <TooltipProvider>
-        <div className="space-y-2">
-          {locations.map((location, index) => (
-            <Tooltip key={index}>
-              <TooltipTrigger className="block text-left hover:text-swiss-red transition-colors">
-                {location.city}
-              </TooltipTrigger>
-              <TooltipContent side="right" className="p-3 bg-white border shadow-lg">
-                <div className="space-y-1">
-                  <p className="font-medium">{location.address}</p>
-                  <p>{location.postalCode} {location.city}</p>
-                  <p className="text-swiss-red">{location.phone}</p>
+        {offices.map((office) => (
+          <Tooltip key={office.city}>
+            <TooltipTrigger className="hover:text-swiss-red transition-colors">
+              {office.city}
+            </TooltipTrigger>
+            <TooltipContent className="bg-swiss-darkblue border-swiss-red p-3">
+              <div className="space-y-2">
+                <div>
+                  <p>{office.address}</p>
+                  <p>{office.postal}</p>
                 </div>
-              </TooltipContent>
-            </Tooltip>
-          ))}
-        </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-swiss-red" />
+                  <span>{office.phone}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-swiss-red" />
+                  <a href={`mailto:${office.email}`} className="hover:text-swiss-red">
+                    {office.email}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-swiss-red" />
+                  <span>Mo-Fr: 8:00–12:00 Uhr</span>
+                </div>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        ))}
       </TooltipProvider>
     </div>
   );
