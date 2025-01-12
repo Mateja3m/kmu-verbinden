@@ -81,7 +81,6 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
               <h3 className="text-xl font-semibold mb-4 mt-6">Webdienstleistungen</h3>
               <nav className="space-y-2">
                 <Link to="/website-redesign" className="block hover:text-swiss-red transition-colors">Website Redesign</Link>
-                <Link to="/ki-automatisierung" className="block hover:text-swiss-red transition-colors">KI & Automatisierung</Link>
               </nav>
             </div>
 
