@@ -9,8 +9,8 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [showAuth, setShowAuth] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);  // Start with loading true
+  const [showAuth, setShowAuth] = useState(false);   // Start with auth hidden
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
@@ -72,7 +72,7 @@ const AdminAuth = () => {
         .from('profiles')
         .select('is_admin')
         .eq('id', userId)
-        .single();
+        .maybeSingle();  // Changed back to maybeSingle to handle null cases
 
       if (profileError) {
         console.error("[AdminAuth] Profile query error:", profileError);
