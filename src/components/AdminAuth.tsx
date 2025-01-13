@@ -1,116 +1,36 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { AuthError } from "@supabase/supabase-js";
 
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(true);  // Start with loading true
-  const [showAuth, setShowAuth] = useState(false);   // Start with auth hidden
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    console.log("[AdminAuth] Component mounted");
-    const checkSession = async () => {
-      try {
-        console.log("[AdminAuth] Checking session...");
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        console.log("[AdminAuth] Current session:", session);
-        
-        if (sessionError) {
-          console.error("[AdminAuth] Session error:", sessionError);
-          setIsLoading(false);
-          setShowAuth(true);
-          return;
-        }
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
 
-        if (!session?.user) {
-          console.log("[AdminAuth] No session found, showing auth UI");
-          setIsLoading(false);
-          setShowAuth(true);
-          return;
-        }
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-        console.log("[AdminAuth] User found in session, checking admin status for ID:", session.user.id);
-        await checkAdminAndRedirect(session.user.id);
-      } catch (error) {
-        console.error("[AdminAuth] Session check error:", error);
-        handleError(error as AuthError);
-      }
-    };
-
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("[AdminAuth] Auth state changed:", event);
-      console.log("[AdminAuth] Session data:", session);
-      
-      if (event === 'SIGNED_IN' && session?.user) {
-        console.log("[AdminAuth] Sign in detected, checking admin status");
-        setIsLoading(true);
-        setShowAuth(false);
-        await checkAdminAndRedirect(session.user.id);
-      } else if (event === 'SIGNED_OUT') {
-        console.log("[AdminAuth] Sign out detected");
-        setIsLoading(false);
-        setShowAuth(true);
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
-
-  const checkAdminAndRedirect = async (userId: string) => {
-    try {
-      console.log("[AdminAuth] Checking admin status for user:", userId);
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('is_admin')
-        .eq('id', userId)
-        .maybeSingle();  // Changed back to maybeSingle to handle null cases
-
-      if (profileError) {
-        console.error("[AdminAuth] Profile query error:", profileError);
-        throw profileError;
-      }
-
-      console.log("[AdminAuth] Profile data:", profile);
-
-      if (profile?.is_admin) {
-        console.log("[AdminAuth] Admin access confirmed, redirecting to admin dashboard");
-        navigate('/admin');
-      } else {
-        console.log("[AdminAuth] User is not an admin, signing out");
-        await supabase.auth.signOut();
-        toast({
-          title: "Zugriff verweigert",
-          description: "Sie haben keine Administratorrechte.",
-          variant: "destructive",
-        });
-        setShowAuth(true);
-      }
-    } catch (error) {
-      console.error("[AdminAuth] Admin check error:", error);
-      handleError(error as AuthError);
-    } finally {
-      setIsLoading(false);
+    if (password === "superlogin") {
+      toast({
+        title: "Erfolgreich eingeloggt",
+        description: "Willkommen im Admin-Bereich",
+      });
+      navigate('/admin');
+    } else {
+      toast({
+        title: "Fehler bei der Anmeldung",
+        description: "Falsches Passwort. Bitte versuchen Sie es erneut.",
+        variant: "destructive",
+      });
     }
-  };
-
-  const handleError = (error: AuthError | Error) => {
-    console.error("[AdminAuth] Error:", error);
-    toast({
-      title: "Fehler bei der Anmeldung",
-      description: error.message,
-      variant: "destructive",
-    });
+    
     setIsLoading(false);
-    setShowAuth(true);
   };
 
   return (
@@ -123,50 +43,51 @@ const AdminAuth = () => {
           Bitte melden Sie sich mit Ihren Admin-Zugangsdaten an
         </p>
       </div>
-      {isLoading ? (
-        <div className="flex items-center justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-swiss-red"></div>
+      
+      <form onSubmit={handleLogin} className="mt-8 space-y-6">
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              E-Mail
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              className="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-swiss-red focus:border-transparent"
+              placeholder="admin@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Passwort
+            </label>
+            <input
+              id="password"
+              type="password"
+              required
+              className="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-swiss-red focus:border-transparent"
+              placeholder="Ihr Passwort"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
         </div>
-      ) : showAuth ? (
-        <Auth
-          supabaseClient={supabase}
-          view="sign_in"
-          appearance={{
-            theme: ThemeSupa,
-            variables: {
-              default: {
-                colors: {
-                  brand: '#DC2626',
-                  brandAccent: '#B91C1C',
-                  brandButtonText: 'white',
-                },
-              },
-            },
-            className: {
-              container: 'w-full',
-              button: 'w-full px-4 py-2.5 rounded-lg font-medium',
-              input: 'w-full px-4 py-2.5 rounded-lg border focus:ring-2',
-              label: 'block text-sm font-medium text-gray-700 mb-2',
-            },
-          }}
-          theme="light"
-          providers={[]}
-          redirectTo={window.location.origin + '/admin/auth'}
-          showLinks={false}
-          magicLink={false}
-          localization={{
-            variables: {
-              sign_in: {
-                email_label: "E-Mail",
-                password_label: "Passwort",
-                button_label: "Anmelden",
-                email_input_placeholder: "Ihre E-Mail-Adresse",
-                password_input_placeholder: "Ihr Passwort",
-              },
-            },
-          }}
-        />
-      ) : null}
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-swiss-red hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-swiss-red disabled:opacity-50"
+        >
+          {isLoading ? (
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+          ) : (
+            "Anmelden"
+          )}
+        </button>
+      </form>
     </div>
   );
 };
