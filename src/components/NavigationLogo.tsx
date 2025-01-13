@@ -5,9 +5,13 @@ export const NavigationLogo = () => {
     <div className="flex-shrink-0 flex items-center">
       <Link to="/">
         <img 
-          src="/lovable-uploads/67e619d1-963c-4da7-8284-26ef2cfe6da6.png" 
+          src="/lovable-uploads/357e0254-2cd2-4767-ba80-3d0272966c39.png" 
           alt="SKV Logo" 
           className="h-16 w-auto"
+          style={{ 
+            objectFit: 'contain',
+            objectPosition: 'center'
+          }}
         />
       </Link>
     </div>
