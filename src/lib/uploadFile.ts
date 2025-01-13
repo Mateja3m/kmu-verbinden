@@ -5,34 +5,26 @@ export async function uploadFile(file: File) {
     throw new Error('No file provided');
   }
 
-  try {
-    // Generate a unique filename
-    const timestamp = new Date().getTime();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${timestamp}-${randomString}.${fileExt}`;
+  // Sanitize filename to remove non-ASCII characters
+  const sanitizedName = file.name.replace(/[^\x00-\x7F]/g, '');
+  const fileExt = sanitizedName.split('.').pop();
+  const fileName = `${Math.random()}.${fileExt}`;
 
-    // Upload the file
-    const { error: uploadError } = await supabase.storage
-      .from('expert-images')
-      .upload(fileName, file, {
-        cacheControl: '3600',
-        upsert: true
-      });
+  const { error: uploadError, data } = await supabase.storage
+    .from('expert-images')
+    .upload(fileName, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
 
-    if (uploadError) {
-      console.error('Upload error:', uploadError);
-      throw uploadError;
-    }
-
-    // Get the public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('expert-images')
-      .getPublicUrl(fileName);
-
-    return publicUrl;
-  } catch (error) {
-    console.error('Error in uploadFile:', error);
-    throw error;
+  if (uploadError) {
+    console.error('Upload error:', uploadError);
+    throw uploadError;
   }
+
+  const { data: { publicUrl } } = supabase.storage
+    .from('expert-images')
+    .getPublicUrl(fileName);
+
+  return publicUrl;
 }
