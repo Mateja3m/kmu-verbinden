@@ -15,15 +15,34 @@ export const ExpertFileUpload = ({
   onProfileImageChange,
   onLogoImageChange,
 }: ExpertFileUploadProps) => {
-  const [uploading, setUploading] = useState(false);
+  const [uploadingProfile, setUploadingProfile] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   const { toast } = useToast();
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'logo') => {
+    const files = e.target.files;
+    if (!files || files.length === 0) {
+      return;
+    }
+
+    const file = files[0];
+    const isImage = file.type.startsWith('image/');
+    if (!isImage) {
+      toast({
+        title: "Fehler",
+        description: "Bitte laden Sie nur Bilder hoch (JPG, PNG, GIF).",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
-      if (!e.target.files || e.target.files.length === 0) return;
-      
-      setUploading(true);
-      const file = e.target.files[0];
+      if (type === 'profile') {
+        setUploadingProfile(true);
+      } else {
+        setUploadingLogo(true);
+      }
+
       const publicUrl = await uploadFile(file);
       
       if (type === 'profile') {
@@ -36,6 +55,7 @@ export const ExpertFileUpload = ({
         title: "Erfolg",
         description: `${type === 'profile' ? 'Profilbild' : 'Logo'} wurde erfolgreich hochgeladen.`
       });
+
     } catch (error) {
       console.error('Error uploading file:', error);
       toast({
@@ -44,7 +64,11 @@ export const ExpertFileUpload = ({
         variant: "destructive"
       });
     } finally {
-      setUploading(false);
+      if (type === 'profile') {
+        setUploadingProfile(false);
+      } else {
+        setUploadingLogo(false);
+      }
     }
   };
 
@@ -64,13 +88,13 @@ export const ExpertFileUpload = ({
             type="file"
             accept="image/*"
             onChange={(e) => handleFileUpload(e, 'profile')}
-            disabled={uploading}
+            disabled={uploadingProfile || uploadingLogo}
             className="cursor-pointer opacity-0 absolute inset-0 w-full h-full"
           />
           <div className="bg-gray-50 p-8 rounded-lg text-center group-hover:bg-gray-100 transition-colors duration-300">
             <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-swiss-red transition-colors duration-300" />
             <p className="text-sm text-gray-600 group-hover:text-swiss-darkblue transition-colors duration-300">
-              {uploading ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Profilbild hochzuladen'}
+              {uploadingProfile ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Profilbild hochzuladen'}
             </p>
             <p className="text-xs text-gray-400 mt-2">
               JPG, PNG oder GIF, max. 10MB
@@ -93,13 +117,13 @@ export const ExpertFileUpload = ({
             type="file"
             accept="image/*"
             onChange={(e) => handleFileUpload(e, 'logo')}
-            disabled={uploading}
+            disabled={uploadingProfile || uploadingLogo}
             className="cursor-pointer opacity-0 absolute inset-0 w-full h-full"
           />
           <div className="bg-gray-50 p-8 rounded-lg text-center group-hover:bg-gray-100 transition-colors duration-300">
             <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-swiss-red transition-colors duration-300" />
             <p className="text-sm text-gray-600 group-hover:text-swiss-darkblue transition-colors duration-300">
-              {uploading ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Firmenlogo hochzuladen'}
+              {uploadingLogo ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Firmenlogo hochzuladen'}
             </p>
             <p className="text-xs text-gray-400 mt-2">
               JPG, PNG oder GIF, max. 10MB
