@@ -8,7 +8,7 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
-  const isPartnerLogin = searchParams.get('type') === 'partner';
+  const loginType = searchParams.get('type') || 'member'; // Default to member login
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,12 +20,24 @@ const AuthPage = () => {
     // Simulate API call with 1 second delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    if (password === "superlogin") {
+    if (loginType === 'partner' && password === "superlogin") {
       toast({
         title: "Erfolgreich angemeldet",
         description: `Willkommen zurück!`,
       });
-      navigate(isPartnerLogin ? '/partner-dashboard' : '/admin');
+      navigate('/partner-dashboard');
+    } else if (loginType === 'admin' && password === "superlogin") {
+      toast({
+        title: "Erfolgreich angemeldet",
+        description: `Willkommen zurück!`,
+      });
+      navigate('/admin');
+    } else if (loginType === 'member' && password.endsWith('2025!')) {
+      toast({
+        title: "Erfolgreich angemeldet",
+        description: `Willkommen zurück!`,
+      });
+      navigate('/dashboard');
     } else {
       toast({
         title: "Fehler",
@@ -37,6 +49,17 @@ const AuthPage = () => {
     setIsLoading(false);
   };
 
+  const getTitle = () => {
+    switch(loginType) {
+      case 'partner':
+        return 'Partner Login';
+      case 'admin':
+        return 'Admin Login';
+      default:
+        return 'Mitglieder Login';
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -45,7 +68,7 @@ const AuthPage = () => {
           <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-xl border border-gray-100">
             <div>
               <h2 className="mt-2 text-center text-3xl font-extrabold text-swiss-darkblue">
-                {isPartnerLogin ? 'Partner Login' : 'Admin Login'}
+                {getTitle()}
               </h2>
               <p className="mt-3 text-center text-sm text-gray-600">
                 Bitte melden Sie sich mit Ihren Zugangsdaten an
