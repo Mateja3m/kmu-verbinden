@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Upload, ImagePlus, Building2 } from "lucide-react";
 import { Card } from "../ui/card";
-import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { uploadFile } from "@/lib/uploadFile";
 
@@ -21,16 +21,25 @@ export const ExpertFileUpload = ({
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'logo') => {
     const files = e.target.files;
-    if (!files || files.length === 0) {
-      return;
-    }
+    if (!files || files.length === 0) return;
 
     const file = files[0];
-    const isImage = file.type.startsWith('image/');
-    if (!isImage) {
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
       toast({
         title: "Fehler",
         description: "Bitte laden Sie nur Bilder hoch (JPG, PNG, GIF).",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "Fehler",
+        description: "Die Datei ist zu gross. Maximale Grösse ist 5MB.",
         variant: "destructive"
       });
       return;
@@ -97,7 +106,7 @@ export const ExpertFileUpload = ({
               {uploadingProfile ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Profilbild hochzuladen'}
             </p>
             <p className="text-xs text-gray-400 mt-2">
-              JPG, PNG oder GIF, max. 10MB
+              JPG, PNG oder GIF, max. 5MB
             </p>
           </div>
         </div>
@@ -126,7 +135,7 @@ export const ExpertFileUpload = ({
               {uploadingLogo ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Firmenlogo hochzuladen'}
             </p>
             <p className="text-xs text-gray-400 mt-2">
-              JPG, PNG oder GIF, max. 10MB
+              JPG, PNG oder GIF, max. 5MB
             </p>
           </div>
         </div>
