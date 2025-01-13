@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export async function uploadFile(file: File, bucket: string = 'images') {
+export async function uploadFile(file: File, bucket: string = 'expert-images') {
   const fileExt = file.name.split('.').pop();
   const fileName = `${Math.random()}.${fileExt}`;
   const filePath = `${fileName}`;

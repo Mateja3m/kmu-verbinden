@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
@@ -16,18 +16,45 @@ interface ExpertSubmissionFormProps {
 const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) => {
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ExpertFormData>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [logoImage, setLogoImage] = useState<File | null>(null);
   const [services, setServices] = useState<string[]>([""]);
   const { toast } = useToast();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'logo') => {
-    if (e.target.files && e.target.files[0]) {
+  const handleImageUpload = async (file: File, type: 'profile' | 'logo') => {
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError, data } = await supabase.storage
+        .from('expert-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('expert-images')
+        .getPublicUrl(filePath);
+
       if (type === 'profile') {
-        setProfileImage(e.target.files[0]);
+        setValue('image_url', publicUrl);
       } else {
-        setLogoImage(e.target.files[0]);
+        setValue('logo_url', publicUrl);
       }
+
+      toast({
+        title: "Erfolg",
+        description: `${type === 'profile' ? 'Profilbild' : 'Logo'} wurde erfolgreich hochgeladen.`
+      });
+
+      return publicUrl;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: "Fehler",
+        description: `${type === 'profile' ? 'Profilbild' : 'Logo'} konnte nicht hochgeladen werden.`,
+        variant: "destructive"
+      });
+      return null;
     }
   };
 
@@ -50,41 +77,6 @@ const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) 
   const onSubmit = async (data: ExpertFormData) => {
     setIsSubmitting(true);
     try {
-      let profileImageUrl = null;
-      let logoImageUrl = null;
-
-      if (profileImage) {
-        const fileExt = profileImage.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const { error: uploadError } = await supabase.storage
-          .from('images')
-          .upload(`expert-profiles/${fileName}`, profileImage);
-
-        if (uploadError) throw uploadError;
-        
-        const { data: { publicUrl } } = supabase.storage
-          .from('images')
-          .getPublicUrl(`expert-profiles/${fileName}`);
-        
-        profileImageUrl = publicUrl;
-      }
-
-      if (logoImage) {
-        const fileExt = logoImage.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const { error: uploadError } = await supabase.storage
-          .from('images')
-          .upload(`expert-logos/${fileName}`, logoImage);
-
-        if (uploadError) throw uploadError;
-        
-        const { data: { publicUrl } } = supabase.storage
-          .from('images')
-          .getPublicUrl(`expert-logos/${fileName}`);
-        
-        logoImageUrl = publicUrl;
-      }
-
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('No user found');
 
@@ -92,21 +84,9 @@ const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) 
         .from('experts')
         .insert({
           profile_id: user.id,
-          image_url: profileImageUrl,
-          logo_url: logoImageUrl,
           services: services.filter(Boolean),
           status: 'pending',
-          expertise_area: data.expertise_area,
-          description: data.description,
-          company_name: data.company_name,
-          contact_person: data.contact_person,
-          email: data.email,
-          phone: data.phone,
-          website: data.website,
-          linkedin: data.linkedin,
-          address: data.address,
-          postal_code: data.postal_code,
-          city: data.city
+          ...data
         });
 
       if (expertError) throw expertError;
@@ -118,21 +98,6 @@ const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) 
       
       onExpertSubmitted(data.contact_person);
       
-      // Reset form
-      setValue('expertise_area', '');
-      setValue('description', '');
-      setValue('company_name', '');
-      setValue('contact_person', '');
-      setValue('email', '');
-      setValue('phone', '');
-      setValue('website', '');
-      setValue('linkedin', '');
-      setValue('address', '');
-      setValue('postal_code', '');
-      setValue('city', '');
-      setProfileImage(null);
-      setLogoImage(null);
-      setServices(['']);
     } catch (error) {
       console.error('Error submitting expert profile:', error);
       toast({
@@ -150,8 +115,16 @@ const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) 
       <CardContent className="p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <ExpertFileUpload
-            onProfileImageChange={(e) => handleImageChange(e, 'profile')}
-            onLogoImageChange={(e) => handleImageChange(e, 'logo')}
+            onProfileImageChange={(e) => {
+              if (e.target.files?.[0]) {
+                handleImageUpload(e.target.files[0], 'profile');
+              }
+            }}
+            onLogoImageChange={(e) => {
+              if (e.target.files?.[0]) {
+                handleImageUpload(e.target.files[0], 'logo');
+              }
+            }}
           />
 
           <ExpertFormFields
