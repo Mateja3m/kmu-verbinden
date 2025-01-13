@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Upload } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,43 +19,12 @@ const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) 
   const [services, setServices] = useState<string[]>([""]);
   const { toast } = useToast();
 
-  const handleImageUpload = async (file: File, type: 'profile' | 'logo') => {
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${fileName}`;
+  const handleProfileImageChange = (url: string) => {
+    setValue('image_url', url);
+  };
 
-      const { error: uploadError, data } = await supabase.storage
-        .from('expert-images')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('expert-images')
-        .getPublicUrl(filePath);
-
-      if (type === 'profile') {
-        setValue('image_url', publicUrl);
-      } else {
-        setValue('logo_url', publicUrl);
-      }
-
-      toast({
-        title: "Erfolg",
-        description: `${type === 'profile' ? 'Profilbild' : 'Logo'} wurde erfolgreich hochgeladen.`
-      });
-
-      return publicUrl;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      toast({
-        title: "Fehler",
-        description: `${type === 'profile' ? 'Profilbild' : 'Logo'} konnte nicht hochgeladen werden.`,
-        variant: "destructive"
-      });
-      return null;
-    }
+  const handleLogoImageChange = (url: string) => {
+    setValue('logo_url', url);
   };
 
   const addService = () => {
@@ -115,16 +84,8 @@ const ExpertSubmissionForm = ({ onExpertSubmitted }: ExpertSubmissionFormProps) 
       <CardContent className="p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <ExpertFileUpload
-            onProfileImageChange={(e) => {
-              if (e.target.files?.[0]) {
-                handleImageUpload(e.target.files[0], 'profile');
-              }
-            }}
-            onLogoImageChange={(e) => {
-              if (e.target.files?.[0]) {
-                handleImageUpload(e.target.files[0], 'logo');
-              }
-            }}
+            onProfileImageChange={handleProfileImageChange}
+            onLogoImageChange={handleLogoImageChange}
           />
 
           <ExpertFormFields
