@@ -5,9 +5,9 @@ export const NavigationLogo = () => {
     <div className="flex-shrink-0 flex items-center">
       <Link to="/">
         <img 
-          src="https://static.wixstatic.com/media/0c82d3_99a00cf83db144a5ab37dde66cd07e27~mv2.png" 
-          alt="SKV Logo" 
-          className="h-16 w-auto" // Changed from h-12 to h-16 to make the logo bigger
+          src="/lovable-uploads/99b20d6f-6ed5-4b74-b196-e550f338ca17.png"
+          alt="KMU Verein Logo" 
+          className="h-16 w-auto"
         />
       </Link>
     </div>
