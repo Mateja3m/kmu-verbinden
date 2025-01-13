@@ -9,13 +9,14 @@ import { AuthError } from "@supabase/supabase-js";
 const AdminAuth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);  // Changed to false initially
-  const [showAuth, setShowAuth] = useState(true);     // Changed to true initially
+  const [isLoading, setIsLoading] = useState(false);
+  const [showAuth, setShowAuth] = useState(true);
 
   useEffect(() => {
     console.log("[AdminAuth] Component mounted");
     const checkSession = async () => {
       try {
+        console.log("[AdminAuth] Checking session...");
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         console.log("[AdminAuth] Current session:", session);
         
@@ -27,13 +28,13 @@ const AdminAuth = () => {
         }
 
         if (!session?.user) {
-          console.log("[AdminAuth] No session found");
+          console.log("[AdminAuth] No session found, showing auth UI");
           setIsLoading(false);
           setShowAuth(true);
           return;
         }
 
-        console.log("[AdminAuth] User found in session, checking admin status");
+        console.log("[AdminAuth] User found in session, checking admin status for ID:", session.user.id);
         await checkAdminAndRedirect(session.user.id);
       } catch (error) {
         console.error("[AdminAuth] Session check error:", error);
@@ -44,7 +45,8 @@ const AdminAuth = () => {
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("[AdminAuth] Auth state changed:", event, session?.user?.id);
+      console.log("[AdminAuth] Auth state changed:", event);
+      console.log("[AdminAuth] Session data:", session);
       
       if (event === 'SIGNED_IN' && session?.user) {
         console.log("[AdminAuth] Sign in detected, checking admin status");
@@ -52,6 +54,7 @@ const AdminAuth = () => {
         setShowAuth(false);
         await checkAdminAndRedirect(session.user.id);
       } else if (event === 'SIGNED_OUT') {
+        console.log("[AdminAuth] Sign out detected");
         setIsLoading(false);
         setShowAuth(true);
       }
@@ -69,7 +72,7 @@ const AdminAuth = () => {
         .from('profiles')
         .select('is_admin')
         .eq('id', userId)
-        .maybeSingle();
+        .single();
 
       if (profileError) {
         console.error("[AdminAuth] Profile query error:", profileError);
@@ -79,7 +82,7 @@ const AdminAuth = () => {
       console.log("[AdminAuth] Profile data:", profile);
 
       if (profile?.is_admin) {
-        console.log("[AdminAuth] Admin access confirmed, redirecting");
+        console.log("[AdminAuth] Admin access confirmed, redirecting to admin dashboard");
         navigate('/admin');
       } else {
         console.log("[AdminAuth] User is not an admin, signing out");
