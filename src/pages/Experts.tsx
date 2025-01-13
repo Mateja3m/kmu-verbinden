@@ -107,8 +107,23 @@ export default function Experts() {
         </div>
       </div>
 
-      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 relative">
+        {/* Coming Soon Overlay */}
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-md z-10 flex flex-col items-center justify-center text-center p-4">
+          <div className="bg-white/90 p-8 rounded-lg shadow-lg max-w-2xl">
+            <h2 className="text-3xl font-bold text-swiss-darkblue mb-4">
+              Demnächst verfügbar
+            </h2>
+            <p className="text-xl text-gray-700 mb-2">
+              Wir arbeiten gerade daran, unsere Expertenplattform für Sie zu optimieren.
+            </p>
+            <p className="text-lg text-gray-600">
+              Bitte besuchen Sie uns in ein paar Tagen wieder.
+            </p>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto blur-sm">
           {/* Filter Section */}
           <div className="mb-8 space-y-4 md:space-y-0 md:flex md:gap-4 bg-white p-6 rounded-lg shadow-sm">
             <div className="flex-1">
