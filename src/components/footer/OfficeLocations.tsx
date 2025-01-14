@@ -14,7 +14,7 @@ const offices = [
     isHeadOffice: true,
     address: [
       "Geschäftsstelle und Rechtsdienst",
-      "C/O meinJurist GmbH",
+      "c/o meinJurist GmbH",
       "Richtistrasse 2",
       "8304 Wallisellen"
     ]
@@ -69,7 +69,7 @@ export const OfficeLocations = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-swiss-red" />
-                  <span>Mo-Fr: 8:00–12:00 Uhr</span>
+                  <span>Mo-Fr: 08:00-18:00 Uhr</span>
                 </div>
               </div>
             </TooltipContent>
