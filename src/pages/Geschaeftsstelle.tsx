@@ -23,22 +23,16 @@ const offices = [
   },
   {
     city: "Bern",
-    address: "Bundesgasse 20",
-    postal: "3001 Bern",
     phone: "031 / 528 05 51",
     email: "bern@kmu-verein.ch"
   },
   {
     city: "Luzern",
-    address: "Pilatusstrasse 35",
-    postal: "6003 Luzern",
     phone: "041 / 588 22 49",
     email: "luzern@kmu-verein.ch"
   },
   {
     city: "Genf",
-    address: "Rue du Rhône 14",
-    postal: "1204 Genève",
     phone: "022 / 518 05 09",
     email: "genf@kmu-verein.ch"
   }
@@ -157,20 +151,22 @@ const Geschaeftsstelle = () => {
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80 bg-white p-4">
                   <div className="space-y-4">
-                    <div className="flex items-start space-x-2">
-                      <MapPin className="h-4 w-4 text-swiss-red flex-shrink-0 mt-1" />
-                      <div>
-                        {office.isHeadOffice && office.additionalInfo && (
-                          <>
-                            {office.additionalInfo.map((info, index) => (
-                              <p key={index}>{info}</p>
-                            ))}
-                          </>
-                        )}
-                        <p>{office.address}</p>
-                        <p>{office.postal}</p>
+                    {office.isHeadOffice && (
+                      <div className="flex items-start space-x-2">
+                        <MapPin className="h-4 w-4 text-swiss-red flex-shrink-0 mt-1" />
+                        <div>
+                          {office.additionalInfo && (
+                            <>
+                              {office.additionalInfo.map((info, index) => (
+                                <p key={index}>{info}</p>
+                              ))}
+                            </>
+                          )}
+                          <p>{office.address}</p>
+                          <p>{office.postal}</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="flex items-center space-x-2">
                       <Phone className="h-4 w-4 text-swiss-red" />
                       <a 
@@ -218,3 +214,4 @@ const Geschaeftsstelle = () => {
 };
 
 export default Geschaeftsstelle;
+
