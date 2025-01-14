@@ -38,6 +38,10 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                   <Phone className="h-5 w-5 text-swiss-red" />
                   <span>+41 44 797 89 24</span>
                 </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 text-swiss-red" />
+                  <span>Dammweg 11D | CH-3904 Naters</span>
+                </div>
               </div>
               <OfficeLocations />
               <div className="space-y-3 mt-4">
