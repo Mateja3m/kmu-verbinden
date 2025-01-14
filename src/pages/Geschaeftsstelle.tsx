@@ -10,6 +10,18 @@ import {
 
 const offices = [
   {
+    city: "Zürich",
+    address: "Richtistrasse 2",
+    postal: "8304 Wallisellen",
+    phone: "044 / 797 89 24",
+    email: "zuerich@kmu-verein.ch",
+    isHeadOffice: true,
+    additionalInfo: [
+      "Geschäftsstelle und Rechtsdienst",
+      "C/O meinJurist GmbH"
+    ]
+  },
+  {
     city: "Bern",
     address: "Bundesgasse 20",
     postal: "3001 Bern",
@@ -132,7 +144,7 @@ const Geschaeftsstelle = () => {
             eingerichtet, um unseren Mitgliedern schweizweit persönlichen Service zu bieten.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {offices.map((office) => (
               <HoverCard key={office.city}>
                 <HoverCardTrigger>
@@ -148,6 +160,13 @@ const Geschaeftsstelle = () => {
                     <div className="flex items-start space-x-2">
                       <MapPin className="h-4 w-4 text-swiss-red flex-shrink-0 mt-1" />
                       <div>
+                        {office.isHeadOffice && office.additionalInfo && (
+                          <>
+                            {office.additionalInfo.map((info, index) => (
+                              <p key={index}>{info}</p>
+                            ))}
+                          </>
+                        )}
                         <p>{office.address}</p>
                         <p>{office.postal}</p>
                       </div>
