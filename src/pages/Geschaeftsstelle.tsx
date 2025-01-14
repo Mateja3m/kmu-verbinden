@@ -18,7 +18,7 @@ const offices = [
     isHeadOffice: true,
     additionalInfo: [
       "Geschäftsstelle und Rechtsdienst",
-      "C/O meinJurist GmbH"
+      "c/o meinJurist GmbH"
     ]
   },
   {
@@ -103,7 +103,7 @@ const Geschaeftsstelle = () => {
                 <Clock className="h-6 w-6 text-swiss-red flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-semibold mb-1">Öffnungszeiten:</h3>
-                  <p>Mo-Fr: 8:00–12:00 Uhr</p>
+                  <p>Mo-Fr: 08:00-18:00 Uhr</p>
                 </div>
               </div>
             </div>
@@ -187,7 +187,7 @@ const Geschaeftsstelle = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Clock className="h-4 w-4 text-swiss-red" />
-                      <span>Mo-Fr: 8:00–12:00 Uhr</span>
+                      <span>Mo-Fr: 08:00-18:00 Uhr</span>
                     </div>
                   </div>
                 </HoverCardContent>
@@ -214,4 +214,3 @@ const Geschaeftsstelle = () => {
 };
 
 export default Geschaeftsstelle;
-
