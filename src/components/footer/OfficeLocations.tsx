@@ -1,4 +1,4 @@
-import { Mail, Phone, Clock } from "lucide-react";
+import { Mail, Phone, Clock, MapPin } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,7 +10,14 @@ const offices = [
   {
     city: "Zürich",
     phone: "044 / 797 89 24",
-    email: "zuerich@kmu-verein.ch"
+    email: "zuerich@kmu-verein.ch",
+    isHeadOffice: true,
+    address: [
+      "Geschäftsstelle und Rechtsdienst",
+      "C/O meinJurist GmbH",
+      "Richtistrasse 2",
+      "8304 Wallisellen"
+    ]
   },
   {
     city: "Genf",
@@ -40,6 +47,16 @@ export const OfficeLocations = () => {
             </TooltipTrigger>
             <TooltipContent className="bg-swiss-darkblue border-swiss-red p-3">
               <div className="space-y-2">
+                {office.isHeadOffice && office.address && (
+                  <div className="flex items-start gap-2">
+                    <MapPin className="h-4 w-4 text-swiss-red mt-1" />
+                    <div className="flex flex-col">
+                      {office.address.map((line, index) => (
+                        <span key={index}>{line}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-swiss-red" />
                   <span>{office.phone}</span>
