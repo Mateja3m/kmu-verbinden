@@ -24,64 +24,55 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             {/* Contact Information */}
             <div className="space-y-3">
               <h3 className="text-xl font-semibold mb-4 whitespace-nowrap">Schweizerischer KMU Verein (SKV)</h3>
+              <OfficeLocations />
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-swiss-red" />
-                  <div className="flex flex-col">
-                    <span>Geschäftsstelle und Rechtsdienst</span>
-                    <span>C/O meinJurist GmbH</span>
-                    <span>Richtistrasse 2</span>
-                    <span>8304 Wallisellen</span>
-                  </div>
+                  <span>Dammweg 11D | CH-3904 Naters</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-swiss-red" />
                   <span>+41 44 797 89 24</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 text-swiss-red" />
-                  <span>Dammweg 11D | CH-3904 Naters</span>
+                  <Globe className="h-5 w-5 text-swiss-red" />
+                  <a href="https://www.kmu-verein.ch" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
+                    www.kmu-verein.ch
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Linkedin className="h-5 w-5 text-swiss-red" />
+                  <a href="https://www.linkedin.com/company/schweizerischer-kmu-verein-skv" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
+                    LinkedIn
+                  </a>
                 </div>
               </div>
-              <OfficeLocations />
-              <div className="space-y-3 mt-4">
-                <div className="flex flex-col space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Globe className="h-5 w-5 text-swiss-red" />
-                    <a href="https://www.kmu-verein.ch" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
-                      www.kmu-verein.ch
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Linkedin className="h-5 w-5 text-swiss-red" />
-                    <a href="https://www.linkedin.com/company/schweizerischer-kmu-verein-skv" target="_blank" rel="noopener noreferrer" className="hover:text-swiss-red transition-colors">
-                      LinkedIn
-                    </a>
-                  </div>
-                  {!isLoggedIn && (
-                    <div className="pl-8">
-                      <LoginButtons />
-                    </div>
-                  )}
-                  {/* Noch Fragen section */}
-                  <div className="pl-8 pt-2">
-                    <h4 className="text-lg font-semibold mb-2">Noch Fragen?</h4>
-                    <Button 
-                      variant="outline" 
-                      className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full"
-                    >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      Termin vereinbaren
-                    </Button>
-                  </div>
-                  {/* Newsletter Signup */}
-                  <div className="pl-8 pt-2">
-                    <NewsletterSignup />
-                  </div>
+
+              {!isLoggedIn && (
+                <div className="pl-8">
+                  <LoginButtons />
                 </div>
+              )}
+
+              {/* Noch Fragen section */}
+              <div className="pl-8 pt-2">
+                <h4 className="text-lg font-semibold mb-2">Noch Fragen?</h4>
+                <Button 
+                  variant="outline" 
+                  className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full"
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Termin vereinbaren
+                </Button>
+              </div>
+
+              {/* Newsletter Signup */}
+              <div className="pl-8 pt-2">
+                <NewsletterSignup />
               </div>
             </div>
 
+            {/* Rest of the footer sections */}
             {/* Über uns */}
             <div className="space-y-3">
               <h3 className="text-xl font-semibold mb-4">Über uns</h3>
@@ -113,7 +104,6 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <Link to="/events" className="block hover:text-swiss-red transition-colors">Eventkalender</Link>
               </nav>
             </div>
-
           </div>
         </div>
 
