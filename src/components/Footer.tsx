@@ -24,12 +24,23 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             {/* Contact Information */}
             <div className="space-y-3">
               <h3 className="text-xl font-semibold mb-4 whitespace-nowrap">Schweizerischer KMU Verein (SKV)</h3>
-              <OfficeLocations />
-              <div className="space-y-3 mt-4">
+              <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-swiss-red" />
-                  <span>Dammweg 11D | CH-3904 Naters</span>
+                  <div className="flex flex-col">
+                    <span>Geschäftsstelle und Rechtsdienst</span>
+                    <span>C/O meinJurist GmbH</span>
+                    <span>Richtistrasse 2</span>
+                    <span>8304 Wallisellen</span>
+                  </div>
                 </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="h-5 w-5 text-swiss-red" />
+                  <span>+41 44 797 89 24</span>
+                </div>
+              </div>
+              <OfficeLocations />
+              <div className="space-y-3 mt-4">
                 <div className="flex flex-col space-y-3">
                   <div className="flex items-center gap-3">
                     <Globe className="h-5 w-5 text-swiss-red" />
