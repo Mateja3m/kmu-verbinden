@@ -8,6 +8,11 @@ import {
 
 const offices = [
   {
+    city: "Zürich",
+    phone: "044 / 797 89 24",
+    email: "zuerich@kmu-verein.ch"
+  },
+  {
     city: "Genf",
     phone: "022 / 518 05 09",
     email: "genf@kmu-verein.ch"

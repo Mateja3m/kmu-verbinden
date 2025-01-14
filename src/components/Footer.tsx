@@ -113,6 +113,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <Link to="/events" className="block hover:text-swiss-red transition-colors">Eventkalender</Link>
               </nav>
             </div>
+
           </div>
         </div>
 
