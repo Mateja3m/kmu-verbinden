@@ -89,7 +89,7 @@ const Geschaeftsstelle = () => {
                 <Phone className="h-6 w-6 text-swiss-red flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-semibold mb-1">Telefon:</h3>
-                  <p>+41 (0) 27 585 20 81</p>
+                  <p>+41 (0) 44 585 20 81</p>
                 </div>
               </div>
 
