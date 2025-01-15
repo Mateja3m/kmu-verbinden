@@ -33,7 +33,7 @@ const Membership = () => {
         <Navigation />
         <MembershipHero onGetStartedClick={scrollToBenefits} />
         
-        {/* New Pricing Section */}
+        {/* Pricing Section */}
         <div className="bg-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
@@ -76,6 +76,22 @@ const Membership = () => {
                   Jetzt Mitglied werden
                 </Button>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Video Section */}
+        <div className="bg-gray-50 py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+              <iframe 
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/EEFMXwSKnX0?si=1qHHWSFIRC6Tq2G-" 
+                title="YouTube video player" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+              ></iframe>
             </div>
           </div>
         </div>
