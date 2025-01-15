@@ -7,11 +7,14 @@ import Testimonials from "@/components/membership/Testimonials";
 import { Button } from "@/components/ui/button";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import RegistrationForm from "@/components/membership/RegistrationForm";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const Membership = () => {
   const benefitsRef = useRef<HTMLDivElement>(null);
   const registrationFormRef = useRef<HTMLDivElement>(null);
   const [showRegistration, setShowRegistration] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   const scrollToBenefits = () => {
     benefitsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -81,18 +84,36 @@ const Membership = () => {
         </div>
 
         {/* Video Section */}
-        <div className="bg-gray-50 py-16">
+        <div className="bg-gray-50 py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              <iframe 
-                className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
-                src="https://www.youtube.com/embed/EEFMXwSKnX0?si=1qHHWSFIRC6Tq2G-" 
-                title="YouTube video player" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerPolicy="strict-origin-when-cross-origin" 
-                allowFullScreen
-              ></iframe>
-            </div>
+            <Collapsible
+              open={isVideoOpen}
+              onOpenChange={setIsVideoOpen}
+              className="w-full"
+            >
+              <CollapsibleTrigger className="w-full">
+                <div className="flex items-center justify-between bg-swiss-darkblue text-white px-6 py-4 rounded-lg hover:bg-swiss-darkblue/90 transition-colors cursor-pointer">
+                  <span className="text-lg font-semibold">Jetzt Video schauen</span>
+                  {isVideoOpen ? (
+                    <ChevronUp className="h-5 w-5" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5" />
+                  )}
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="mt-4">
+                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                  <iframe 
+                    className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                    src="https://www.youtube.com/embed/EEFMXwSKnX0?si=1qHHWSFIRC6Tq2G-" 
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </div>
         </div>
 
