@@ -43,7 +43,7 @@ const Redaktion = () => {
             </div>
             <div className="relative">
               <img
-                src="/lovable-uploads/0894d6a2-928e-42f8-a0db-b22d3aebfa7f.png"
+                src="https://res.cloudinary.com/dphbnwjtx/image/upload/v1737022234/WhatsApp_Image_2025-01-15_at_23.29.30_1_ljnm3y.jpg"
                 alt="Unternehmensblick Magazine"
                 className="rounded-lg shadow-xl max-w-full h-auto"
               />
@@ -52,7 +52,6 @@ const Redaktion = () => {
         </div>
       </section>
 
-      {/* Print Offerings Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
