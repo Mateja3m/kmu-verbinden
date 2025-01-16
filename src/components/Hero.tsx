@@ -76,7 +76,7 @@ const Hero = () => {
           </div>
           <div className="hidden lg:block lg:w-1/2 lg:pl-12">
             <img
-              src="https://static.wixstatic.com/media/0c82d3_2ad093992c9042fbaffe72bf4ea724c9~mv2.png"
+              src="/lovable-uploads/614782a8-77aa-4a9d-9e04-7c03a1cd1cd9.png"
               alt="KMU Magazine"
               className="w-full h-auto rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
             />
