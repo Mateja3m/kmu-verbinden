@@ -43,7 +43,7 @@ const Redaktion = () => {
             </div>
             <div className="relative">
               <img
-                src="https://static.wixstatic.com/media/0c82d3_dffa67a695014dfb9df38a1ec31083a8~mv2.png"
+                src="/lovable-uploads/0894d6a2-928e-42f8-a0db-b22d3aebfa7f.png"
                 alt="Unternehmensblick Magazine"
                 className="rounded-lg shadow-xl max-w-full h-auto"
               />
