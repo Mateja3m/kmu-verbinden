@@ -17,6 +17,7 @@ import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import AdminAuth from './pages/AdminAuth';
 import PartnerDashboard from './pages/PartnerDashboard';
+import PartnerMeetings from './pages/PartnerMeetings';
 import Auth from './pages/Auth';
 import Kontakt from './pages/Kontakt';
 import Redaktion from './pages/Redaktion';
@@ -128,6 +129,7 @@ const App = () => {
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
           <Route path="/partner-dashboard" element={<PartnerDashboard />} />
+          <Route path="/partner-meetings" element={<PartnerMeetings />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/kontakt" element={<Kontakt />} />
           <Route path="/redaktion" element={<Redaktion />} />
