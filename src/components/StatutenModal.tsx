@@ -18,7 +18,7 @@ export function StatutenModal() {
         </DialogHeader>
         <div className="w-full h-[70vh]">
           <iframe
-            src="https://uqxvvjdegwukvvrefkho.supabase.co/storage/v1/object/public/expert-images/statuten.pdf"
+            src="https://uqxvvjdegwukvvrefkho.supabase.co/storage/v1/object/public/expert-images/statuten.pdf#toolbar=0"
             className="w-full h-full"
             title="SKV Statuten"
           />
