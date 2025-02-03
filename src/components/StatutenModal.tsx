@@ -18,7 +18,7 @@ export function StatutenModal() {
         </DialogHeader>
         <div className="w-full h-[70vh]">
           <iframe
-            src={`https://res.cloudinary.com/dphbnwjtx/image/upload/v1738572898/Statuten_des_Schweizerischen_KMU_Vereins_SKV_.docx_sxi85a.pdf`}
+            src="https://res.cloudinary.com/dphbnwjtx/image/upload/Statuten_1_1_ybflsa.pdf"
             className="w-full h-full"
             title="SKV Statuten"
           />
