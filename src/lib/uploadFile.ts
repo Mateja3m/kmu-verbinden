@@ -5,16 +5,14 @@ export async function uploadFile(file: File) {
     throw new Error('No file provided');
   }
 
-  // Sanitize filename to remove non-ASCII characters
-  const sanitizedName = file.name.replace(/[^\x00-\x7F]/g, '');
-  const fileExt = sanitizedName.split('.').pop();
-  const fileName = `${Math.random()}.${fileExt}`;
+  // Sanitize filename
+  const fileName = 'statuten.pdf';
 
   const { error: uploadError, data } = await supabase.storage
     .from('expert-images')
     .upload(fileName, file, {
       cacheControl: '3600',
-      upsert: false
+      upsert: true // Set to true to replace if exists
     });
 
   if (uploadError) {
