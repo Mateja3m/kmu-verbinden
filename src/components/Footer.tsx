@@ -9,6 +9,7 @@ import { NewsletterSignup } from "./footer/NewsletterSignup";
 import BackgroundPattern from "./BackgroundPattern";
 import { DatenschutzModal } from "./DatenschutzModal";
 import { AGBModal } from "./AGBModal";
+import { StatutenModal } from "./StatutenModal";
 
 interface FooterProps {
   isLoggedIn?: boolean;
@@ -129,14 +130,7 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
                 <span className="text-gray-500">|</span>
                 <SitemapModal />
                 <span className="text-gray-500">|</span>
-                <a 
-                  href="https://res.cloudinary.com/dphbnwjtx/image/upload/v1738572898/Statuten_des_Schweizerischen_KMU_Vereins_SKV_.docx_sxi85a.pdf" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-swiss-red transition-colors"
-                >
-                  Statuten
-                </a>
+                <StatutenModal />
               </div>
             </div>
           </div>
