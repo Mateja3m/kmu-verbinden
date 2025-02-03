@@ -18,6 +18,7 @@ const RegistrationForm = () => {
     email: "",
     phone: "",
     website: "",
+    statutesAccepted: false,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +26,13 @@ const RegistrationForm = () => {
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }));
+  };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      statutesAccepted: checked
     }));
   };
 
@@ -36,6 +44,15 @@ const RegistrationForm = () => {
     }
 
     if (step === 2) {
+      if (!formData.statutesAccepted) {
+        toast({
+          title: "Bitte akzeptieren Sie die Statuten",
+          description: "Um fortzufahren, müssen Sie die Statuten akzeptieren.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       try {
         // Here we could send the data to an API endpoint or email service
         console.log('Registration data:', formData);
@@ -96,7 +113,8 @@ const RegistrationForm = () => {
             {step === 2 && (
               <ContactDetailsStep 
                 formData={formData} 
-                onChange={handleInputChange} 
+                onChange={handleInputChange}
+                onCheckboxChange={handleCheckboxChange}
               />
             )}
 
