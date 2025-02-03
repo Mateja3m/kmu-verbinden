@@ -31,7 +31,7 @@ export function StatutenModal() {
             </div>
           ) : (
             <iframe
-              src="https://uqxvvjdegwukvvrefkho.supabase.co/storage/v1/object/public/expert-images/statuten.pdf#toolbar=0"
+              src="https://uqxvvjdegwukvvrefkho.supabase.co/storage/v1/object/public/expert-images/statuten%20des%20schweizerischen%20kmu%20verband.pdf#toolbar=0"
               className="w-full h-full"
               title="SKV Statuten"
               onError={handleIframeError}
