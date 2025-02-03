@@ -38,7 +38,7 @@ export const ContactDetailsStep = ({
           htmlFor="statutes" 
           className="text-sm text-gray-600 cursor-pointer flex items-center gap-1"
         >
-          Hiermit akzeptiere ich die Statuten des Schweizerischen KMU Vereins (SKV) <StatutenModal />
+          Hiermit akzeptiere ich die <StatutenModal /> des Schweizerischen KMU Vereins (SKV)
         </label>
       </div>
     </div>
