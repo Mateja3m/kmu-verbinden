@@ -26,6 +26,27 @@ export const nationalPartners = [
     logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBKepsWYcvYb80UVhU80swMiDUvQWMjPcZTw&s',
     website: 'https://netcare.ch',
     description: 'IT-Support und Netzwerksicherheit'
+  },
+  {
+    id: 'kensignton',
+    name: 'Kensington',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987898/klogo24_r5rpfu.png',
+    website: 'https://kensington.ch',
+    description: 'Immobilien und Finanzdienstleistungen'
+  },
+  {
+    id: 'swiss-immo',
+    name: 'Swiss Immo Group',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987887/WhatsApp_Image_2025-02-19_at_20.12.33_k68bd0.jpg',
+    website: 'https://swiss-immo-group.ch',
+    description: 'Immobilienverwaltung und Beratung'
+  },
+  {
+    id: 'artemia',
+    name: 'Artemia',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987876/WhatsApp_Image_2025-02-19_at_20.15.45_kiostz.jpg',
+    website: 'https://artemia.ch',
+    description: 'Gesundheit und Wellness'
   }
 ];
 
