@@ -29,24 +29,24 @@ export const nationalPartners = [
   },
   {
     id: 'kensignton',
-    name: 'Kensington',
+    name: 'Kontour Design Studio',
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987898/klogo24_r5rpfu.png',
     website: 'https://kensington.ch',
-    description: 'Immobilien und Finanzdienstleistungen'
+    description: 'UX Design auf höchstem Niveau'
   },
   {
     id: 'swiss-immo',
-    name: 'Swiss Immo Group',
+    name: 'Webpiranha',
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987887/WhatsApp_Image_2025-02-19_at_20.12.33_k68bd0.jpg',
     website: 'https://swiss-immo-group.ch',
-    description: 'Immobilienverwaltung und Beratung'
+    description: 'Ihr Schweizer Webentwickler'
   },
   {
     id: 'artemia',
-    name: 'Artemia',
+    name: 'Headz',
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987876/WhatsApp_Image_2025-02-19_at_20.15.45_kiostz.jpg',
     website: 'https://artemia.ch',
-    description: 'Gesundheit und Wellness'
+    description: 'All-in-One Agentur für Influencer'
   }
 ];
 
