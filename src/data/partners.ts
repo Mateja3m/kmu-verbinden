@@ -36,17 +36,17 @@ export const nationalPartners = [
   },
   {
     id: 'swiss-immo',
-    name: 'Webpiranha',
+    name: 'Headz',
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987887/WhatsApp_Image_2025-02-19_at_20.12.33_k68bd0.jpg',
     website: 'https://swiss-immo-group.ch',
-    description: 'Ihr Schweizer Webentwickler'
+    description: 'All-in-One Agentur für Influencer'
   },
   {
     id: 'artemia',
-    name: 'Headz',
+    name: 'Webpiranha',
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987876/WhatsApp_Image_2025-02-19_at_20.15.45_kiostz.jpg',
     website: 'https://artemia.ch',
-    description: 'All-in-One Agentur für Influencer'
+    description: 'Ihr Schweizer Webentwickler'
   }
 ];
 
