@@ -134,7 +134,7 @@ export const regionalPartners = [
   {
     id: 'expat-savvy',
     name: 'Expat Savvy',
-    logo: 'https://expat-savvy.ch/assets/img/logo.svg',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740080077/expat_savvy_logo-1_qbkfl2.png',
     website: 'https://expat-savvy.ch',
     description: 'Versicherungen für internationale Kunden'
   },
