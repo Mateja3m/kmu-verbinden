@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -37,33 +38,39 @@ export const ConsultationForm = ({
   return (
     <div className="space-y-8">
       <div className="mb-12">
-        <Progress value={formData.step * 33.33} className="h-3 bg-white/20" />
+        <Progress value={formData.step * 50} className="h-3 bg-white/20" />
         <div className="flex justify-between mt-4 text-lg font-medium">
-          <span className={formData.step >= 1 ? "text-swiss-red" : "text-white/60"}>Website & Ziele</span>
-          <span className={formData.step >= 2 ? "text-swiss-red" : "text-white/60"}>Unternehmen</span>
-          <span className={formData.step >= 3 ? "text-swiss-red" : "text-white/60"}>Kontakt</span>
+          <span className={formData.step >= 1 ? "text-swiss-red" : "text-white/60"}>Unternehmen</span>
+          <span className={formData.step >= 2 ? "text-swiss-red" : "text-white/60"}>Kontakt</span>
         </div>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-8">
         {formData.step === 1 && (
           <div className="space-y-6">
-            <Select onValueChange={(value) => onFormChange({ platform: value })}>
-              <SelectTrigger className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg">
-                <SelectValue placeholder="Aktuelle Platform/CMS" />
+            <Input
+              placeholder="Firmenname"
+              value={formData.companyName}
+              onChange={(e) => onFormChange({ companyName: e.target.value })}
+              className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
+              required
+            />
+            <Select onValueChange={(value) => onFormChange({ industry: value })}>
+              <SelectTrigger className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg">
+                <SelectValue placeholder="Branche" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="wordpress">WordPress</SelectItem>
-                <SelectItem value="shopify">Shopify</SelectItem>
-                <SelectItem value="wix">Wix</SelectItem>
+              <SelectContent className="bg-white text-gray-900">
+                <SelectItem value="handel">Handel</SelectItem>
+                <SelectItem value="dienstleistung">Dienstleistung</SelectItem>
+                <SelectItem value="handwerk">Handwerk</SelectItem>
                 <SelectItem value="other">Andere</SelectItem>
               </SelectContent>
             </Select>
             <Input
-              placeholder="Grösste Herausforderung"
-              value={formData.challenges}
-              onChange={(e) => onFormChange({ challenges: e.target.value })}
-              className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg placeholder:text-white/60"
+              placeholder="Anzahl Mitarbeiter (optional)"
+              value={formData.employeeCount}
+              onChange={(e) => onFormChange({ employeeCount: e.target.value })}
+              className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
             />
           </div>
         )}
@@ -71,45 +78,10 @@ export const ConsultationForm = ({
         {formData.step === 2 && (
           <div className="space-y-6">
             <Input
-              placeholder="Firmenname"
-              value={formData.companyName}
-              onChange={(e) => onFormChange({ companyName: e.target.value })}
-              className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg placeholder:text-white/60"
-              required
-            />
-            <Select onValueChange={(value) => onFormChange({ industry: value })}>
-              <SelectTrigger className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg">
-                <SelectValue placeholder="Branche" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="retail">Einzelhandel</SelectItem>
-                <SelectItem value="service">Dienstleistung</SelectItem>
-                <SelectItem value="manufacturing">Produktion</SelectItem>
-                <SelectItem value="other">Andere</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input
-              placeholder="Anzahl Mitarbeiter"
-              value={formData.employeeCount}
-              onChange={(e) => onFormChange({ employeeCount: e.target.value })}
-              className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg placeholder:text-white/60"
-            />
-            <Input
-              placeholder="Monatliche Website Besucher"
-              value={formData.monthlyVisitors}
-              onChange={(e) => onFormChange({ monthlyVisitors: e.target.value })}
-              className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg placeholder:text-white/60"
-            />
-          </div>
-        )}
-
-        {formData.step === 3 && (
-          <div className="space-y-6">
-            <Input
               placeholder="Ansprechpartner"
               value={formData.contactPerson}
               onChange={(e) => onFormChange({ contactPerson: e.target.value })}
-              className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg placeholder:text-white/60"
+              className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
             <Input
@@ -117,7 +89,7 @@ export const ConsultationForm = ({
               placeholder="E-Mail"
               value={formData.email}
               onChange={(e) => onFormChange({ email: e.target.value })}
-              className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg placeholder:text-white/60"
+              className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
             <Input
@@ -125,18 +97,19 @@ export const ConsultationForm = ({
               placeholder="Telefon (optional)"
               value={formData.phone}
               onChange={(e) => onFormChange({ phone: e.target.value })}
-              className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg placeholder:text-white/60"
+              className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
             />
             <Select onValueChange={(value) => onFormChange({ preferredTime: value })}>
-              <SelectTrigger className="bg-white/10 border-2 border-white/20 h-14 text-white text-lg">
+              <SelectTrigger className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg">
                 <SelectValue placeholder="Bevorzugte Kontaktzeit" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white text-gray-900">
                 <SelectItem value="morning">Vormittag</SelectItem>
                 <SelectItem value="afternoon">Nachmittag</SelectItem>
                 <SelectItem value="evening">Abend</SelectItem>
               </SelectContent>
             </Select>
+
             <div className="space-y-4 mt-8">
               <div className="flex items-center space-x-3">
                 <Checkbox
@@ -190,11 +163,15 @@ export const ConsultationForm = ({
             type="submit"
             className={`h-14 px-8 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect text-lg ${formData.step === 1 ? 'ml-auto' : ''}`}
           >
-            {formData.step === 3 ? 'Analyse anfordern' : 'Weiter'}
+            {formData.step === 2 ? 'Kostenloses Beratungsgespräch vereinbaren' : 'Weiter'}
             <ChevronRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
       </form>
+
+      <div className="text-center text-white/80 text-sm">
+        Unverbindliche Erstberatung • 100% Kostenlos • Keine versteckten Kosten
+      </div>
     </div>
   );
 };
