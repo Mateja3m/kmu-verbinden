@@ -256,72 +256,76 @@ const WebsiteRedesign = () => {
   return (
     <>
       <div className="min-h-screen bg-white text-gray-900">
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Website Checker Section */}
             <div className="text-center space-y-6 mb-12">
               <div className="flex items-center justify-center gap-2 text-swiss-red font-medium">
                 <Users className="h-5 w-5" />
-                <span>{recentRequests} Unternehmen haben die kostenlose Analyse in den letzten 24 Stunden angefordert</span>
+                <span>{recentRequests} Unternehmen haben bereits eine kostenlose Website-Analyse erhalten</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-swiss-darkblue">
-                Steigern Sie Ihre Conversion Rate
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-swiss-darkblue leading-tight">
+                KI-gestützte Website-Optimierung für mehr Erfolg
               </h1>
               
               <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-                Website-Analyse durch unsere Digital-Experten (Wert: CHF 890)
+                Professionelles Redesign & Performance-Optimierung durch KI-unterstützte Experten
               </p>
 
-              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-8 shadow-lg">
+              {/* Quick Check Form */}
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-8 shadow-lg mt-8">
+                <h2 className="text-2xl font-semibold mb-4">Kostenlose Website-Analyse starten</h2>
                 <form onSubmit={handleWebsiteCheck} className="flex flex-col md:flex-row gap-4 items-center justify-center">
                   <div className="flex-1 w-full">
                     <Input
                       type="url"
-                      placeholder="Ihre Website URL"
+                      placeholder="Ihre Website URL eingeben"
                       value={websiteToCheck}
                       onChange={(e) => setWebsiteToCheck(e.target.value)}
-                      className="bg-white text-gray-900"
+                      className="bg-white text-gray-900 h-12 text-lg"
                       required
                     />
                   </div>
                   <Button 
                     type="submit"
-                    className="bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect whitespace-nowrap"
+                    size="lg"
+                    className="w-full md:w-auto bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect whitespace-nowrap text-lg"
                   >
-                    <Globe className="mr-2 h-4 w-4" />
-                    Website analysieren
+                    <Globe className="mr-2 h-5 w-5" />
+                    Jetzt analysieren
                   </Button>
                 </form>
               </div>
 
-              <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
-                <div className="flex items-center gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600 mt-6">
+                <div className="flex items-center justify-center gap-2">
                   <Shield className="h-5 w-5 text-swiss-red" />
-                  <span>34 Jahre Erfahrung</span>
+                  <span>KI-gestützte Analyse</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                   <Clock className="h-5 w-5 text-swiss-red" />
                   <span>
                     Vorqualifizierung endet in {timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                   <Users className="h-5 w-5 text-swiss-red" />
-                  <span>Noch {remainingSpots} Plätze für März verfügbar</span>
+                  <span>Noch {remainingSpots} Plätze verfügbar</span>
                 </div>
               </div>
             </div>
 
             {/* Expandable Form Section */}
-            <div className={`transition-all duration-500 ease-in-out ${isFormExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6 md:p-8 mb-12">
+            <div className={`transition-all duration-500 ease-in-out ${isFormExpanded ? 'opacity-100 mb-12' : 'opacity-0 h-0 overflow-hidden'}`}>
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6 md:p-8">
+                <h3 className="text-2xl font-semibold mb-6">Ihre kostenlose Website-Analyse</h3>
                 <div className="mb-8">
                   <Progress value={formData.step * 33.33} className="h-2" />
                   <div className="flex justify-between mt-2 text-sm">
-                    <span className={formData.step >= 1 ? "text-swiss-red" : ""}>Website Details</span>
-                    <span className={formData.step >= 2 ? "text-swiss-red" : ""}>Unternehmen</span>
-                    <span className={formData.step >= 3 ? "text-swiss-red" : ""}>Kontakt</span>
+                    <span className={formData.step >= 1 ? "text-swiss-red font-medium" : ""}>Website Details</span>
+                    <span className={formData.step >= 2 ? "text-swiss-red font-medium" : ""}>Unternehmen</span>
+                    <span className={formData.step >= 3 ? "text-swiss-red font-medium" : ""}>Kontakt</span>
                   </div>
                 </div>
 
@@ -343,7 +347,7 @@ const WebsiteRedesign = () => {
                       type="submit"
                       className="ml-auto bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect"
                     >
-                      {formData.step === 3 ? 'Jetzt analysieren' : 'Weiter'}
+                      {formData.step === 3 ? 'Analyse anfordern' : 'Weiter'}
                       <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
@@ -353,35 +357,35 @@ const WebsiteRedesign = () => {
 
             {/* Benefits Section */}
             <div className="grid md:grid-cols-3 gap-6 mb-12">
-              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6">
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6 hover:shadow-lg transition-shadow">
                 <div className="text-swiss-red mb-4">
                   <Shield className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Website-Analyse</h3>
-                <p className="text-gray-300">Professionelle Analyse durch Digital-Experten (Wert: CHF 890)</p>
+                <h3 className="text-xl font-semibold mb-2">KI-Analyse</h3>
+                <p className="text-gray-300">Umfassende Website-Analyse durch KI & Experten (Wert: CHF 890)</p>
               </div>
-              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6">
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6 hover:shadow-lg transition-shadow">
                 <div className="text-swiss-red mb-4">
                   <Users className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Strategieberatung</h3>
-                <p className="text-gray-300">Entwicklung einer Strategie für messbares Wachstum</p>
+                <h3 className="text-xl font-semibold mb-2">UX-Optimierung</h3>
+                <p className="text-gray-300">Verbesserung von Design & Benutzerführung</p>
               </div>
-              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6">
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6 hover:shadow-lg transition-shadow">
                 <div className="text-swiss-red mb-4">
                   <Check className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Premium Design</h3>
-                <p className="text-gray-300">Exklusives Webdesign zu KMU-Vorzugskonditionen</p>
+                <h3 className="text-xl font-semibold mb-2">Performance</h3>
+                <p className="text-gray-300">Optimierung von Ladezeiten & Conversion Rate</p>
               </div>
             </div>
 
             {/* Trust Section */}
             <div className="text-center space-y-8 mb-12">
-              <h2 className="text-2xl font-semibold text-swiss-darkblue">Unsere Premium Partner</h2>
+              <h2 className="text-2xl font-semibold text-swiss-darkblue">Vertrauen Sie den Experten</h2>
               <div className="flex flex-wrap justify-center gap-8">
                 {nationalPartners.slice(0, 3).map((partner) => (
-                  <div key={partner.id} className="bg-white shadow-lg p-4 rounded-lg">
+                  <div key={partner.id} className="bg-white shadow-lg p-4 rounded-lg hover:shadow-xl transition-shadow">
                     <img
                       src={partner.logo}
                       alt={partner.name}
@@ -392,7 +396,7 @@ const WebsiteRedesign = () => {
               </div>
               
               <p className="text-lg text-gray-600">
-                Bereits über 120 Schweizer KMUs haben durch unser Programm ihre digitale Präsenz optimiert
+                Über 120 Schweizer Unternehmen profitieren bereits von unserer KI-gestützten Optimierung
               </p>
             </div>
 
