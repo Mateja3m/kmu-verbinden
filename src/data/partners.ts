@@ -3,7 +3,7 @@ export const nationalPartners = [
   {
     id: 'hhomepage',
     name: 'hhomepage.ch',
-    logo: 'https://hhomepage.ch/wp-content/uploads/2021/08/hhomepage_Logo-FullColor_retina.png.webp',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740493274/hhomepage_Logo-FullColor_bbjtv2.png',
     website: 'https://hhomepage.ch',
     description: 'Webdesign und professionelle Online-Auftritte für KMU'
   },
