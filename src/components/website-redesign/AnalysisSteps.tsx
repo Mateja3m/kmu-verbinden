@@ -27,21 +27,21 @@ export const AnalysisSteps = ({
   if (step === 1) {
     return (
       <div className="space-y-6">
-        <h2 className="text-2xl font-semibold mb-4">Wo steht Ihre Website?</h2>
+        <h2 className="text-3xl font-semibold mb-4">Wo steht Ihre Website?</h2>
         <form onSubmit={onWebsiteSubmit} className="flex flex-col md:flex-row gap-4">
           <Input
             type="url"
             placeholder="Ihre Website URL eingeben"
             value={websiteUrl}
             onChange={(e) => onWebsiteUrlChange(e.target.value)}
-            className="bg-white text-gray-900 h-12 text-lg flex-1"
+            className="bg-white/10 text-white h-14 text-lg flex-1 border-2 border-white/20 placeholder:text-white/60"
             required
           />
           <Button 
             type="submit"
             size="lg"
             disabled={isAnalyzing}
-            className="bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect"
+            className="h-14 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect text-lg px-8"
           >
             {isAnalyzing ? (
               <span className="flex items-center">
@@ -65,9 +65,9 @@ export const AnalysisSteps = ({
 
   if (step === 2) {
     return (
-      <div className="space-y-6">
-        <h2 className="text-2xl font-semibold mb-4">Was möchten Sie verbessern?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-8">
+        <h2 className="text-3xl font-semibold text-center mb-8">Was möchten Sie verbessern?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             { icon: Palette, label: 'Design modernisieren', value: 'design' },
             { icon: LineChart, label: 'Conversion Rate steigern', value: 'conversion' },
@@ -77,15 +77,15 @@ export const AnalysisSteps = ({
             <button
               key={value}
               onClick={() => onImprovementSelect(value)}
-              className={`p-4 rounded-xl border-2 transition-all ${
+              className={`p-6 rounded-2xl border-2 transition-all ${
                 improvements.includes(value)
-                  ? 'border-swiss-red bg-swiss-red/10'
-                  : 'border-gray-200 hover:border-swiss-red/50'
+                  ? 'border-swiss-red bg-white/5 shadow-lg'
+                  : 'border-white/20 hover:border-white/40'
               }`}
             >
-              <div className="flex items-center gap-3">
-                <Icon className={`h-6 w-6 ${improvements.includes(value) ? 'text-swiss-red' : 'text-gray-500'}`} />
-                <span className={improvements.includes(value) ? 'text-swiss-red' : 'text-gray-700'}>{label}</span>
+              <div className="flex items-center gap-4">
+                <Icon className={`h-8 w-8 ${improvements.includes(value) ? 'text-swiss-red' : 'text-white/80'}`} />
+                <span className="text-xl">{label}</span>
               </div>
             </button>
           ))}
@@ -93,10 +93,10 @@ export const AnalysisSteps = ({
         <Button 
           onClick={onStartConsultation}
           disabled={improvements.length === 0}
-          className="w-full mt-6 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect"
+          className="w-full mt-8 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect h-14 text-lg"
         >
           Kostenloses Beratungsgespräch vereinbaren
-          <ChevronRight className="ml-2 h-4 w-4" />
+          <ChevronRight className="ml-2 h-5 w-5" />
         </Button>
       </div>
     );
