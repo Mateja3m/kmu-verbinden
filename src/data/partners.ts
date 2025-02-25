@@ -17,13 +17,6 @@ export const nationalPartners = [
 
 export const regionalPartners = [
   {
-    id: 'hz-architekten',
-    name: 'Hürlimann Web Solutions',
-    logo: 'https://static.wixstatic.com/media/66aaab_76073ef8029a4a0d8f786228b9fd89b4~mv2.png',
-    website: 'https://www.hz-architekten.com',
-    description: 'Webdesign und Entwicklung'
-  },
-  {
     id: 'webagentur-forster',
     name: 'Webagentur Forster',
     logo: 'https://www.webagentur-forster.ch/wp-content/uploads/2024/08/webagentur-forster-logo-website-transparent.png.webp',

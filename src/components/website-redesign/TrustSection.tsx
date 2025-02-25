@@ -12,7 +12,7 @@ export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
       ['kensignton', 'webpiranha'].includes(p.id)
     ),
     ...regionalPartners.filter(p => 
-      ['webagentur-forster', 'hz-architekten'].includes(p.id)
+      ['webagentur-forster'].includes(p.id)
     )
   ];
 
