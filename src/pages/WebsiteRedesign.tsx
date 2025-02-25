@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { nationalPartners } from "@/data/partners";
-import { Clock, Users, Shield, Check, ChevronRight } from 'lucide-react';
+import { Clock, Users, Shield, Check, ChevronRight, ChevronDown, ChevronUp, Globe } from 'lucide-react';
 
 interface FormData {
   step: number;
@@ -45,6 +45,8 @@ const WebsiteRedesign = () => {
   const [recentRequests, setRecentRequests] = useState(38);
   const [remainingSpots, setRemainingSpots] = useState(7);
   const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
+  const [isFormExpanded, setIsFormExpanded] = useState(false);
+  const [websiteToCheck, setWebsiteToCheck] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -85,6 +87,21 @@ const WebsiteRedesign = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleWebsiteCheck = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (websiteToCheck) {
+      toast({
+        title: "Website wird analysiert",
+        description: "Die Analyse Ihrer Website wird durchgeführt. Bitte haben Sie einen Moment Geduld.",
+      });
+      // Here you would typically send the website URL to your backend
+      setTimeout(() => {
+        setIsFormExpanded(true);
+        handleInputChange('websiteUrl', websiteToCheck);
+      }, 2000);
+    }
+  };
+
   const nextStep = () => {
     if (formData.step < 3) {
       setFormData(prev => ({ ...prev, step: prev.step + 1 }));
@@ -109,6 +126,7 @@ const WebsiteRedesign = () => {
         
         // Reset form
         setFormData(prev => ({ ...prev, step: 1 }));
+        setIsFormExpanded(false);
       } catch (error) {
         toast({
           title: "Fehler",
@@ -237,45 +255,67 @@ const WebsiteRedesign = () => {
 
   return (
     <>
-      <BackgroundPattern>
-        <div className="min-h-screen bg-gradient-to-b from-swiss-darkblue to-swiss-darkblue/90 text-white">
-          <div className="container mx-auto px-4 py-16">
-            <div className="max-w-4xl mx-auto">
-              {/* Hero Section */}
-              <div className="text-center space-y-6 mb-12">
-                <div className="flex items-center justify-center gap-2 text-swiss-red font-medium">
-                  <Users className="h-5 w-5" />
-                  <span>{recentRequests} Unternehmen haben die kostenlose Analyse in den letzten 24 Stunden angefordert</span>
-                </div>
-                
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-                  Steigern Sie Ihre Conversion Rate
-                </h1>
-                
-                <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
-                  Website-Analyse durch unsere Digital-Experten (Wert: CHF 890)
-                </p>
+      <div className="min-h-screen bg-white text-gray-900">
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-4xl mx-auto">
+            {/* Website Checker Section */}
+            <div className="text-center space-y-6 mb-12">
+              <div className="flex items-center justify-center gap-2 text-swiss-red font-medium">
+                <Users className="h-5 w-5" />
+                <span>{recentRequests} Unternehmen haben die kostenlose Analyse in den letzten 24 Stunden angefordert</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-swiss-darkblue">
+                Steigern Sie Ihre Conversion Rate
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
+                Website-Analyse durch unsere Digital-Experten (Wert: CHF 890)
+              </p>
 
-                <div className="flex items-center justify-center gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-5 w-5 text-swiss-red" />
-                    <span>34 Jahre Erfahrung</span>
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-8 shadow-lg">
+                <form onSubmit={handleWebsiteCheck} className="flex flex-col md:flex-row gap-4 items-center justify-center">
+                  <div className="flex-1 w-full">
+                    <Input
+                      type="url"
+                      placeholder="Ihre Website URL"
+                      value={websiteToCheck}
+                      onChange={(e) => setWebsiteToCheck(e.target.value)}
+                      className="bg-white text-gray-900"
+                      required
+                    />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-swiss-red" />
-                    <span>
-                      Vorqualifizierung endet in {timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-5 w-5 text-swiss-red" />
-                    <span>Noch {remainingSpots} Plätze für März verfügbar</span>
-                  </div>
-                </div>
+                  <Button 
+                    type="submit"
+                    className="bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect whitespace-nowrap"
+                  >
+                    <Globe className="mr-2 h-4 w-4" />
+                    Website analysieren
+                  </Button>
+                </form>
               </div>
 
-              {/* Multi-Step Form */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 mb-12">
+              <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+                <div className="flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-swiss-red" />
+                  <span>34 Jahre Erfahrung</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-swiss-red" />
+                  <span>
+                    Vorqualifizierung endet in {timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-swiss-red" />
+                  <span>Noch {remainingSpots} Plätze für März verfügbar</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Expandable Form Section */}
+            <div className={`transition-all duration-500 ease-in-out ${isFormExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6 md:p-8 mb-12">
                 <div className="mb-8">
                   <Progress value={formData.step * 33.33} className="h-2" />
                   <div className="flex justify-between mt-2 text-sm">
@@ -309,70 +349,70 @@ const WebsiteRedesign = () => {
                   </div>
                 </form>
               </div>
+            </div>
 
-              {/* Benefits Section */}
-              <div className="grid md:grid-cols-3 gap-6 mb-12">
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                  <div className="text-swiss-red mb-4">
-                    <Shield className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Website-Analyse</h3>
-                  <p className="text-gray-300">Professionelle Analyse durch Digital-Experten (Wert: CHF 890)</p>
+            {/* Benefits Section */}
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6">
+                <div className="text-swiss-red mb-4">
+                  <Shield className="h-8 w-8" />
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                  <div className="text-swiss-red mb-4">
-                    <Users className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Strategieberatung</h3>
-                  <p className="text-gray-300">Entwicklung einer Strategie für messbares Wachstum</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                  <div className="text-swiss-red mb-4">
-                    <Check className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Premium Design</h3>
-                  <p className="text-gray-300">Exklusives Webdesign zu KMU-Vorzugskonditionen</p>
-                </div>
+                <h3 className="text-xl font-semibold mb-2">Website-Analyse</h3>
+                <p className="text-gray-300">Professionelle Analyse durch Digital-Experten (Wert: CHF 890)</p>
               </div>
-
-              {/* Trust Section */}
-              <div className="text-center space-y-8">
-                <h2 className="text-2xl font-semibold">Unsere Premium Partner</h2>
-                <div className="flex flex-wrap justify-center gap-8">
-                  {nationalPartners.slice(0, 3).map((partner) => (
-                    <div key={partner.id} className="bg-white p-4 rounded-lg">
-                      <img
-                        src={partner.logo}
-                        alt={partner.name}
-                        className="h-12 object-contain"
-                      />
-                    </div>
-                  ))}
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6">
+                <div className="text-swiss-red mb-4">
+                  <Users className="h-8 w-8" />
                 </div>
-                
-                <p className="text-lg">
-                  Bereits über 120 Schweizer KMUs haben durch unser Programm ihre digitale Präsenz optimiert
-                </p>
+                <h3 className="text-xl font-semibold mb-2">Strategieberatung</h3>
+                <p className="text-gray-300">Entwicklung einer Strategie für messbares Wachstum</p>
               </div>
-
-              {/* AI Chat Section */}
-              <div className="mt-12 bg-white/5 backdrop-blur-sm rounded-xl p-8">
-                <h3 className="text-2xl font-semibold mb-6">Sprechen Sie mit unserem KI-Assistenten</h3>
-                <div className="relative w-full aspect-[16/9] md:aspect-[2/1]">
-                  <iframe 
-                    className="absolute inset-0 w-full h-full rounded-lg"
-                    src="https://avaia.io/chat/authorize-chat/2705b8b0-276f-4582-a41c-6ff896a461ad/"
-                    width="100%"
-                    height="600px"
-                    frameBorder="0"
-                    title="KI-Assistent"
-                  />
+              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-6">
+                <div className="text-swiss-red mb-4">
+                  <Check className="h-8 w-8" />
                 </div>
+                <h3 className="text-xl font-semibold mb-2">Premium Design</h3>
+                <p className="text-gray-300">Exklusives Webdesign zu KMU-Vorzugskonditionen</p>
+              </div>
+            </div>
+
+            {/* Trust Section */}
+            <div className="text-center space-y-8 mb-12">
+              <h2 className="text-2xl font-semibold text-swiss-darkblue">Unsere Premium Partner</h2>
+              <div className="flex flex-wrap justify-center gap-8">
+                {nationalPartners.slice(0, 3).map((partner) => (
+                  <div key={partner.id} className="bg-white shadow-lg p-4 rounded-lg">
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className="h-12 object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+              
+              <p className="text-lg text-gray-600">
+                Bereits über 120 Schweizer KMUs haben durch unser Programm ihre digitale Präsenz optimiert
+              </p>
+            </div>
+
+            {/* AI Chat Section */}
+            <div className="mt-12 bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-8">
+              <h3 className="text-2xl font-semibold mb-6">Sprechen Sie mit unserem KI-Assistenten</h3>
+              <div className="relative w-full aspect-[16/9] md:aspect-[2/1]">
+                <iframe 
+                  className="absolute inset-0 w-full h-full rounded-lg"
+                  src="https://avaia.io/chat/authorize-chat/2705b8b0-276f-4582-a41c-6ff896a461ad/"
+                  width="100%"
+                  height="600px"
+                  frameBorder="0"
+                  title="KI-Assistent"
+                />
               </div>
             </div>
           </div>
         </div>
-      </BackgroundPattern>
+      </div>
       <Footer />
     </>
   );
