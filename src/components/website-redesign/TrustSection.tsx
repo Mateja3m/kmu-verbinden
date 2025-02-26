@@ -21,14 +21,7 @@ export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
           <p className="text-xl font-semibold">{satisfactionRate}%</p>
           <p className="text-gray-600">Kundenzufriedenheit</p>
         </div>
-        <div className="space-y-2 relative">
-          {/* Ribbon positioned above the center statistic */}
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-max">
-            <div className="bg-gradient-to-r from-[#9b87f5] to-[#D946EF] text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg transform rotate-3 animate-pulse whitespace-nowrap">
-              Exklusiv für unsere Mitglieder
-              <span className="text-xs ml-1">(und die, die es werden wollen)</span>
-            </div>
-          </div>
+        <div className="space-y-2">
           <Award className="h-8 w-8 text-swiss-red mx-auto" />
           <p className="text-xl font-semibold">15+ Jahre</p>
           <p className="text-gray-600">Branchenerfahrung</p>

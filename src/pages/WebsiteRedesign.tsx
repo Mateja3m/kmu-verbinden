@@ -184,18 +184,24 @@ const WebsiteRedesign = () => {
                 <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">UX</span>
               </div>
 
-              {/* Prize Draw Notice */}
-              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
-                <div className="flex items-start gap-4">
-                  <Gift className="h-8 w-8 text-yellow-600 shrink-0 mt-1" />
-                  <div className="text-left">
-                    <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-                      Exklusive Verlosung für Beratungsanfragen
-                    </h3>
-                    <p className="text-yellow-700">
-                      Jede Beratungsanfrage nimmt automatisch an der Verlosung teil. 
-                      Der Gewinner erhält ein komplettes Webdesign-Paket im Wert von CHF 15'000.-.
-                    </p>
+              {/* Prize Draw Notice with Exclusive Member Ribbon */}
+              <div className="relative">
+                <div className="absolute -top-6 right-4 bg-gradient-to-r from-[#9b87f5] to-[#D946EF] text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg transform rotate-3 animate-pulse whitespace-nowrap">
+                  Exklusiv für unsere Mitglieder
+                  <span className="text-xs ml-1">(und die, die es werden wollen)</span>
+                </div>
+                <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
+                  <div className="flex items-start gap-4">
+                    <Gift className="h-8 w-8 text-yellow-600 shrink-0 mt-1" />
+                    <div className="text-left">
+                      <h3 className="text-lg font-semibold text-yellow-800 mb-2">
+                        Exklusive Verlosung für Beratungsanfragen
+                      </h3>
+                      <p className="text-yellow-700">
+                        Jede Beratungsanfrage nimmt automatisch an der Verlosung teil. 
+                        Der Gewinner erhält ein komplettes Webdesign-Paket im Wert von CHF 15'000.-.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
