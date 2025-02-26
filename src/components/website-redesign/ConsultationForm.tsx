@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -22,6 +21,8 @@ interface FormData {
   preferredTime: string;
   newsletter: boolean;
   privacyAccepted: boolean;
+  improvements: string[];
+  websiteUrl: string;
 }
 
 interface ConsultationFormProps {
