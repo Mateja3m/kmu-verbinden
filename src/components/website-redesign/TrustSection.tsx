@@ -7,6 +7,10 @@ interface TrustSectionProps {
 }
 
 export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
+  const selectedPartners = nationalPartners.filter(partner => 
+    ['hhomepage', 'artemia', 'kensignton'].includes(partner.id)
+  );
+
   return (
     <div className="text-center space-y-8 mt-16">
       <h2 className="text-2xl font-semibold text-swiss-darkblue">Vertrauen Sie den Experten</h2>
@@ -29,7 +33,7 @@ export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
       </div>
       
       <div className="flex flex-wrap justify-center gap-8 mt-12">
-        {nationalPartners.slice(0, 3).map((partner) => (
+        {selectedPartners.map((partner) => (
           <div 
             key={partner.id} 
             className="bg-white shadow-lg p-6 rounded-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
