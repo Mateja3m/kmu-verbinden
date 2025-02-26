@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Award, Building2, Sparkles } from 'lucide-react';
+import { Award, Building2, Sparkles, Gift } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import BackgroundPattern from '@/components/BackgroundPattern';
 import Footer from '@/components/Footer';
@@ -8,7 +8,6 @@ import { AnalysisSteps } from '@/components/website-redesign/AnalysisSteps';
 import { ConsultationForm } from '@/components/website-redesign/ConsultationForm';
 import { TrustIndicators } from '@/components/website-redesign/TrustIndicators';
 import { TrustSection } from '@/components/website-redesign/TrustSection';
-import { ChatModal } from '@/components/website-redesign/ChatModal';
 import confetti from 'canvas-confetti';
 
 interface FormData {
@@ -160,13 +159,13 @@ const WebsiteRedesign = () => {
   return (
     <>
       <div className="min-h-screen bg-white text-swiss-darkblue">
-        <div className="container mx-auto px-4 pt-6 pb-8">
-          <div className="max-w-4xl mx-auto">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto py-16">
             {/* Hero Section */}
-            <div className="text-center space-y-6 mb-12">
+            <div className="text-center space-y-8">
               <div className="flex items-center justify-center gap-2 text-yellow-400 font-medium">
-                <Sparkles className="h-5 w-5" />
-                <span>Exklusivangebot für qualifizierte Unternehmen</span>
+                <Gift className="h-5 w-5" />
+                <span>Gewinnen Sie ein komplettes Webdesign im Wert von CHF 15'000.-</span>
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
@@ -185,8 +184,24 @@ const WebsiteRedesign = () => {
                 <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">UX</span>
               </div>
 
+              {/* Prize Draw Notice */}
+              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
+                <div className="flex items-start gap-4">
+                  <Gift className="h-8 w-8 text-yellow-600 shrink-0 mt-1" />
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold text-yellow-800 mb-2">
+                      Exklusive Verlosung für Beratungsanfragen
+                    </h3>
+                    <p className="text-yellow-700">
+                      Jede Beratungsanfrage nimmt automatisch an der Verlosung teil. 
+                      Der Gewinner erhält ein komplettes Webdesign-Paket im Wert von CHF 15'000.-.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Analysis Steps */}
-              <div className="bg-swiss-darkblue text-white backdrop-blur-lg rounded-xl p-8 shadow-2xl mt-12">
+              <div className="bg-swiss-darkblue text-white backdrop-blur-lg rounded-xl p-8 shadow-2xl mt-8">
                 {analysisStep < 3 ? (
                   <AnalysisSteps
                     step={analysisStep}
@@ -221,7 +236,6 @@ const WebsiteRedesign = () => {
           </div>
         </div>
       </div>
-      <ChatModal />
       <Footer />
     </>
   );
