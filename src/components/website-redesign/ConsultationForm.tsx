@@ -5,6 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronRight } from 'lucide-react';
+import { useForm, ValidationError } from '@formspree/react';
+import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
   step: number;
@@ -35,6 +37,56 @@ export const ConsultationForm = ({
   onPrevStep,
   onSubmit
 }: ConsultationFormProps) => {
+  const [formspreeState, handleFormspreeSubmit] = useForm("xldgyydd");
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (formData.step === 2) {
+      // On final step, submit to Formspree
+      const formspreeData = {
+        companyName: formData.companyName,
+        industry: formData.industry,
+        employeeCount: formData.employeeCount,
+        contactPerson: formData.contactPerson,
+        email: formData.email,
+        phone: formData.phone,
+        preferredTime: formData.preferredTime,
+        newsletter: formData.newsletter,
+        improvements: formData.improvements,
+        websiteUrl: formData.websiteUrl
+      };
+
+      try {
+        await handleFormspreeSubmit(formspreeData);
+        
+        if (formspreeState.errors) {
+          toast({
+            title: "Fehler beim Senden",
+            description: "Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut.",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        toast({
+          title: "Erfolgreich gesendet",
+          description: "Wir werden uns in Kürze bei Ihnen melden.",
+        });
+        onSubmit(e);
+      } catch (error) {
+        toast({
+          title: "Fehler beim Senden",
+          description: "Bitte versuchen Sie es später erneut.",
+          variant: "destructive"
+        });
+      }
+    } else {
+      onSubmit(e);
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="mb-12">
@@ -45,16 +97,19 @@ export const ConsultationForm = ({
         </div>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-8">
         {formData.step === 1 && (
           <div className="space-y-6">
             <Input
               placeholder="Firmenname"
+              name="companyName"
               value={formData.companyName}
               onChange={(e) => onFormChange({ companyName: e.target.value })}
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
+            <ValidationError prefix="Company Name" field="companyName" errors={formspreeState.errors} />
+            
             <Select onValueChange={(value) => onFormChange({ industry: value })}>
               <SelectTrigger className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg">
                 <SelectValue placeholder="Branche" />
@@ -66,8 +121,11 @@ export const ConsultationForm = ({
                 <SelectItem value="other">Andere</SelectItem>
               </SelectContent>
             </Select>
+            <ValidationError prefix="Industry" field="industry" errors={formspreeState.errors} />
+
             <Input
               placeholder="Anzahl Mitarbeiter (optional)"
+              name="employeeCount"
               value={formData.employeeCount}
               onChange={(e) => onFormChange({ employeeCount: e.target.value })}
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
@@ -79,26 +137,34 @@ export const ConsultationForm = ({
           <div className="space-y-6">
             <Input
               placeholder="Ansprechpartner"
+              name="contactPerson"
               value={formData.contactPerson}
               onChange={(e) => onFormChange({ contactPerson: e.target.value })}
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
+            <ValidationError prefix="Contact Person" field="contactPerson" errors={formspreeState.errors} />
+
             <Input
               type="email"
               placeholder="E-Mail"
+              name="email"
               value={formData.email}
               onChange={(e) => onFormChange({ email: e.target.value })}
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
+            <ValidationError prefix="Email" field="email" errors={formspreeState.errors} />
+
             <Input
               type="tel"
               placeholder="Telefon (optional)"
+              name="phone"
               value={formData.phone}
               onChange={(e) => onFormChange({ phone: e.target.value })}
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
             />
+            
             <Select onValueChange={(value) => onFormChange({ preferredTime: value })}>
               <SelectTrigger className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg">
                 <SelectValue placeholder="Bevorzugte Kontaktzeit" />
@@ -114,6 +180,7 @@ export const ConsultationForm = ({
               <div className="flex items-center space-x-3">
                 <Checkbox
                   id="newsletter"
+                  name="newsletter"
                   checked={formData.newsletter}
                   onCheckedChange={(checked) => 
                     onFormChange({ newsletter: checked as boolean })
@@ -130,6 +197,7 @@ export const ConsultationForm = ({
               <div className="flex items-center space-x-3">
                 <Checkbox
                   id="privacy"
+                  name="privacy"
                   required
                   checked={formData.privacyAccepted}
                   onCheckedChange={(checked) => 
@@ -161,6 +229,7 @@ export const ConsultationForm = ({
           )}
           <Button 
             type="submit"
+            disabled={formspreeState.submitting}
             className={`h-14 px-8 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect text-lg ${formData.step === 1 ? 'ml-auto' : ''}`}
           >
             {formData.step === 2 ? 'Kostenloses Beratungsgespräch vereinbaren' : 'Weiter'}
