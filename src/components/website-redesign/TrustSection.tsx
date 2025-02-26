@@ -36,12 +36,12 @@ export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
         {selectedPartners.map((partner) => (
           <div 
             key={partner.id} 
-            className="bg-white shadow-lg p-6 rounded-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+            className="bg-white shadow-lg p-6 rounded-lg hover:shadow-xl transition-all duration-300 border border-gray-100 w-[200px] h-[100px] flex items-center justify-center"
           >
             <img
               src={partner.logo}
               alt={partner.name}
-              className="h-12 object-contain"
+              className="max-h-10 w-auto object-contain"
             />
           </div>
         ))}
