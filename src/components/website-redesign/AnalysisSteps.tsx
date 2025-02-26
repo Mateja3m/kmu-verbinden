@@ -25,16 +25,42 @@ export const AnalysisSteps = ({
   onWebsiteUrlChange,
   onStartConsultation
 }: AnalysisStepsProps) => {
+  const formatUrl = (url: string) => {
+    // Remove any existing protocol
+    let cleanUrl = url.replace(/^(https?:\/\/)?(www\.)?/, '');
+    
+    // Remove any trailing slashes
+    cleanUrl = cleanUrl.replace(/\/$/, '');
+    
+    // Add https:// if not present
+    if (cleanUrl) {
+      cleanUrl = `https://${cleanUrl}`;
+    }
+    
+    return cleanUrl;
+  };
+
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onWebsiteUrlChange(e.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formattedUrl = formatUrl(websiteUrl);
+    onWebsiteUrlChange(formattedUrl);
+    onWebsiteSubmit(e);
+  };
+
   if (step === 1) {
     return (
       <div className="space-y-6">
         <h2 className="text-3xl font-semibold mb-4">Wo steht Ihre Website?</h2>
-        <form onSubmit={onWebsiteSubmit} className="flex flex-col md:flex-row gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4">
           <Input
-            type="url"
-            placeholder="Ihre Website URL eingeben"
+            type="text"
+            placeholder="z.B. meine-website.ch"
             value={websiteUrl}
-            onChange={(e) => onWebsiteUrlChange(e.target.value)}
+            onChange={handleUrlChange}
             className="bg-white/10 text-white h-14 text-lg flex-1 border-2 border-white/20 placeholder:text-white/60"
             required
           />
