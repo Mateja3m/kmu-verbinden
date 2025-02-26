@@ -1,8 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Globe, ChevronRight, Check, Sparkles } from 'lucide-react';
 import { Progress } from "@/components/ui/progress";
+import { LoadingAnimationBar } from "./LoadingAnimationBar";
 import confetti from 'canvas-confetti';
 
 interface AnalysisStepsProps {
@@ -26,17 +26,11 @@ export const AnalysisSteps = ({
   onStartConsultation
 }: AnalysisStepsProps) => {
   const formatUrl = (url: string) => {
-    // Remove any existing protocol
     let cleanUrl = url.replace(/^(https?:\/\/)?(www\.)?/, '');
-    
-    // Remove any trailing slashes
     cleanUrl = cleanUrl.replace(/\/$/, '');
-    
-    // Add https:// if not present
     if (cleanUrl) {
       cleanUrl = `https://${cleanUrl}`;
     }
-    
     return cleanUrl;
   };
 
@@ -86,6 +80,15 @@ export const AnalysisSteps = ({
             )}
           </Button>
         </form>
+
+        {isAnalyzing && (
+          <div className="mt-8">
+            <LoadingAnimationBar 
+              websiteUrl={websiteUrl.replace(/^https?:\/\//, '')} 
+              isAnalyzing={isAnalyzing} 
+            />
+          </div>
+        )}
       </div>
     );
   }
