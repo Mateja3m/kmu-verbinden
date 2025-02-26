@@ -158,9 +158,9 @@ const WebsiteRedesign = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-white text-swiss-darkblue">
+      <div className="min-h-screen bg-white text-swiss-darkblue pt-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto py-16">
+          <div className="max-w-4xl mx-auto py-8">
             {/* Hero Section */}
             <div className="text-center space-y-8">
               <div className="flex items-center justify-center gap-2 text-yellow-400 font-medium">
