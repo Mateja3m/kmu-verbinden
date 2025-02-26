@@ -8,6 +8,7 @@ import { AnalysisSteps } from '@/components/website-redesign/AnalysisSteps';
 import { ConsultationForm } from '@/components/website-redesign/ConsultationForm';
 import { TrustIndicators } from '@/components/website-redesign/TrustIndicators';
 import { TrustSection } from '@/components/website-redesign/TrustSection';
+import { ChatModal } from '@/components/website-redesign/ChatModal';
 import confetti from 'canvas-confetti';
 
 interface FormData {
@@ -158,8 +159,8 @@ const WebsiteRedesign = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-swiss-darkblue to-swiss-darkblue/90 text-white">
-        <div className="container mx-auto px-4 py-12">
+      <div className="min-h-screen bg-white text-swiss-darkblue">
+        <div className="container mx-auto px-4 pt-6 pb-8">
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
             <div className="text-center space-y-6 mb-12">
@@ -173,19 +174,19 @@ const WebsiteRedesign = () => {
                 <span className="text-swiss-red">Mehr Erfolg</span> für Ihr Unternehmen
               </h1>
               
-              <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto">
+              <p className="text-xl md:text-2xl text-swiss-darkblue/80 max-w-3xl mx-auto">
                 Premium Website-Optimierung mit KI-gestützter Analyse und persönlicher Expertenberatung
               </p>
 
               <div className="flex flex-wrap justify-center gap-3 text-sm font-medium">
-                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">Performance</span>
-                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">Design</span>
-                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">Conversion</span>
-                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">UX</span>
+                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Performance</span>
+                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Design</span>
+                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Conversion</span>
+                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">UX</span>
               </div>
 
               {/* Analysis Steps */}
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-2xl mt-12">
+              <div className="bg-swiss-darkblue text-white backdrop-blur-lg rounded-xl p-8 shadow-2xl mt-12">
                 {analysisStep < 3 ? (
                   <AnalysisSteps
                     step={analysisStep}
@@ -220,6 +221,7 @@ const WebsiteRedesign = () => {
           </div>
         </div>
       </div>
+      <ChatModal />
       <Footer />
     </>
   );

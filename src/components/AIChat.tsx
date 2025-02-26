@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Send } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -31,13 +32,7 @@ const AIChat = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow h-[500px] flex flex-col">
-      <div className="p-4 border-b">
-        <h3 className="text-xl font-semibold text-swiss-darkblue">
-          KMU-Assistent Chat
-        </h3>
-      </div>
-
+    <div className="flex flex-col h-full bg-white">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => (
           <div
@@ -65,7 +60,7 @@ const AIChat = () => {
           disabled={isLoading}
           className="flex-1"
         />
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} size="icon">
           <Send className="h-4 w-4" />
         </Button>
       </form>
