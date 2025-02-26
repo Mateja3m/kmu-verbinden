@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Award } from 'lucide-react';
+import { Award, Building2, Sparkles } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import BackgroundPattern from '@/components/BackgroundPattern';
 import Footer from '@/components/Footer';
@@ -8,6 +8,7 @@ import { AnalysisSteps } from '@/components/website-redesign/AnalysisSteps';
 import { ConsultationForm } from '@/components/website-redesign/ConsultationForm';
 import { TrustIndicators } from '@/components/website-redesign/TrustIndicators';
 import { TrustSection } from '@/components/website-redesign/TrustSection';
+import confetti from 'canvas-confetti';
 
 interface FormData {
   step: number;
@@ -51,7 +52,7 @@ const WebsiteRedesign = () => {
   const [analysisStep, setAnalysisStep] = useState(1);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [remainingSpots] = useState(10);
+  const [remainingSpots] = useState(3);
   const [satisfactionRate] = useState(98);
   const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
   const { toast } = useToast();
@@ -100,6 +101,12 @@ const WebsiteRedesign = () => {
       setTimeout(() => {
         setIsAnalyzing(false);
         setAnalysisStep(2);
+        // Trigger confetti effect when showing qualification
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
       }, 3000);
     }
   };
@@ -151,33 +158,34 @@ const WebsiteRedesign = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-white text-gray-900">
-        <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-swiss-darkblue to-swiss-darkblue/90 text-white">
+        <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
             <div className="text-center space-y-6 mb-12">
-              <div className="flex items-center justify-center gap-2 text-swiss-red font-medium">
-                <Award className="h-5 w-5" />
-                <span>{satisfactionRate}% Kundenzufriedenheit</span>
+              <div className="flex items-center justify-center gap-2 text-yellow-400 font-medium">
+                <Sparkles className="h-5 w-5" />
+                <span>Exklusivangebot für qualifizierte Unternehmen</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-swiss-darkblue leading-tight">
-                Digitale Präsenz optimieren – Mehr Erfolg für Ihr Unternehmen
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                Digitale Präsenz optimieren – 
+                <span className="text-swiss-red">Mehr Erfolg</span> für Ihr Unternehmen
               </h1>
               
-              <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-                Professionelle Website-Optimierung mit KI-gestützter Analyse und Expertenberatung
+              <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto">
+                Premium Website-Optimierung mit KI-gestützter Analyse und persönlicher Expertenberatung
               </p>
 
-              <div className="flex flex-wrap justify-center gap-3 text-sm font-medium text-gray-600">
-                <span className="bg-gray-100 px-3 py-1 rounded-full">Performance</span>
-                <span className="bg-gray-100 px-3 py-1 rounded-full">Design</span>
-                <span className="bg-gray-100 px-3 py-1 rounded-full">Conversion</span>
-                <span className="bg-gray-100 px-3 py-1 rounded-full">UX</span>
+              <div className="flex flex-wrap justify-center gap-3 text-sm font-medium">
+                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">Performance</span>
+                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">Design</span>
+                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">Conversion</span>
+                <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-full border border-white/20">UX</span>
               </div>
 
               {/* Analysis Steps */}
-              <div className="bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-8 shadow-lg mt-8">
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-2xl mt-12">
                 {analysisStep < 3 ? (
                   <AnalysisSteps
                     step={analysisStep}
@@ -209,20 +217,6 @@ const WebsiteRedesign = () => {
             {/* Trust Section */}
             <TrustSection satisfactionRate={satisfactionRate} />
 
-            {/* AI Chat Section */}
-            <div className="mt-12 bg-gradient-to-r from-swiss-darkblue to-swiss-darkblue/90 text-white rounded-xl p-8">
-              <h3 className="text-2xl font-semibold mb-6">Sprechen Sie mit unserem KI-Assistenten</h3>
-              <div className="relative w-full aspect-[16/9] md:aspect-[2/1]">
-                <iframe 
-                  className="absolute inset-0 w-full h-full rounded-lg"
-                  src="https://avaia.io/chat/authorize-chat/2705b8b0-276f-4582-a41c-6ff896a461ad/"
-                  width="100%"
-                  height="600px"
-                  frameBorder="0"
-                  title="KI-Assistent"
-                />
-              </div>
-            </div>
           </div>
         </div>
       </div>

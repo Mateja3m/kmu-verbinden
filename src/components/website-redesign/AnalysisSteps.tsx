@@ -1,7 +1,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Globe, ChevronRight, Palette, LineChart, Zap, Smartphone } from 'lucide-react';
+import { Globe, ChevronRight, Check, Sparkles } from 'lucide-react';
+import { Progress } from "@/components/ui/progress";
+import confetti from 'canvas-confetti';
 
 interface AnalysisStepsProps {
   step: number;
@@ -21,7 +23,6 @@ export const AnalysisSteps = ({
   improvements,
   onWebsiteSubmit,
   onWebsiteUrlChange,
-  onImprovementSelect,
   onStartConsultation
 }: AnalysisStepsProps) => {
   if (step === 1) {
@@ -65,39 +66,71 @@ export const AnalysisSteps = ({
 
   if (step === 2) {
     return (
-      <div className="space-y-8">
-        <h2 className="text-3xl font-semibold text-center mb-8">Was möchten Sie verbessern?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            { icon: Palette, label: 'Design modernisieren', value: 'design' },
-            { icon: LineChart, label: 'Conversion Rate steigern', value: 'conversion' },
-            { icon: Zap, label: 'Performance optimieren', value: 'performance' },
-            { icon: Smartphone, label: 'Mobile Experience verbessern', value: 'mobile' }
-          ].map(({ icon: Icon, label, value }) => (
-            <button
-              key={value}
-              onClick={() => onImprovementSelect(value)}
-              className={`p-6 rounded-2xl border-2 transition-all ${
-                improvements.includes(value)
-                  ? 'border-swiss-red bg-white/5 shadow-lg'
-                  : 'border-white/20 hover:border-white/40'
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                <Icon className={`h-8 w-8 ${improvements.includes(value) ? 'text-swiss-red' : 'text-white/80'}`} />
-                <span className="text-xl">{label}</span>
-              </div>
-            </button>
-          ))}
+      <div className="space-y-8 text-center">
+        <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-500 px-4 py-2 rounded-full font-medium">
+          <Check className="h-5 w-5" />
+          Qualifiziert für Exklusiv-Paket
         </div>
-        <Button 
-          onClick={onStartConsultation}
-          disabled={improvements.length === 0}
-          className="w-full mt-8 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect h-14 text-lg"
-        >
-          Kostenloses Beratungsgespräch vereinbaren
-          <ChevronRight className="ml-2 h-5 w-5" />
-        </Button>
+        
+        <h2 className="text-3xl font-semibold">
+          <Sparkles className="inline-block h-8 w-8 mr-2 text-yellow-400" />
+          Ihr Exklusiv-Paket als vorqualifiziertes Unternehmen
+        </h2>
+
+        <div className="grid gap-6 max-w-2xl mx-auto">
+          <div className="bg-white/10 backdrop-blur border border-white/20 rounded-xl p-6 text-left">
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <Check className="h-5 w-5 mt-1 text-green-400 shrink-0" />
+                <div>
+                  <p className="font-medium">Website-Analyse durch unsere Digital-Experten</p>
+                  <p className="text-white/60">Wert: CHF 890</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="h-5 w-5 mt-1 text-green-400 shrink-0" />
+                <div>
+                  <p className="font-medium">Strategieberatung für messbares Wachstum</p>
+                  <p className="text-white/60">Individuell auf Ihr Unternehmen zugeschnitten</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="h-5 w-5 mt-1 text-green-400 shrink-0" />
+                <div>
+                  <p className="font-medium">Premium Webdesign zu KMU-Vorzugskonditionen</p>
+                  <p className="text-white/60">Exklusiv für qualifizierte Unternehmen</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 backdrop-blur border border-yellow-400/30 rounded-xl p-6 text-left">
+            <h3 className="text-xl font-semibold mb-4">Exklusiver Bonus</h3>
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 mt-1 text-yellow-400 shrink-0" />
+              <div>
+                <p className="font-medium">1 Jahr SKV-Mitgliedschaft inklusive</p>
+                <p className="text-white/60">Wert: CHF 550</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <div className="text-sm text-white/60 mb-2">Noch 3 Plätze verfügbar</div>
+          <Progress value={75} className="h-2 w-48 mx-auto mb-8" />
+          <Button 
+            onClick={onStartConsultation}
+            className="w-full md:w-auto bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect h-14 text-lg px-8"
+          >
+            Kostenloses Beratungsgespräch vereinbaren
+            <ChevronRight className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
+
+        <p className="text-sm text-white/60">
+          * Angebot limitiert und nur für qualifizierte Unternehmen verfügbar
+        </p>
       </div>
     );
   }
