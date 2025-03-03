@@ -1,6 +1,7 @@
 
 import { Star, Award, Users } from 'lucide-react';
 import { nationalPartners, regionalPartners } from "@/data/partners";
+import { IndustryLinks } from './IndustryLinks';
 
 interface TrustSectionProps {
   satisfactionRate: number;
@@ -53,6 +54,9 @@ export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
           </div>
         ))}
       </div>
+
+      {/* Industry-specific links */}
+      <IndustryLinks />
     </div>
   );
 };
