@@ -1,3 +1,4 @@
+
 export const nationalPartners = [
   {
     id: 'hhomepage',
@@ -124,7 +125,7 @@ export const regionalPartners = [
   {
     id: 'unterwaldner',
     name: 'Unterwaldner',
-    logo: 'https://unterwaldner.com/wp-content/uploads/2022/01/Unterwaldner_Schriftzug_white.png',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740987778/Screenshot_2025-03-03_at_15.42.19_r43wqs.png',
     website: 'https://unterwaldner.com',
     description: 'Versicherungsberatung und -optimierung',
     requiresRedBackground: true
@@ -146,7 +147,7 @@ export const regionalPartners = [
   {
     id: 'versicherigsheini',
     name: 'Versicherigsheini',
-    logo: 'https://versicherigsheini.com/wp-content/uploads/2021/04/Versicherigsheini_Logo-Vektor.png',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740987778/Screenshot_2025-03-03_at_15.42.37_pw7xkb.png',
     website: 'https://versicherigsheini.com',
     description: 'Versicherungsberatung und Tarife',
     requiresRedBackground: true
