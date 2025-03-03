@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Bold, Italic, List, Heading, Image } from "lucide-react";
@@ -13,36 +12,35 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
   const [content, setContent] = useState<string>(initialContent || '');
   const [editorMode, setEditorMode] = useState<'visual' | 'code'>('visual');
   const [parsedContent, setParsedContent] = useState<any[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Parse initial content only once on mount or when initialContent changes
+  // Initialize the editor content only once
   useEffect(() => {
+    if (isInitialized) return;
+    
     try {
       if (initialContent) {
         const parsed = JSON.parse(initialContent);
         setParsedContent(parsed);
-        setContent(initialContent); // Set content to match initialContent
       } else {
-        setParsedContent([{ type: 'paragraph', content: '' }]);
-        setContent(JSON.stringify([{ type: 'paragraph', content: '' }])); // Initialize content with empty paragraph
+        const defaultContent = [{ type: 'paragraph', content: '' }];
+        setParsedContent(defaultContent);
+        setContent(JSON.stringify(defaultContent));
+        onChange(JSON.stringify(defaultContent));
       }
     } catch (e) {
       console.error('Error parsing content:', e);
-      setParsedContent([{ type: 'paragraph', content: '' }]);
-      setContent(JSON.stringify([{ type: 'paragraph', content: '' }])); // Initialize content with empty paragraph on error
+      const defaultContent = [{ type: 'paragraph', content: '' }];
+      setParsedContent(defaultContent);
+      setContent(JSON.stringify(defaultContent));
+      onChange(JSON.stringify(defaultContent));
     }
-  }, [initialContent]); // Only run when initialContent changes
+    
+    setIsInitialized(true);
+  }, [initialContent, onChange, isInitialized]);
 
-  // Update the serialized content when parsedContent changes
-  useEffect(() => {
-    const serialized = JSON.stringify(parsedContent);
-    // Only update if content is different to avoid infinite loop
-    if (serialized !== content) {
-      setContent(serialized);
-      onChange(serialized);
-    }
-  }, [parsedContent, onChange]); // Add content to dependencies to prevent unnecessary updates
-
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  // Handle content changes from the code editor
+  const handleContentChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
     setContent(newContent);
     
@@ -58,21 +56,52 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
       // but still update the raw content
       onChange(newContent);
     }
-  };
+  }, [editorMode, onChange]);
 
-  const updateBlockContent = (index: number, newText: string) => {
-    const updatedContent = [...parsedContent];
-    updatedContent[index] = { ...updatedContent[index], content: newText };
-    setParsedContent(updatedContent);
-  };
+  // Update block content in visual mode
+  const updateBlockContent = useCallback((index: number, newText: string) => {
+    setParsedContent(prevContent => {
+      const updatedContent = [...prevContent];
+      updatedContent[index] = { ...updatedContent[index], content: newText };
+      
+      // Update serialized content
+      const serialized = JSON.stringify(updatedContent);
+      setContent(serialized);
+      onChange(serialized);
+      
+      return updatedContent;
+    });
+  }, [onChange]);
 
-  const addNewBlock = (type: string = 'paragraph') => {
-    setParsedContent([...parsedContent, { type, content: '' }]);
-  };
+  // Add a new block in visual mode
+  const addNewBlock = useCallback((type: string = 'paragraph') => {
+    setParsedContent(prevContent => {
+      const updatedContent = [...prevContent, { type, content: '' }];
+      
+      // Update serialized content
+      const serialized = JSON.stringify(updatedContent);
+      setContent(serialized);
+      onChange(serialized);
+      
+      return updatedContent;
+    });
+  }, [onChange]);
 
-  const toggleVisualMode = () => {
-    setEditorMode(editorMode === 'visual' ? 'code' : 'visual');
-  };
+  // Toggle between visual and code mode
+  const toggleVisualMode = useCallback(() => {
+    if (editorMode === 'code') {
+      try {
+        // When switching from code to visual, parse the JSON content
+        const parsed = JSON.parse(content);
+        setParsedContent(parsed);
+      } catch (e) {
+        console.error('Error parsing content when switching to visual mode:', e);
+        // Keep the current parsed content if there's an error
+      }
+    }
+    
+    setEditorMode(prevMode => prevMode === 'visual' ? 'code' : 'visual');
+  }, [editorMode, content]);
 
   return (
     <div className="border rounded-md p-4">
@@ -130,7 +159,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
             <div key={index} className="mb-4">
               {block.type === 'paragraph' && (
                 <Textarea
-                  value={block.content}
+                  value={block.content || ''}
                   onChange={(e) => updateBlockContent(index, e.target.value)}
                   placeholder="Paragraph text..."
                   className="w-full"
@@ -139,7 +168,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
               {block.type === 'heading' && (
                 <input
                   type="text"
-                  value={block.content}
+                  value={block.content || ''}
                   onChange={(e) => updateBlockContent(index, e.target.value)}
                   placeholder="Heading text..."
                   className="w-full text-xl font-bold border p-2 rounded"
@@ -151,19 +180,27 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
                     type="text"
                     value={block.url || ''}
                     onChange={(e) => {
-                      const updatedContent = [...parsedContent];
-                      updatedContent[index] = { 
-                        ...updatedContent[index], 
-                        url: e.target.value 
-                      };
-                      setParsedContent(updatedContent);
+                      setParsedContent(prevContent => {
+                        const updatedContent = [...prevContent];
+                        updatedContent[index] = { 
+                          ...updatedContent[index], 
+                          url: e.target.value 
+                        };
+                        
+                        // Update serialized content
+                        const serialized = JSON.stringify(updatedContent);
+                        setContent(serialized);
+                        onChange(serialized);
+                        
+                        return updatedContent;
+                      });
                     }}
                     placeholder="Image URL..."
                     className="w-full border p-2 rounded"
                   />
                   <input
                     type="text"
-                    value={block.content}
+                    value={block.content || ''}
                     onChange={(e) => updateBlockContent(index, e.target.value)}
                     placeholder="Image caption..."
                     className="w-full border p-2 rounded"
