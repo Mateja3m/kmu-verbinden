@@ -47,6 +47,27 @@ export const nationalPartners = [
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987876/WhatsApp_Image_2025-02-19_at_20.15.45_kiostz.jpg',
     website: 'https://www.webpiranha.ch',
     description: 'Ihr Schweizer Webentwickler'
+  },
+  {
+    id: 'rankist',
+    name: 'Rankist',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740987107/logo_neu_rankist_phv50a.png',
+    website: 'https://rankist.ch',
+    description: 'SEO und E-Commerce Spezialist für Shopify'
+  },
+  {
+    id: 'it4int',
+    name: 'IT4INT',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740987065/it4intlogo_ryhzpo.png',
+    website: 'https://it4int.ch',
+    description: 'IT-Sicherheit und Penetrationstests für KMU'
+  },
+  {
+    id: 'youstream',
+    name: 'YouStream',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740986963/youstream-logo_drqquj.svg',
+    website: 'https://youstream.ch',
+    description: 'Professionelle Videoproduktion'
   }
 ];
 
