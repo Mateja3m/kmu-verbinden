@@ -34,6 +34,8 @@ import Organisation from './pages/Organisation';
 import Praxisratgeber from './pages/Praxisratgeber';
 import Branchenmagazine from './pages/Branchenmagazine';
 import WebsiteRedesign from './pages/WebsiteRedesign';
+import Index from './pages/Index';
+import IndustryLanding from './pages/IndustryLanding';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -116,7 +118,9 @@ const App = () => {
       <Navigation />
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/website-redesign" element={<WebsiteRedesign />} />
+          <Route path="/website-redesign/branche/:industry" element={<IndustryLanding />} />
           <Route path="/presidency" element={<Presidency />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/partners" element={<Partners />} />
@@ -145,7 +149,6 @@ const App = () => {
           <Route path="/organisation" element={<Organisation />} />
           <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
           <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
-          <Route path="/website-redesign" element={<WebsiteRedesign />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
