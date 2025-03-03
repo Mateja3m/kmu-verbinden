@@ -113,20 +113,21 @@ const Presse = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navigation />
       
-      {/* Hero Banner with Dark Overlay */}
-      <div className="relative h-[300px] w-full">
+      {/* Enhanced Hero Banner with Dark Overlay */}
+      <div className="relative h-[400px] w-full">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: "url('/lovable-uploads/002dc341-7fd5-4d7a-be63-14e368f7abfa.png')",
           }}
         >
-          <div className="absolute inset-0 bg-black/60"></div>
+          <div className="absolute inset-0 bg-black/70"></div>
         </div>
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="text-center max-w-3xl px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Medienmitteilungen</h1>
-            <p className="text-xl text-white/90">Aktuelle Nachrichten und Mitteilungen für Schweizer KMU</p>
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">Medienmitteilungen</h1>
+            <p className="text-xl md:text-2xl text-white/90 mb-8">Aktuelle Nachrichten und Mitteilungen für Schweizer KMU</p>
+            <div className="w-20 h-1 bg-swiss-red mx-auto"></div>
           </div>
         </div>
       </div>

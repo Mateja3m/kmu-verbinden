@@ -83,7 +83,7 @@ export const NewsMenu = () => {
           <li>
             <NavigationMenuLink asChild>
               <Link
-                to="/news"
+                to="/presse"
                 className={cn(
                   "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                 )}
