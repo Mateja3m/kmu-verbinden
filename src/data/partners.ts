@@ -1,4 +1,3 @@
-
 export const nationalPartners = [
   {
     id: 'hhomepage',
@@ -179,7 +178,7 @@ export const cooperationPartners = [
   {
     id: 'raiffeisen',
     name: 'Raiffeisen',
-    logo: 'https://seekvectorlogo.com/wp-content/uploads/2018/06/raiffeisen-vector-logo.png',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740987898/raiffeisen_logo_dm4tjo.png',
     website: 'https://www.raiffeisen.ch',
     description: 'Bank- und Finanzdienstleistungen'
   },
