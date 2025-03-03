@@ -128,6 +128,125 @@ export type Database = {
           },
         ]
       }
+      industries: {
+        Row: {
+          active: boolean | null
+          category: string
+          created_at: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          active?: boolean | null
+          category: string
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          active?: boolean | null
+          category?: string
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      industry_content: {
+        Row: {
+          benefits: Json
+          case_studies: Json
+          created_at: string
+          features: Json
+          hero_headline: string
+          hero_subheadline: string
+          id: string
+          industry_id: string
+          keywords: string[] | null
+          meta_description: string
+          meta_title: string
+          pain_points: Json
+          pricing_deals: string | null
+        }
+        Insert: {
+          benefits?: Json
+          case_studies?: Json
+          created_at?: string
+          features?: Json
+          hero_headline: string
+          hero_subheadline: string
+          id?: string
+          industry_id: string
+          keywords?: string[] | null
+          meta_description: string
+          meta_title: string
+          pain_points?: Json
+          pricing_deals?: string | null
+        }
+        Update: {
+          benefits?: Json
+          case_studies?: Json
+          created_at?: string
+          features?: Json
+          hero_headline?: string
+          hero_subheadline?: string
+          id?: string
+          industry_id?: string
+          keywords?: string[] | null
+          meta_description?: string
+          meta_title?: string
+          pain_points?: Json
+          pricing_deals?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "industry_content_industry_id_fkey"
+            columns: ["industry_id"]
+            isOneToOne: false
+            referencedRelation: "industries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      industry_inquiries: {
+        Row: {
+          company_name: string
+          contact_person: string
+          created_at: string
+          email: string
+          id: string
+          industry: string
+          message: string | null
+          phone: string | null
+          website: string | null
+        }
+        Insert: {
+          company_name: string
+          contact_person: string
+          created_at?: string
+          email: string
+          id?: string
+          industry: string
+          message?: string | null
+          phone?: string | null
+          website?: string | null
+        }
+        Update: {
+          company_name?: string
+          contact_person?: string
+          created_at?: string
+          email?: string
+          id?: string
+          industry?: string
+          message?: string | null
+          phone?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           amount: number

@@ -54,9 +54,9 @@ export const IndustryContactForm = ({
     setIsSubmitting(true);
     
     try {
-      // Use a simple INSERT operation rather than referencing a specific table type
+      // Use a simpler approach with any type to avoid TypeScript issues temporarily
       const { error } = await supabase
-        .from('industry_inquiries')
+        .from('industry_inquiries' as any)
         .insert({
           company_name: formData.companyName,
           contact_person: formData.contactPerson,
@@ -65,7 +65,7 @@ export const IndustryContactForm = ({
           website: formData.website,
           message: formData.message,
           industry: industrySlug
-        });
+        } as any);
       
       if (error) throw error;
       

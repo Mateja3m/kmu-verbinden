@@ -45,13 +45,23 @@ const IndustryLanding = () => {
       try {
         setLoading(true);
         
-        // Using a more generic approach to avoid TypeScript errors
-        const { data: industryResult, error: industryError } = await supabase
-          .from('industries')
+        // Use a more typesafe approach with explicit typing
+        interface IndustryRecord {
+          id: string;
+          slug: string;
+          name: string;
+          category: string;
+          active: boolean;
+          created_at: string;
+        }
+        
+        // Type assertion for the query
+        const { data: industryResult, error: industryError } = await (supabase
+          .from('industries' as any)
           .select('*')
           .eq('slug', industry)
           .eq('active', true)
-          .single();
+          .single() as unknown as Promise<{ data: IndustryRecord | null, error: any }>);
         
         if (industryError || !industryResult) {
           console.error("Error fetching industry:", industryError);
@@ -59,15 +69,38 @@ const IndustryLanding = () => {
           return;
         }
         
-        // Explicitly cast the result to our IndustryData type
-        setIndustryData(industryResult as unknown as IndustryData);
+        const typedIndustryData: IndustryData = {
+          id: industryResult.id,
+          slug: industryResult.slug,
+          name: industryResult.name,
+          category: industryResult.category
+        };
         
-        // Using a more generic approach for industry_content
-        const { data: contentResult, error: contentError } = await supabase
-          .from('industry_content')
+        setIndustryData(typedIndustryData);
+        
+        // Type for industry content
+        interface IndustryContentRecord {
+          id: string;
+          industry_id: string;
+          hero_headline: string;
+          hero_subheadline: string;
+          pain_points: Array<{ title: string; description: string }>;
+          benefits: Array<{ title: string; description: string }>;
+          features: Array<{ title: string; description: string }>;
+          case_studies: Array<{ title: string; description: string; image: string }>;
+          pricing_deals: string;
+          meta_title: string;
+          meta_description: string;
+          keywords: string[];
+          created_at: string;
+        }
+        
+        // Type assertion for the query
+        const { data: contentResult, error: contentError } = await (supabase
+          .from('industry_content' as any)
           .select('*')
           .eq('industry_id', industryResult.id)
-          .single();
+          .single() as unknown as Promise<{ data: IndustryContentRecord | null, error: any }>);
         
         if (contentError) {
           console.error("Error fetching industry content:", contentError);
@@ -80,13 +113,25 @@ const IndustryLanding = () => {
         }
         
         if (contentResult) {
-          // Explicitly cast to our IndustryContent type
-          setIndustryContent(contentResult as unknown as IndustryContent);
+          const typedContent: IndustryContent = {
+            hero_headline: contentResult.hero_headline,
+            hero_subheadline: contentResult.hero_subheadline,
+            pain_points: contentResult.pain_points,
+            benefits: contentResult.benefits,
+            features: contentResult.features,
+            case_studies: contentResult.case_studies,
+            pricing_deals: contentResult.pricing_deals,
+            meta_title: contentResult.meta_title,
+            meta_description: contentResult.meta_description,
+            keywords: contentResult.keywords
+          };
+          
+          setIndustryContent(typedContent);
         } else {
           // Default content if not found
           setIndustryContent({
-            hero_headline: `Optimierte Websites für ${industryResult.name}`,
-            hero_subheadline: `Professionelle und kundenorientierte Website-Lösungen speziell für ${industryResult.name}`,
+            hero_headline: `Optimierte Websites für ${typedIndustryData.name}`,
+            hero_subheadline: `Professionelle und kundenorientierte Website-Lösungen speziell für ${typedIndustryData.name}`,
             pain_points: [
               { title: "Geringe Online-Sichtbarkeit", description: "Potenzielle Kunden finden Sie nicht im Internet" },
               { title: "Veralteter Webauftritt", description: "Ihre aktuelle Website spiegelt nicht die Qualität Ihrer Arbeit wider" },
@@ -110,9 +155,9 @@ const IndustryLanding = () => {
               { title: "Beispiel Firma", description: "Deutliche Zeitersparnis durch Prozessautomatisierung", image: "/placeholder.svg" }
             ],
             pricing_deals: "Website-Komplettpaket ab CHF 4.900 statt CHF 8.900 | Monatliche Betreuung ab CHF 290",
-            meta_title: `${industryResult.name} Website Redesign | SwissKMU`,
-            meta_description: `Professionelle Websites für ${industryResult.name}. Steigern Sie Ihre Sichtbarkeit und gewinnen Sie mehr Kunden.`,
-            keywords: [`${industryResult.name} Website`, 'Webdesign', 'Website Redesign', 'SwissKMU']
+            meta_title: `${typedIndustryData.name} Website Redesign | SwissKMU`,
+            meta_description: `Professionelle Websites für ${typedIndustryData.name}. Steigern Sie Ihre Sichtbarkeit und gewinnen Sie mehr Kunden.`,
+            keywords: [`${typedIndustryData.name} Website`, 'Webdesign', 'Website Redesign', 'SwissKMU']
           });
         }
       } catch (error) {
