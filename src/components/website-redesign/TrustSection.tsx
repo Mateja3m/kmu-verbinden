@@ -1,15 +1,21 @@
 
 import { Star, Award, Users } from 'lucide-react';
-import { nationalPartners } from "@/data/partners";
+import { nationalPartners, regionalPartners } from "@/data/partners";
 
 interface TrustSectionProps {
   satisfactionRate: number;
 }
 
 export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
-  const selectedPartners = nationalPartners.filter(partner => 
-    ['hhomepage', 'artemia', 'kensignton'].includes(partner.id)
-  );
+  // Updated to include 6 partners in total
+  const selectedPartners = [
+    ...nationalPartners.filter(partner => 
+      ['hhomepage', 'artemia', 'kensignton', 'rankist', 'youstream'].includes(partner.id)
+    ),
+    ...regionalPartners.filter(partner => 
+      ['webagentur-forster'].includes(partner.id)
+    )
+  ];
 
   return (
     <div className="text-center space-y-8 mt-16">
