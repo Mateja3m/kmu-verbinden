@@ -2,6 +2,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Bold, Italic, List, Heading, Image } from "lucide-react";
 
 interface RichTextEditorProps {
@@ -13,11 +14,11 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
   const [content, setContent] = useState<string>(initialContent || '');
   const [editorMode, setEditorMode] = useState<'visual' | 'code'>('visual');
   const [parsedContent, setParsedContent] = useState<any[]>([]);
-  const isInitializedRef = useRef(false);
+  const initializedRef = useRef(false);
 
   // Initialize the editor content only once
   React.useEffect(() => {
-    if (isInitializedRef.current) return;
+    if (initializedRef.current) return;
     
     try {
       if (initialContent) {
@@ -40,7 +41,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
       onChange(serialized);
     }
     
-    isInitializedRef.current = true;
+    initializedRef.current = true;
   }, [initialContent, onChange]);
 
   // Handle content changes from the code editor
@@ -198,21 +199,42 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
               )}
               {block.type === 'image' && (
                 <div className="space-y-2">
-                  <input
-                    type="text"
+                  <Input
+                    type="url"
                     value={block.url || ''}
                     onChange={(e) => updateImageUrl(index, e.target.value)}
                     placeholder="Image URL..."
-                    className="w-full border p-2 rounded"
+                    className="w-full"
                   />
-                  <input
+                  {block.url && (
+                    <div className="relative mt-2 mb-2">
+                      <img 
+                        src={block.url} 
+                        alt={block.content || "Content image"} 
+                        className="max-w-full h-auto border rounded"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://placehold.co/600x400?text=Bild+nicht+verfügbar";
+                        }}
+                      />
+                    </div>
+                  )}
+                  <Input
                     type="text"
                     value={block.content || ''}
                     onChange={(e) => updateBlockContent(index, e.target.value)}
                     placeholder="Image caption..."
-                    className="w-full border p-2 rounded"
+                    className="w-full"
                   />
                 </div>
+              )}
+              {block.type === 'list' && (
+                <Textarea
+                  value={block.content || ''}
+                  onChange={(e) => updateBlockContent(index, e.target.value)}
+                  placeholder="List items (one per line)..."
+                  className="w-full"
+                />
               )}
             </div>
           ))}

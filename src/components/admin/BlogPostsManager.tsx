@@ -91,6 +91,11 @@ export function BlogPostsManager() {
     (post.meta_keywords && post.meta_keywords.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = "https://placehold.co/100x60?text=Kein+Bild";
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -145,12 +150,17 @@ export function BlogPostsManager() {
                 <tr key={post.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      {post.image_url && (
+                      {post.image_url ? (
                         <img 
                           src={post.image_url} 
                           alt="" 
                           className="h-10 w-10 rounded object-cover mr-3"
+                          onError={handleImageError}
                         />
+                      ) : (
+                        <div className="h-10 w-10 bg-gray-200 rounded mr-3 flex items-center justify-center">
+                          <span className="text-xs text-gray-500">No img</span>
+                        </div>
                       )}
                       <div className="truncate max-w-xs">{post.title}</div>
                     </div>

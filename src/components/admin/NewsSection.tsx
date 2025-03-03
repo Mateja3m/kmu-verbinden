@@ -1,15 +1,12 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { uploadFile } from "@/lib/uploadFile";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
-import { Image, Upload, Save, ArrowLeft } from "lucide-react";
+import { Save, ArrowLeft, Link } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { NewsPost } from "@/types/database/news";
 
 export function NewsSection() {
   const { toast } = useToast();
@@ -23,8 +20,6 @@ export function NewsSection() {
     meta_description: '',
     meta_keywords: '',
   });
-  const [uploading, setUploading] = useState(false);
-  const [uploadingLogo, setUploadingLogo] = useState(false);
   const [hasInitializedSamples, setHasInitializedSamples] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [postId, setPostId] = useState<string | null>(null);
@@ -171,45 +166,6 @@ export function NewsSection() {
     }
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'logo') => {
-    try {
-      if (!e.target.files || e.target.files.length === 0) return;
-      
-      if (type === 'image') {
-        setUploading(true);
-      } else {
-        setUploadingLogo(true);
-      }
-      
-      const file = e.target.files[0];
-      const publicUrl = await uploadFile(file);
-      
-      if (type === 'image') {
-        setFormData(prev => ({ ...prev, image_url: publicUrl }));
-      } else {
-        setFormData(prev => ({ ...prev, logo_url: publicUrl }));
-      }
-      
-      toast({
-        title: "Erfolg",
-        description: `${type === 'image' ? 'Bild' : 'Logo'} wurde erfolgreich hochgeladen.`
-      });
-    } catch (error) {
-      console.error(`Error uploading ${type}:`, error);
-      toast({
-        title: "Fehler",
-        description: `${type === 'image' ? 'Bild' : 'Logo'} konnte nicht hochgeladen werden.`,
-        variant: "destructive"
-      });
-    } finally {
-      if (type === 'image') {
-        setUploading(false);
-      } else {
-        setUploadingLogo(false);
-      }
-    }
-  };
-
   const handleContentChange = (content: string) => {
     setFormData(prev => ({ ...prev, content }));
   };
@@ -313,24 +269,16 @@ export function NewsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Hauptbild</label>
+            <label className="block text-sm font-medium mb-1">Hauptbild URL</label>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'image')}
-                  disabled={uploading}
-                  id="image-upload"
-                  className="hidden"
+                  type="url"
+                  placeholder="https://beispiel.com/bild.jpg"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  className="flex-grow"
                 />
-                <label 
-                  htmlFor="image-upload"
-                  className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer"
-                >
-                  <Upload className="h-4 w-4 mr-2" />
-                  {uploading ? "Uploading..." : "Bild auswählen"}
-                </label>
               </div>
               
               {formData.image_url && (
@@ -339,6 +287,10 @@ export function NewsSection() {
                     src={formData.image_url} 
                     alt="Main Featured Image" 
                     className="w-full max-w-md h-48 object-cover border rounded"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://placehold.co/600x400?text=Bild+nicht+verfügbar";
+                    }}
                   />
                   <button
                     type="button"
@@ -353,24 +305,16 @@ export function NewsSection() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Logo (optional)</label>
+            <label className="block text-sm font-medium mb-1">Logo URL (optional)</label>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'logo')}
-                  disabled={uploadingLogo}
-                  id="logo-upload"
-                  className="hidden"
+                  type="url"
+                  placeholder="https://beispiel.com/logo.png"
+                  value={formData.logo_url}
+                  onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
+                  className="flex-grow"
                 />
-                <label 
-                  htmlFor="logo-upload"
-                  className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer"
-                >
-                  <Image className="h-4 w-4 mr-2" />
-                  {uploadingLogo ? "Uploading..." : "Logo auswählen"}
-                </label>
               </div>
               
               {formData.logo_url && (
@@ -379,6 +323,10 @@ export function NewsSection() {
                     src={formData.logo_url} 
                     alt="Company Logo" 
                     className="max-w-[200px] max-h-24 object-contain border rounded bg-white p-2"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://placehold.co/400x200?text=Logo+nicht+verfügbar";
+                    }}
                   />
                   <button
                     type="button"
@@ -421,7 +369,6 @@ export function NewsSection() {
         <div className="flex space-x-3">
           <Button 
             type="submit" 
-            disabled={uploading || uploadingLogo}
             className="flex items-center gap-2"
           >
             <Save size={16} />
