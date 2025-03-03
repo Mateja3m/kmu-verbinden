@@ -1,9 +1,9 @@
 
+import { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Upload, ImagePlus, Building2 } from "lucide-react";
 import { Card } from "../ui/card";
-import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { uploadFile } from "@/lib/uploadFile";
 
@@ -18,6 +18,8 @@ export const ExpertFileUpload = ({
 }: ExpertFileUploadProps) => {
   const [uploadingProfile, setUploadingProfile] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [profilePreview, setProfilePreview] = useState<string | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'logo') => {
@@ -39,6 +41,18 @@ export const ExpertFileUpload = ({
       });
       return;
     }
+
+    // Show local preview before uploading
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      if (type === 'profile') {
+        setProfilePreview(result);
+      } else {
+        setLogoPreview(result);
+      }
+    };
+    reader.readAsDataURL(file);
 
     try {
       if (type === 'profile') {
@@ -67,12 +81,22 @@ export const ExpertFileUpload = ({
         description: `${type === 'profile' ? 'Profilbild' : 'Logo'} konnte nicht hochgeladen werden.`,
         variant: "destructive"
       });
+      
+      // Clear preview on error
+      if (type === 'profile') {
+        setProfilePreview(null);
+      } else {
+        setLogoPreview(null);
+      }
     } finally {
       if (type === 'profile') {
         setUploadingProfile(false);
       } else {
         setUploadingLogo(false);
       }
+      
+      // Reset the input to allow uploading the same file again
+      e.target.value = '';
     }
   };
 
@@ -102,7 +126,17 @@ export const ExpertFileUpload = ({
             className="cursor-pointer opacity-0 absolute inset-0 w-full h-full"
           />
           <div className="bg-gray-50 p-8 rounded-lg text-center group-hover:bg-gray-100 transition-colors duration-300">
-            <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-swiss-red transition-colors duration-300" />
+            {profilePreview ? (
+              <div className="mb-2 relative">
+                <img 
+                  src={profilePreview} 
+                  alt="Profilvorschau" 
+                  className="h-40 w-40 mx-auto object-cover rounded-full border-2 border-gray-200"
+                />
+              </div>
+            ) : (
+              <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-swiss-red transition-colors duration-300" />
+            )}
             <p className="text-sm text-gray-600 group-hover:text-swiss-darkblue transition-colors duration-300">
               {uploadingProfile ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Profilbild hochzuladen'}
             </p>
@@ -132,7 +166,17 @@ export const ExpertFileUpload = ({
             className="cursor-pointer opacity-0 absolute inset-0 w-full h-full"
           />
           <div className="bg-gray-50 p-8 rounded-lg text-center group-hover:bg-gray-100 transition-colors duration-300">
-            <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-swiss-red transition-colors duration-300" />
+            {logoPreview ? (
+              <div className="mb-2 relative">
+                <img 
+                  src={logoPreview} 
+                  alt="Logovorschau" 
+                  className="h-32 max-w-[200px] mx-auto object-contain"
+                />
+              </div>
+            ) : (
+              <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-swiss-red transition-colors duration-300" />
+            )}
             <p className="text-sm text-gray-600 group-hover:text-swiss-darkblue transition-colors duration-300">
               {uploadingLogo ? 'Wird hochgeladen...' : 'Klicken Sie hier, um Ihr Firmenlogo hochzuladen'}
             </p>
