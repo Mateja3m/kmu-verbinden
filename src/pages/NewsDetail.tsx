@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -48,11 +49,14 @@ export default function NewsDetail() {
   const handleShare = (platform: 'linkedin' | 'general') => {
     if (!post) return;
     
-    const url = window.location.href;
     const title = post.title;
     const summary = post.meta_description || '';
     
+    // Use kmu-verein.ch domain instead of the current domain
+    const url = `https://kmu-verein.ch/news/${slug}`;
+    
     if (platform === 'linkedin') {
+      // LinkedIn sharing URL with proper parameters
       const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
       window.open(linkedinUrl, '_blank', 'width=600,height=600');
       
@@ -162,7 +166,7 @@ export default function NewsDetail() {
             </div>
           </div>
 
-          {post.logo_url && (
+          {post?.logo_url && (
             <div className="mb-10 flex justify-start">
               <img 
                 src={post.logo_url} 
@@ -172,7 +176,7 @@ export default function NewsDetail() {
             </div>
           )}
 
-          {post.image_url && (
+          {post?.image_url && (
             <img
               src={post.image_url}
               alt={post.title}
@@ -181,10 +185,10 @@ export default function NewsDetail() {
           )}
 
           <div className="prose-container">
-            <BlogRenderer content={post.content} />
+            <BlogRenderer content={post?.content || ''} />
           </div>
 
-          {post.meta_keywords && (
+          {post?.meta_keywords && (
             <div className="mt-12 pt-8 border-t">
               <p className="text-sm text-gray-500">
                 Tags: {post.meta_keywords}

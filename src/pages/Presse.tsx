@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
@@ -105,10 +106,12 @@ const Presse = () => {
   const handleShareLinkedIn = (event: React.MouseEvent, post: NewsPost) => {
     event.stopPropagation();
     
-    const url = `${window.location.origin}/news/${post.slug}`;
+    // Use kmu-verein.ch domain instead of the current domain
+    const url = `https://kmu-verein.ch/news/${post.slug}`;
     const title = post.title;
     const summary = post.meta_description || '';
     
+    // LinkedIn sharing URL with proper parameters
     const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
     window.open(linkedinUrl, '_blank', 'width=600,height=600');
     
