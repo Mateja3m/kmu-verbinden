@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import {
   NavigationMenuContent,
@@ -46,7 +47,7 @@ export const ServicesMenu = () => {
           <li>
             <NavigationMenuLink asChild>
               <Link
-                to="/presse"
+                to="/news"
                 className={cn(
                   "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                 )}

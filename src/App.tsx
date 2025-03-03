@@ -1,3 +1,4 @@
+
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
@@ -128,6 +129,7 @@ const App = () => {
           <Route path="/experts/:id" element={<ExpertDetail />} />
           <Route path="/expert-submission" element={<ExpertSubmission />} />
           <Route path="/news" element={<Presse />} />
+          <Route path="/presse" element={<Presse />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Admin />} />
