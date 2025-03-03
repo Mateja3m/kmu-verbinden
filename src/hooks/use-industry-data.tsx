@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { IndustryData, IndustryContent } from '@/types/industry';
@@ -59,13 +60,30 @@ export const useIndustryData = (industrySlug: string | undefined) => {
         
         // If we found specific content, use it
         if (contentResult) {
+          // Parse JSON fields correctly
+          const painPoints = typeof contentResult.pain_points === 'string' 
+            ? JSON.parse(contentResult.pain_points) 
+            : contentResult.pain_points;
+            
+          const benefits = typeof contentResult.benefits === 'string' 
+            ? JSON.parse(contentResult.benefits) 
+            : contentResult.benefits;
+            
+          const features = typeof contentResult.features === 'string' 
+            ? JSON.parse(contentResult.features) 
+            : contentResult.features;
+            
+          const caseStudies = typeof contentResult.case_studies === 'string' 
+            ? JSON.parse(contentResult.case_studies) 
+            : contentResult.case_studies;
+
           const typedContent: IndustryContent = {
             hero_headline: contentResult.hero_headline,
             hero_subheadline: contentResult.hero_subheadline,
-            pain_points: contentResult.pain_points,
-            benefits: contentResult.benefits,
-            features: contentResult.features,
-            case_studies: contentResult.case_studies,
+            pain_points: painPoints,
+            benefits: benefits,
+            features: features,
+            case_studies: caseStudies,
             pricing_deals: contentResult.pricing_deals,
             meta_title: contentResult.meta_title,
             meta_description: contentResult.meta_description,

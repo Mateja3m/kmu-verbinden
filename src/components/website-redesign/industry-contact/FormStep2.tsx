@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,12 +10,12 @@ interface FormStep2Props {
     email: string;
     phone: string;
   };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  nextStep: () => void;
-  prevStep: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onNext: () => void;
+  onPrev: () => void;
 }
 
-export const FormStep2 = ({ formData, handleChange, nextStep, prevStep }: FormStep2Props) => {
+export const FormStep2 = ({ formData, onChange, onNext, onPrev }: FormStep2Props) => {
   const { toast } = useToast();
   
   const validateAndProceed = () => {
@@ -28,7 +27,7 @@ export const FormStep2 = ({ formData, handleChange, nextStep, prevStep }: FormSt
       return;
     }
     
-    nextStep();
+    onNext();
   };
 
   return (
@@ -41,7 +40,7 @@ export const FormStep2 = ({ formData, handleChange, nextStep, prevStep }: FormSt
           id="contactPerson"
           name="contactPerson"
           value={formData.contactPerson}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Vor- und Nachname"
           required
         />
@@ -56,7 +55,7 @@ export const FormStep2 = ({ formData, handleChange, nextStep, prevStep }: FormSt
           name="email"
           type="email"
           value={formData.email}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="beispiel@domain.ch"
           required
         />
@@ -71,7 +70,7 @@ export const FormStep2 = ({ formData, handleChange, nextStep, prevStep }: FormSt
           name="phone"
           type="tel"
           value={formData.phone}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="+41 XX XXX XX XX"
         />
       </div>
@@ -80,7 +79,7 @@ export const FormStep2 = ({ formData, handleChange, nextStep, prevStep }: FormSt
         <Button 
           type="button" 
           variant="outline" 
-          onClick={prevStep}
+          onClick={onPrev}
         >
           Zurück
         </Button>

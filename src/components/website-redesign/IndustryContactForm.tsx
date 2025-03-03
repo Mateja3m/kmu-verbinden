@@ -73,7 +73,7 @@ export const IndustryContactForm = ({
               {step === 3 && (
                 <FormStep3
                   formData={formData}
-                  submitting={submitting}
+                  isSubmitting={submitting}
                   onChange={handleChange}
                   onPrev={prevStep}
                   onSubmit={handleSubmit}

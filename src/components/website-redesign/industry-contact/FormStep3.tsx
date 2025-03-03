@@ -8,12 +8,13 @@ interface FormStep3Props {
   formData: {
     message: string;
   };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  prevStep: () => void;
   isSubmitting: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onPrev: () => void;
+  onSubmit: (e: React.FormEvent) => void;
 }
 
-export const FormStep3 = ({ formData, handleChange, prevStep, isSubmitting }: FormStep3Props) => {
+export const FormStep3 = ({ formData, onChange, onPrev, isSubmitting, onSubmit }: FormStep3Props) => {
   return (
     <div className="space-y-4">
       <div>
@@ -24,7 +25,7 @@ export const FormStep3 = ({ formData, handleChange, prevStep, isSubmitting }: Fo
           id="message"
           name="message"
           value={formData.message}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Wie können wir Ihnen helfen?"
           rows={4}
         />
@@ -34,7 +35,7 @@ export const FormStep3 = ({ formData, handleChange, prevStep, isSubmitting }: Fo
         <Button 
           type="button" 
           variant="outline" 
-          onClick={prevStep}
+          onClick={onPrev}
         >
           Zurück
         </Button>

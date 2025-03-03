@@ -1,11 +1,15 @@
 
 import React from 'react';
 
-export const IndustryContactFormHeader = () => {
+interface IndustryContactFormHeaderProps {
+  industry: string;
+}
+
+export const IndustryContactFormHeader = ({ industry }: IndustryContactFormHeaderProps) => {
   return (
     <div className="text-center mb-8">
       <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-4">
-        Jetzt unverbindliche und kostenlose Beratung einholen
+        Jetzt unverbindliche und kostenlose Beratung für {industry} einholen
       </h2>
       <p className="text-gray-600">
         Erfahren Sie, wie wir Ihren Online-Auftritt optimieren können. 

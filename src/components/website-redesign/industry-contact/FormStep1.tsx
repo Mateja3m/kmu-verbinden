@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,11 +9,11 @@ interface FormStep1Props {
     companyName: string;
     address: string;
   };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  nextStep: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onNext: () => void;
 }
 
-export const FormStep1 = ({ formData, handleChange, nextStep }: FormStep1Props) => {
+export const FormStep1 = ({ formData, onChange, onNext }: FormStep1Props) => {
   const { toast } = useToast();
   
   const validateAndProceed = () => {
@@ -26,7 +25,7 @@ export const FormStep1 = ({ formData, handleChange, nextStep }: FormStep1Props) 
       return;
     }
     
-    nextStep();
+    onNext();
   };
 
   return (
@@ -39,7 +38,7 @@ export const FormStep1 = ({ formData, handleChange, nextStep }: FormStep1Props) 
           id="companyName"
           name="companyName"
           value={formData.companyName}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="z.B. Zahnärzte am Marktplatz"
           required
         />
@@ -53,7 +52,7 @@ export const FormStep1 = ({ formData, handleChange, nextStep }: FormStep1Props) 
           id="address"
           name="address"
           value={formData.address}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Straße, PLZ, Ort"
           required
         />
