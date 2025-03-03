@@ -128,12 +128,12 @@ const IndustryLanding = () => {
           
           setIndustryContent(typedContent);
         } else {
-          // Default content if not found
+          // Default content if not found - Updated to use "Zahnärzte" (plural form)
           setIndustryContent({
             hero_headline: `Optimierte Websites für ${typedIndustryData.name}`,
             hero_subheadline: `Professionelle und kundenorientierte Website-Lösungen speziell für ${typedIndustryData.name}`,
             pain_points: [
-              { title: "Geringe Online-Sichtbarkeit", description: "Potenzielle Kunden finden Sie nicht im Internet" },
+              { title: "Geringe Online-Sichtbarkeit", description: "Potenzielle Patienten finden Sie nicht im Internet" },
               { title: "Veralteter Webauftritt", description: "Ihre aktuelle Website spiegelt nicht die Qualität Ihrer Arbeit wider" },
               { title: "Wenige Neukundenanfragen", description: "Ihre Website generiert nicht genügend qualifizierte Anfragen" },
               { title: "Zeitaufwändige Verwaltung", description: "Sie verbringen zu viel Zeit mit administrativen Aufgaben" }
@@ -141,22 +141,22 @@ const IndustryLanding = () => {
             benefits: [
               { title: "Mehr Sichtbarkeit", description: "Steigern Sie Ihre lokale Sichtbarkeit und werden Sie gefunden" },
               { title: "Professioneller Auftritt", description: "Präsentieren Sie Ihr Unternehmen modern und ansprechend" },
-              { title: "Mehr Anfragen", description: "Gewinnen Sie neue Kunden durch optimierte Conversion-Elemente" },
+              { title: "Mehr Anfragen", description: "Gewinnen Sie neue Patienten durch optimierte Conversion-Elemente" },
               { title: "Zeitersparnis", description: "Automatisieren Sie Prozesse und sparen Sie wertvolle Zeit" }
             ],
             features: [
               { title: "Responsive Design", description: "Perfekte Darstellung auf allen Geräten" },
               { title: "SEO-Optimierung", description: "Bessere Platzierungen in den Suchergebnissen" },
-              { title: "Kontaktformulare", description: "Einfache Kontaktaufnahme für Ihre Kunden" },
+              { title: "Kontaktformulare", description: "Einfache Kontaktaufnahme für Ihre Patienten" },
               { title: "Content Management", description: "Einfache Verwaltung Ihrer Inhalte" }
             ],
             case_studies: [
-              { title: "Beispiel Unternehmen", description: "30% mehr Anfragen innerhalb von 3 Monaten", image: "/placeholder.svg" },
-              { title: "Beispiel Firma", description: "Deutliche Zeitersparnis durch Prozessautomatisierung", image: "/placeholder.svg" }
+              { title: "Beispiel Praxis", description: "30% mehr Anfragen innerhalb von 3 Monaten", image: "/placeholder.svg" },
+              { title: "Beispiel Gemeinschaftspraxis", description: "Deutliche Zeitersparnis durch Prozessautomatisierung", image: "/placeholder.svg" }
             ],
             pricing_deals: "Website-Komplettpaket ab CHF 4.900 statt CHF 8.900 | Monatliche Betreuung ab CHF 290",
             meta_title: `${typedIndustryData.name} Website Redesign | SwissKMU`,
-            meta_description: `Professionelle Websites für ${typedIndustryData.name}. Steigern Sie Ihre Sichtbarkeit und gewinnen Sie mehr Kunden.`,
+            meta_description: `Professionelle Websites für ${typedIndustryData.name}. Steigern Sie Ihre Sichtbarkeit und gewinnen Sie mehr Patienten.`,
             keywords: [`${typedIndustryData.name} Website`, 'Webdesign', 'Website Redesign', 'SwissKMU']
           });
         }

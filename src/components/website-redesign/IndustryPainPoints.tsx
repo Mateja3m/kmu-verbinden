@@ -24,7 +24,7 @@ export const IndustryPainPoints = ({
             Typische Herausforderungen für {industry}
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Die meisten {industry} kämpfen mit diesen Problemen bei ihrer digitalen Präsenz, die potenzielle Kunden abschrecken können.
+            Die meisten {industry} kämpfen mit diesen Problemen bei ihrer digitalen Präsenz, die potenzielle Patienten abschrecken können.
           </p>
         </div>
         

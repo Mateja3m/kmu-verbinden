@@ -13,18 +13,6 @@ interface IndustryContactFormProps {
   industrySlug: string;
 }
 
-// Swiss regions with corresponding images
-const swissRegions = [
-  { name: 'Zürich', image: '/placeholder.svg' },
-  { name: 'Bern', image: '/placeholder.svg' },
-  { name: 'Basel', image: '/placeholder.svg' },
-  { name: 'Luzern', image: '/placeholder.svg' },
-  { name: 'St. Gallen', image: '/placeholder.svg' },
-  { name: 'Genf', image: '/placeholder.svg' },
-  { name: 'Lausanne', image: '/placeholder.svg' },
-  { name: 'Tessin', image: '/placeholder.svg' },
-];
-
 export const IndustryContactForm = ({
   industry,
   industrySlug
@@ -38,7 +26,7 @@ export const IndustryContactForm = ({
     phone: '',
     website: '',
     message: '',
-    region: '',
+    address: '',
     privacyAccepted: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,30 +57,17 @@ export const IndustryContactForm = ({
     setFormData(prev => ({ ...prev, [name]: checked }));
   };
 
-  const handleRegionSelect = (region: string) => {
-    setFormData(prev => ({ ...prev, region }));
-  };
-
   const nextStep = () => {
     if (currentStep === 1 && !formData.companyName) {
       toast({
-        title: "Bitte geben Sie Ihren Firmennamen ein",
+        title: "Bitte geben Sie Ihren Praxisnamen ein",
         description: "Dieser Wert ist erforderlich, um fortzufahren.",
         variant: "destructive"
       });
       return;
     }
     
-    if (currentStep === 2 && !formData.region) {
-      toast({
-        title: "Bitte wählen Sie eine Region",
-        description: "Dieser Wert ist erforderlich, um fortzufahren.",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    if (currentStep === 3 && !formData.contactPerson) {
+    if (currentStep === 2 && !formData.contactPerson) {
       toast({
         title: "Bitte geben Sie Ihren Namen ein",
         description: "Dieser Wert ist erforderlich, um fortzufahren.",
@@ -101,7 +76,7 @@ export const IndustryContactForm = ({
       return;
     }
     
-    if (currentStep === 3 && !formData.email) {
+    if (currentStep === 2 && !formData.email) {
       toast({
         title: "Bitte geben Sie Ihre E-Mail ein",
         description: "Dieser Wert ist erforderlich, um fortzufahren.",
@@ -141,6 +116,7 @@ export const IndustryContactForm = ({
           phone: formData.phone,
           website: formData.website,
           message: formData.message,
+          address: formData.address,
           industry: industrySlug
         });
       
@@ -159,7 +135,7 @@ export const IndustryContactForm = ({
         phone: '',
         website: '',
         message: '',
-        region: '',
+        address: '',
         privacyAccepted: false
       });
       setCurrentStep(1);
@@ -176,14 +152,12 @@ export const IndustryContactForm = ({
   };
 
   const renderBookingsBanner = () => (
-    <div className="fixed bottom-0 left-0 w-full z-50 animate-fade-in">
-      <div className="container mx-auto px-4">
-        <div className="bg-swiss-darkblue text-white py-2 px-4 rounded-t-lg max-w-xs mx-auto text-center text-sm shadow-lg">
-          <p className="font-medium flex items-center justify-center">
-            <span className="inline-block h-2 w-2 rounded-full bg-green-400 mr-2 animate-ping"></span>
-            {recentBookings} Anfragen in den letzten 24 Stunden
-          </p>
-        </div>
+    <div className="bg-swiss-darkblue/5 border border-swiss-darkblue/10 rounded-lg p-3 flex items-center justify-center gap-2 mb-6">
+      <div className="flex items-center">
+        <span className="inline-block h-2 w-2 rounded-full bg-green-400 mr-2 animate-ping"></span>
+        <span className="text-sm text-swiss-darkblue font-medium">
+          {recentBookings} Anfragen in den letzten 24 Stunden
+        </span>
       </div>
     </div>
   );
@@ -193,6 +167,8 @@ export const IndustryContactForm = ({
       case 1:
         return (
           <div className="space-y-6 animate-fade-in">
+            {renderBookingsBanner()}
+            
             <div className="space-y-2">
               <Label htmlFor="companyName" className="text-lg font-medium">Name Ihrer Praxis *</Label>
               <Input
@@ -202,6 +178,19 @@ export const IndustryContactForm = ({
                 onChange={handleChange}
                 required
                 placeholder="z.B. Zahnarztpraxis Dr. Müller"
+                className="h-12 text-lg"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="address" className="text-lg font-medium">Adresse *</Label>
+              <Input
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+                placeholder="Straße, PLZ, Ort"
                 className="h-12 text-lg"
               />
             </div>
@@ -221,63 +210,6 @@ export const IndustryContactForm = ({
       case 2:
         return (
           <div className="space-y-6 animate-fade-in">
-            <div>
-              <Label className="text-lg font-medium mb-4 block">Wählen Sie Ihre Region *</Label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {swissRegions.map(region => (
-                  <div 
-                    key={region.name}
-                    onClick={() => handleRegionSelect(region.name)}
-                    className={`cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
-                      formData.region === region.name 
-                        ? 'border-swiss-red ring-2 ring-swiss-red/30 scale-105' 
-                        : 'border-gray-200 hover:border-swiss-red/50'
-                    }`}
-                  >
-                    <div className="relative h-24">
-                      <img 
-                        src={region.image} 
-                        alt={region.name} 
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-2 flex items-center justify-between">
-                        <span className="text-white font-medium text-sm">{region.name}</span>
-                        {formData.region === region.name && (
-                          <div className="bg-swiss-red rounded-full p-1">
-                            <Check className="h-3 w-3 text-white" />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="flex gap-4 pt-4">
-              <Button
-                type="button"
-                onClick={prevStep}
-                variant="outline"
-                className="w-1/3 border-swiss-darkblue text-swiss-darkblue"
-              >
-                <ArrowLeft className="mr-2" /> Zurück
-              </Button>
-              <Button
-                type="button"
-                onClick={nextStep}
-                className="w-2/3 bg-swiss-red hover:bg-swiss-red/90 text-white font-medium"
-              >
-                Weiter <ArrowRight className="ml-2" />
-              </Button>
-            </div>
-          </div>
-        );
-        
-      case 3:
-        return (
-          <div className="space-y-6 animate-fade-in">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="contactPerson" className="text-lg font-medium">Ansprechpartner *</Label>
@@ -288,6 +220,7 @@ export const IndustryContactForm = ({
                   onChange={handleChange}
                   required
                   placeholder="Vor- und Nachname"
+                  className="h-12"
                 />
               </div>
               
@@ -301,6 +234,7 @@ export const IndustryContactForm = ({
                   onChange={handleChange}
                   required
                   placeholder="ihre-email@beispiel.ch"
+                  className="h-12"
                 />
               </div>
             </div>
@@ -314,6 +248,7 @@ export const IndustryContactForm = ({
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="Optional"
+                  className="h-12"
                 />
               </div>
               
@@ -325,6 +260,7 @@ export const IndustryContactForm = ({
                   value={formData.website}
                   onChange={handleChange}
                   placeholder="https://www.ihre-website.ch"
+                  className="h-12"
                 />
               </div>
             </div>
@@ -349,7 +285,7 @@ export const IndustryContactForm = ({
           </div>
         );
         
-      case 4:
+      case 3:
         return (
           <div className="space-y-6 animate-fade-in">
             <div className="space-y-2">
@@ -385,8 +321,8 @@ export const IndustryContactForm = ({
             <div className="bg-swiss-darkblue/5 border border-swiss-darkblue/10 rounded-lg p-4 flex items-start gap-3">
               <MapPin className="text-swiss-red flex-shrink-0 mt-1" />
               <div>
-                <p className="font-medium text-swiss-darkblue">Praxis in {formData.region}</p>
-                <p className="text-sm text-gray-600">Ihre Anfrage wird an einen Berater mit Expertise in Ihrer Region weitergeleitet</p>
+                <p className="font-medium text-swiss-darkblue">Praxis-Adresse: {formData.address}</p>
+                <p className="text-sm text-gray-600">Ihre Anfrage wird an einen Berater mit lokaler Expertise weitergeleitet</p>
               </div>
             </div>
             
@@ -407,7 +343,7 @@ export const IndustryContactForm = ({
                 {isSubmitting ? (
                   <>Wird gesendet...</>
                 ) : (
-                  <>Jetzt unverbindliche Beratung einholen <Send className="ml-2 h-4 w-4" /></>
+                  <>Jetzt unverbindliche & kostenlose Beratung einholen <Send className="ml-2 h-4 w-4" /></>
                 )}
               </Button>
             </div>
@@ -420,44 +356,40 @@ export const IndustryContactForm = ({
   };
 
   return (
-    <>
-      {renderBookingsBanner()}
-      <div id="contact-form" className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-4">
-                Kostenlose Beratung für Ihre {industry}-Website
-              </h2>
-              <p className="text-gray-600">
-                Füllen Sie das Formular aus und erhalten Sie eine unverbindliche Einschätzung und Beratung von unseren Experten.
-              </p>
+    <div id="contact-form" className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-4">
+              Kostenlose Beratung für Ihre {industry}-Website
+            </h2>
+            <p className="text-gray-600">
+              Füllen Sie das Formular aus und erhalten Sie eine unverbindliche Einschätzung und Beratung von unseren Experten.
+            </p>
+          </div>
+          
+          {/* Progress bar */}
+          <div className="mb-10">
+            <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+              <div 
+                className="bg-swiss-red h-full transition-all duration-500 ease-in-out"
+                style={{ width: `${(currentStep / 3) * 100}%` }}
+              ></div>
             </div>
-            
-            {/* Progress bar */}
-            <div className="mb-10">
-              <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                <div 
-                  className="bg-swiss-red h-full transition-all duration-500 ease-in-out"
-                  style={{ width: `${(currentStep / 4) * 100}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between mt-2 text-sm text-gray-500">
-                <span className={currentStep >= 1 ? "text-swiss-red font-medium" : ""}>Praxis</span>
-                <span className={currentStep >= 2 ? "text-swiss-red font-medium" : ""}>Region</span>
-                <span className={currentStep >= 3 ? "text-swiss-red font-medium" : ""}>Kontakt</span>
-                <span className={currentStep >= 4 ? "text-swiss-red font-medium" : ""}>Anfrage</span>
-              </div>
+            <div className="flex justify-between mt-2 text-sm text-gray-500">
+              <span className={currentStep >= 1 ? "text-swiss-red font-medium" : ""}>Praxis</span>
+              <span className={currentStep >= 2 ? "text-swiss-red font-medium" : ""}>Kontakt</span>
+              <span className={currentStep >= 3 ? "text-swiss-red font-medium" : ""}>Anfrage</span>
             </div>
-            
-            <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {renderCurrentStep()}
-              </form>
-            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {renderCurrentStep()}
+            </form>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
