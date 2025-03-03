@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { NewsPost } from "@/types/database/news";
-import { Pencil, Trash2, Eye, Search, Plus, AlertTriangle } from "lucide-react";
+import { Pencil, Trash2, Eye, Search, Plus, AlertTriangle, Linkedin, Share2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -82,7 +81,7 @@ export function BlogPostsManager() {
       });
     }
   };
-  
+
   const editPost = (id: string) => {
     navigate(`/admin?tab=news&edit=${id}`);
   };
@@ -92,6 +91,20 @@ export function BlogPostsManager() {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
+    });
+  };
+
+  const handleShareLinkedIn = (post: NewsPost) => {
+    const url = `${window.location.origin}/news/${post.slug}`;
+    const title = post.title;
+    const summary = post.meta_description || '';
+    
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
+    window.open(linkedinUrl, '_blank', 'width=600,height=600');
+    
+    toast({
+      title: "Geteilt",
+      description: "Die Medienmitteilung wurde auf LinkedIn geteilt.",
     });
   };
 
@@ -204,6 +217,14 @@ export function BlogPostsManager() {
                       title="Anzeigen"
                     >
                       <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleShareLinkedIn(post)}
+                      title="Auf LinkedIn teilen"
+                    >
+                      <Linkedin className="h-4 w-4 text-[#0077b5]" />
                     </Button>
                     <Button
                       variant="outline"

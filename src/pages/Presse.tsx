@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarIcon, ArrowRightIcon, Search } from "lucide-react";
+import { CalendarIcon, ArrowRightIcon, Search, Share2, Linkedin } from "lucide-react";
 import type { NewsPost } from "@/types/database/news";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -102,6 +102,22 @@ const Presse = () => {
     }
   };
 
+  const handleShareLinkedIn = (event: React.MouseEvent, post: NewsPost) => {
+    event.stopPropagation();
+    
+    const url = `${window.location.origin}/news/${post.slug}`;
+    const title = post.title;
+    const summary = post.meta_description || '';
+    
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
+    window.open(linkedinUrl, '_blank', 'width=600,height=600');
+    
+    toast({
+      title: "Geteilt",
+      description: "Die Medienmitteilung wurde auf LinkedIn geteilt.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <div className="relative h-[400px] w-full">
@@ -170,7 +186,7 @@ const Presse = () => {
             {filteredNews.map((post) => (
               <article
                 key={post.id}
-                className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer"
+                className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer relative"
                 onClick={() => navigate(`/news/${post.slug}`)}
               >
                 {post.image_url && (
@@ -204,9 +220,22 @@ const Presse = () => {
                   <p className="text-gray-600 mb-4 line-clamp-3">
                     {post.meta_description || getExcerpt(post.content)}
                   </p>
-                  <div className="flex items-center text-swiss-red font-medium group-hover:translate-x-1 transition-transform">
-                    Weiterlesen
-                    <ArrowRightIcon className="ml-1 w-4 h-4" />
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-swiss-red font-medium group-hover:translate-x-1 transition-transform">
+                      Weiterlesen
+                      <ArrowRightIcon className="ml-1 w-4 h-4" />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8 rounded-full hover:bg-gray-100"
+                        onClick={(e) => handleShareLinkedIn(e, post)}
+                        title="Auf LinkedIn teilen"
+                      >
+                        <Linkedin className="h-4 w-4 text-[#0077b5]" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </article>

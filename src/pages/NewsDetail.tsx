@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -47,20 +46,32 @@ export default function NewsDetail() {
   }, [slug, toast]);
 
   const handleShare = (platform: 'linkedin' | 'general') => {
+    if (!post) return;
+    
     const url = window.location.href;
-    const title = post?.title || '';
+    const title = post.title;
+    const summary = post.meta_description || '';
     
     if (platform === 'linkedin') {
-      window.open(
-        `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-        '_blank'
-      );
+      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
+      window.open(linkedinUrl, '_blank', 'width=600,height=600');
+      
+      toast({
+        title: "Geteilt",
+        description: "Die Medienmitteilung wurde auf LinkedIn geteilt.",
+      });
     } else {
       if (navigator.share) {
         navigator.share({
           title,
+          text: summary,
           url,
-        });
+        }).then(() => {
+          toast({
+            title: "Geteilt",
+            description: "Die Medienmitteilung wurde erfolgreich geteilt.",
+          });
+        }).catch(console.error);
       }
     }
   };
@@ -118,29 +129,31 @@ export default function NewsDetail() {
           </Button>
 
           <h1 className="text-4xl font-bold text-swiss-darkblue mb-4">
-            {post.title}
+            {post?.title}
           </h1>
           
           <div className="flex items-center justify-between mb-8">
             <div className="text-gray-600">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{formatDate(post.published_at || post.created_at)}</span>
+                <span>{post && formatDate(post.published_at || post.created_at)}</span>
               </div>
             </div>
             
             <div className="flex gap-2">
               <Button
                 variant="outline"
-                size="icon"
+                size="sm"
                 onClick={() => handleShare('linkedin')}
                 title="Auf LinkedIn teilen"
+                className="flex items-center gap-2"
               >
                 <Linkedin className="h-4 w-4" />
+                <span className="hidden sm:inline">Auf LinkedIn teilen</span>
               </Button>
               <Button
                 variant="outline"
-                size="icon"
+                size="sm"
                 onClick={() => handleShare('general')}
                 title="Teilen"
               >
@@ -178,6 +191,27 @@ export default function NewsDetail() {
               </p>
             </div>
           )}
+          
+          <div className="mt-8 pt-6 border-t">
+            <h3 className="text-lg font-semibold mb-4">Diese Medienmitteilung teilen</h3>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                onClick={() => handleShare('linkedin')}
+                className="bg-[#0077b5] hover:bg-[#0077b5]/90 text-white"
+              >
+                <Linkedin className="mr-2 h-5 w-5" />
+                Auf LinkedIn teilen
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => handleShare('general')}
+                className="border-gray-300"
+              >
+                <Share2 className="mr-2 h-5 w-5" />
+                Teilen
+              </Button>
+            </div>
+          </div>
         </article>
       </main>
       
