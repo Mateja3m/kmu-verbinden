@@ -9,7 +9,6 @@ import { LeadsSection } from "@/components/admin/LeadsSection";
 import { DashboardStats } from "@/components/admin/DashboardStats";
 import { BlogPostsManager } from "@/components/admin/BlogPostsManager";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen, FileText } from "lucide-react";
@@ -154,7 +153,7 @@ export default function Admin() {
           </Tabs>
         </div>
       </main>
-      <Footer />
+      {/* Removed the duplicate footer as it's already included in App.tsx */}
     </div>
   );
 }
