@@ -2,12 +2,23 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Award, Check, Gift } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface MembershipOfferProps {
   industry: string;
 }
 
 export const MembershipOffer = ({ industry }: MembershipOfferProps) => {
+  const { toast } = useToast();
+  
+  const handleOfferClick = () => {
+    document.getElementById('contact-form')?.scrollIntoView({behavior: 'smooth'});
+    toast({
+      title: "Mitgliedschaftsangebot",
+      description: "Sichern Sie sich Ihre kostenlose Mitgliedschaft mit einem Webdesign-Paket!",
+    });
+  };
+  
   return (
     <div className="py-16 bg-gradient-to-b from-swiss-gray/20 to-white">
       <div className="container mx-auto px-4">
@@ -52,7 +63,7 @@ export const MembershipOffer = ({ industry }: MembershipOfferProps) => {
               <Button 
                 className="bg-swiss-red hover:bg-swiss-red/90 text-white font-medium" 
                 size="lg"
-                onClick={() => document.getElementById('contact-form')?.scrollIntoView({behavior: 'smooth'})}
+                onClick={handleOfferClick}
               >
                 <Gift className="mr-2 h-5 w-5" />
                 Jetzt Angebot sichern

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -46,7 +45,6 @@ const IndustryLanding = () => {
       try {
         setLoading(true);
         
-        // Use a more typesafe approach with explicit typing
         interface IndustryRecord {
           id: string;
           slug: string;
@@ -56,7 +54,6 @@ const IndustryLanding = () => {
           created_at: string;
         }
         
-        // Type assertion for the query
         const { data: industryResult, error: industryError } = await (supabase
           .from('industries' as any)
           .select('*')
@@ -79,7 +76,6 @@ const IndustryLanding = () => {
         
         setIndustryData(typedIndustryData);
         
-        // Type for industry content
         interface IndustryContentRecord {
           id: string;
           industry_id: string;
@@ -96,7 +92,6 @@ const IndustryLanding = () => {
           created_at: string;
         }
         
-        // Type assertion for the query
         const { data: contentResult, error: contentError } = await (supabase
           .from('industry_content' as any)
           .select('*')
@@ -129,7 +124,6 @@ const IndustryLanding = () => {
           
           setIndustryContent(typedContent);
         } else {
-          // Default content if not found - Updated to use "Zahnärzte" (plural form)
           setIndustryContent({
             hero_headline: `Optimierte Websites für ${typedIndustryData.name}`,
             hero_subheadline: `Professionelle und kundenorientierte Website-Lösungen speziell für ${typedIndustryData.name}`,
@@ -219,12 +213,10 @@ const IndustryLanding = () => {
         industry={industryData.name}
       />
       
-      {/* Replacing case studies with technology section */}
       <IndustryTechnology 
         industry={industryData.name}
       />
       
-      {/* New membership offer section */}
       <MembershipOffer 
         industry={industryData.name}
       />
