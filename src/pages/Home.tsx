@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import Benefits from "@/components/Benefits";
 import Stats from "@/components/Stats";
 import RandomPartnerShowcase from "@/components/RandomPartnerShowcase";
-import Footer from "@/components/Footer";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { CalendlyButton } from "@/components/CalendlyButton";
 
@@ -42,7 +41,6 @@ const Home = () => {
           </div>
         </main>
       </BackgroundPattern>
-      <Footer />
     </>
   );
 };

@@ -1,5 +1,5 @@
+
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 const Datenschutz = () => {
   return (
@@ -11,7 +11,6 @@ const Datenschutz = () => {
           <p>Die Datenschutzerklärung des Schweizerischen KMU Vereins wird hier aufgeführt...</p>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

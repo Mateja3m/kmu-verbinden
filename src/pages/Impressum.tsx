@@ -1,5 +1,5 @@
+
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 const Impressum = () => {
   return (
@@ -13,7 +13,6 @@ const Impressum = () => {
           <p>CH-3904 Naters</p>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };
