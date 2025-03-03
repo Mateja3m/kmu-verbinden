@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 
 export async function uploadFile(file: File) {
@@ -5,8 +6,9 @@ export async function uploadFile(file: File) {
     throw new Error('No file provided');
   }
 
-  // Sanitize filename
-  const fileName = 'statuten.pdf';
+  // Generate a unique filename with original extension
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
   const { error: uploadError, data } = await supabase.storage
     .from('expert-images')

@@ -1,31 +1,50 @@
+
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Share2, Linkedin, ArrowLeft, Calendar } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
+import { NewsPost } from "@/types/database/news";
+import { BlogRenderer } from "@/components/blog/BlogRenderer";
+import { useToast } from "@/hooks/use-toast";
 
 export default function NewsDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [post, setPost] = useState<NewsPost | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Placeholder data for development
-  const post = {
-    title: "KMU Verein lanciert neue Digitalisierungsinitiative",
-    content: `<p>Der KMU Verein Schweiz hat heute eine wegweisende Initiative zur Förderung der Digitalisierung in kleinen und mittleren Unternehmen vorgestellt. Das Programm zielt darauf ab, die digitale Transformation in Schweizer KMUs zu beschleunigen und ihre Wettbewerbsfähigkeit zu stärken.</p>
-              <p>Die Initiative umfasst verschiedene Massnahmen, darunter:</p>
-              <ul>
-                <li>Kostenlose Digitalberatungen für Mitglieder</li>
-                <li>Workshops und Seminare zu digitalen Themen</li>
-                <li>Zugang zu einem Netzwerk von IT-Experten</li>
-              </ul>`,
-    published_at: "2024-03-15",
-    author: {
-      company_name: "KMU Verein Schweiz",
-      contact_person: "Dr. Maria Weber"
-    },
-    meta_keywords: "Digitalisierung, KMU, Schweiz, Innovation",
-    image_url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&q=80"
-  };
+  useEffect(() => {
+    const fetchPost = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('news_posts')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+      
+      if (error) {
+        console.error('Error fetching post:', error);
+        toast({
+          title: "Fehler",
+          description: "Der Beitrag konnte nicht geladen werden.",
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
+      }
+      
+      setPost(data);
+      setLoading(false);
+    };
+    
+    if (slug) {
+      fetchPost();
+    }
+  }, [slug, toast]);
 
   const handleShare = (platform: 'linkedin' | 'general') => {
     const url = window.location.href;
@@ -54,6 +73,36 @@ export default function NewsDetail() {
     });
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-grow container mx-auto px-4 py-24 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-swiss-red"></div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-grow container mx-auto px-4 py-24">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl font-bold mb-4">Beitrag nicht gefunden</h1>
+            <p className="mb-8">Der gesuchte Beitrag existiert nicht oder wurde entfernt.</p>
+            <Button onClick={() => navigate('/news')}>
+              <ArrowLeft className="mr-2 h-4 w-4" /> Zurück zur Übersicht
+            </Button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -76,11 +125,8 @@ export default function NewsDetail() {
             <div className="text-gray-600">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{formatDate(post.published_at)}</span>
+                <span>{formatDate(post.published_at || post.created_at)}</span>
               </div>
-              <p className="mt-1">
-                {post.author.contact_person || post.author.company_name}
-              </p>
             </div>
             
             <div className="flex gap-2">
@@ -103,6 +149,16 @@ export default function NewsDetail() {
             </div>
           </div>
 
+          {post.logo_url && (
+            <div className="mb-10 flex justify-start">
+              <img 
+                src={post.logo_url} 
+                alt="Company Logo" 
+                className="max-h-16 object-contain"
+              />
+            </div>
+          )}
+
           {post.image_url && (
             <img
               src={post.image_url}
@@ -111,10 +167,9 @@ export default function NewsDetail() {
             />
           )}
 
-          <div 
-            className="prose prose-lg max-w-none prose-headings:text-swiss-darkblue prose-a:text-swiss-red hover:prose-a:text-swiss-red/80"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <div className="prose-container">
+            <BlogRenderer content={post.content} />
+          </div>
 
           {post.meta_keywords && (
             <div className="mt-12 pt-8 border-t">
