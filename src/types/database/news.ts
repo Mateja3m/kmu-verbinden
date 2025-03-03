@@ -16,16 +16,42 @@ export type NewsPost = {
 export type NewsPostInsert = Omit<NewsPost, 'id' | 'created_at'>;
 export type NewsPostUpdate = Partial<NewsPostInsert>;
 
-// Rich content types for the editor
+/**
+ * Rich content types for the rich text editor
+ * These types define the structure for content blocks in the editor
+ */
 export interface RichTextContent {
+  /**
+   * The type of content block
+   */
   type: 'paragraph' | 'heading' | 'image' | 'list';
+  
+  /**
+   * The actual content text or HTML
+   */
   content: string;
-  level?: 1 | 2 | 3; // For headings
+  
+  /**
+   * Heading level (h1, h2, h3) - only applicable for heading type
+   */
+  level?: 1 | 2 | 3;
+  
+  /**
+   * Formatting options for the content
+   */
   format?: {
     bold?: boolean;
     italic?: boolean;
     size?: 'small' | 'medium' | 'large';
   };
-  url?: string; // For images
-  position?: 'left' | 'center' | 'right'; // For images
+  
+  /**
+   * URL for image type content
+   */
+  url?: string;
+  
+  /**
+   * Position/alignment for image type content
+   */
+  position?: 'left' | 'center' | 'right';
 }
