@@ -20,23 +20,27 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
       if (initialContent) {
         const parsed = JSON.parse(initialContent);
         setParsedContent(parsed);
+        setContent(initialContent); // Set content to match initialContent
       } else {
         setParsedContent([{ type: 'paragraph', content: '' }]);
+        setContent(JSON.stringify([{ type: 'paragraph', content: '' }])); // Initialize content with empty paragraph
       }
     } catch (e) {
       console.error('Error parsing content:', e);
       setParsedContent([{ type: 'paragraph', content: '' }]);
+      setContent(JSON.stringify([{ type: 'paragraph', content: '' }])); // Initialize content with empty paragraph on error
     }
-  }, [initialContent]);
+  }, [initialContent]); // Only run when initialContent changes
 
   // Update the serialized content when parsedContent changes
   useEffect(() => {
     const serialized = JSON.stringify(parsedContent);
+    // Only update if content is different to avoid infinite loop
     if (serialized !== content) {
       setContent(serialized);
       onChange(serialized);
     }
-  }, [parsedContent, onChange]);
+  }, [parsedContent, onChange]); // Add content to dependencies to prevent unnecessary updates
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
