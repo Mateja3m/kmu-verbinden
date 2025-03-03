@@ -45,7 +45,7 @@ const IndustryLanding = () => {
       try {
         setLoading(true);
         
-        // Fetch industry data
+        // Using a more generic approach to avoid TypeScript errors
         const { data: industryResult, error: industryError } = await supabase
           .from('industries')
           .select('*')
@@ -54,13 +54,15 @@ const IndustryLanding = () => {
           .single();
         
         if (industryError || !industryResult) {
+          console.error("Error fetching industry:", industryError);
           setNotFound(true);
           return;
         }
         
-        setIndustryData(industryResult);
+        // Explicitly cast the result to our IndustryData type
+        setIndustryData(industryResult as unknown as IndustryData);
         
-        // Fetch industry content
+        // Using a more generic approach for industry_content
         const { data: contentResult, error: contentError } = await supabase
           .from('industry_content')
           .select('*')
@@ -78,7 +80,8 @@ const IndustryLanding = () => {
         }
         
         if (contentResult) {
-          setIndustryContent(contentResult);
+          // Explicitly cast to our IndustryContent type
+          setIndustryContent(contentResult as unknown as IndustryContent);
         } else {
           // Default content if not found
           setIndustryContent({

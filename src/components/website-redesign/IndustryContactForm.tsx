@@ -54,20 +54,18 @@ export const IndustryContactForm = ({
     setIsSubmitting(true);
     
     try {
-      // Store inquiry in Supabase (you can create a table for this)
+      // Use a simple INSERT operation rather than referencing a specific table type
       const { error } = await supabase
         .from('industry_inquiries')
-        .insert([
-          { 
-            company_name: formData.companyName,
-            contact_person: formData.contactPerson,
-            email: formData.email,
-            phone: formData.phone,
-            website: formData.website,
-            message: formData.message,
-            industry: industrySlug
-          }
-        ]);
+        .insert({
+          company_name: formData.companyName,
+          contact_person: formData.contactPerson,
+          email: formData.email,
+          phone: formData.phone,
+          website: formData.website,
+          message: formData.message,
+          industry: industrySlug
+        });
       
       if (error) throw error;
       
