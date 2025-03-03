@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { LogIn, ChevronDown } from "lucide-react";
@@ -38,7 +39,7 @@ export const LoginButtons = () => {
               Partner Login
             </DropdownMenuItem>
           </Link>
-          <Link to="/auth?type=admin">
+          <Link to="/admin/auth">
             <DropdownMenuItem className="cursor-pointer hover:bg-swiss-red hover:text-white transition-colors">
               <LogIn className="mr-2 h-4 w-4" />
               Admin Login

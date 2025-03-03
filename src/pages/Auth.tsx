@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
@@ -26,12 +27,9 @@ const AuthPage = () => {
         description: `Willkommen zurück!`,
       });
       navigate('/partner-dashboard');
-    } else if (loginType === 'admin' && password === "superlogin") {
-      toast({
-        title: "Erfolgreich angemeldet",
-        description: `Willkommen zurück!`,
-      });
-      navigate('/admin');
+    } else if (loginType === 'admin') {
+      // Redirect to the dedicated admin auth page
+      navigate('/admin/auth');
     } else if (loginType === 'member' && password.endsWith('2025!')) {
       toast({
         title: "Erfolgreich angemeldet",
@@ -48,6 +46,12 @@ const AuthPage = () => {
 
     setIsLoading(false);
   };
+
+  // If admin login type, redirect to dedicated admin auth page
+  if (loginType === 'admin') {
+    navigate('/admin/auth');
+    return null;
+  }
 
   const getTitle = () => {
     switch(loginType) {

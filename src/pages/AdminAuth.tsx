@@ -62,7 +62,7 @@ const AdminAuth = () => {
                 Admin Anmeldung
               </h2>
               <p className="mt-3 text-center text-sm text-gray-600">
-                Blog & Medienmitteilungen verwalten
+                Medienmitteilungen verwalten
               </p>
             </div>
             
