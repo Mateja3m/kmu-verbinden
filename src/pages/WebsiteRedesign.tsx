@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Award, Building2, Sparkles, Gift } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
@@ -186,7 +185,7 @@ const WebsiteRedesign = () => {
 
               {/* Prize Draw Notice with Exclusive Member Ribbon */}
               <div className="relative">
-                <div className="absolute -top-6 right-4 bg-gradient-to-r from-[#9b87f5] to-[#D946EF] text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg transform rotate-3 animate-pulse whitespace-nowrap">
+                <div className="absolute -top-6 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg transform rotate-3 animate-pulse whitespace-nowrap">
                   Exklusiv für unsere Mitglieder
                   <span className="text-xs ml-1">(und die, die es werden wollen)</span>
                 </div>
