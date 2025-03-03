@@ -1,4 +1,3 @@
-
 export const nationalPartners = [
   {
     id: 'hhomepage',
@@ -46,7 +45,7 @@ export const nationalPartners = [
     id: 'artemia',
     name: 'Webpiranha',
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1739987876/WhatsApp_Image_2025-02-19_at_20.15.45_kiostz.jpg',
-    website: 'https://www.webpiranha.com',
+    website: 'https://www.webpiranha.ch',
     description: 'Ihr Schweizer Webentwickler'
   }
 ];
