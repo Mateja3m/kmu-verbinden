@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, X, CheckCircle2 } from 'lucide-react';
 
 interface PainPoint {
   title: string;
@@ -32,13 +32,25 @@ export const IndustryPainPoints = ({
           {painPoints.map((point, index) => (
             <div 
               key={index} 
-              className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-gray-100"
+              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow border border-gray-100 group"
             >
-              <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                <AlertTriangle className="h-6 w-6 text-swiss-red" />
+              <div className="bg-red-50 p-4 relative">
+                <div className="absolute top-2 right-2">
+                  <X className="h-5 w-5 text-red-500" />
+                </div>
+                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-1">
+                  <AlertTriangle className="h-6 w-6 text-swiss-red" />
+                </div>
+                <h3 className="text-lg font-semibold text-swiss-darkblue">{point.title}</h3>
               </div>
-              <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">{point.title}</h3>
-              <p className="text-gray-600">{point.description}</p>
+              <div className="p-4">
+                <p className="text-gray-600">{point.description}</p>
+                
+                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-sm text-swiss-red opacity-0 group-hover:opacity-100 transition-opacity">
+                  <CheckCircle2 className="h-4 w-4 mr-1" />
+                  <span>Wir haben die Lösung</span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
