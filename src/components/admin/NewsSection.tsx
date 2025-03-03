@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,8 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
-import { Save, ArrowLeft, Link } from "lucide-react";
+import { Save, ArrowLeft, Link, AlertTriangle } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function NewsSection() {
   const { toast } = useToast();
@@ -23,6 +25,8 @@ export function NewsSection() {
   const [hasInitializedSamples, setHasInitializedSamples] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [postId, setPostId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [permissionError, setPermissionError] = useState(false);
 
   useEffect(() => {
     // Check if we're in edit mode based on the URL query param
@@ -88,6 +92,9 @@ export function NewsSection() {
         }
       } catch (error) {
         console.error("Error checking or creating sample posts:", error);
+        if (error instanceof Error && error.message.includes("row-level security policy")) {
+          setPermissionError(true);
+        }
       }
     };
     
@@ -172,6 +179,7 @@ export function NewsSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
       if (editMode && postId) {
@@ -183,7 +191,13 @@ export function NewsSection() {
           })
           .eq('id', postId);
 
-        if (error) throw error;
+        if (error) {
+          if (error.message.includes("row-level security policy")) {
+            setPermissionError(true);
+            throw new Error("Fehlende Berechtigungen: Sie haben keine Berechtigung, Medienmitteilungen zu bearbeiten. Bitte wenden Sie sich an den Administrator.");
+          }
+          throw error;
+        }
 
         toast({
           title: "Erfolg",
@@ -207,7 +221,13 @@ export function NewsSection() {
             published_at: new Date().toISOString()
           }]);
 
-        if (error) throw error;
+        if (error) {
+          if (error.message.includes("row-level security policy")) {
+            setPermissionError(true);
+            throw new Error("Fehlende Berechtigungen: Sie haben keine Berechtigung, Medienmitteilungen zu erstellen. Bitte wenden Sie sich an den Administrator.");
+          }
+          throw error;
+        }
 
         toast({
           title: "Erfolg",
@@ -228,9 +248,11 @@ export function NewsSection() {
       console.error('Error saving post:', error);
       toast({
         title: "Fehler",
-        description: `Medienmitteilung konnte nicht ${editMode ? 'aktualisiert' : 'erstellt'} werden.`,
+        description: error instanceof Error ? error.message : `Medienmitteilung konnte nicht ${editMode ? 'aktualisiert' : 'erstellt'} werden.`,
         variant: "destructive"
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -255,6 +277,16 @@ export function NewsSection() {
           </Button>
         )}
       </div>
+
+      {permissionError && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Fehlende Berechtigungen</AlertTitle>
+          <AlertDescription>
+            Sie haben keine Berechtigung, Medienmitteilungen zu {editMode ? 'bearbeiten' : 'erstellen'}. Bitte melden Sie sich mit einem Administratorkonto an oder wenden Sie sich an Ihren Administrator.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
         <div>
@@ -370,9 +402,10 @@ export function NewsSection() {
           <Button 
             type="submit" 
             className="flex items-center gap-2"
+            disabled={isSubmitting || permissionError}
           >
             <Save size={16} />
-            {editMode ? "Medienmitteilung Aktualisieren" : "Medienmitteilung Veröffentlichen"}
+            {isSubmitting ? "Wird gespeichert..." : (editMode ? "Medienmitteilung Aktualisieren" : "Medienmitteilung Veröffentlichen")}
           </Button>
           
           {editMode && (

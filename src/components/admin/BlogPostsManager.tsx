@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { NewsPost } from "@/types/database/news";
-import { Pencil, Trash2, Eye, Search, Plus } from "lucide-react";
+import { Pencil, Trash2, Eye, Search, Plus, AlertTriangle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function BlogPostsManager() {
   const { toast } = useToast();
@@ -14,6 +15,7 @@ export function BlogPostsManager() {
   const [posts, setPosts] = useState<NewsPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [permissionError, setPermissionError] = useState(false);
 
   const fetchPosts = async () => {
     try {
@@ -24,6 +26,9 @@ export function BlogPostsManager() {
         .order("published_at", { ascending: false });
 
       if (error) {
+        if (error.message.includes("row-level security policy")) {
+          setPermissionError(true);
+        }
         throw error;
       }
 
@@ -32,7 +37,7 @@ export function BlogPostsManager() {
       console.error("Error fetching posts:", error);
       toast({
         title: "Fehler",
-        description: "Medienmitteilungen konnten nicht geladen werden.",
+        description: error instanceof Error ? error.message : "Medienmitteilungen konnten nicht geladen werden.",
         variant: "destructive",
       });
     } finally {
@@ -56,6 +61,10 @@ export function BlogPostsManager() {
         .eq("id", id);
 
       if (error) {
+        if (error.message.includes("row-level security policy")) {
+          setPermissionError(true);
+          throw new Error("Fehlende Berechtigungen: Sie haben keine Berechtigung, Medienmitteilungen zu löschen.");
+        }
         throw error;
       }
 
@@ -68,7 +77,7 @@ export function BlogPostsManager() {
       console.error("Error deleting post:", error);
       toast({
         title: "Fehler",
-        description: "Medienmitteilung konnte nicht gelöscht werden.",
+        description: error instanceof Error ? error.message : "Medienmitteilung konnte nicht gelöscht werden.",
         variant: "destructive",
       });
     }
@@ -109,6 +118,17 @@ export function BlogPostsManager() {
         </Button>
       </div>
 
+      {permissionError && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Fehlende Berechtigungen</AlertTitle>
+          <AlertDescription>
+            Sie haben keine ausreichenden Berechtigungen, um Medienmitteilungen zu verwalten. 
+            Bitte wenden Sie sich an den Administrator, um die erforderlichen Berechtigungen zu erhalten.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="relative w-full md:max-w-sm">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <Search className="h-5 w-5 text-gray-400" />
@@ -133,6 +153,11 @@ export function BlogPostsManager() {
               ? `Keine Medienmitteilungen für "${searchQuery}" gefunden.` 
               : "Es wurden noch keine Medienmitteilungen erstellt."}
           </p>
+          {permissionError && (
+            <p className="text-orange-600 mt-2">
+              Hinweis: Fehlende Berechtigungen können der Grund sein, warum keine Medienmitteilungen angezeigt werden.
+            </p>
+          )}
         </div>
       ) : (
         <div className="overflow-x-auto">
@@ -185,6 +210,7 @@ export function BlogPostsManager() {
                       size="sm"
                       onClick={() => editPost(post.id)}
                       title="Bearbeiten"
+                      disabled={permissionError}
                     >
                       <Pencil className="h-4 w-4 text-blue-500" />
                     </Button>
@@ -193,6 +219,7 @@ export function BlogPostsManager() {
                       size="sm"
                       onClick={() => deletePost(post.id)}
                       title="Löschen"
+                      disabled={permissionError}
                     >
                       <Trash2 className="h-4 w-4 text-red-500" />
                     </Button>
