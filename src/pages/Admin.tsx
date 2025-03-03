@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersSection } from "@/components/admin/MembersSection";
@@ -7,7 +8,6 @@ import { ExpertsSection } from "@/components/admin/ExpertsSection";
 import { LeadsSection } from "@/components/admin/LeadsSection";
 import { DashboardStats } from "@/components/admin/DashboardStats";
 import { BlogPostsManager } from "@/components/admin/BlogPostsManager";
-import Navigation from "@/components/Navigation";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen, FileText } from "lucide-react";
@@ -69,7 +69,7 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Navigation />
+      {/* Removed Navigation component since it's already in App.tsx */}
       <main className="flex-grow container mx-auto px-4 py-24">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -162,6 +162,7 @@ export default function Admin() {
           </Tabs>
         </div>
       </main>
+      {/* No Footer here since it's already in App.tsx */}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Footer from '@/components/Footer';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
@@ -51,7 +50,7 @@ export const IndustryLandingLayout = ({
       {/* Main content */}
       {children}
       
-      <Footer />
+      {/* Removed Footer from here as it's already in App.tsx */}
     </div>
   );
 };

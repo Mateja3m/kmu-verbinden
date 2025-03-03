@@ -1,6 +1,5 @@
+
 import { useEffect, useState } from "react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 
@@ -30,8 +29,6 @@ const News = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
-      
       {/* Hero Banner with Dark Overlay */}
       <div className="relative h-[300px] w-full">
         <div 
@@ -78,7 +75,7 @@ const News = () => {
         </div>
       </div>
 
-      <Footer />
+      {/* Footer is removed since it's already in App.tsx */}
     </div>
   );
 };
