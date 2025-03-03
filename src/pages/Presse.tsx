@@ -1,10 +1,7 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import Footer from "@/components/Footer";
-import Navigation from "@/components/Navigation";
 import { CalendarIcon, ArrowRightIcon, Search } from "lucide-react";
 import type { NewsPost } from "@/types/database/news";
 import { Input } from "@/components/ui/input";
@@ -82,10 +79,8 @@ const Presse = () => {
 
   const getExcerpt = (content: string, maxLength: number = 150) => {
     try {
-      // Try to parse as JSON first (rich content)
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) {
-        // Find the first paragraph or heading
         const textBlock = parsed.find(block => 
           block.type === 'paragraph' || block.type === 'heading'
         );
@@ -97,12 +92,10 @@ const Presse = () => {
         }
       }
       
-      // Fallback to treating as plain text
       return content.length > maxLength 
         ? content.substring(0, maxLength) + '...'
         : content;
     } catch (e) {
-      // If not JSON, treat as plain text
       return content.length > maxLength 
         ? content.substring(0, maxLength) + '...'
         : content;
@@ -111,9 +104,6 @@ const Presse = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navigation />
-      
-      {/* Enhanced Hero Banner with Dark Overlay */}
       <div className="relative h-[400px] w-full">
         <div 
           className="absolute inset-0 bg-cover bg-center"
@@ -132,7 +122,6 @@ const Presse = () => {
         </div>
       </div>
 
-      {/* Search Bar */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center">
           <div className="relative flex-grow">
@@ -157,7 +146,6 @@ const Presse = () => {
         </div>
       </div>
 
-      {/* Medienmitteilungen Content */}
       <div className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {isLoading ? (
           <div className="flex justify-center items-center min-h-[200px]">
@@ -226,8 +214,6 @@ const Presse = () => {
           </div>
         )}
       </div>
-
-      <Footer />
     </div>
   );
 };
