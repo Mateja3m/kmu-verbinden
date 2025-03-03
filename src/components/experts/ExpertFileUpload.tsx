@@ -1,3 +1,4 @@
+
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Upload, ImagePlus, Building2 } from "lucide-react";
@@ -20,6 +21,9 @@ export const ExpertFileUpload = ({
   const { toast } = useToast();
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'logo') => {
+    // Prevent default form submission behavior
+    e.preventDefault();
+    
     const files = e.target.files;
     if (!files || files.length === 0) {
       return;
@@ -72,6 +76,11 @@ export const ExpertFileUpload = ({
     }
   };
 
+  const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    // Stop propagation to prevent the click from bubbling up to parent forms
+    e.stopPropagation();
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
       <Card className="p-6 border-2 border-dashed border-gray-200 hover:border-swiss-red transition-colors duration-300 group">
@@ -88,6 +97,7 @@ export const ExpertFileUpload = ({
             type="file"
             accept="image/*"
             onChange={(e) => handleFileUpload(e, 'profile')}
+            onClick={handleInputClick}
             disabled={uploadingProfile || uploadingLogo}
             className="cursor-pointer opacity-0 absolute inset-0 w-full h-full"
           />
@@ -117,6 +127,7 @@ export const ExpertFileUpload = ({
             type="file"
             accept="image/*"
             onChange={(e) => handleFileUpload(e, 'logo')}
+            onClick={handleInputClick}
             disabled={uploadingProfile || uploadingLogo}
             className="cursor-pointer opacity-0 absolute inset-0 w-full h-full"
           />
