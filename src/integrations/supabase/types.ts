@@ -337,6 +337,7 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
+          logo_url: string | null
           meta_description: string | null
           meta_keywords: string | null
           published_at: string | null
@@ -349,6 +350,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          logo_url?: string | null
           meta_description?: string | null
           meta_keywords?: string | null
           published_at?: string | null
@@ -361,6 +363,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
+          logo_url?: string | null
           meta_description?: string | null
           meta_keywords?: string | null
           published_at?: string | null
