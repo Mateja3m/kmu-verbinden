@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -141,5 +142,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: white;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjBMMjAgME0yMCAyMEw0MCAwTTAgMEwtMjAgMjBNMjAgNDBMMCAyMCIgc3Ryb2tlPSIjOTNDNUZEIiBzdHJva2Utd2lkdGg9IjAuMSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==');
   }
 }

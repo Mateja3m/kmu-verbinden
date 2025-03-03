@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -13,6 +12,13 @@ const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    // If admin login type, redirect to dedicated admin auth page
+    if (loginType === 'admin') {
+      navigate('/admin/auth');
+    }
+  }, [loginType, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,10 +53,9 @@ const AuthPage = () => {
     setIsLoading(false);
   };
 
-  // If admin login type, redirect to dedicated admin auth page
+  // Don't do immediate navigation, let the useEffect handle it
   if (loginType === 'admin') {
-    navigate('/admin/auth');
-    return null;
+    return null; // Return null while redirecting
   }
 
   const getTitle = () => {
