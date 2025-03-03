@@ -68,7 +68,7 @@ export function NewsSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simple password authentication
+    // Create slug from title
     const slug = formData.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
@@ -86,13 +86,13 @@ export function NewsSection() {
       console.error('Error creating post:', error);
       toast({
         title: "Fehler",
-        description: "Beitrag konnte nicht erstellt werden.",
+        description: "Medienmitteilung konnte nicht erstellt werden.",
         variant: "destructive"
       });
     } else {
       toast({
         title: "Erfolg",
-        description: "Beitrag wurde erfolgreich erstellt."
+        description: "Medienmitteilung wurde erfolgreich erstellt."
       });
       setFormData({ 
         title: '', 
@@ -107,7 +107,7 @@ export function NewsSection() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">KMU News Erstellen</h2>
+      <h2 className="text-2xl font-bold mb-4">Medienmitteilung Erstellen</h2>
       <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
         <div>
           <label className="block text-sm font-medium mb-1">Titel</label>
@@ -226,7 +226,7 @@ export function NewsSection() {
           <RichTextEditor initialContent={formData.content} onChange={handleContentChange} />
         </div>
 
-        <Button type="submit" disabled={uploading || uploadingLogo}>Beitrag Veröffentlichen</Button>
+        <Button type="submit" disabled={uploading || uploadingLogo}>Medienmitteilung Veröffentlichen</Button>
       </form>
     </div>
   );

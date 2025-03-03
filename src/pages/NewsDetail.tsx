@@ -30,7 +30,7 @@ export default function NewsDetail() {
         console.error('Error fetching post:', error);
         toast({
           title: "Fehler",
-          description: "Der Beitrag konnte nicht geladen werden.",
+          description: "Die Medienmitteilung konnte nicht geladen werden.",
           variant: "destructive"
         });
         setLoading(false);
@@ -91,8 +91,8 @@ export default function NewsDetail() {
         <Navigation />
         <main className="flex-grow container mx-auto px-4 py-24">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl font-bold mb-4">Beitrag nicht gefunden</h1>
-            <p className="mb-8">Der gesuchte Beitrag existiert nicht oder wurde entfernt.</p>
+            <h1 className="text-3xl font-bold mb-4">Medienmitteilung nicht gefunden</h1>
+            <p className="mb-8">Die gesuchte Medienmitteilung existiert nicht oder wurde entfernt.</p>
             <Button onClick={() => navigate('/news')}>
               <ArrowLeft className="mr-2 h-4 w-4" /> Zurück zur Übersicht
             </Button>
@@ -184,4 +184,4 @@ export default function NewsDetail() {
       <Footer />
     </div>
   );
-}
+};

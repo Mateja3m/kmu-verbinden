@@ -125,8 +125,8 @@ const Presse = () => {
         </div>
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="text-center max-w-3xl px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Blog & Medienmitteilungen</h1>
-            <p className="text-xl text-white/90">Aktuelle Nachrichten, Insights und Entwicklungen für Schweizer KMU</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Medienmitteilungen</h1>
+            <p className="text-xl text-white/90">Aktuelle Nachrichten und Mitteilungen für Schweizer KMU</p>
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ const Presse = () => {
             </div>
             <Input
               type="text"
-              placeholder="Suche nach Beiträgen..."
+              placeholder="Suche nach Medienmitteilungen..."
               className="pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -156,7 +156,7 @@ const Presse = () => {
         </div>
       </div>
 
-      {/* Blog Content */}
+      {/* Medienmitteilungen Content */}
       <div className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {isLoading ? (
           <div className="flex justify-center items-center min-h-[200px]">
@@ -164,11 +164,11 @@ const Presse = () => {
           </div>
         ) : filteredNews.length === 0 ? (
           <div className="text-center py-12">
-            <h3 className="text-xl font-medium text-gray-700 mb-4">Keine Beiträge gefunden</h3>
+            <h3 className="text-xl font-medium text-gray-700 mb-4">Keine Medienmitteilungen gefunden</h3>
             <p className="text-gray-500 mb-6">
               {searchQuery 
-                ? `Es wurden keine Beiträge zu "${searchQuery}" gefunden.` 
-                : "Es sind noch keine Beiträge vorhanden."}
+                ? `Es wurden keine Medienmitteilungen zu "${searchQuery}" gefunden.` 
+                : "Es sind noch keine Medienmitteilungen vorhanden."}
             </p>
             {searchQuery && (
               <Button onClick={() => setSearchQuery("")}>

@@ -32,7 +32,7 @@ export function BlogPostsManager() {
       console.error("Error fetching posts:", error);
       toast({
         title: "Fehler",
-        description: "Beiträge konnten nicht geladen werden.",
+        description: "Medienmitteilungen konnten nicht geladen werden.",
         variant: "destructive",
       });
     } finally {
@@ -45,7 +45,7 @@ export function BlogPostsManager() {
   }, []);
 
   const deletePost = async (id: string) => {
-    if (!confirm("Sind Sie sicher, dass Sie diesen Beitrag löschen möchten?")) {
+    if (!confirm("Sind Sie sicher, dass Sie diese Medienmitteilung löschen möchten?")) {
       return;
     }
 
@@ -62,13 +62,13 @@ export function BlogPostsManager() {
       setPosts(posts.filter(post => post.id !== id));
       toast({
         title: "Erfolg",
-        description: "Beitrag wurde erfolgreich gelöscht.",
+        description: "Medienmitteilung wurde erfolgreich gelöscht.",
       });
     } catch (error) {
       console.error("Error deleting post:", error);
       toast({
         title: "Fehler",
-        description: "Beitrag konnte nicht gelöscht werden.",
+        description: "Medienmitteilung konnte nicht gelöscht werden.",
         variant: "destructive",
       });
     }
@@ -90,12 +90,12 @@ export function BlogPostsManager() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Alle Blog-Beiträge</h2>
+        <h2 className="text-2xl font-bold">Alle Medienmitteilungen</h2>
         <Button
           onClick={() => navigate('/admin?tab=news')}
           className="bg-swiss-red hover:bg-swiss-red/90"
         >
-          Neuen Beitrag erstellen
+          Neue Medienmitteilung erstellen
         </Button>
       </div>
 
@@ -105,7 +105,7 @@ export function BlogPostsManager() {
         </div>
         <Input
           type="text"
-          placeholder="Beiträge durchsuchen..."
+          placeholder="Medienmitteilungen durchsuchen..."
           className="pl-10"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -120,8 +120,8 @@ export function BlogPostsManager() {
         <div className="text-center py-8 bg-gray-50 rounded-lg">
           <p className="text-gray-500">
             {searchQuery 
-              ? `Keine Beiträge für "${searchQuery}" gefunden.` 
-              : "Es wurden noch keine Beiträge erstellt."}
+              ? `Keine Medienmitteilungen für "${searchQuery}" gefunden.` 
+              : "Es wurden noch keine Medienmitteilungen erstellt."}
           </p>
         </div>
       ) : (

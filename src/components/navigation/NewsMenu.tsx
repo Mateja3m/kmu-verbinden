@@ -88,9 +88,9 @@ export const NewsMenu = () => {
                   "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                 )}
               >
-                <div className="text-sm font-medium leading-none">Medienmitteilungen und Presse</div>
+                <div className="text-sm font-medium leading-none">Medienmitteilungen</div>
                 <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                  Aktuelle Medienmitteilungen und Presseberichte
+                  Aktuelle Medienmitteilungen
                 </p>
               </Link>
             </NavigationMenuLink>
