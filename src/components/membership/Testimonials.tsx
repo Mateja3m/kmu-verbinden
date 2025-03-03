@@ -1,3 +1,4 @@
+
 const testimonials = [
   {
     quote: "Die Mitgliedschaft im SKV hat uns Zugang zu einem starken Netzwerk und exklusiven Vorteilen verschafft. Die Investition hat sich mehrfach ausgezahlt – absolut empfehlenswert!",
