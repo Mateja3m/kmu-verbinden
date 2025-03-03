@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersSection } from "@/components/admin/MembersSection";
@@ -54,6 +53,16 @@ export default function Admin() {
   }, [location]);
 
   const handleTabChange = (value: string) => {
+    // Keep the edit parameter if it exists and we're staying on the news tab
+    if (value === 'news' && activeTab === 'news') {
+      const searchParams = new URLSearchParams(location.search);
+      const editParam = searchParams.get('edit');
+      if (editParam) {
+        navigate(`/admin?tab=${value}&edit=${editParam}`);
+        return;
+      }
+    }
+    
     setActiveTab(value);
     navigate(`/admin?tab=${value}`);
   };
@@ -153,7 +162,6 @@ export default function Admin() {
           </Tabs>
         </div>
       </main>
-      {/* Removed the duplicate footer as it's already included in App.tsx */}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,10 +7,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/lib/uploadFile";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
-import { Image, Upload } from "lucide-react";
+import { Image, Upload, Save, ArrowLeft } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { NewsPost } from "@/types/database/news";
 
 export function NewsSection() {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -21,6 +26,50 @@ export function NewsSection() {
   const [uploading, setUploading] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [hasInitializedSamples, setHasInitializedSamples] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [postId, setPostId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if we're in edit mode based on the URL query param
+    const searchParams = new URLSearchParams(location.search);
+    const editPostId = searchParams.get('edit');
+    
+    if (editPostId) {
+      setEditMode(true);
+      setPostId(editPostId);
+      fetchPostDetails(editPostId);
+    }
+  }, [location]);
+
+  const fetchPostDetails = async (id: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('news_posts')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      
+      if (data) {
+        setFormData({
+          title: data.title || '',
+          content: data.content || '',
+          image_url: data.image_url || '',
+          logo_url: data.logo_url || '',
+          meta_description: data.meta_description || '',
+          meta_keywords: data.meta_keywords || '',
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching post details:', error);
+      toast({
+        title: "Fehler",
+        description: "Die Medienmitteilung konnte nicht geladen werden.",
+        variant: "destructive"
+      });
+    }
+  };
 
   useEffect(() => {
     const checkAndCreateSamplePosts = async () => {
@@ -47,8 +96,10 @@ export function NewsSection() {
       }
     };
     
-    checkAndCreateSamplePosts();
-  }, [toast, hasInitializedSamples]);
+    if (!editMode) {
+      checkAndCreateSamplePosts();
+    }
+  }, [toast, hasInitializedSamples, editMode]);
 
   const createSamplePosts = async () => {
     const samplePosts = [
@@ -166,45 +217,89 @@ export function NewsSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const slug = formData.title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)+/g, '');
+    try {
+      if (editMode && postId) {
+        // Update existing post
+        const { error } = await supabase
+          .from('news_posts')
+          .update({
+            ...formData
+          })
+          .eq('id', postId);
 
-    const { error } = await supabase
-      .from('news_posts')
-      .insert([{
-        ...formData,
-        slug,
-        published_at: new Date().toISOString()
-      }]);
+        if (error) throw error;
 
-    if (error) {
-      console.error('Error creating post:', error);
+        toast({
+          title: "Erfolg",
+          description: "Medienmitteilung wurde erfolgreich aktualisiert."
+        });
+        
+        // Navigate back to the posts manager
+        navigate('/admin?tab=blog-manager');
+      } else {
+        // Create new post
+        const slug = formData.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)+/g, '');
+
+        const { error } = await supabase
+          .from('news_posts')
+          .insert([{
+            ...formData,
+            slug,
+            published_at: new Date().toISOString()
+          }]);
+
+        if (error) throw error;
+
+        toast({
+          title: "Erfolg",
+          description: "Medienmitteilung wurde erfolgreich erstellt."
+        });
+        
+        // Reset the form for a new post
+        setFormData({ 
+          title: '', 
+          content: '', 
+          image_url: '', 
+          logo_url: '',
+          meta_description: '', 
+          meta_keywords: '' 
+        });
+      }
+    } catch (error) {
+      console.error('Error saving post:', error);
       toast({
         title: "Fehler",
-        description: "Medienmitteilung konnte nicht erstellt werden.",
+        description: `Medienmitteilung konnte nicht ${editMode ? 'aktualisiert' : 'erstellt'} werden.`,
         variant: "destructive"
-      });
-    } else {
-      toast({
-        title: "Erfolg",
-        description: "Medienmitteilung wurde erfolgreich erstellt."
-      });
-      setFormData({ 
-        title: '', 
-        content: '', 
-        image_url: '', 
-        logo_url: '',
-        meta_description: '', 
-        meta_keywords: '' 
       });
     }
   };
 
+  const handleCancel = () => {
+    navigate('/admin?tab=blog-manager');
+  };
+
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Medienmitteilung Erstellen</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">
+          {editMode ? "Medienmitteilung Bearbeiten" : "Medienmitteilung Erstellen"}
+        </h2>
+        {editMode && (
+          <Button 
+            variant="outline" 
+            onClick={handleCancel}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft size={16} />
+            Zurück zur Übersicht
+          </Button>
+        )}
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
         <div>
           <label className="block text-sm font-medium mb-1">Titel</label>
@@ -323,7 +418,26 @@ export function NewsSection() {
           <RichTextEditor initialContent={formData.content} onChange={handleContentChange} />
         </div>
 
-        <Button type="submit" disabled={uploading || uploadingLogo}>Medienmitteilung Veröffentlichen</Button>
+        <div className="flex space-x-3">
+          <Button 
+            type="submit" 
+            disabled={uploading || uploadingLogo}
+            className="flex items-center gap-2"
+          >
+            <Save size={16} />
+            {editMode ? "Medienmitteilung Aktualisieren" : "Medienmitteilung Veröffentlichen"}
+          </Button>
+          
+          {editMode && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+            >
+              Abbrechen
+            </Button>
+          )}
+        </div>
       </form>
     </div>
   );

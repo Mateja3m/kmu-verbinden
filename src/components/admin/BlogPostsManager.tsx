@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { NewsPost } from "@/types/database/news";
-import { Pencil, Trash2, Eye, Search } from "lucide-react";
+import { Pencil, Trash2, Eye, Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 
@@ -73,6 +73,10 @@ export function BlogPostsManager() {
       });
     }
   };
+  
+  const editPost = (id: string) => {
+    navigate(`/admin?tab=news&edit=${id}`);
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("de-CH", {
@@ -93,8 +97,9 @@ export function BlogPostsManager() {
         <h2 className="text-2xl font-bold">Alle Medienmitteilungen</h2>
         <Button
           onClick={() => navigate('/admin?tab=news')}
-          className="bg-swiss-red hover:bg-swiss-red/90"
+          className="bg-swiss-red hover:bg-swiss-red/90 flex items-center gap-2"
         >
+          <Plus size={18} />
           Neue Medienmitteilung erstellen
         </Button>
       </div>
@@ -164,6 +169,14 @@ export function BlogPostsManager() {
                       title="Anzeigen"
                     >
                       <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => editPost(post.id)}
+                      title="Bearbeiten"
+                    >
+                      <Pencil className="h-4 w-4 text-blue-500" />
                     </Button>
                     <Button
                       variant="outline"

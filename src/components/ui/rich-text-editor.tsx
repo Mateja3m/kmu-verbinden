@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+
+import React, { useState, useCallback, useRef } from 'react';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Bold, Italic, List, Heading, Image } from "lucide-react";
@@ -12,32 +13,35 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
   const [content, setContent] = useState<string>(initialContent || '');
   const [editorMode, setEditorMode] = useState<'visual' | 'code'>('visual');
   const [parsedContent, setParsedContent] = useState<any[]>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const isInitializedRef = useRef(false);
 
   // Initialize the editor content only once
-  useEffect(() => {
-    if (isInitialized) return;
+  React.useEffect(() => {
+    if (isInitializedRef.current) return;
     
     try {
       if (initialContent) {
         const parsed = JSON.parse(initialContent);
         setParsedContent(parsed);
+        setContent(initialContent); // Keep the original string representation
       } else {
         const defaultContent = [{ type: 'paragraph', content: '' }];
+        const serialized = JSON.stringify(defaultContent);
         setParsedContent(defaultContent);
-        setContent(JSON.stringify(defaultContent));
-        onChange(JSON.stringify(defaultContent));
+        setContent(serialized);
+        onChange(serialized);
       }
     } catch (e) {
       console.error('Error parsing content:', e);
       const defaultContent = [{ type: 'paragraph', content: '' }];
+      const serialized = JSON.stringify(defaultContent);
       setParsedContent(defaultContent);
-      setContent(JSON.stringify(defaultContent));
-      onChange(JSON.stringify(defaultContent));
+      setContent(serialized);
+      onChange(serialized);
     }
     
-    setIsInitialized(true);
-  }, [initialContent, onChange, isInitialized]);
+    isInitializedRef.current = true;
+  }, [initialContent, onChange]);
 
   // Handle content changes from the code editor
   const handleContentChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -77,6 +81,24 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
   const addNewBlock = useCallback((type: string = 'paragraph') => {
     setParsedContent(prevContent => {
       const updatedContent = [...prevContent, { type, content: '' }];
+      
+      // Update serialized content
+      const serialized = JSON.stringify(updatedContent);
+      setContent(serialized);
+      onChange(serialized);
+      
+      return updatedContent;
+    });
+  }, [onChange]);
+
+  // Update image URL
+  const updateImageUrl = useCallback((index: number, newUrl: string) => {
+    setParsedContent(prevContent => {
+      const updatedContent = [...prevContent];
+      updatedContent[index] = { 
+        ...updatedContent[index], 
+        url: newUrl 
+      };
       
       // Update serialized content
       const serialized = JSON.stringify(updatedContent);
@@ -179,22 +201,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
                   <input
                     type="text"
                     value={block.url || ''}
-                    onChange={(e) => {
-                      setParsedContent(prevContent => {
-                        const updatedContent = [...prevContent];
-                        updatedContent[index] = { 
-                          ...updatedContent[index], 
-                          url: e.target.value 
-                        };
-                        
-                        // Update serialized content
-                        const serialized = JSON.stringify(updatedContent);
-                        setContent(serialized);
-                        onChange(serialized);
-                        
-                        return updatedContent;
-                      });
-                    }}
+                    onChange={(e) => updateImageUrl(index, e.target.value)}
                     placeholder="Image URL..."
                     className="w-full border p-2 rounded"
                   />
