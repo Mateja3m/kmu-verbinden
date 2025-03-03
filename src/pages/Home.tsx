@@ -1,3 +1,4 @@
+
 import Hero from "@/components/Hero";
 import Benefits from "@/components/Benefits";
 import Stats from "@/components/Stats";
