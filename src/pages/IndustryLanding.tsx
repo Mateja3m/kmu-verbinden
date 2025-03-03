@@ -7,7 +7,8 @@ import { IndustryHero } from '@/components/website-redesign/IndustryHero';
 import { IndustryPainPoints } from '@/components/website-redesign/IndustryPainPoints';
 import { IndustryBenefits } from '@/components/website-redesign/IndustryBenefits';
 import { IndustryFeatures } from '@/components/website-redesign/IndustryFeatures';
-import { IndustryCaseStudies } from '@/components/website-redesign/IndustryCaseStudies';
+import { IndustryTechnology } from '@/components/website-redesign/IndustryTechnology';
+import { MembershipOffer } from '@/components/website-redesign/MembershipOffer';
 import { IndustryPricing } from '@/components/website-redesign/IndustryPricing';
 import { IndustryContactForm } from '@/components/website-redesign/IndustryContactForm';
 import { useToast } from '@/hooks/use-toast';
@@ -218,8 +219,13 @@ const IndustryLanding = () => {
         industry={industryData.name}
       />
       
-      <IndustryCaseStudies
-        caseStudies={industryContent.case_studies}
+      {/* Replacing case studies with technology section */}
+      <IndustryTechnology 
+        industry={industryData.name}
+      />
+      
+      {/* New membership offer section */}
+      <MembershipOffer 
         industry={industryData.name}
       />
       
