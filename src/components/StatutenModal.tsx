@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -43,7 +44,7 @@ export const StatutenModal: React.FC<StatutenModalProps> = ({ className, childre
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children || (
-          <button type="button" className={cn("text-swiss-red inline font-medium", className)}>
+          <button type="button" className={cn("hover:text-swiss-red transition-colors", className)}>
             Statuten
           </button>
         )}
