@@ -5,8 +5,8 @@ import { StatutenModal } from "@/components/StatutenModal";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InfoIcon, Download } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
+import { fetchStatutenPdf } from "@/utils/fetchStatutenPdf";
 
 interface ContactDetailsStepProps {
   formData: {
@@ -26,34 +26,16 @@ export const ContactDetailsStep = ({
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPdfUrl = async () => {
+    const loadPdfUrl = async () => {
       try {
-        const { data, error } = await supabase
-          .storage
-          .from('documents')
-          .list('', {
-            search: 'statuten.pdf'
-          });
-
-        if (error) {
-          console.error('Error fetching statuten PDF:', error);
-          return;
-        }
-
-        if (data && data.length > 0) {
-          const { data: { publicUrl } } = supabase
-            .storage
-            .from('documents')
-            .getPublicUrl('statuten.pdf');
-          
-          setPdfUrl(publicUrl);
-        }
+        const url = await fetchStatutenPdf();
+        setPdfUrl(url);
       } catch (error) {
         console.error('Error fetching PDF:', error);
       }
     };
 
-    fetchPdfUrl();
+    loadPdfUrl();
   }, []);
 
   return (
@@ -107,7 +89,7 @@ export const ContactDetailsStep = ({
             htmlFor="statutes" 
             className="text-sm text-gray-600 cursor-pointer"
           >
-            Hiermit akzeptiere ich die <StatutenModal className="text-swiss-red hover:underline inline font-medium" /> des Schweizerischen KMU Vereins (SKV)
+            Hiermit akzeptiere ich die <StatutenModal pdfUrl={pdfUrl} className="text-swiss-red hover:underline inline font-medium" /> des Schweizerischen KMU Vereins (SKV)
           </Label>
           
           {pdfUrl && (

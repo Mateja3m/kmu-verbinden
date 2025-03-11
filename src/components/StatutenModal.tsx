@@ -1,45 +1,34 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { FileText, Download } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchStatutenPdf } from "@/utils/fetchStatutenPdf";
 
 interface StatutenModalProps {
   className?: string;
   children?: React.ReactNode;
+  pdfUrl?: string | null;
 }
 
-export const StatutenModal: React.FC<StatutenModalProps> = ({ className, children }) => {
+export const StatutenModal: React.FC<StatutenModalProps> = ({ className, children, pdfUrl: propsPdfUrl }) => {
   const [open, setOpen] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(propsPdfUrl || null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchPdfUrl = async () => {
+    // If pdfUrl is passed as prop, use it
+    if (propsPdfUrl) {
+      setPdfUrl(propsPdfUrl);
+      return;
+    }
+    
+    // Otherwise fetch it
+    const getPdfUrl = async () => {
       try {
         setIsLoading(true);
-        const { data, error } = await supabase
-          .storage
-          .from('documents')
-          .list('', {
-            search: 'statuten.pdf'
-          });
-
-        if (error) {
-          console.error('Error fetching statuten PDF:', error);
-          return;
-        }
-
-        if (data && data.length > 0) {
-          const { data: { publicUrl } } = supabase
-            .storage
-            .from('documents')
-            .getPublicUrl('statuten.pdf');
-          
-          setPdfUrl(publicUrl);
-        }
+        const url = await fetchStatutenPdf();
+        setPdfUrl(url);
       } catch (error) {
         console.error('Error fetching PDF:', error);
       } finally {
@@ -47,8 +36,8 @@ export const StatutenModal: React.FC<StatutenModalProps> = ({ className, childre
       }
     };
 
-    fetchPdfUrl();
-  }, []);
+    getPdfUrl();
+  }, [propsPdfUrl]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
