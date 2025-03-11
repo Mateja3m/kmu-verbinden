@@ -1,26 +1,83 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { FileText, Download } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface StatutenModalProps {
   className?: string;
+  children?: React.ReactNode;
 }
 
-export const StatutenModal: React.FC<StatutenModalProps> = ({ className }) => {
+export const StatutenModal: React.FC<StatutenModalProps> = ({ className, children }) => {
   const [open, setOpen] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchPdfUrl = async () => {
+      try {
+        setIsLoading(true);
+        const { data, error } = await supabase
+          .storage
+          .from('documents')
+          .list('', {
+            search: 'statuten.pdf'
+          });
+
+        if (error) {
+          console.error('Error fetching statuten PDF:', error);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const { data: { publicUrl } } = supabase
+            .storage
+            .from('documents')
+            .getPublicUrl('statuten.pdf');
+          
+          setPdfUrl(publicUrl);
+        }
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPdfUrl();
+  }, []);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button type="button" className={cn("text-swiss-red inline font-medium", className)}>
-          Statuten
-        </button>
+        {children || (
+          <button type="button" className={cn("text-swiss-red inline font-medium", className)}>
+            Statuten
+          </button>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold mb-6">Statuten des Schweizerischen KMU Vereins</DialogTitle>
         </DialogHeader>
+        
+        {/* PDF Download Button */}
+        {pdfUrl && (
+          <div className="mb-4 flex justify-end">
+            <Button 
+              variant="outline"
+              className="flex items-center gap-2 hover:bg-swiss-red/10"
+              onClick={() => window.open(pdfUrl, '_blank')}
+            >
+              <Download className="h-4 w-4" />
+              PDF Herunterladen
+            </Button>
+          </div>
+        )}
+
         <div className="space-y-6 text-gray-700">
           <h3 className="text-xl font-semibold">1. Name und Sitz</h3>
           <p>
