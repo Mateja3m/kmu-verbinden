@@ -6,13 +6,14 @@ import { fetchStatutenPdf } from "@/utils/fetchStatutenPdf";
 interface StatutenModalProps {
   className?: string;
   children?: React.ReactNode;
+  pdfUrl?: string;
 }
 
-export const StatutenModal: React.FC<StatutenModalProps> = ({ className, children }) => {
+export const StatutenModal: React.FC<StatutenModalProps> = ({ className, children, pdfUrl }) => {
   const handleOpenPdf = () => {
     // Get the PDF URL and open it in a new tab
-    const pdfUrl = fetchStatutenPdf();
-    window.open(pdfUrl, '_blank');
+    const url = pdfUrl || fetchStatutenPdf();
+    window.open(url, '_blank');
   };
 
   return (
