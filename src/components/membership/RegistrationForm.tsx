@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
@@ -5,10 +6,12 @@ import { CompanyDetailsStep } from "./CompanyDetailsStep";
 import { ContactDetailsStep } from "./ContactDetailsStep";
 import { SuccessStep } from "./SuccessStep";
 import { useToast } from "@/hooks/use-toast";
+import { useForm } from "@formspree/react";
 
 const RegistrationForm = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [formState, handleSubmit] = useForm("xdoqvqkv"); // Formspree form ID
   const [formData, setFormData] = useState({
     companyName: "",
     contactPerson: "",
@@ -36,7 +39,7 @@ const RegistrationForm = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1) {
       setStep(2);
@@ -54,9 +57,20 @@ const RegistrationForm = () => {
       }
 
       try {
-        // Here we could send the data to an API endpoint or email service
-        console.log('Registration data:', formData);
+        // Submit form data to Formspree
+        const result = await handleSubmit(formData);
         
+        if (result.errors) {
+          console.error('Formspree submission errors:', result.errors);
+          toast({
+            title: "Fehler bei der Registrierung",
+            description: "Bitte versuchen Sie es erneut.",
+            variant: "destructive",
+          });
+          return;
+        }
+        
+        // If successful, display success message
         toast({
           title: "Registrierung erfolgreich",
           description: "Ihre Anmeldung wurde erfolgreich übermittelt.",
@@ -102,7 +116,7 @@ const RegistrationForm = () => {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleFormSubmit}>
             {step === 1 && (
               <CompanyDetailsStep 
                 formData={formData} 
