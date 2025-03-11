@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersSection } from "@/components/admin/MembersSection";
@@ -10,7 +9,7 @@ import { DashboardStats } from "@/components/admin/DashboardStats";
 import { BlogPostsManager } from "@/components/admin/BlogPostsManager";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen, FileText } from "lucide-react";
+import { Users, UserCircle, GraduationCap, MessageSquare, BookOpen, FileText, File } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -19,7 +18,6 @@ export default function Admin() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("members");
   
-  // Check for admin session
   useEffect(() => {
     const adminSession = localStorage.getItem('adminSession');
     if (!adminSession) {
@@ -32,7 +30,6 @@ export default function Admin() {
       const timestamp = new Date(session.timestamp);
       const now = new Date();
       
-      // Session expires after 24 hours
       if (now.getTime() - timestamp.getTime() > 24 * 60 * 60 * 1000) {
         localStorage.removeItem('adminSession');
         navigate('/admin/auth');
@@ -43,7 +40,6 @@ export default function Admin() {
     }
   }, [navigate]);
 
-  // Set active tab based on URL query parameter
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const tab = searchParams.get('tab');
@@ -53,7 +49,6 @@ export default function Admin() {
   }, [location]);
 
   const handleTabChange = (value: string) => {
-    // Keep the edit parameter if it exists and we're staying on the news tab
     if (value === 'news' && activeTab === 'news') {
       const searchParams = new URLSearchParams(location.search);
       const editParam = searchParams.get('edit');
@@ -69,7 +64,6 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Removed Navigation component since it's already in App.tsx */}
       <main className="flex-grow container mx-auto px-4 py-24">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -81,11 +75,19 @@ export default function Admin() {
                 Hier finden Sie eine Übersicht aller wichtigen Kennzahlen und Verwaltungsfunktionen.
               </p>
             </div>
-            <Link to="/admin/auth">
-              <Button variant="outline" onClick={() => localStorage.removeItem('adminSession')}>
-                Abmelden
-              </Button>
-            </Link>
+            <div className="flex gap-4">
+              <Link to="/admin/documents">
+                <Button variant="outline" className="flex items-center gap-2">
+                  <File className="h-4 w-4" />
+                  Dokumente
+                </Button>
+              </Link>
+              <Link to="/admin/auth">
+                <Button variant="outline" onClick={() => localStorage.removeItem('adminSession')}>
+                  Abmelden
+                </Button>
+              </Link>
+            </div>
           </div>
           
           <DashboardStats />
@@ -162,7 +164,6 @@ export default function Admin() {
           </Tabs>
         </div>
       </main>
-      {/* No Footer here since it's already in App.tsx */}
     </div>
   );
 }

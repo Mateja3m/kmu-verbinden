@@ -18,6 +18,7 @@ import NewsDetail from './pages/NewsDetail';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import AdminAuth from './pages/AdminAuth';
+import DocumentsAdmin from './pages/DocumentsAdmin';
 import PartnerDashboard from './pages/PartnerDashboard';
 import PartnerMeetings from './pages/PartnerMeetings';
 import Auth from './pages/Auth';
@@ -136,6 +137,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
+          <Route path="/admin/documents" element={<DocumentsAdmin />} />
           <Route path="/partner-dashboard" element={<PartnerDashboard />} />
           <Route path="/partner-meetings" element={<PartnerMeetings />} />
           <Route path="/auth" element={<Auth />} />
