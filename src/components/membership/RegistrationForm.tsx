@@ -58,10 +58,10 @@ const RegistrationForm = () => {
 
       try {
         // Submit form data to Formspree
-        const result = await handleSubmit(formData);
+        await handleSubmit(formData);
         
-        if (result.errors) {
-          console.error('Formspree submission errors:', result.errors);
+        if (formState.errors && formState.errors.length > 0) {
+          console.error('Formspree submission errors:', formState.errors);
           toast({
             title: "Fehler bei der Registrierung",
             description: "Bitte versuchen Sie es erneut.",
