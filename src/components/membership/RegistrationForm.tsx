@@ -11,7 +11,7 @@ import { useForm } from "@formspree/react";
 const RegistrationForm = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [formState, handleSubmit] = useForm("xdoqvqkv"); // Formspree form ID
+  const [formState, handleSubmit] = useForm("xgveqvww"); // Updated Formspree form ID
   const [formData, setFormData] = useState({
     companyName: "",
     contactPerson: "",
@@ -60,7 +60,7 @@ const RegistrationForm = () => {
         // Submit form data to Formspree
         await handleSubmit(formData);
         
-        if (formState.errors && formState.errors.length > 0) {
+        if (formState.errors) {
           console.error('Formspree submission errors:', formState.errors);
           toast({
             title: "Fehler bei der Registrierung",
