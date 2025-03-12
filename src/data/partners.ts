@@ -1,4 +1,3 @@
-
 export const nationalPartners = [
   {
     id: 'hhomepage',
@@ -172,6 +171,13 @@ export const regionalPartners = [
     logo: 'https://werbwerk.ch/wp-content/uploads/2018/08/logo-werbwerk_rgb_poster_-2.png',
     website: 'https://werbwerk.ch',
     description: 'Kreative Marketing- und Werbelösungen'
+  },
+  {
+    id: 'chaeserstatt',
+    name: 'Chaeserstatt',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1741748980/logo_chaeserstatt_frehxo.svg',
+    website: 'https://www.chaeserstatt.ch/en/425.html',
+    description: 'Das Seminarhotel im Wallis'
   }
 ];
 
@@ -210,7 +216,7 @@ export const patronagePartners = [
   },
   {
     id: 'chdu',
-    name: 'Schweizer Dachverband für Unternehmensnachfolge',
+    name: 'CHDU',
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1741748925/chdu-logo_dyyden.avif',
     website: 'https://www.chdu.ch/',
     description: 'Dachverband für Unternehmensnachfolge'
