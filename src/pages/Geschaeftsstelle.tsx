@@ -1,7 +1,5 @@
 import { Building, MapPin, Mail, Phone, Clock, Calendar } from "lucide-react";
-import BackgroundPattern from "@/components/BackgroundPattern";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import {
   HoverCard,
   HoverCardContent,
@@ -41,7 +39,6 @@ const offices = [
 const Geschaeftsstelle = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
       {/* Hero Section */}
       <div className="relative h-[400px] mt-20">
         <div 
@@ -208,7 +205,6 @@ const Geschaeftsstelle = () => {
           </p>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -1,11 +1,10 @@
+
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Calendar as CalendarIcon, MapPin, Clock, Users, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import BackgroundPattern from "@/components/BackgroundPattern";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 interface Event {
   id: number;
@@ -79,7 +78,6 @@ const EventKalender = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
       {/* Header Banner with Background Image */}
       <div className="relative mt-20">
         <div 
@@ -174,78 +172,75 @@ const EventKalender = () => {
 
         <h2 className="text-3xl font-bold mb-8 text-swiss-darkblue">KMU Events in der Schweiz</h2>
         
-        <BackgroundPattern>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Calendar Section */}
-            <div className="relative">
-              <Card className="p-6 bg-white shadow-lg relative z-10">
-                <div className="flex items-center mb-4">
-                  <CalendarIcon className="mr-2 h-5 w-5 text-swiss-red" />
-                  <h3 className="text-xl font-semibold">Eventkalender</h3>
-                </div>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  className="rounded-md border bg-white"
-                />
-                
-                {selectedDateEvents.length > 0 && (
-                  <div className="mt-4">
-                    <h4 className="font-semibold mb-2">Events an diesem Tag:</h4>
-                    {selectedDateEvents.map(event => (
-                      <div key={event.id} className="p-2 bg-gray-50 rounded-md mb-2">
-                        <p className="font-medium">{event.title}</p>
-                        {event.endDate && (
-                          <p className="text-sm text-gray-600">
-                            Bis: {event.endDate.toLocaleDateString()}
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </Card>
-            </div>
-
-            {/* Upcoming Events Section */}
-            <div className="relative">
-              <Card className="p-6 bg-white shadow-lg relative z-10">
-                <h3 className="text-xl font-semibold mb-4">Nächste Events</h3>
-                <div className="space-y-4">
-                  {upcomingEvents.map(event => (
-                    <div
-                      key={event.id}
-                      className="p-4 rounded-lg border border-gray-200 hover:border-swiss-red transition-colors bg-white"
-                    >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h4 className="font-medium">{event.title}</h4>
-                          <p className="text-sm text-gray-600">
-                            {event.date.toLocaleDateString()}
-                            {event.endDate && ` - ${event.endDate.toLocaleDateString()}`}
-                          </p>
-                        </div>
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          event.type === 'course' 
-                            ? 'bg-swiss-red text-white' 
-                            : 'bg-swiss-lightblue text-swiss-darkblue'
-                        }`}>
-                          {event.type === 'course' ? 'Kurs' : 'Info'}
-                        </span>
-                      </div>
-                      {event.description && (
-                        <p className="text-sm text-gray-600 mt-2">{event.description}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Calendar Section */}
+          <div className="relative">
+            <Card className="p-6 bg-white shadow-lg relative z-10">
+              <div className="flex items-center mb-4">
+                <CalendarIcon className="mr-2 h-5 w-5 text-swiss-red" />
+                <h3 className="text-xl font-semibold">Eventkalender</h3>
+              </div>
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="rounded-md border bg-white"
+              />
+              
+              {selectedDateEvents.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="font-semibold mb-2">Events an diesem Tag:</h4>
+                  {selectedDateEvents.map(event => (
+                    <div key={event.id} className="p-2 bg-gray-50 rounded-md mb-2">
+                      <p className="font-medium">{event.title}</p>
+                      {event.endDate && (
+                        <p className="text-sm text-gray-600">
+                          Bis: {event.endDate.toLocaleDateString()}
+                        </p>
                       )}
                     </div>
                   ))}
                 </div>
-              </Card>
-            </div>
+              )}
+            </Card>
           </div>
-        </BackgroundPattern>
+
+          {/* Upcoming Events Section */}
+          <div className="relative">
+            <Card className="p-6 bg-white shadow-lg relative z-10">
+              <h3 className="text-xl font-semibold mb-4">Nächste Events</h3>
+              <div className="space-y-4">
+                {upcomingEvents.map(event => (
+                  <div
+                    key={event.id}
+                    className="p-4 rounded-lg border border-gray-200 hover:border-swiss-red transition-colors bg-white"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium">{event.title}</h4>
+                        <p className="text-sm text-gray-600">
+                          {event.date.toLocaleDateString()}
+                          {event.endDate && ` - ${event.endDate.toLocaleDateString()}`}
+                        </p>
+                      </div>
+                      <span className={`px-2 py-1 rounded-full text-xs ${
+                        event.type === 'course' 
+                          ? 'bg-swiss-red text-white' 
+                          : 'bg-swiss-lightblue text-swiss-darkblue'
+                      }`}>
+                        {event.type === 'course' ? 'Kurs' : 'Info'}
+                      </span>
+                    </div>
+                    {event.description && (
+                      <p className="text-sm text-gray-600 mt-2">{event.description}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
-      <Footer />
     </div>
   );
 };

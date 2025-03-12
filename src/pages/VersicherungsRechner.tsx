@@ -1,11 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import BackgroundPattern from '@/components/BackgroundPattern';
 import InsuranceTypeGrid from '@/components/insurance/InsuranceTypeGrid';
 import AIExplanation from '@/components/insurance/AIExplanation';
 import LoadingSimulation from '@/components/insurance/LoadingSimulation';
-import Footer from '@/components/Footer';
 
 const VersicherungsRechner = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -63,55 +62,52 @@ const VersicherungsRechner = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <BackgroundPattern>
-        <div className="container mx-auto px-4 py-24">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-swiss-darkblue mb-4">
-              Versicherungs Rechner & KI Beratung
-            </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Optimieren Sie Ihre Versicherungslösungen mit unserem KI-gestützten Prämienrechner
-            </p>
-          </div>
-
-          <div className="mb-12">
-            <AIExplanation />
-          </div>
-
-          <div className="bg-white rounded-lg shadow-md p-8 mb-16">
-            <h2 className="text-2xl font-bold text-swiss-darkblue mb-6 text-center">
-              Prämienrechner
-            </h2>
-            
-            <div className="mb-8">
-              <LoadingSimulation loadingSteps={loadingSteps} />
-            </div>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button 
-                  disabled={isLoading}
-                  className="w-full bg-swiss-red hover:bg-red-700 text-white"
-                >
-                  Beratung starten
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-[85vw] h-[85vh] max-w-none">
-                <iframe 
-                  className="chatBot w-full h-full"
-                  src="https://avaia.io/chat/authorize-chat/84bf5794-983e-4d57-8377-1ad6aaddd4d2/"
-                  title="KMU Versicherungsrechner"
-                />
-              </DialogContent>
-            </Dialog>
-          </div>
-
-          <div className="mb-16">
-            <InsuranceTypeGrid insuranceTypes={insuranceTypes} />
-          </div>
+      <div className="container mx-auto px-4 py-24">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-swiss-darkblue mb-4">
+            Versicherungs Rechner & KI Beratung
+          </h1>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Optimieren Sie Ihre Versicherungslösungen mit unserem KI-gestützten Prämienrechner
+          </p>
         </div>
-      </BackgroundPattern>
-      <Footer />
+
+        <div className="mb-12">
+          <AIExplanation />
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-8 mb-16">
+          <h2 className="text-2xl font-bold text-swiss-darkblue mb-6 text-center">
+            Prämienrechner
+          </h2>
+          
+          <div className="mb-8">
+            <LoadingSimulation loadingSteps={loadingSteps} />
+          </div>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button 
+                disabled={isLoading}
+                className="w-full bg-swiss-red hover:bg-red-700 text-white"
+              >
+                Beratung starten
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-[85vw] h-[85vh] max-w-none">
+              <iframe 
+                className="chatBot w-full h-full"
+                src="https://avaia.io/chat/authorize-chat/84bf5794-983e-4d57-8377-1ad6aaddd4d2/"
+                title="KMU Versicherungsrechner"
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        <div className="mb-16">
+          <InsuranceTypeGrid insuranceTypes={insuranceTypes} />
+        </div>
+      </div>
     </div>
   );
 };

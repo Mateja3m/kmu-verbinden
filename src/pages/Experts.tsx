@@ -1,8 +1,7 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ExpertPreview } from "@/components/experts/ExpertPreview";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -88,7 +87,6 @@ export default function Experts() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
       <div 
         className="relative h-[400px] w-full bg-cover bg-center"
         style={{
@@ -180,7 +178,6 @@ export default function Experts() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

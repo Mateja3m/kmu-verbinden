@@ -1,13 +1,10 @@
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+
 import { Button } from "@/components/ui/button";
 import { BookOpen, Users, MessageSquare, Newspaper, Mic, Globe, Calendar, Mail, Share2 } from "lucide-react";
 
 const Redaktion = () => {
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
-      
       {/* Hero Section */}
       <section className="relative pt-24 pb-12 bg-swiss-red text-white">
         {/* Background Pattern Overlay */}
@@ -180,8 +177,6 @@ const Redaktion = () => {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };
