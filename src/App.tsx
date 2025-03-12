@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import BackgroundPattern from './components/BackgroundPattern';
 import Home from './pages/Home';
 import Presidency from './pages/Presidency';
 import Membership from './pages/Membership';
@@ -119,46 +120,48 @@ const App = () => {
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
       <Navigation />
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/website-redesign" element={<WebsiteRedesign />} />
-          <Route path="/website-redesign/branche/:industry" element={<IndustryLanding />} />
-          <Route path="/presidency" element={<Presidency />} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/experts" element={<Experts />} />
-          <Route path="/experts/:id" element={<ExpertDetail />} />
-          <Route path="/expert-submission" element={<ExpertSubmission />} />
-          <Route path="/news" element={<Presse />} />
-          <Route path="/presse" element={<Presse />} />
-          <Route path="/news/:slug" element={<NewsDetail />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/auth" element={<AdminAuth />} />
-          <Route path="/admin/documents" element={<DocumentsAdmin />} />
-          <Route path="/partner-dashboard" element={<PartnerDashboard />} />
-          <Route path="/partner-meetings" element={<PartnerMeetings />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/kontakt" element={<Kontakt />} />
-          <Route path="/redaktion" element={<Redaktion />} />
-          <Route path="/rechtsdienst" element={<Rechtsdienst />} />
-          <Route path="/aktuelle-projekte" element={<AktuelleProjekte />} />
-          <Route path="/unsere-auftrag" element={<UnsereAuftrag />} />
-          <Route path="/impressum" element={<Impressum />} />
-          <Route path="/datenschutz" element={<Datenschutz />} />
-          <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
-          <Route path="/events" element={<EventKalender />} />
-          <Route path="/versicherungsrechner" element={<VersicherungsRechner />} />
-          <Route path="/empfehlen" element={<Empfehlen />} />
-          <Route path="/organisation" element={<Organisation />} />
-          <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
-          <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </main>
-      <Footer />
+      <BackgroundPattern>
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/website-redesign" element={<WebsiteRedesign />} />
+            <Route path="/website-redesign/branche/:industry" element={<IndustryLanding />} />
+            <Route path="/presidency" element={<Presidency />} />
+            <Route path="/membership" element={<Membership />} />
+            <Route path="/partners" element={<Partners />} />
+            <Route path="/experts" element={<Experts />} />
+            <Route path="/experts/:id" element={<ExpertDetail />} />
+            <Route path="/expert-submission" element={<ExpertSubmission />} />
+            <Route path="/news" element={<Presse />} />
+            <Route path="/presse" element={<Presse />} />
+            <Route path="/news/:slug" element={<NewsDetail />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/auth" element={<AdminAuth />} />
+            <Route path="/admin/documents" element={<DocumentsAdmin />} />
+            <Route path="/partner-dashboard" element={<PartnerDashboard />} />
+            <Route path="/partner-meetings" element={<PartnerMeetings />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/kontakt" element={<Kontakt />} />
+            <Route path="/redaktion" element={<Redaktion />} />
+            <Route path="/rechtsdienst" element={<Rechtsdienst />} />
+            <Route path="/aktuelle-projekte" element={<AktuelleProjekte />} />
+            <Route path="/unsere-auftrag" element={<UnsereAuftrag />} />
+            <Route path="/impressum" element={<Impressum />} />
+            <Route path="/datenschutz" element={<Datenschutz />} />
+            <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
+            <Route path="/events" element={<EventKalender />} />
+            <Route path="/versicherungsrechner" element={<VersicherungsRechner />} />
+            <Route path="/empfehlen" element={<Empfehlen />} />
+            <Route path="/organisation" element={<Organisation />} />
+            <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
+            <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </main>
+        <Footer />
+      </BackgroundPattern>
     </div>
   );
 };
