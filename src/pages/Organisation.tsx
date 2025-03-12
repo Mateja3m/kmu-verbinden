@@ -1,7 +1,6 @@
+
 import { Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 const Organisation = () => {
   const presidencySection = {
@@ -172,7 +171,6 @@ const Organisation = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
       <div className="w-full h-[400px] relative overflow-hidden">
         <img
           src="/lovable-uploads/2ab9c652-f480-41b0-ac77-07f3a01849f2.png"
@@ -195,7 +193,6 @@ const Organisation = () => {
           {renderSection(extendedTeam)}
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

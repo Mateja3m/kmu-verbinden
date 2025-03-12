@@ -156,93 +156,90 @@ const WebsiteRedesign = () => {
   };
 
   return (
-    <>
-      <div className="min-h-screen bg-white text-swiss-darkblue pt-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto py-8">
-            {/* Hero Section */}
-            <div className="text-center space-y-8">
-              <div className="flex items-center justify-center gap-2 text-yellow-400 font-medium">
-                <Gift className="h-5 w-5" />
-                <span>Gewinnen Sie ein komplettes Webdesign im Wert von CHF 15'000.-</span>
-              </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                Digitale Präsenz optimieren – 
-                <span className="text-swiss-red">Mehr Erfolg</span> für Ihr Unternehmen
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-swiss-darkblue/80 max-w-3xl mx-auto">
-                Premium Website-Optimierung mit KI-gestützter Analyse und persönlicher Expertenberatung
-              </p>
+    <div className="min-h-screen bg-white text-swiss-darkblue pt-24">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto py-8">
+          {/* Hero Section */}
+          <div className="text-center space-y-8">
+            <div className="flex items-center justify-center gap-2 text-yellow-400 font-medium">
+              <Gift className="h-5 w-5" />
+              <span>Gewinnen Sie ein komplettes Webdesign im Wert von CHF 15'000.-</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+              Digitale Präsenz optimieren – 
+              <span className="text-swiss-red">Mehr Erfolg</span> für Ihr Unternehmen
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-swiss-darkblue/80 max-w-3xl mx-auto">
+              Premium Website-Optimierung mit KI-gestützter Analyse und persönlicher Expertenberatung
+            </p>
 
-              <div className="flex flex-wrap justify-center gap-3 text-sm font-medium">
-                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Performance</span>
-                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Design</span>
-                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Conversion</span>
-                <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">UX</span>
-              </div>
+            <div className="flex flex-wrap justify-center gap-3 text-sm font-medium">
+              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Performance</span>
+              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Design</span>
+              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Conversion</span>
+              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">UX</span>
+            </div>
 
-              {/* Prize Draw Notice with Exclusive Member Ribbon */}
-              <div className="relative">
-                <div className="absolute -top-6 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg transform rotate-3 animate-pulse whitespace-nowrap">
-                  Exklusiv für unsere Mitglieder
+            {/* Prize Draw Notice with Exclusive Member Ribbon */}
+            <div className="relative">
+              <div className="absolute -top-6 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg transform rotate-3 animate-pulse whitespace-nowrap">
+                Exklusiv für unsere Mitglieder
                   <span className="text-xs ml-1">(und die, die es werden wollen)</span>
-                </div>
-                <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
-                  <div className="flex items-start gap-4">
-                    <Gift className="h-8 w-8 text-yellow-600 shrink-0 mt-1" />
-                    <div className="text-left">
-                      <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-                        Exklusive Verlosung für Beratungsanfragen
-                      </h3>
-                      <p className="text-yellow-700">
-                        Jede Beratungsanfrage nimmt automatisch an der Verlosung teil. 
-                        Der Gewinner erhält ein komplettes Webdesign-Paket im Wert von CHF 15'000.-.
-                      </p>
-                    </div>
+              </div>
+              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
+                <div className="flex items-start gap-4">
+                  <Gift className="h-8 w-8 text-yellow-600 shrink-0 mt-1" />
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold text-yellow-800 mb-2">
+                      Exklusive Verlosung für Beratungsanfragen
+                    </h3>
+                    <p className="text-yellow-700">
+                      Jede Beratungsanfrage nimmt automatisch an der Verlosung teil. 
+                      Der Gewinner erhält ein komplettes Webdesign-Paket im Wert von CHF 15'000.-.
+                    </p>
                   </div>
                 </div>
               </div>
-
-              {/* Analysis Steps */}
-              <div className="bg-swiss-darkblue text-white backdrop-blur-lg rounded-xl p-8 shadow-2xl mt-8">
-                {analysisStep < 3 ? (
-                  <AnalysisSteps
-                    step={analysisStep}
-                    isAnalyzing={isAnalyzing}
-                    websiteUrl={formData.websiteUrl}
-                    improvements={formData.improvements}
-                    onWebsiteSubmit={handleWebsiteCheck}
-                    onWebsiteUrlChange={(url) => setFormData(prev => ({ ...prev, websiteUrl: url }))}
-                    onImprovementSelect={handleImprovementSelect}
-                    onStartConsultation={startConsultation}
-                  />
-                ) : showForm ? (
-                  <ConsultationForm
-                    formData={formData}
-                    onFormChange={handleFormChange}
-                    onPrevStep={prevStep}
-                    onSubmit={handleSubmit}
-                  />
-                ) : null}
-              </div>
-
-              {/* Trust Indicators */}
-              <TrustIndicators
-                timeLeft={timeLeft}
-                remainingSpots={remainingSpots}
-              />
             </div>
 
-            {/* Trust Section */}
-            <TrustSection satisfactionRate={satisfactionRate} />
+            {/* Analysis Steps */}
+            <div className="bg-swiss-darkblue text-white backdrop-blur-lg rounded-xl p-8 shadow-2xl mt-8">
+              {analysisStep < 3 ? (
+                <AnalysisSteps
+                  step={analysisStep}
+                  isAnalyzing={isAnalyzing}
+                  websiteUrl={formData.websiteUrl}
+                  improvements={formData.improvements}
+                  onWebsiteSubmit={handleWebsiteCheck}
+                  onWebsiteUrlChange={(url) => setFormData(prev => ({ ...prev, websiteUrl: url }))}
+                  onImprovementSelect={handleImprovementSelect}
+                  onStartConsultation={startConsultation}
+                />
+              ) : showForm ? (
+                <ConsultationForm
+                  formData={formData}
+                  onFormChange={handleFormChange}
+                  onPrevStep={prevStep}
+                  onSubmit={handleSubmit}
+                />
+              ) : null}
+            </div>
 
+            {/* Trust Indicators */}
+            <TrustIndicators
+              timeLeft={timeLeft}
+              remainingSpots={remainingSpots}
+            />
           </div>
+
+          {/* Trust Section */}
+          <TrustSection satisfactionRate={satisfactionRate} />
+
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
 
