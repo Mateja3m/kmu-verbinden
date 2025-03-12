@@ -1,3 +1,4 @@
+
 export const nationalPartners = [
   {
     id: 'hhomepage',
@@ -206,5 +207,12 @@ export const patronagePartners = [
     website: 'https://energie-cluster.ch',
     description: 'Netzwerk für Energielösungen',
     customBackground: 'bg-gray-800'
+  },
+  {
+    id: 'chdu',
+    name: 'Schweizer Dachverband für Unternehmensnachfolge',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1741748925/chdu-logo_dyyden.avif',
+    website: 'https://www.chdu.ch/',
+    description: 'Dachverband für Unternehmensnachfolge'
   }
 ];
