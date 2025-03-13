@@ -1,9 +1,6 @@
 
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { Link } from 'react-router-dom';
-import { WebsiteCheckSection } from './WebsiteCheckSection';
 import { Building, Store, Stethoscope, Briefcase, BookOpen, ChefHat } from 'lucide-react';
 
 interface IndustryCard {
@@ -17,16 +14,10 @@ interface IndustryCard {
 interface IndustryCardsProps {
   cards: IndustryCard[];
   onCardClick: (cardId: string) => void;
+  activeCardId?: string | null;
 }
 
-export const IndustryCards = ({ cards, onCardClick }: IndustryCardsProps) => {
-  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
-
-  const handleCardClick = (cardId: string) => {
-    setExpandedCardId(expandedCardId === cardId ? null : cardId);
-    onCardClick(cardId);
-  };
-  
+export const IndustryCards = ({ cards, onCardClick, activeCardId }: IndustryCardsProps) => {
   const getIcon = (iconName: string) => {
     switch(iconName) {
       case 'Building': return <Building className="h-6 w-6" />;
@@ -50,8 +41,15 @@ export const IndustryCards = ({ cards, onCardClick }: IndustryCardsProps) => {
                 scale: 1.02,
                 boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
               }}
-              className={`relative h-80 rounded-xl overflow-hidden cursor-pointer ${expandedCardId === card.id ? 'ring-4 ring-swiss-lightblue' : ''}`}
-              onClick={() => handleCardClick(card.id)}
+              animate={{
+                borderColor: activeCardId === card.id ? 'rgb(147, 197, 253)' : 'transparent',
+                boxShadow: activeCardId === card.id 
+                  ? '0 0 15px 5px rgba(147, 197, 253, 0.3)' 
+                  : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+              }}
+              className={`relative h-80 rounded-xl overflow-hidden cursor-pointer border-2 transition-colors duration-300
+                ${activeCardId === card.id ? 'ring-4 ring-swiss-lightblue/50 shine-effect' : ''}`}
+              onClick={() => onCardClick(card.id)}
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-95`}></div>
               
@@ -70,7 +68,7 @@ export const IndustryCards = ({ cards, onCardClick }: IndustryCardsProps) => {
                     variant="outline" 
                     className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 transition-all group"
                   >
-                    Jetzt analysieren
+                    {activeCardId === card.id ? 'Schließen' : 'Jetzt analysieren'}
                     <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                   </Button>
                 </div>
@@ -79,21 +77,6 @@ export const IndustryCards = ({ cards, onCardClick }: IndustryCardsProps) => {
           </div>
         ))}
       </div>
-      
-      {/* Expandable Website Check Section */}
-      <AnimatePresence>
-        {expandedCardId && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <WebsiteCheckSection industryId={expandedCardId} />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };

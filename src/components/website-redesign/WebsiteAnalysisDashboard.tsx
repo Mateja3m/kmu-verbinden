@@ -37,6 +37,7 @@ export const WebsiteAnalysisDashboard = () => {
   const [url, setUrl] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const analyzeWebsite = async () => {
     if (!url) {
@@ -47,13 +48,25 @@ export const WebsiteAnalysisDashboard = () => {
       return;
     }
 
+    // Add http:// if missing
+    let formattedUrl = url;
+    if (!/^https?:\/\//i.test(url)) {
+      formattedUrl = 'https://' + url;
+    }
+
     setIsAnalyzing(true);
+    setError(null);
+    
     try {
       const { data, error } = await supabase.functions.invoke('analyze-website', {
-        body: { url }
+        body: { url: formattedUrl }
       });
 
       if (error) throw error;
+      
+      if (!data || typeof data !== 'object') {
+        throw new Error('Invalid response from analysis function');
+      }
       
       setResult(data);
       toast({
@@ -62,6 +75,11 @@ export const WebsiteAnalysisDashboard = () => {
       });
     } catch (error) {
       console.error('Analysis error:', error);
+      setError(
+        error instanceof Error 
+          ? error.message 
+          : 'Ein unbekannter Fehler ist aufgetreten'
+      );
       toast({
         title: "Fehler bei der Analyse",
         description: "Bitte versuchen Sie es später erneut.",
@@ -80,7 +98,8 @@ export const WebsiteAnalysisDashboard = () => {
 
   if (!result && !isAnalyzing) {
     return (
-      <Card className="mt-12">
+      <Card className="mt-12 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none shine-effect"></div>
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
             Lassen Sie Ihre Website analysieren
@@ -93,7 +112,7 @@ export const WebsiteAnalysisDashboard = () => {
               placeholder="https://ihre-website.ch"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="flex-1"
+              className="flex-1 focus:ring-2 focus:ring-swiss-lightblue focus:border-transparent transition-all duration-300"
             />
             <Button 
               onClick={analyzeWebsite}
@@ -102,6 +121,12 @@ export const WebsiteAnalysisDashboard = () => {
               Jetzt analysieren
             </Button>
           </div>
+          {error && (
+            <div className="text-red-500 bg-red-50 p-3 rounded-md flex items-start gap-2 mt-2">
+              <XCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
         </CardContent>
       </Card>
     );

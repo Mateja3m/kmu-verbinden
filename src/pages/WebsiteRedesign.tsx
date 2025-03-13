@@ -3,7 +3,6 @@ import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { nationalPartners } from '@/data/partners';
-import { IndustryLinks } from '@/components/website-redesign/IndustryLinks';
 import { motion } from 'framer-motion';
 import { WebsiteCheckSection } from '@/components/website-redesign/WebsiteCheckSection';
 import { IndustryCards } from '@/components/website-redesign/IndustryCards';
@@ -29,6 +28,7 @@ const WebsiteRedesign = () => {
   });
 
   const [scrollY, setScrollY] = useState(0);
+  const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
   // Track scroll position for parallax effects
   useEffect(() => {
@@ -131,13 +131,17 @@ const WebsiteRedesign = () => {
 
   const handleIndustryCardClick = (cardId: string) => {
     console.log(`Industry card clicked: ${cardId}`);
-    // Scroll to the expanded section
-    setTimeout(() => {
-      window.scrollBy({
-        top: 100,
-        behavior: 'smooth'
-      });
-    }, 100);
+    setActiveCardId(activeCardId === cardId ? null : cardId);
+    
+    if (activeCardId !== cardId) {
+      // Scroll to the expanded section after a short delay
+      setTimeout(() => {
+        window.scrollBy({
+          top: 100,
+          behavior: 'smooth'
+        });
+      }, 300);
+    }
   };
 
   return (
@@ -302,6 +306,7 @@ const WebsiteRedesign = () => {
 
       {/* Partners Logo Section - Updated to be in one line */}
       <section className="py-20 relative">
+        {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-swiss-gray/20 to-white"></div>
         
         <div className="container mx-auto px-6 max-w-6xl">
@@ -348,16 +353,6 @@ const WebsiteRedesign = () => {
             <CarouselPrevious className="lg:-left-8 -left-4" />
             <CarouselNext className="lg:-right-8 -right-4" />
           </Carousel>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="mt-16"
-          >
-            <IndustryLinks />
-          </motion.div>
         </div>
       </section>
       
@@ -381,10 +376,21 @@ const WebsiteRedesign = () => {
           
           <IndustryCards 
             cards={industryCards} 
-            onCardClick={handleIndustryCardClick} 
+            onCardClick={handleIndustryCardClick}
+            activeCardId={activeCardId}
           />
 
-          <WebsiteAnalysisDashboard />
+          {activeCardId && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-8"
+            >
+              <WebsiteAnalysisDashboard />
+            </motion.div>
+          )}
         </div>
       </section>
 
