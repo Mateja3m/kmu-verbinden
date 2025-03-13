@@ -16,7 +16,9 @@ import {
   Phone, 
   Mail, 
   MapPin, 
-  Clock 
+  Clock,
+  AlertOctagon,
+  Info 
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
@@ -52,6 +54,7 @@ export const WebsiteAnalysisDashboard = () => {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [analyzedUrl, setAnalyzedUrl] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
 
   const analyzeWebsite = async () => {
     if (!url) {
@@ -65,6 +68,16 @@ export const WebsiteAnalysisDashboard = () => {
     // Clean the URL before submitting
     let cleanUrl = url.trim();
     
+    // Validate URL format
+    if (!/^[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]+$/.test(cleanUrl)) {
+      toast({
+        title: "Ungültige URL",
+        description: "Die URL enthält nicht erlaubte Zeichen",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     // Add https:// if missing
     if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
       cleanUrl = 'https://' + cleanUrl;
@@ -73,6 +86,16 @@ export const WebsiteAnalysisDashboard = () => {
     setIsAnalyzing(true);
     setError(null);
     setResult(null);
+    
+    // Start progress simulation
+    setProgress(0);
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 95) return prev;
+        const increment = Math.random() * 10;
+        return Math.min(prev + increment, 95);
+      });
+    }, 1000);
     
     try {
       toast({
@@ -85,6 +108,9 @@ export const WebsiteAnalysisDashboard = () => {
       const { data, error } = await supabase.functions.invoke('analyze-website', {
         body: { url: cleanUrl }
       });
+
+      clearInterval(progressInterval);
+      setProgress(100);
 
       if (error) {
         console.error('Fehler bei der Analysefunktion:', error);
@@ -126,14 +152,27 @@ export const WebsiteAnalysisDashboard = () => {
         variant: "destructive"
       });
     } finally {
+      clearInterval(progressInterval);
       setIsAnalyzing(false);
     }
   };
+
+  const hasContactInfo = result && (
+    result.firmeninfo.telefon !== "Nicht gefunden" ||
+    result.firmeninfo.email !== "Nicht gefunden"
+  );
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600';
     if (score >= 60) return 'text-yellow-600';
     return 'text-red-600';
+  };
+
+  const renderContactValue = (value: string | undefined) => {
+    if (!value || value === "Nicht gefunden") {
+      return <span className="text-gray-400 italic">Nicht gefunden</span>;
+    }
+    return value;
   };
 
   if (!result && !isAnalyzing) {
@@ -152,7 +191,7 @@ export const WebsiteAnalysisDashboard = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <Input
               type="url"
-              placeholder="https://ihre-website.ch"
+              placeholder="ihre-website.ch"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               className="flex-1 focus:ring-2 focus:ring-swiss-lightblue focus:border-transparent transition-all duration-300"
@@ -166,7 +205,7 @@ export const WebsiteAnalysisDashboard = () => {
           </div>
           {error && (
             <div className="text-red-500 bg-red-50 p-4 rounded-md flex items-start gap-2 mt-2 border border-red-200">
-              <XCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              <AlertOctagon className="h-5 w-5 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold">Fehler bei der Analyse:</p>
                 <p>{error}</p>
@@ -174,6 +213,17 @@ export const WebsiteAnalysisDashboard = () => {
               </div>
             </div>
           )}
+          <div className="bg-blue-50 p-4 rounded-md flex items-start gap-2 mt-2 border border-blue-200">
+            <Info className="h-5 w-5 flex-shrink-0 mt-0.5 text-blue-500" />
+            <div className="text-sm text-blue-700">
+              <p className="font-semibold">Tipps für bessere Ergebnisse:</p>
+              <ul className="list-disc list-inside mt-1 space-y-1">
+                <li>Geben Sie die Domain ohne "www" oder "https://" ein (z.B. "example.ch")</li>
+                <li>Stellen Sie sicher, dass die Website öffentlich zugänglich ist</li>
+                <li>Verwenden Sie die Haupt-Domain statt einer Unterseite für die beste Analyse</li>
+              </ul>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -186,8 +236,11 @@ export const WebsiteAnalysisDashboard = () => {
           <div className="flex flex-col items-center space-y-4">
             <Loader2 className="h-12 w-12 animate-spin text-swiss-red" />
             <p className="text-lg font-medium">Analysiere Ihre Website...</p>
-            <Progress value={45} className="w-64" />
+            <Progress value={progress} className="w-64" />
             <p className="text-sm text-gray-500">Dies kann bis zu einer Minute dauern</p>
+            <div className="text-xs text-gray-400 animate-pulse">
+              Suche nach Kontaktinformationen und analysiere Design...
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -237,61 +290,67 @@ export const WebsiteAnalysisDashboard = () => {
                 <div className="space-y-2">
                   <p className="flex items-center">
                     <span className="font-medium min-w-32">Firma:</span> 
-                    <span>{result?.firmeninfo.name || 'Nicht gefunden'}</span>
+                    <span>{renderContactValue(result?.firmeninfo.name)}</span>
                   </p>
                   
-                  {result?.firmeninfo.telefon && (
-                    <p className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-swiss-red" />
-                      <span className="font-medium min-w-28">Telefon:</span> 
+                  <p className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-swiss-red" />
+                    <span className="font-medium min-w-28">Telefon:</span> 
+                    {result?.firmeninfo.telefon && result.firmeninfo.telefon !== "Nicht gefunden" ? (
                       <a 
                         href={`tel:${result.firmeninfo.telefon}`} 
                         className="text-blue-500 hover:text-blue-700"
                       >
                         {result.firmeninfo.telefon}
                       </a>
-                    </p>
-                  )}
+                    ) : (
+                      renderContactValue(result?.firmeninfo.telefon)
+                    )}
+                  </p>
                   
-                  {result?.firmeninfo.email && (
-                    <p className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-swiss-red" />
-                      <span className="font-medium min-w-28">E-Mail:</span> 
+                  <p className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-swiss-red" />
+                    <span className="font-medium min-w-28">E-Mail:</span> 
+                    {result?.firmeninfo.email && result.firmeninfo.email !== "Nicht gefunden" ? (
                       <a 
                         href={`mailto:${result.firmeninfo.email}`} 
                         className="text-blue-500 hover:text-blue-700"
                       >
                         {result.firmeninfo.email}
                       </a>
-                    </p>
-                  )}
+                    ) : (
+                      renderContactValue(result?.firmeninfo.email)
+                    )}
+                  </p>
                   
-                  {result?.firmeninfo.adresse && (
-                    <p className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-swiss-red" />
-                      <span className="font-medium min-w-28">Adresse:</span> 
-                      <span>{result.firmeninfo.adresse}</span>
-                    </p>
-                  )}
+                  <p className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-swiss-red" />
+                    <span className="font-medium min-w-28">Adresse:</span> 
+                    <span>{renderContactValue(result?.firmeninfo.adresse)}</span>
+                  </p>
                   
-                  {result?.firmeninfo.oeffnungszeiten && (
-                    <p className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-swiss-red" />
-                      <span className="font-medium min-w-28">Öffnungszeiten:</span> 
-                      <span>{result.firmeninfo.oeffnungszeiten}</span>
-                    </p>
-                  )}
+                  <p className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-swiss-red" />
+                    <span className="font-medium min-w-28">Öffnungszeiten:</span> 
+                    <span>{renderContactValue(result?.firmeninfo.oeffnungszeiten)}</span>
+                  </p>
                 </div>
 
-                {(result?.firmeninfo.telefon || result?.firmeninfo.email) && (
-                  <Button 
-                    className="mt-4 w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
-                    asChild
+                {hasContactInfo && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
                   >
-                    <Link to={`/contact?source=website-analysis&company=${encodeURIComponent(result?.firmeninfo.name || '')}&email=${encodeURIComponent(result?.firmeninfo.email || '')}&phone=${encodeURIComponent(result?.firmeninfo.telefon || '')}`}>
-                      Kostenlose Beratung anfordern
-                    </Link>
-                  </Button>
+                    <Button 
+                      className="mt-4 w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
+                      asChild
+                    >
+                      <Link to={`/contact?source=website-analysis&company=${encodeURIComponent(result?.firmeninfo.name || '')}&email=${encodeURIComponent(result?.firmeninfo.email || '')}&phone=${encodeURIComponent(result?.firmeninfo.telefon || '')}`}>
+                        Kostenlose Beratung anfordern
+                      </Link>
+                    </Button>
+                  </motion.div>
                 )}
               </CardContent>
             </Card>
