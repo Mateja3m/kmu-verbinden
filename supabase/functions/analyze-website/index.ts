@@ -30,7 +30,7 @@ serve(async (req) => {
       cleanUrl = 'https://' + cleanUrl;
     }
     
-    console.log(`Analyzing website: ${cleanUrl}`);
+    console.log(`Analysiere Website: ${cleanUrl}`);
 
     // Fetch website content
     let html = '';
@@ -49,25 +49,25 @@ serve(async (req) => {
       clearTimeout(timeoutId);
       
       if (!response.ok) {
-        throw new Error(`Failed to fetch website: ${response.status} ${response.statusText}`);
+        throw new Error(`Fehler beim Abrufen der Website: ${response.status} ${response.statusText}`);
       }
       
       html = await response.text();
-      console.log(`Successfully fetched website content (${html.length} characters)`);
+      console.log(`Website-Inhalt erfolgreich abgerufen (${html.length} Zeichen)`);
       
       // Limit HTML size to prevent large requests to Claude
-      if (html.length > 20000) {
-        html = html.substring(0, 20000);
-        console.log("HTML content truncated to 20,000 characters");
+      if (html.length > 30000) {
+        html = html.substring(0, 30000);
+        console.log("HTML-Inhalt auf 30.000 Zeichen gekürzt");
       }
     } catch (fetchError) {
-      console.error('Error fetching website content:', fetchError);
-      throw new Error(`Failed to fetch website content: ${fetchError.message}`);
+      console.error('Fehler beim Abrufen des Website-Inhalts:', fetchError);
+      throw new Error(`Fehler beim Abrufen des Website-Inhalts: ${fetchError.message}`);
     }
 
     // Call Claude API with proper API version and format
     try {
-      console.log('Calling Claude API with correct configuration...');
+      console.log('Rufe Claude API mit korrekter Konfiguration auf...');
       const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
@@ -80,24 +80,34 @@ serve(async (req) => {
           max_tokens: 2000,
           messages: [{
             role: "user",
-            content: `You are a professional website analyst. Analyze this website's HTML and provide a detailed assessment including:
-            1. Basic information (company name, contact details if found)
-            2. Design evaluation (layout, colors, responsiveness)
-            3. Content quality
-            4. Technical aspects
-            5. Specific improvement suggestions
+            content: `Du bist ein professioneller Website-Analyst. Analysiere den HTML-Code dieser Website und erstelle eine detaillierte Bewertung mit folgenden Punkten:
+            1. Grundlegende Informationen (Firmenname, Kontaktdaten wenn vorhanden)
+            2. Design-Bewertung (Layout, Farben, Responsivität)
+            3. Inhaltliche Qualität
+            4. Technische Aspekte
+            5. Konkrete Verbesserungsvorschläge
+
+            WICHTIG: Suche SEHR gründlich nach Kontaktinformationen wie Telefonnummer, E-Mail-Adresse, physische Adresse, Öffnungszeiten und Kontaktformular. 
+            Achte besonders auf den Footer-Bereich, "Kontakt"-Seiten-Links, Schema.org-Markierungen, vCards oder strukturierte Daten.
+            Die Kontaktdaten sind äußerst wichtig und müssen unbedingt gefunden werden.
             
-            Format the response as a JSON object with these properties:
+            Formatiere die Antwort als JSON-Objekt mit diesen Eigenschaften:
             {
-              "score": number (0-100),
-              "companyInfo": { "name": string, "contact": string, "address": string },
-              "design": { "score": number, "feedback": string[] },
-              "content": { "score": number, "feedback": string[] },
-              "technical": { "score": number, "feedback": string[] },
-              "improvements": string[]
+              "gesamtpunkte": Zahl (0-100),
+              "firmeninfo": { 
+                "name": String, 
+                "telefon": String, 
+                "email": String, 
+                "adresse": String, 
+                "oeffnungszeiten": String 
+              },
+              "design": { "punkte": Zahl, "feedback": String[] },
+              "inhalt": { "punkte": Zahl, "feedback": String[] },
+              "technik": { "punkte": Zahl, "feedback": String[] },
+              "verbesserungen": String[]
             }
             
-            HTML to analyze:
+            Zu analysierender HTML-Code:
             ${html}`
           }]
         })
@@ -105,23 +115,23 @@ serve(async (req) => {
 
       if (!claudeResponse.ok) {
         const errorText = await claudeResponse.text();
-        console.error('Claude API error response:', errorText);
-        throw new Error(`Claude API error: ${claudeResponse.status} ${claudeResponse.statusText}. Details: ${errorText}`);
+        console.error('Claude API Fehlerantwort:', errorText);
+        throw new Error(`Claude API Fehler: ${claudeResponse.status} ${claudeResponse.statusText}. Details: ${errorText}`);
       }
 
       const claudeData = await claudeResponse.json();
-      console.log('Claude API response received:', JSON.stringify(claudeData).substring(0, 200) + '...');
+      console.log('Claude API Antwort erhalten:', JSON.stringify(claudeData).substring(0, 200) + '...');
 
       // Parse Claude's response - updated to match Claude 3.7 response format
       if (!claudeData.content || !Array.isArray(claudeData.content) || claudeData.content.length === 0) {
-        console.error('Invalid Claude API response format:', JSON.stringify(claudeData));
-        throw new Error('Invalid Claude API response format: missing content array');
+        console.error('Ungültiges Claude API Antwortformat:', JSON.stringify(claudeData));
+        throw new Error('Ungültiges Claude API Antwortformat: content-Array fehlt');
       }
         
       const content = claudeData.content[0];
       if (!content || !content.text) {
-        console.error('Invalid Claude API response format:', JSON.stringify(claudeData.content));
-        throw new Error('Invalid Claude API response format: missing text in content');
+        console.error('Ungültiges Claude API Antwortformat:', JSON.stringify(claudeData.content));
+        throw new Error('Ungültiges Claude API Antwortformat: text in content fehlt');
       }
         
       const textContent = content.text;
@@ -129,33 +139,33 @@ serve(async (req) => {
       // Extract JSON from the response
       const jsonMatch = textContent.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
-        console.error('Full Claude response:', textContent);
-        throw new Error('Could not find JSON in Claude response');
+        console.error('Vollständige Claude-Antwort:', textContent);
+        throw new Error('Konnte kein JSON in der Claude-Antwort finden');
       }
         
       const jsonString = jsonMatch[0];
-      console.log('Extracted JSON:', jsonString.substring(0, 200) + '...');
+      console.log('Extrahiertes JSON:', jsonString.substring(0, 200) + '...');
         
       try {
         const analysis = JSON.parse(jsonString);
-        console.log('Successfully parsed analysis JSON');
+        console.log('Analyse-JSON erfolgreich geparst');
           
         return new Response(JSON.stringify(analysis), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       } catch (jsonError) {
-        console.error('JSON parse error:', jsonError, 'Response JSON string:', jsonString);
-        throw new Error(`Failed to parse Claude response as JSON: ${jsonError.message}`);
+        console.error('JSON-Parsing-Fehler:', jsonError, 'Antwort-JSON-String:', jsonString);
+        throw new Error(`Fehler beim Parsen der Claude-Antwort als JSON: ${jsonError.message}`);
       }
     } catch (claudeError) {
-      console.error('Error calling Claude API:', claudeError);
-      throw new Error(`Claude API error: ${claudeError.message}`);
+      console.error('Fehler beim Aufruf der Claude API:', claudeError);
+      throw new Error(`Claude API Fehler: ${claudeError.message}`);
     }
   } catch (error) {
-    console.error('Error in analyze-website function:', error);
+    console.error('Fehler in der analyze-website Funktion:', error);
     return new Response(JSON.stringify({ 
       error: error.message,
-      errorType: error.name || 'Unknown',
+      errorType: error.name || 'Unbekannt',
       timestamp: new Date().toISOString()
     }), {
       status: 500,
