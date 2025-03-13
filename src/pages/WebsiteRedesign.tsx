@@ -5,6 +5,20 @@ import { Link } from 'react-router-dom';
 import { nationalPartners } from '@/data/partners';
 import { IndustryLinks } from '@/components/website-redesign/IndustryLinks';
 import { motion } from 'framer-motion';
+import { WebsiteCheckSection } from '@/components/website-redesign/WebsiteCheckSection';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/ui/carousel";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const WebsiteRedesign = () => {
   const [selectedPartners, setSelectedPartners] = useState(() => {
@@ -42,6 +56,70 @@ const WebsiteRedesign = () => {
       transition: { duration: 0.5, ease: "easeOut" }
     }
   };
+
+  // Industry cards data
+  const industryCards = [
+    {
+      id: 'gastgewerbe',
+      title: 'Gastronomie',
+      description: 'Maßgeschneiderte Webauftritte für Restaurants, Cafés und Gastronomiebetriebe',
+      color: 'from-blue-400 to-blue-600'
+    },
+    {
+      id: 'handwerk',
+      title: 'Handwerk',
+      description: 'Professionelle Webseiten für Handwerksbetriebe und Dienstleister',
+      color: 'from-green-400 to-green-600'
+    },
+    {
+      id: 'einzelhandel',
+      title: 'Einzelhandel',
+      description: 'Ansprechende Webpräsenzen für lokale Einzelhändler und Boutiquen',
+      color: 'from-amber-400 to-amber-600'
+    },
+    {
+      id: 'gesundheit',
+      title: 'Gesundheitswesen',
+      description: 'Vertrauenerweckende Websites für Praxen, Therapeuten und Wellness-Anbieter',
+      color: 'from-red-400 to-red-600'
+    },
+    {
+      id: 'finanzen',
+      title: 'Finanzen & Beratung',
+      description: 'Seriöse Online-Präsenzen für Berater, Anwälte und Finanzdienstleister',
+      color: 'from-indigo-400 to-indigo-600'
+    },
+    {
+      id: 'bildung',
+      title: 'Bildung & Coaching',
+      description: 'Inspirierende Websites für Bildungseinrichtungen und Coaches',
+      color: 'from-purple-400 to-purple-600'
+    }
+  ];
+
+  // FAQ data
+  const faqItems = [
+    {
+      question: 'Wie lange dauert ein Website-Redesign?',
+      answer: 'Die Dauer eines Website-Redesigns hängt von verschiedenen Faktoren ab, wie der Größe der Website, der Komplexität des Designs und den gewünschten Funktionen. In der Regel dauert ein umfassendes Redesign zwischen 4 und 12 Wochen. Durch unsere bewährten Prozesse und erfahrenen Partner können wir jedoch auch beschleunigte Timelines anbieten.'
+    },
+    {
+      question: 'Was kostet ein Website-Redesign?',
+      answer: 'Die Kosten für ein Website-Redesign variieren je nach Umfang und Anforderungen. Einfache Redesigns beginnen bei etwa CHF 3.000, während komplexere Projekte mit umfangreichen Funktionen bis zu CHF 15.000 oder mehr kosten können. Als Mitglied des KMU-Vereins profitieren Sie von Vorzugskonditionen bei unseren Partnern.'
+    },
+    {
+      question: 'Verliere ich bei einem Redesign meine Suchmaschinenplatzierungen?',
+      answer: 'Bei einem professionellen Redesign werden wichtige SEO-Faktoren berücksichtigt, um Ihre Suchmaschinenplatzierungen zu erhalten oder sogar zu verbessern. Unsere Partner achten auf korrekte Weiterleitungen, die Beibehaltung wichtiger Keywords und Meta-Informationen sowie die Optimierung der Ladezeiten, was sich positiv auf Ihr Ranking auswirken kann.'
+    },
+    {
+      question: 'Kann ich meine Website nach dem Redesign selbst aktualisieren?',
+      answer: 'Ja, moderne Websites werden in der Regel mit benutzerfreundlichen Content-Management-Systemen (CMS) wie WordPress erstellt, die es Ihnen ermöglicht, Inhalte selbst zu aktualisieren. Unsere Partner bieten außerdem Schulungen an, damit Sie Ihre Website effektiv verwalten können.'
+    },
+    {
+      question: 'Ist eine responsive Website wirklich notwendig?',
+      answer: 'Absolut. Mit der zunehmenden Nutzung mobiler Geräte ist eine responsive Website, die sich automatisch an verschiedene Bildschirmgrößen anpasst, unerlässlich. Nicht nur für die Benutzererfahrung, sondern auch für die Suchmaschinenoptimierung, da Google mobile Kompatibilität als Ranking-Faktor berücksichtigt.'
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
@@ -203,8 +281,8 @@ const WebsiteRedesign = () => {
         </div>
       </section>
 
-      {/* Partners Logo Section - Improved with better spacing and card design */}
-      <section className="py-32 relative">
+      {/* Partners Logo Section - Updated to be in one line */}
+      <section className="py-20 relative">
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-swiss-gray/20 to-white"></div>
         
         <div className="container mx-auto px-6 max-w-6xl">
@@ -213,54 +291,146 @@ const WebsiteRedesign = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-20"
+            className="text-center mb-12"
           >
-            <div className="relative inline-block mb-10">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-swiss-darkblue relative z-10 leading-tight">
-                Für den optimalen Webauftritt verbinden wir Sie mit diesen Experten
-              </h2>
-              <div className="absolute -bottom-3 left-0 w-full h-4 bg-swiss-lightblue/30 -z-0 transform -rotate-1"></div>
-            </div>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Unsere sorgfältig ausgewählten Partner bieten erstklassige digitale Lösungen für KMUs in der Schweiz.
             </p>
           </motion.div>
           
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            variants={containerVariants}
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12 max-w-4xl mx-auto"
+          {/* Partner logos carousel */}
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true
+            }}
+            className="max-w-5xl mx-auto"
           >
-            {selectedPartners.map((partner) => (
-              <motion.div 
-                key={partner.id} 
-                variants={itemVariants}
-                whileHover={{ 
-                  y: -10, 
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  borderColor: "#93C5FD"
-                }}
-                className="bg-white rounded-xl p-8 flex items-center justify-center h-36 shadow-md hover:shadow-xl transition-all duration-500 border border-gray-100 group"
-              >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="max-h-12 max-w-full object-contain group-hover:scale-110 transition-transform duration-500"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+            <CarouselContent>
+              {selectedPartners.map((partner) => (
+                <CarouselItem key={partner.id} className="basis-1/5 md:basis-1/6">
+                  <motion.div 
+                    whileHover={{ 
+                      y: -5, 
+                      boxShadow: "0 10px 15px -5px rgba(0, 0, 0, 0.1), 0 5px 5px -5px rgba(0, 0, 0, 0.04)",
+                      borderColor: "#93C5FD"
+                    }}
+                    className="bg-white rounded-lg p-4 flex items-center justify-center h-20 shadow-sm hover:shadow-md transition-all duration-500 border border-gray-100 group"
+                  >
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className="max-h-10 max-w-full object-contain group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="lg:-left-8 -left-4" />
+            <CarouselNext className="lg:-right-8 -right-4" />
+          </Carousel>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             viewport={{ once: true, margin: "-100px" }}
+            className="mt-16"
           >
             <IndustryLinks />
           </motion.div>
+        </div>
+      </section>
+      
+      {/* Industry Cards Section */}
+      <section className="py-24 bg-gradient-to-b from-white to-swiss-gray/20 relative">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-swiss-darkblue mb-6">
+              Branchenspezifische Lösungen
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Wir bieten maßgeschneiderte Webdesign-Lösungen für Ihre Branche, die genau auf Ihre Zielgruppe zugeschnitten sind.
+            </p>
+          </motion.div>
+          
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {industryCards.map((card) => (
+                <CarouselItem key={card.id} className="md:basis-1/2 lg:basis-1/3 p-2">
+                  <motion.div 
+                    whileHover={{ 
+                      y: -8,
+                      scale: 1.02,
+                      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                    }}
+                    className="relative h-80 rounded-xl overflow-hidden cursor-pointer"
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-b ${card.color} opacity-90`}></div>
+                    <div className="absolute inset-0 flex flex-col justify-end p-8 text-white">
+                      <h3 className="text-2xl font-bold mb-2">{card.title}</h3>
+                      <p className="mb-6 opacity-90">{card.description}</p>
+                      <Button variant="outline" className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20">
+                        Mehr erfahren
+                      </Button>
+                    </div>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-center mt-8">
+              <CarouselPrevious className="relative static mr-2 bg-swiss-darkblue text-white hover:bg-swiss-darkblue/90" />
+              <CarouselNext className="relative static ml-2 bg-swiss-darkblue text-white hover:bg-swiss-darkblue/90" />
+            </div>
+          </Carousel>
+        </div>
+      </section>
+
+      {/* Website Check Section */}
+      <WebsiteCheckSection />
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-gradient-to-b from-white to-swiss-gray/10 relative">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-swiss-darkblue mb-6">
+              Häufige Fragen
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Antworten auf die häufigsten Fragen zum Thema Website-Redesign
+            </p>
+          </motion.div>
+          
+          <Accordion type="single" collapsible className="bg-white rounded-xl shadow-md p-6">
+            {faqItems.map((item, index) => (
+              <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-200 last:border-b-0">
+                <AccordionTrigger className="text-lg font-medium text-swiss-darkblue hover:no-underline">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-700">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
@@ -359,4 +529,3 @@ const WebsiteRedesign = () => {
 };
 
 export default WebsiteRedesign;
-
