@@ -1,244 +1,178 @@
-import { useState, useEffect } from 'react';
-import { Award, Building2, Sparkles, Gift } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
-import BackgroundPattern from '@/components/BackgroundPattern';
-import Footer from '@/components/Footer';
-import { AnalysisSteps } from '@/components/website-redesign/AnalysisSteps';
-import { ConsultationForm } from '@/components/website-redesign/ConsultationForm';
-import { TrustIndicators } from '@/components/website-redesign/TrustIndicators';
-import { TrustSection } from '@/components/website-redesign/TrustSection';
-import confetti from 'canvas-confetti';
 
-interface FormData {
-  step: number;
-  websiteUrl: string;
-  improvements: string[];
-  platform: string;
-  mainGoals: string[];
-  challenges: string;
-  companyName: string;
-  industry: string;
-  employeeCount: string;
-  monthlyVisitors: string;
-  contactPerson: string;
-  email: string;
-  phone: string;
-  preferredTime: string;
-  newsletter: boolean;
-  privacyAccepted: boolean;
-}
+import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom';
+import { nationalPartners } from '@/data/partners';
 
 const WebsiteRedesign = () => {
-  const [formData, setFormData] = useState<FormData>({
-    step: 1,
-    websiteUrl: '',
-    improvements: [],
-    platform: '',
-    mainGoals: [],
-    challenges: '',
-    companyName: '',
-    industry: '',
-    employeeCount: '',
-    monthlyVisitors: '',
-    contactPerson: '',
-    email: '',
-    phone: '',
-    preferredTime: '',
-    newsletter: false,
-    privacyAccepted: false
+  const [selectedPartners, setSelectedPartners] = useState(() => {
+    // Get 6 partners for the showcase
+    return nationalPartners.slice(0, 6);
   });
 
-  const [analysisStep, setAnalysisStep] = useState(1);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [remainingSpots] = useState(3);
-  const [satisfactionRate] = useState(98);
-  const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
-  const { toast } = useToast();
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 };
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        } else if (prev.hours > 0) {
-          return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        }
-        return prev;
-      });
-    }, 1000);
-
-    const notificationInterval = setInterval(() => {
-      const cities = ['Zürich', 'Basel', 'Bern', 'Luzern', 'St. Gallen'];
-      const names = ['Max M.', 'Sarah K.', 'Thomas R.', 'Lisa B.', 'Peter W.'];
-      const randomCity = cities[Math.floor(Math.random() * cities.length)];
-      const randomName = names[Math.floor(Math.random() * names.length)];
-      
-      toast({
-        title: "Neue Analyse-Anfrage",
-        description: `${randomName} aus ${randomCity} hat gerade seine Website-Analyse angefordert`,
-      });
-    }, 45000);
-
-    return () => {
-      clearInterval(timer);
-      clearInterval(notificationInterval);
-    };
-  }, [toast]);
-
-  const handleWebsiteCheck = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.websiteUrl) {
-      setIsAnalyzing(true);
-      toast({
-        title: "Website wird analysiert",
-        description: "Unsere KI analysiert Ihre Website. Bitte haben Sie einen Moment Geduld.",
-      });
-
-      setTimeout(() => {
-        setIsAnalyzing(false);
-        setAnalysisStep(2);
-        // Trigger confetti effect when showing qualification
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }, 3000);
-    }
-  };
-
-  const handleImprovementSelect = (improvement: string) => {
-    setFormData(prev => ({
-      ...prev,
-      improvements: prev.improvements.includes(improvement)
-        ? prev.improvements.filter(i => i !== improvement)
-        : [...prev.improvements, improvement]
-    }));
-  };
-
-  const startConsultation = () => {
-    setShowForm(true);
-    setAnalysisStep(3);
-  };
-
-  const handleFormChange = (updates: Partial<FormData>) => {
-    setFormData(prev => ({ ...prev, ...updates }));
-  };
-
-  const nextStep = () => {
-    if (formData.step < 3) {
-      setFormData(prev => ({ ...prev, step: prev.step + 1 }));
-    }
-  };
-
-  const prevStep = () => {
-    if (formData.step > 1) {
-      setFormData(prev => ({ ...prev, step: prev.step - 1 }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.step === 3) {
-      toast({
-        title: "Erfolgreich gesendet",
-        description: "Wir werden uns in Kürze bei Ihnen melden.",
-      });
-      setFormData(prev => ({ ...prev, step: 1 }));
-      setShowForm(false);
-      setAnalysisStep(1);
-    } else {
-      nextStep();
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-white text-swiss-darkblue pt-24">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto py-8">
-          {/* Hero Section */}
-          <div className="text-center space-y-8">
-            <div className="flex items-center justify-center gap-2 text-yellow-400 font-medium">
-              <Gift className="h-5 w-5" />
-              <span>Gewinnen Sie ein komplettes Webdesign im Wert von CHF 15'000.-</span>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-swiss-darkblue leading-tight">
+                Optimieren Sie Ihre digitale Präsenz.
+              </h1>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Wir vernetzen Kompetenz. Websites bauen geht einfach, doch nur mit der richtigen Expertise entsteht eine gute Onlinepräsenz.
+              </p>
+              <Button 
+                className="bg-swiss-darkblue hover:bg-swiss-darkblue/90 text-white px-6 py-3 text-lg flex items-center gap-2"
+                asChild
+              >
+                <Link to="/partners">
+                  Unsere Partner kennenlernen
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
             </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Digitale Präsenz optimieren – 
-              <span className="text-swiss-red">Mehr Erfolg</span> für Ihr Unternehmen
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-swiss-darkblue/80 max-w-3xl mx-auto">
-              Premium Website-Optimierung mit KI-gestützter Analyse und persönlicher Expertenberatung
+            <div className="rounded-xl overflow-hidden shadow-2xl">
+              <img
+                src="/lovable-uploads/19cbbc4e-2aa2-407e-9b31-d950e577c9cb.png"
+                alt="Digital workspace"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Website/Brand Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center mb-12 text-center">
+            <Link to="#" className="text-indigo-600 mb-3 font-medium">Web-Auftritt optimieren</Link>
+            <h2 className="text-3xl md:text-4xl font-bold text-swiss-darkblue mb-6">
+              Website Redesign oder Brand Refresh?
+            </h2>
+            <p className="text-lg text-gray-700 max-w-3xl">
+              Die Entscheidung zwischen einer kompletten Überarbeitung Ihrer Website oder einer Auffrischung Ihrer Marke hängt von Ihren spezifischen Geschäftszielen ab.
             </p>
-
-            <div className="flex flex-wrap justify-center gap-3 text-sm font-medium">
-              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Performance</span>
-              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Design</span>
-              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">Conversion</span>
-              <span className="bg-swiss-darkblue/5 backdrop-blur px-4 py-2 rounded-full border border-swiss-darkblue/10">UX</span>
-            </div>
-
-            {/* Prize Draw Notice with Exclusive Member Ribbon */}
-            <div className="relative">
-              <div className="absolute -top-6 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg transform rotate-3 animate-pulse whitespace-nowrap">
-                Exklusiv für unsere Mitglieder
-                  <span className="text-xs ml-1">(und die, die es werden wollen)</span>
-              </div>
-              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
-                <div className="flex items-start gap-4">
-                  <Gift className="h-8 w-8 text-yellow-600 shrink-0 mt-1" />
-                  <div className="text-left">
-                    <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-                      Exklusive Verlosung für Beratungsanfragen
-                    </h3>
-                    <p className="text-yellow-700">
-                      Jede Beratungsanfrage nimmt automatisch an der Verlosung teil. 
-                      Der Gewinner erhält ein komplettes Webdesign-Paket im Wert von CHF 15'000.-.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Analysis Steps */}
-            <div className="bg-swiss-darkblue text-white backdrop-blur-lg rounded-xl p-8 shadow-2xl mt-8">
-              {analysisStep < 3 ? (
-                <AnalysisSteps
-                  step={analysisStep}
-                  isAnalyzing={isAnalyzing}
-                  websiteUrl={formData.websiteUrl}
-                  improvements={formData.improvements}
-                  onWebsiteSubmit={handleWebsiteCheck}
-                  onWebsiteUrlChange={(url) => setFormData(prev => ({ ...prev, websiteUrl: url }))}
-                  onImprovementSelect={handleImprovementSelect}
-                  onStartConsultation={startConsultation}
-                />
-              ) : showForm ? (
-                <ConsultationForm
-                  formData={formData}
-                  onFormChange={handleFormChange}
-                  onPrevStep={prevStep}
-                  onSubmit={handleSubmit}
-                />
-              ) : null}
-            </div>
-
-            {/* Trust Indicators */}
-            <TrustIndicators
-              timeLeft={timeLeft}
-              remainingSpots={remainingSpots}
-            />
           </div>
 
-          {/* Trust Section */}
-          <TrustSection satisfactionRate={satisfactionRate} />
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <h3 className="text-2xl font-semibold text-swiss-darkblue">Website Redesign</h3>
+                <p className="text-gray-700">
+                  Eine komplette Überarbeitung Ihrer Website verbessert nicht nur das Design, sondern optimiert auch die Benutzerführung, Ladezeiten und Conversion-Raten. Ideal wenn Ihre aktuelle Website veraltet ist oder nicht die gewünschten Ergebnisse erzielt.
+                </p>
+              </div>
+              
+              <div className="space-y-3">
+                <h3 className="text-2xl font-semibold text-swiss-darkblue">Brand Refresh</h3>
+                <p className="text-gray-700">
+                  Eine Markenauffrischung modernisiert Ihr visuelles Erscheinungsbild und Ihre Kommunikation, ohne die Kernidentität zu verändern. Perfekt, wenn Ihre Marke solide ist, aber ein zeitgemäßeres Auftreten benötigt.
+                </p>
+              </div>
+              
+              <Button className="bg-swiss-red hover:bg-swiss-red/90 text-white px-6 py-3 mt-4">
+                Kostenlose Beratung erhalten
+              </Button>
+            </div>
+            
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <img
+                src="/lovable-uploads/e8fe9475-a9bf-4636-9512-ac9c74ccbf80.png"
+                alt="Website analytics"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Partners Logo Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold text-swiss-darkblue mb-4">
+              Für den optimalen Webauftritt verbinden wir Sie mit diesen Experten
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            {selectedPartners.map((partner) => (
+              <div 
+                key={partner.id} 
+                className="bg-white rounded-lg p-6 flex items-center justify-center h-24 shadow-sm hover:shadow-md transition-shadow duration-300"
+              >
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="max-h-10 max-w-full object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Membership Section */}
+      <section className="py-16 bg-swiss-gray">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-swiss-darkblue">
+                Werden Sie Mitglied des KMU-Vereins
+              </h2>
+              <p className="text-lg text-gray-700">
+                Profitieren Sie von einem starken Netzwerk, exklusiven Angeboten und wertvollen Geschäftskontakten. Als Mitglied des Schweizerischen KMU Vereins erhalten Sie Zugang zu erstklassigen Dienstleistern und attraktiven Sonderkonditionen.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button 
+                  variant="outline" 
+                  className="border-swiss-darkblue text-swiss-darkblue hover:bg-swiss-darkblue hover:text-white"
+                  asChild
+                >
+                  <Link to="/membership">
+                    Mehr erfahren
+                  </Link>
+                </Button>
+                <Button 
+                  className="bg-swiss-red hover:bg-swiss-red/90 text-white"
+                  asChild
+                >
+                  <Link to="/membership">
+                    Jetzt Mitglied werden
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <img
+                src="/lovable-uploads/874b0f8c-856e-42ef-b959-a1393f89478c.png"
+                alt="Business networking"
+                className="rounded-lg h-48 w-full object-cover"
+              />
+              <img
+                src="/lovable-uploads/9073a767-a689-41cd-9749-71c1f54c69c3.png"
+                alt="Office meeting"
+                className="rounded-lg h-48 w-full object-cover"
+              />
+              <img
+                src="/lovable-uploads/710d5524-1ea6-450d-a56f-e200a0de134b.png"
+                alt="Business conversation"
+                className="rounded-lg h-48 w-full object-cover"
+              />
+              <img
+                src="/lovable-uploads/86e1093f-d110-4675-89d5-b99e23c5a312.png"
+                alt="Working together"
+                className="rounded-lg h-48 w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
