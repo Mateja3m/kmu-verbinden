@@ -6,6 +6,7 @@ import { nationalPartners } from '@/data/partners';
 import { IndustryLinks } from '@/components/website-redesign/IndustryLinks';
 import { motion } from 'framer-motion';
 import { WebsiteCheckSection } from '@/components/website-redesign/WebsiteCheckSection';
+import { IndustryCards } from '@/components/website-redesign/IndustryCards';
 import { 
   Carousel,
   CarouselContent,
@@ -515,3 +516,4 @@ const WebsiteRedesign = () => {
 };
 
 export default WebsiteRedesign;
+
