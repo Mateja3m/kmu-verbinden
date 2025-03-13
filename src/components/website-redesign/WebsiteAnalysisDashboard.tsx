@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Loader2, CheckCircle, XCircle, AlertCircle, Globe, ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 
@@ -38,6 +38,7 @@ export const WebsiteAnalysisDashboard = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [analyzedUrl, setAnalyzedUrl] = useState<string | null>(null);
 
   const analyzeWebsite = async () => {
     if (!url) {
@@ -58,6 +59,7 @@ export const WebsiteAnalysisDashboard = () => {
 
     setIsAnalyzing(true);
     setError(null);
+    setResult(null);
     
     try {
       toast({
@@ -73,30 +75,41 @@ export const WebsiteAnalysisDashboard = () => {
 
       if (error) {
         console.error('Analysis function error:', error);
-        throw error;
+        throw new Error(`Fehler bei der Analyse: ${error.message}`);
       }
       
-      if (!data || typeof data !== 'object') {
-        console.error('Invalid response from analysis function:', data);
-        throw new Error('Ungültige Antwort vom Analysetool');
+      if (!data) {
+        console.error('Empty response from analysis function');
+        throw new Error('Keine Antwort vom Analysetool erhalten');
+      }
+      
+      if (data.error) {
+        console.error('Error in response data:', data.error);
+        throw new Error(`Fehler bei der Analyse: ${data.error}`);
+      }
+      
+      if (typeof data !== 'object' || !data.score) {
+        console.error('Invalid response format from analysis function:', data);
+        throw new Error('Ungültiges Antwortformat vom Analysetool');
       }
       
       console.log('Analysis complete:', data);
       setResult(data);
+      setAnalyzedUrl(cleanUrl);
       toast({
         title: "Analyse abgeschlossen",
         description: "Ihre Website wurde erfolgreich analysiert."
       });
     } catch (error) {
       console.error('Analysis error:', error);
-      setError(
-        error instanceof Error 
-          ? error.message 
-          : 'Ein unbekannter Fehler ist aufgetreten'
-      );
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : 'Ein unbekannter Fehler ist aufgetreten';
+      
+      setError(errorMessage);
       toast({
         title: "Fehler bei der Analyse",
-        description: "Bitte versuchen Sie es später erneut oder prüfen Sie, ob die Website erreichbar ist.",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
@@ -118,9 +131,12 @@ export const WebsiteAnalysisDashboard = () => {
           <CardTitle className="text-2xl font-bold text-center">
             Lassen Sie Ihre Website analysieren
           </CardTitle>
+          <CardDescription className="text-center">
+            Unser KI-System analysiert Ihre Website und gibt Ihnen wertvolle Verbesserungsvorschläge.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Input
               type="url"
               placeholder="https://ihre-website.ch"
@@ -136,9 +152,13 @@ export const WebsiteAnalysisDashboard = () => {
             </Button>
           </div>
           {error && (
-            <div className="text-red-500 bg-red-50 p-3 rounded-md flex items-start gap-2 mt-2">
+            <div className="text-red-500 bg-red-50 p-4 rounded-md flex items-start gap-2 mt-2 border border-red-200">
               <XCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-              <span>{error}</span>
+              <div>
+                <p className="font-semibold">Fehler bei der Analyse:</p>
+                <p>{error}</p>
+                <p className="text-sm mt-2">Bitte stellen Sie sicher, dass die Website erreichbar ist und versuchen Sie es erneut.</p>
+              </div>
             </div>
           )}
         </CardContent>
@@ -154,6 +174,7 @@ export const WebsiteAnalysisDashboard = () => {
             <Loader2 className="h-12 w-12 animate-spin text-swiss-red" />
             <p className="text-lg font-medium">Analysiere Ihre Website...</p>
             <Progress value={45} className="w-64" />
+            <p className="text-sm text-gray-500">Dies kann bis zu einer Minute dauern</p>
           </div>
         </CardContent>
       </Card>
@@ -169,7 +190,21 @@ export const WebsiteAnalysisDashboard = () => {
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold flex items-center justify-between">
-            Website-Analyse Ergebnis
+            <div className="flex items-center gap-2">
+              <Globe className="h-6 w-6 text-swiss-red" />
+              Website-Analyse Ergebnis
+              {analyzedUrl && (
+                <a 
+                  href={analyzedUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-sm font-normal text-blue-500 hover:text-blue-700 flex items-center ml-2"
+                >
+                  {analyzedUrl.replace(/^https?:\/\/(www\.)?/, '').split('/')[0]}
+                  <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
+              )}
+            </div>
             <span className={`text-4xl ${getScoreColor(result?.score || 0)}`}>
               {result?.score}/100
             </span>
@@ -216,6 +251,62 @@ export const WebsiteAnalysisDashboard = () => {
         </CardContent>
       </Card>
 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="md:col-span-1">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold">
+              Design Feedback
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
+              {result?.design.feedback.map((item, index) => (
+                <li key={`design-${index}`} className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card className="md:col-span-1">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold">
+              Content Feedback
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
+              {result?.content.feedback.map((item, index) => (
+                <li key={`content-${index}`} className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card className="md:col-span-1">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold">
+              Technisches Feedback
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
+              {result?.technical.feedback.map((item, index) => (
+                <li key={`technical-${index}`} className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
+
       <Card>
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
@@ -242,6 +333,20 @@ export const WebsiteAnalysisDashboard = () => {
           <Link to="/contact?source=website-analysis">
             Kostenloses Beratungsgespräch vereinbaren
           </Link>
+        </Button>
+      </div>
+
+      <div className="flex justify-center pt-2">
+        <Button 
+          variant="outline"
+          onClick={() => {
+            setResult(null);
+            setError(null);
+            setAnalyzedUrl(null);
+          }}
+          className="mt-4"
+        >
+          Neue Analyse starten
         </Button>
       </div>
     </motion.div>
