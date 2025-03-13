@@ -58,49 +58,49 @@ const WebsiteRedesign = () => {
     }
   };
 
-  // Industry cards data with icon property
+  // Industry cards data with icon property - fixed the type of the icon property
   const industryCards = [
     {
       id: 'gastgewerbe',
       title: 'Gastronomie',
       description: 'Maßgeschneiderte Webauftritte für Restaurants, Cafés und Gastronomiebetriebe',
       color: 'from-blue-400 to-blue-600',
-      icon: 'ChefHat'
+      icon: 'ChefHat' as const
     },
     {
       id: 'handwerk',
       title: 'Handwerk',
       description: 'Professionelle Webseiten für Handwerksbetriebe und Dienstleister',
       color: 'from-green-400 to-green-600',
-      icon: 'Building'
+      icon: 'Building' as const
     },
     {
       id: 'einzelhandel',
       title: 'Einzelhandel',
       description: 'Ansprechende Webpräsenzen für lokale Einzelhändler und Boutiquen',
       color: 'from-amber-400 to-amber-600',
-      icon: 'Store'
+      icon: 'Store' as const
     },
     {
       id: 'gesundheit',
       title: 'Gesundheitswesen',
       description: 'Vertrauenerweckende Websites für Praxen, Therapeuten und Wellness-Anbieter',
       color: 'from-red-400 to-red-600',
-      icon: 'Stethoscope'
+      icon: 'Stethoscope' as const
     },
     {
       id: 'finanzen',
       title: 'Finanzen & Beratung',
       description: 'Seriöse Online-Präsenzen für Berater, Anwälte und Finanzdienstleister',
       color: 'from-indigo-400 to-indigo-600',
-      icon: 'Briefcase'
+      icon: 'Briefcase' as const
     },
     {
       id: 'bildung',
       title: 'Bildung & Coaching',
       description: 'Inspirierende Websites für Bildungseinrichtungen und Coaches',
       color: 'from-purple-400 to-purple-600',
-      icon: 'BookOpen'
+      icon: 'BookOpen' as const
     }
   ];
 
@@ -516,4 +516,3 @@ const WebsiteRedesign = () => {
 };
 
 export default WebsiteRedesign;
-
