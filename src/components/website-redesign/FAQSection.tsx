@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { HelpCircle } from 'lucide-react';
 
 interface FAQItem {
   question: string;
@@ -27,6 +28,11 @@ export const FAQSection = ({ items }: FAQSectionProps) => {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
+          <div className="flex justify-center mb-4">
+            <div className="bg-swiss-lightblue/20 p-3 rounded-full">
+              <HelpCircle className="h-8 w-8 text-swiss-darkblue" />
+            </div>
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-swiss-darkblue mb-6">
             Häufige Fragen
           </h2>

@@ -57,43 +57,49 @@ const WebsiteRedesign = () => {
     }
   };
 
-  // Industry cards data
+  // Industry cards data with icon property
   const industryCards = [
     {
       id: 'gastgewerbe',
       title: 'Gastronomie',
       description: 'Maßgeschneiderte Webauftritte für Restaurants, Cafés und Gastronomiebetriebe',
-      color: 'from-blue-400 to-blue-600'
+      color: 'from-blue-400 to-blue-600',
+      icon: 'ChefHat'
     },
     {
       id: 'handwerk',
       title: 'Handwerk',
       description: 'Professionelle Webseiten für Handwerksbetriebe und Dienstleister',
-      color: 'from-green-400 to-green-600'
+      color: 'from-green-400 to-green-600',
+      icon: 'Building'
     },
     {
       id: 'einzelhandel',
       title: 'Einzelhandel',
       description: 'Ansprechende Webpräsenzen für lokale Einzelhändler und Boutiquen',
-      color: 'from-amber-400 to-amber-600'
+      color: 'from-amber-400 to-amber-600',
+      icon: 'Store'
     },
     {
       id: 'gesundheit',
       title: 'Gesundheitswesen',
       description: 'Vertrauenerweckende Websites für Praxen, Therapeuten und Wellness-Anbieter',
-      color: 'from-red-400 to-red-600'
+      color: 'from-red-400 to-red-600',
+      icon: 'Stethoscope'
     },
     {
       id: 'finanzen',
       title: 'Finanzen & Beratung',
       description: 'Seriöse Online-Präsenzen für Berater, Anwälte und Finanzdienstleister',
-      color: 'from-indigo-400 to-indigo-600'
+      color: 'from-indigo-400 to-indigo-600',
+      icon: 'Briefcase'
     },
     {
       id: 'bildung',
       title: 'Bildung & Coaching',
       description: 'Inspirierende Websites für Bildungseinrichtungen und Coaches',
-      color: 'from-purple-400 to-purple-600'
+      color: 'from-purple-400 to-purple-600',
+      icon: 'BookOpen'
     }
   ];
 
@@ -120,6 +126,17 @@ const WebsiteRedesign = () => {
       answer: 'Absolut. Mit der zunehmenden Nutzung mobiler Geräte ist eine responsive Website, die sich automatisch an verschiedene Bildschirmgrößen anpasst, unerlässlich. Nicht nur für die Benutzererfahrung, sondern auch für die Suchmaschinenoptimierung, da Google mobile Kompatibilität als Ranking-Faktor berücksichtigt.'
     }
   ];
+
+  const handleIndustryCardClick = (cardId: string) => {
+    console.log(`Industry card clicked: ${cardId}`);
+    // Scroll to the expanded section
+    setTimeout(() => {
+      window.scrollBy({
+        top: 100,
+        behavior: 'smooth'
+      });
+    }, 100);
+  };
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
@@ -360,45 +377,14 @@ const WebsiteRedesign = () => {
             </p>
           </motion.div>
           
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {industryCards.map((card) => (
-                <CarouselItem key={card.id} className="md:basis-1/2 lg:basis-1/3 p-2">
-                  <motion.div 
-                    whileHover={{ 
-                      y: -8,
-                      scale: 1.02,
-                      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-                    }}
-                    className="relative h-80 rounded-xl overflow-hidden cursor-pointer"
-                  >
-                    <div className={`absolute inset-0 bg-gradient-to-b ${card.color} opacity-90`}></div>
-                    <div className="absolute inset-0 flex flex-col justify-end p-8 text-white">
-                      <h3 className="text-2xl font-bold mb-2">{card.title}</h3>
-                      <p className="mb-6 opacity-90">{card.description}</p>
-                      <Button variant="outline" className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20">
-                        Mehr erfahren
-                      </Button>
-                    </div>
-                  </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="flex justify-center mt-8">
-              <CarouselPrevious className="relative static mr-2 bg-swiss-darkblue text-white hover:bg-swiss-darkblue/90" />
-              <CarouselNext className="relative static ml-2 bg-swiss-darkblue text-white hover:bg-swiss-darkblue/90" />
-            </div>
-          </Carousel>
+          <IndustryCards 
+            cards={industryCards} 
+            onCardClick={handleIndustryCardClick} 
+          />
         </div>
       </section>
 
-      {/* Website Check Section */}
+      {/* Website Check Section - Only show standalone if no industry card is expanded */}
       <WebsiteCheckSection />
 
       {/* FAQ Section */}

@@ -1,64 +1,85 @@
 
-import React, { useEffect, useState } from 'react';
-import { Code, Search, Layout, LineChart, Gauge, Globe } from 'lucide-react';
-import { Progress } from "@/components/ui/progress";
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-interface LoadingAnimationBarProps {
-  websiteUrl: string;
-  isAnalyzing: boolean;
-}
+const analysisSteps = [
+  { id: 1, label: "Analysiere Design..." },
+  { id: 2, label: "Prüfe SEO-Optimierung..." },
+  { id: 3, label: "Bewerte Technologie..." },
+  { id: 4, label: "Teste Performance..." },
+  { id: 5, label: "Analysiere Benutzerführung..." },
+  { id: 6, label: "Erstelle Bericht..." }
+];
 
-export const LoadingAnimationBar = ({ websiteUrl, isAnalyzing }: LoadingAnimationBarProps) => {
-  const [currentStep, setCurrentStep] = useState(0);
+export const LoadingAnimationBar = () => {
+  const [currentStep, setCurrentStep] = useState(1);
   const [progress, setProgress] = useState(0);
-
-  const analysisTasks = [
-    { icon: Layout, text: 'Analysiere Design', duration: 1500 },
-    { icon: Search, text: 'Prüfe SEO-Optimierung', duration: 2000 },
-    { icon: Code, text: 'Überprüfe Technologie', duration: 1800 },
-    { icon: Gauge, text: 'Teste Performance', duration: 1600 },
-    { icon: LineChart, text: 'Analysiere UX', duration: 1700 },
-    { icon: Globe, text: 'Erstelle Bericht', duration: 1400 }
-  ];
-
+  
   useEffect(() => {
-    if (!isAnalyzing) {
-      setCurrentStep(0);
-      setProgress(0);
-      return;
-    }
-
-    let stepIndex = 0;
-    const progressIncrement = 100 / analysisTasks.length;
-
-    const runAnalysis = () => {
-      if (stepIndex < analysisTasks.length) {
-        setCurrentStep(stepIndex);
-        setProgress((stepIndex + 1) * progressIncrement);
-        
-        setTimeout(() => {
-          stepIndex++;
-          runAnalysis();
-        }, analysisTasks[stepIndex].duration);
+    // Change steps for simulation
+    const stepInterval = setInterval(() => {
+      if (currentStep < analysisSteps.length) {
+        setCurrentStep(prev => prev + 1);
+      } else {
+        clearInterval(stepInterval);
       }
+    }, 1600);
+    
+    // Update progress continuously
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        const targetProgress = (currentStep / analysisSteps.length) * 100;
+        const nextProgress = Math.min(prev + 2, targetProgress);
+        
+        if (nextProgress >= 100) {
+          clearInterval(progressInterval);
+        }
+        
+        return nextProgress;
+      });
+    }, 100);
+    
+    return () => {
+      clearInterval(stepInterval);
+      clearInterval(progressInterval);
     };
-
-    runAnalysis();
-  }, [isAnalyzing]);
-
-  if (!isAnalyzing) return null;
-
-  const CurrentIcon = analysisTasks[currentStep]?.icon || Globe;
-
+  }, [currentStep]);
+  
   return (
-    <div className="space-y-4 animate-fade-in">
-      <Progress value={progress} className="h-2" />
+    <div className="space-y-4">
+      <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+        <motion.div
+          className="h-full bg-gradient-to-r from-swiss-lightblue to-swiss-red"
+          style={{ width: `${progress}%` }}
+          initial={{ width: "0%" }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.3 }}
+        />
+      </div>
       
-      <div className="flex items-center gap-3 text-white/90">
-        <CurrentIcon className="h-5 w-5 animate-pulse" />
-        <span className="text-sm">
-          {analysisTasks[currentStep]?.text} von {websiteUrl}...
-        </span>
+      <div className="text-white/80 text-sm">
+        {analysisSteps[currentStep - 1]?.label || "Analyse abgeschlossen"}
+      </div>
+      
+      <div className="pt-2 grid grid-cols-6 gap-1">
+        {analysisSteps.map((step) => (
+          <motion.div
+            key={step.id}
+            className={`h-1 rounded-full ${
+              step.id <= currentStep ? "bg-swiss-lightblue" : "bg-white/20"
+            }`}
+            initial={{ opacity: 0.4 }}
+            animate={{ 
+              opacity: step.id === currentStep ? 1 : 0.4,
+              scale: step.id === currentStep ? [1, 1.2, 1] : 1
+            }}
+            transition={{ 
+              duration: 0.5,
+              repeat: step.id === currentStep ? Infinity : 0,
+              repeatType: "reverse"
+            }}
+          />
+        ))}
       </div>
     </div>
   );

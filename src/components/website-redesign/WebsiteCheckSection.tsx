@@ -8,9 +8,14 @@ import { ConsultationForm } from './ConsultationForm';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { Globe } from 'lucide-react';
 
-export const WebsiteCheckSection = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+interface WebsiteCheckSectionProps {
+  industryId?: string;
+}
+
+export const WebsiteCheckSection = ({ industryId }: WebsiteCheckSectionProps) => {
+  const [isExpanded, setIsExpanded] = useState(!!industryId);
   const [currentStep, setCurrentStep] = useState(1);
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -20,7 +25,7 @@ export const WebsiteCheckSection = () => {
     platform: '',
     challenges: '',
     companyName: '',
-    industry: '',
+    industry: industryId || '',
     employeeCount: '',
     monthlyVisitors: '',
     contactPerson: '',
@@ -132,6 +137,55 @@ export const WebsiteCheckSection = () => {
     }
   };
 
+  // If rendered directly in an industry expansion panel
+  if (industryId) {
+    return (
+      <div className="bg-swiss-darkblue text-white p-8 rounded-xl shadow-xl my-8">
+        <div className="max-w-4xl mx-auto">
+          {currentStep < 3 ? (
+            <AnalysisSteps
+              step={currentStep}
+              isAnalyzing={isAnalyzing}
+              websiteUrl={websiteUrl}
+              improvements={improvements}
+              onWebsiteSubmit={handleWebsiteSubmit}
+              onWebsiteUrlChange={handleWebsiteUrlChange}
+              onImprovementSelect={handleImprovementSelect}
+              onStartConsultation={handleStartConsultation}
+              industryId={industryId}
+            />
+          ) : currentStep === 3 ? (
+            <ConsultationForm
+              formData={formData}
+              onFormChange={handleFormChange}
+              onPrevStep={handlePrevStep}
+              onSubmit={handleFormSubmit}
+            />
+          ) : (
+            <div className="text-center py-10 space-y-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500 text-white mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              
+              <h2 className="text-3xl font-bold">Vielen Dank!</h2>
+              <p className="text-lg text-white/80 max-w-md mx-auto">
+                Wir haben Ihre Anfrage erhalten und werden uns innerhalb von 24 Stunden bei Ihnen melden.
+              </p>
+              
+              <Button 
+                onClick={() => setCurrentStep(1)} 
+                className="mt-8 bg-swiss-red hover:bg-swiss-red/90 text-white"
+              >
+                Zurück zur Analyse
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Original full standalone section with collapsible
   return (
     <section className="py-24 relative">
       <Collapsible
@@ -145,7 +199,8 @@ export const WebsiteCheckSection = () => {
             onClick={handleExpand}
           >
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl md:text-3xl font-bold text-swiss-darkblue">
+              <CardTitle className="text-2xl md:text-3xl font-bold text-swiss-darkblue flex justify-center items-center gap-3">
+                <Globe className="h-6 w-6 text-swiss-red" />
                 Steht Ihre Website auf dem neuesten Stand?
               </CardTitle>
               <CardDescription className="text-lg text-gray-600 max-w-2xl mx-auto">

@@ -1,9 +1,10 @@
+
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Globe, ChevronRight, Check, Sparkles } from 'lucide-react';
-import { Progress } from "@/components/ui/progress";
-import { LoadingAnimationBar } from "./LoadingAnimationBar";
-import confetti from 'canvas-confetti';
+import { motion } from 'framer-motion';
+import { LoadingAnimationBar } from './LoadingAnimationBar';
+import { Search, ArrowRight, Check } from 'lucide-react';
 
 interface AnalysisStepsProps {
   step: number;
@@ -14,6 +15,7 @@ interface AnalysisStepsProps {
   onWebsiteUrlChange: (url: string) => void;
   onImprovementSelect: (improvement: string) => void;
   onStartConsultation: () => void;
+  industryId?: string;
 }
 
 export const AnalysisSteps = ({
@@ -23,146 +25,132 @@ export const AnalysisSteps = ({
   improvements,
   onWebsiteSubmit,
   onWebsiteUrlChange,
-  onStartConsultation
+  onImprovementSelect,
+  onStartConsultation,
+  industryId
 }: AnalysisStepsProps) => {
-  const formatUrl = (url: string) => {
-    let cleanUrl = url.replace(/^(https?:\/\/)?(www\.)?/, '');
-    cleanUrl = cleanUrl.replace(/\/$/, '');
-    if (cleanUrl) {
-      cleanUrl = `https://${cleanUrl}`;
+  const [selectedImprovements, setSelectedImprovements] = useState<string[]>([]);
+
+  const handleImprovementToggle = (improvement: string) => {
+    if (selectedImprovements.includes(improvement)) {
+      setSelectedImprovements(selectedImprovements.filter(item => item !== improvement));
+    } else {
+      setSelectedImprovements([...selectedImprovements, improvement]);
     }
-    return cleanUrl;
+    
+    onImprovementSelect(improvement);
   };
 
-  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onWebsiteUrlChange(e.target.value);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const formattedUrl = formatUrl(websiteUrl);
-    onWebsiteUrlChange(formattedUrl);
-    onWebsiteSubmit(e);
-  };
-
-  if (step === 1) {
-    return (
-      <div className="space-y-6">
-        <h2 className="text-3xl font-semibold mb-4">Wo steht Ihre Website?</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4">
-          <Input
-            type="text"
-            placeholder="z.B. meine-website.ch"
-            value={websiteUrl}
-            onChange={handleUrlChange}
-            className="bg-white/10 text-white h-14 text-lg flex-1 border-2 border-white/20 placeholder:text-white/60"
-            required
-          />
-          <Button 
-            type="submit"
-            size="lg"
-            disabled={isAnalyzing}
-            className="h-14 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect text-lg px-8"
-          >
-            {isAnalyzing ? (
-              <span className="flex items-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Analyse läuft...
-              </span>
-            ) : (
-              <>
-                <Globe className="mr-2 h-5 w-5" />
-                Jetzt analysieren
-              </>
-            )}
-          </Button>
-        </form>
-
-        {isAnalyzing && (
-          <div className="mt-8">
-            <LoadingAnimationBar 
-              websiteUrl={websiteUrl.replace(/^https?:\/\//, '')} 
-              isAnalyzing={isAnalyzing} 
-            />
+  return (
+    <div className="space-y-10">
+      {step === 1 && (
+        <div className="space-y-6">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Website-Analyse starten</h3>
+            <p className="text-lg text-white/80">
+              Geben Sie Ihre Website-URL ein und erhalten Sie eine kostenlose Analyse.
+              {industryId && " Speziell auf Ihre Branche zugeschnitten."}
+            </p>
           </div>
-        )}
-      </div>
-    );
-  }
-
-  if (step === 2) {
-    return (
-      <div className="space-y-8 text-center">
-        <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-500 px-4 py-2 rounded-full font-medium">
-          <Check className="h-5 w-5" />
-          Qualifiziert für Exklusiv-Paket
-        </div>
-        
-        <h2 className="text-3xl font-semibold">
-          <Sparkles className="inline-block h-8 w-8 mr-2 text-yellow-400" />
-          Ihr Exklusiv-Paket als vorqualifiziertes Unternehmen
-        </h2>
-
-        <div className="grid gap-6 max-w-2xl mx-auto">
-          <div className="bg-white/10 backdrop-blur border border-white/20 rounded-xl p-6 text-left">
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <Check className="h-5 w-5 mt-1 text-green-400 shrink-0" />
-                <div>
-                  <p className="font-medium">Website-Analyse durch unsere Digital-Experten</p>
-                  <p className="text-white/60">Wert: CHF 890</p>
-                </div>
+          
+          <form onSubmit={onWebsiteSubmit} className="space-y-6">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
               </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-5 w-5 mt-1 text-green-400 shrink-0" />
-                <div>
-                  <p className="font-medium">Strategieberatung für messbares Wachstum</p>
-                  <p className="text-white/60">Individuell auf Ihr Unternehmen zugeschnitten</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-5 w-5 mt-1 text-green-400 shrink-0" />
-                <div>
-                  <p className="font-medium">Premium Webdesign zu KMU-Vorzugskonditionen</p>
-                  <p className="text-white/60">Exklusiv für qualifizierte Unternehmen</p>
-                </div>
-              </div>
+              <Input
+                type="url"
+                placeholder="www.ihre-website.ch"
+                value={websiteUrl}
+                onChange={(e) => onWebsiteUrlChange(e.target.value)}
+                className="pl-10 py-6 text-lg bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:ring-swiss-lightblue focus:border-swiss-lightblue"
+                required
+              />
             </div>
+            
+            <Button 
+              type="submit"
+              className="w-full py-6 text-lg bg-swiss-red hover:bg-swiss-red/90 text-white"
+              disabled={isAnalyzing || !websiteUrl}
+            >
+              {isAnalyzing ? "Analysiere..." : "Website jetzt analysieren"}
+            </Button>
+          </form>
+          
+          {isAnalyzing && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mt-8"
+            >
+              <LoadingAnimationBar />
+            </motion.div>
+          )}
+        </div>
+      )}
+      
+      {step === 2 && (
+        <div className="space-y-8">
+          <div className="text-center mb-6">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500 text-white mb-4"
+            >
+              <Check className="h-8 w-8" />
+            </motion.div>
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Analyse abgeschlossen!</h3>
+            <p className="text-lg text-white/80">
+              Wir haben folgende Verbesserungspotenziale für Ihre Website identifiziert:
+            </p>
           </div>
-
-          <div className="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 backdrop-blur border border-yellow-400/30 rounded-xl p-6 text-left">
-            <h3 className="text-xl font-semibold mb-4">Exklusiver Bonus</h3>
-            <div className="flex items-start gap-3">
-              <Check className="h-5 w-5 mt-1 text-yellow-400 shrink-0" />
-              <div>
-                <p className="font-medium">1 Jahr SKV-Mitgliedschaft inklusive</p>
-                <p className="text-white/60">Wert: CHF 550</p>
-              </div>
-            </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {improvements.map((improvement, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <div
+                  className={`p-4 rounded-lg border border-white/30 cursor-pointer transition-all ${
+                    selectedImprovements.includes(improvement)
+                      ? "bg-white/20 border-white"
+                      : "bg-white/10 hover:bg-white/15"
+                  }`}
+                  onClick={() => handleImprovementToggle(improvement)}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`flex-shrink-0 w-5 h-5 rounded-full border ${
+                      selectedImprovements.includes(improvement)
+                        ? "bg-swiss-red border-swiss-red"
+                        : "border-white/50"
+                    } flex items-center justify-center mt-0.5`}>
+                      {selectedImprovements.includes(improvement) && (
+                        <Check className="h-3 w-3 text-white" />
+                      )}
+                    </div>
+                    <span className="text-white">{improvement}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          <div className="pt-6">
+            <Button
+              onClick={onStartConsultation}
+              className="w-full py-6 text-lg bg-swiss-red hover:bg-swiss-red/90 text-white group"
+            >
+              Kostenlose Beratung vereinbaren
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Button>
           </div>
         </div>
-
-        <div className="mt-8">
-          <div className="text-sm text-white/60 mb-2">Noch 3 Plätze verfügbar</div>
-          <Progress value={75} className="h-2 w-48 mx-auto mb-8" />
-          <Button 
-            onClick={onStartConsultation}
-            className="w-full md:w-auto bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect h-14 text-lg px-8"
-          >
-            Kostenloses Beratungsgespräch vereinbaren
-            <ChevronRight className="ml-2 h-5 w-5" />
-          </Button>
-        </div>
-
-        <p className="text-sm text-white/60">
-          * Angebot limitiert und nur für qualifizierte Unternehmen verfügbar
-        </p>
-      </div>
-    );
-  }
-
-  return null;
+      )}
+    </div>
+  );
 };
