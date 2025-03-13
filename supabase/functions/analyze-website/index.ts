@@ -39,11 +39,14 @@ serve(async (req) => {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         },
-        redirect: 'follow'
+        redirect: 'follow',
+        signal: AbortSignal.timeout(30000) // 30 second timeout
       });
+      
       if (!response.ok) {
         throw new Error(`Failed to fetch website: ${response.status} ${response.statusText}`);
       }
+      
       html = await response.text();
       console.log(`Successfully fetched website content (${html.length} characters)`);
     } catch (fetchError) {
@@ -51,18 +54,18 @@ serve(async (req) => {
       throw new Error(`Failed to fetch website content: ${fetchError.message}`);
     }
 
-    // Call Claude API with the latest version and correct headers
+    // Call Claude API with proper API version and format
     try {
       console.log('Calling Claude API...');
       const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'anthropic-api-key': CLAUDE_API_KEY,
-          'anthropic-version': '2023-06-01'
+          'x-api-key': CLAUDE_API_KEY, // Updated key header
+          'anthropic-version': '2023-06-01' // Fixed API version
         },
         body: JSON.stringify({
-          model: "claude-3-sonnet-20240229",
+          model: "claude-3-haiku-20240307", // Updated to latest model
           max_tokens: 2000,
           messages: [{
             role: "user",
@@ -84,7 +87,7 @@ serve(async (req) => {
             }
             
             HTML to analyze:
-            ${html.substring(0, 50000)}`
+            ${html.substring(0, 25000)}`
           }]
         })
       });
@@ -96,28 +99,45 @@ serve(async (req) => {
       }
 
       const claudeData = await claudeResponse.json();
-      console.log('Claude API response received');
+      console.log('Claude API response received:', JSON.stringify(claudeData).substring(0, 200) + '...');
 
-      // Parse Claude's response which should be JSON
+      // Parse Claude's response - updated to match new v1/messages format
       try {
-        const textContent = claudeData.content[0].text;
+        // Extract the content from the first message's content array
+        if (!claudeData.content || !Array.isArray(claudeData.content) || claudeData.content.length === 0) {
+          throw new Error('Invalid Claude API response format: missing content array');
+        }
+        
+        const content = claudeData.content[0];
+        if (!content || !content.text) {
+          throw new Error('Invalid Claude API response format: missing text in content');
+        }
+        
+        const textContent = content.text;
         
         // Extract JSON from the response
         const jsonMatch = textContent.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
+          console.error('Full Claude response:', textContent);
           throw new Error('Could not find JSON in Claude response');
         }
         
         const jsonString = jsonMatch[0];
-        const analysis = JSON.parse(jsonString);
+        console.log('Extracted JSON:', jsonString.substring(0, 200) + '...');
         
-        console.log('Successfully parsed analysis JSON');
-        
-        return new Response(JSON.stringify(analysis), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
+        try {
+          const analysis = JSON.parse(jsonString);
+          console.log('Successfully parsed analysis JSON');
+          
+          return new Response(JSON.stringify(analysis), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        } catch (jsonError) {
+          console.error('JSON parse error:', jsonError);
+          throw new Error(`Failed to parse Claude response as JSON: ${jsonError.message}`);
+        }
       } catch (parseError) {
-        console.error('Error parsing Claude response:', parseError, 'Response:', claudeData);
+        console.error('Error parsing Claude response:', parseError, 'Response:', JSON.stringify(claudeData));
         throw new Error(`Failed to parse Claude response: ${parseError.message}`);
       }
     } catch (claudeError) {

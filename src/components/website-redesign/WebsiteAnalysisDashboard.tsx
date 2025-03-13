@@ -60,16 +60,28 @@ export const WebsiteAnalysisDashboard = () => {
     setError(null);
     
     try {
+      toast({
+        title: "Analyse gestartet",
+        description: "Die Website wird jetzt analysiert. Dies kann bis zu einer Minute dauern."
+      });
+      
+      console.log(`Analyzing URL: ${cleanUrl}`);
+      
       const { data, error } = await supabase.functions.invoke('analyze-website', {
         body: { url: cleanUrl }
       });
 
-      if (error) throw error;
-      
-      if (!data || typeof data !== 'object') {
-        throw new Error('Invalid response from analysis function');
+      if (error) {
+        console.error('Analysis function error:', error);
+        throw error;
       }
       
+      if (!data || typeof data !== 'object') {
+        console.error('Invalid response from analysis function:', data);
+        throw new Error('Ungültige Antwort vom Analysetool');
+      }
+      
+      console.log('Analysis complete:', data);
       setResult(data);
       toast({
         title: "Analyse abgeschlossen",
@@ -84,7 +96,7 @@ export const WebsiteAnalysisDashboard = () => {
       );
       toast({
         title: "Fehler bei der Analyse",
-        description: "Bitte versuchen Sie es später erneut.",
+        description: "Bitte versuchen Sie es später erneut oder prüfen Sie, ob die Website erreichbar ist.",
         variant: "destructive"
       });
     } finally {
