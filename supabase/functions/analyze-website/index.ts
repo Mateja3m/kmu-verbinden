@@ -27,7 +27,12 @@ serve(async (req) => {
     // Fetch website content
     let html = '';
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        },
+        redirect: 'follow'
+      });
       if (!response.ok) {
         throw new Error(`Failed to fetch website: ${response.status} ${response.statusText}`);
       }
@@ -38,14 +43,14 @@ serve(async (req) => {
       throw new Error(`Failed to fetch website content: ${fetchError.message}`);
     }
 
-    // Call Claude API directly
+    // Call Claude API with the latest version and correct headers
     try {
       console.log('Calling Claude API...');
       const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': CLAUDE_API_KEY,
+          'anthropic-api-key': CLAUDE_API_KEY,
           'anthropic-version': '2023-06-01'
         },
         body: JSON.stringify({
@@ -71,31 +76,31 @@ serve(async (req) => {
             }
             
             HTML to analyze:
-            ${html}`
+            ${html.substring(0, 50000)}`
           }]
         })
       });
 
       if (!claudeResponse.ok) {
         const errorText = await claudeResponse.text();
-        console.error('Claude API error:', errorText);
+        console.error('Claude API error response:', errorText);
         throw new Error(`Claude API error: ${claudeResponse.status} ${claudeResponse.statusText}`);
       }
 
       const claudeData = await claudeResponse.json();
-      console.log('Claude API response received:', claudeData);
+      console.log('Claude API response received');
 
       // Parse Claude's response which should be JSON
       try {
         const textContent = claudeData.content[0].text;
-        const jsonStart = textContent.indexOf('{');
-        const jsonEnd = textContent.lastIndexOf('}') + 1;
         
-        if (jsonStart === -1 || jsonEnd === 0) {
+        // Extract JSON from the response
+        const jsonMatch = textContent.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) {
           throw new Error('Could not find JSON in Claude response');
         }
         
-        const jsonString = textContent.substring(jsonStart, jsonEnd);
+        const jsonString = jsonMatch[0];
         const analysis = JSON.parse(jsonString);
         
         console.log('Successfully parsed analysis JSON');
@@ -104,7 +109,7 @@ serve(async (req) => {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       } catch (parseError) {
-        console.error('Error parsing Claude response:', parseError);
+        console.error('Error parsing Claude response:', parseError, 'Response:', claudeData);
         throw new Error(`Failed to parse Claude response: ${parseError.message}`);
       }
     } catch (claudeError) {
