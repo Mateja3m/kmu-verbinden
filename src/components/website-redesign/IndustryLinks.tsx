@@ -14,16 +14,16 @@ export const IndustryLinks = () => {
   ];
 
   return (
-    <div className="mt-16">
-      <h3 className="text-xl font-semibold text-swiss-darkblue mb-6 text-center">
+    <div className="mt-24">
+      <h3 className="text-xl font-semibold text-swiss-darkblue mb-8 text-center">
         Branchenspezifische Lösungen
       </h3>
-      <div className="flex flex-wrap justify-center gap-3">
+      <div className="flex flex-wrap justify-center gap-4">
         {industries.map((industry) => (
           <Link
             key={industry.id}
             to={`/website-redesign/branche/${industry.id}`}
-            className="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-swiss-darkblue hover:bg-swiss-gray hover:border-swiss-darkblue transition-colors duration-300"
+            className="px-6 py-3 bg-white border border-gray-200 rounded-full text-sm text-swiss-darkblue hover:bg-swiss-gray hover:border-swiss-darkblue transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105"
           >
             {industry.name}
           </Link>
