@@ -22,12 +22,20 @@ serve(async (req) => {
       throw new Error('URL is required');
     }
 
-    console.log(`Analyzing website: ${url}`);
+    // Clean and normalize the URL
+    let cleanUrl = url.trim(); // Remove any whitespace
+    
+    // Add https:// if missing
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      cleanUrl = 'https://' + cleanUrl;
+    }
+    
+    console.log(`Analyzing website: ${cleanUrl}`);
 
     // Fetch website content
     let html = '';
     try {
-      const response = await fetch(url, {
+      const response = await fetch(cleanUrl, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         },

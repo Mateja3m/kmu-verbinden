@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,13 +46,19 @@ export const WebsiteCheckSection = ({ industryId }: WebsiteCheckSectionProps) =>
     
     if (!websiteUrl) return;
     
+    let cleanUrl = websiteUrl.trim();
+    
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      cleanUrl = 'https://' + cleanUrl;
+    }
+    
+    setWebsiteUrl(cleanUrl);
+    
     setIsAnalyzing(true);
     
-    // Simulate analysis
     setTimeout(() => {
       setIsAnalyzing(false);
       
-      // Sample improvements
       setImprovements([
         'Responsive Design optimieren',
         'Ladezeiten verbessern',
@@ -62,16 +67,14 @@ export const WebsiteCheckSection = ({ industryId }: WebsiteCheckSectionProps) =>
         'Call-to-Actions optimieren'
       ]);
       
-      // Trigger confetti effect
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 }
       });
       
-      // Move to next step
       setCurrentStep(2);
-    }, 10000); // 10 seconds simulation
+    }, 10000);
   };
 
   const handleWebsiteUrlChange = (url: string) => {
@@ -123,10 +126,8 @@ export const WebsiteCheckSection = ({ industryId }: WebsiteCheckSectionProps) =>
         step: formData.step + 1
       });
     } else {
-      // Form is complete - show success
       setCurrentStep(4);
       
-      // Trigger success animation
       setTimeout(() => {
         confetti({
           particleCount: 200,
@@ -137,7 +138,6 @@ export const WebsiteCheckSection = ({ industryId }: WebsiteCheckSectionProps) =>
     }
   };
 
-  // If rendered directly in an industry expansion panel
   if (industryId) {
     return (
       <div className="bg-swiss-darkblue text-white p-8 rounded-xl shadow-xl my-8">
@@ -185,7 +185,6 @@ export const WebsiteCheckSection = ({ industryId }: WebsiteCheckSectionProps) =>
     );
   }
 
-  // Original full standalone section with collapsible
   return (
     <section className="py-24 relative">
       <Collapsible

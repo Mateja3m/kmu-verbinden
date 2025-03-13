@@ -48,10 +48,12 @@ export const WebsiteAnalysisDashboard = () => {
       return;
     }
 
-    // Add http:// if missing
-    let formattedUrl = url;
-    if (!/^https?:\/\//i.test(url)) {
-      formattedUrl = 'https://' + url;
+    // Clean the URL before submitting
+    let cleanUrl = url.trim();
+    
+    // Add https:// if missing
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      cleanUrl = 'https://' + cleanUrl;
     }
 
     setIsAnalyzing(true);
@@ -59,7 +61,7 @@ export const WebsiteAnalysisDashboard = () => {
     
     try {
       const { data, error } = await supabase.functions.invoke('analyze-website', {
-        body: { url: formattedUrl }
+        body: { url: cleanUrl }
       });
 
       if (error) throw error;
