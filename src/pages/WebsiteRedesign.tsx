@@ -7,6 +7,7 @@ import { IndustryLinks } from '@/components/website-redesign/IndustryLinks';
 import { motion } from 'framer-motion';
 import { WebsiteCheckSection } from '@/components/website-redesign/WebsiteCheckSection';
 import { IndustryCards } from '@/components/website-redesign/IndustryCards';
+import { WebsiteAnalysisDashboard } from '@/components/website-redesign/WebsiteAnalysisDashboard';
 import { 
   Carousel,
   CarouselContent,
@@ -58,7 +59,7 @@ const WebsiteRedesign = () => {
     }
   };
 
-  // Industry cards data with icon property - fixed the type of the icon property
+  // Industry cards data
   const industryCards = [
     {
       id: 'gastgewerbe',
@@ -360,7 +361,7 @@ const WebsiteRedesign = () => {
         </div>
       </section>
       
-      {/* Industry Cards Section */}
+      {/* Industry Cards Section with Analysis Dashboard */}
       <section className="py-24 bg-gradient-to-b from-white to-swiss-gray/20 relative">
         <div className="container mx-auto px-6 max-w-6xl">
           <motion.div 
@@ -382,11 +383,10 @@ const WebsiteRedesign = () => {
             cards={industryCards} 
             onCardClick={handleIndustryCardClick} 
           />
+
+          <WebsiteAnalysisDashboard />
         </div>
       </section>
-
-      {/* Website Check Section - Only show standalone if no industry card is expanded */}
-      <WebsiteCheckSection />
 
       {/* FAQ Section */}
       <section className="py-24 bg-gradient-to-b from-white to-swiss-gray/10 relative">
