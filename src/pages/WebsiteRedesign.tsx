@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -216,9 +215,12 @@ const WebsiteRedesign = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="text-center mb-20"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-6">
-              Für den optimalen Webauftritt verbinden wir Sie mit diesen Experten
-            </h2>
+            <div className="relative inline-block mb-10">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-swiss-darkblue relative z-10 leading-tight">
+                Für den optimalen Webauftritt verbinden wir Sie mit diesen Experten
+              </h2>
+              <div className="absolute -bottom-3 left-0 w-full h-4 bg-swiss-lightblue/30 -z-0 transform -rotate-1"></div>
+            </div>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Unsere sorgfältig ausgewählten Partner bieten erstklassige digitale Lösungen für KMUs in der Schweiz.
             </p>
@@ -357,3 +359,4 @@ const WebsiteRedesign = () => {
 };
 
 export default WebsiteRedesign;
+
