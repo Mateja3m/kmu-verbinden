@@ -9,6 +9,7 @@ import { NewsletterSignup } from "./footer/NewsletterSignup";
 import { DatenschutzModal } from "./DatenschutzModal";
 import { AGBModal } from "./AGBModal";
 import { StatutenModal } from "./StatutenModal";
+import { AppointmentModal } from "./AppointmentModal";
 
 interface FooterProps {
   isLoggedIn?: boolean;
@@ -56,13 +57,10 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
             {/* Noch Fragen section */}
             <div className="pl-8 pt-2">
               <h4 className="text-lg font-semibold mb-2">Noch Fragen?</h4>
-              <Button 
+              <AppointmentModal 
                 variant="outline" 
                 className="bg-transparent border-swiss-red text-white hover:bg-swiss-red hover:text-white transition-colors w-full"
-              >
-                <Calendar className="mr-2 h-4 w-4" />
-                Termin vereinbaren
-              </Button>
+              />
             </div>
 
             {/* Newsletter Signup */}
