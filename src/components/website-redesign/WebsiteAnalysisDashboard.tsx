@@ -76,7 +76,9 @@ export const WebsiteAnalysisDashboard = () => {
   const [showInCardForm, setShowInCardForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   
-  const [formState, handleSubmit] = useFormspree("xldgyydd");
+  const formspree = useFormspree("xldgyydd");
+  const formState = formspree[0];
+  const handleFormspreeSubmit = formspree[1];
   
   const form = useForm<ContactFormData>({
     defaultValues: {
@@ -233,7 +235,7 @@ export const WebsiteAnalysisDashboard = () => {
     }
 
     try {
-      await handleSubmit({
+      await handleFormspreeSubmit({
         "Firmenname": data.companyName,
         "Ansprechpartner": data.contactPerson,
         "E-Mail": data.email,
