@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -22,6 +21,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
+import { AnalysisContactForm } from './AnalysisContactForm';
 
 interface AnalysisResult {
   gesamtpunkte: number;
@@ -55,6 +55,7 @@ export const WebsiteAnalysisDashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [analyzedUrl, setAnalyzedUrl] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [showContactForm, setShowContactForm] = useState(false);
 
   const analyzeWebsite = async () => {
     if (!url) {
@@ -65,10 +66,8 @@ export const WebsiteAnalysisDashboard = () => {
       return;
     }
 
-    // Clean the URL before submitting
     let cleanUrl = url.trim();
     
-    // Validate URL format
     if (!/^[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]+$/.test(cleanUrl)) {
       toast({
         title: "Ungültige URL",
@@ -78,7 +77,6 @@ export const WebsiteAnalysisDashboard = () => {
       return;
     }
     
-    // Add https:// if missing
     if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
       cleanUrl = 'https://' + cleanUrl;
     }
@@ -87,7 +85,6 @@ export const WebsiteAnalysisDashboard = () => {
     setError(null);
     setResult(null);
     
-    // Start progress simulation
     setProgress(0);
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
@@ -344,11 +341,9 @@ export const WebsiteAnalysisDashboard = () => {
                   >
                     <Button 
                       className="mt-4 w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
-                      asChild
+                      onClick={() => setShowContactForm(true)}
                     >
-                      <Link to={`/contact?source=website-analysis&company=${encodeURIComponent(result?.firmeninfo.name || '')}&email=${encodeURIComponent(result?.firmeninfo.email || '')}&phone=${encodeURIComponent(result?.firmeninfo.telefon || '')}`}>
-                        Kostenlose Beratung anfordern
-                      </Link>
+                      Kostenlose Beratung anfordern
                     </Button>
                   </motion.div>
                 )}
@@ -461,18 +456,23 @@ export const WebsiteAnalysisDashboard = () => {
         </CardContent>
       </Card>
 
-      <div className="flex justify-center pt-6">
-        <Button 
-          className="bg-swiss-red hover:bg-swiss-red/90 text-white px-8 py-6 text-lg"
-          asChild
-        >
-          <Link 
-            to={`/contact?source=website-analysis&company=${encodeURIComponent(result?.firmeninfo.name || '')}&email=${encodeURIComponent(result?.firmeninfo.email || '')}&phone=${encodeURIComponent(result?.firmeninfo.telefon || '')}`}
+      {!showContactForm ? (
+        <div className="flex justify-center pt-6">
+          <Button 
+            className="bg-swiss-red hover:bg-swiss-red/90 text-white px-8 py-6 text-lg"
+            onClick={() => setShowContactForm(true)}
           >
             Kostenloses Beratungsgespräch vereinbaren
-          </Link>
-        </Button>
-      </div>
+          </Button>
+        </div>
+      ) : (
+        <AnalysisContactForm 
+          companyName={result?.firmeninfo.name !== "Nicht gefunden" ? result?.firmeninfo.name : ""}
+          email={result?.firmeninfo.email !== "Nicht gefunden" ? result?.firmeninfo.email : ""}
+          phone={result?.firmeninfo.telefon !== "Nicht gefunden" ? result?.firmeninfo.telefon : ""}
+          websiteUrl={analyzedUrl || ""}
+        />
+      )}
 
       <div className="flex justify-center pt-2">
         <Button 
@@ -481,6 +481,7 @@ export const WebsiteAnalysisDashboard = () => {
             setResult(null);
             setError(null);
             setAnalyzedUrl(null);
+            setShowContactForm(false);
           }}
           className="mt-4"
         >
