@@ -4,10 +4,11 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "@formspree/react";
+import { useForm as useFormspree } from "@formspree/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -25,6 +26,18 @@ interface AnalysisContactFormProps {
   websiteUrl?: string;
 }
 
+type FormData = {
+  companyName: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  message: string;
+  websiteUrl: string;
+  preferredTime: "vormittag" | "nachmittag" | "abend";
+  newsletter: boolean;
+  privacyAccepted: boolean;
+}
+
 export const AnalysisContactForm = ({
   companyName = "",
   email = "",
@@ -33,34 +46,28 @@ export const AnalysisContactForm = ({
 }: AnalysisContactFormProps) => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [formState, handleSubmit] = useForm("xldgyydd"); // Using existing Formspree form ID
-  const [formData, setFormData] = useState({
-    companyName: companyName || "",
-    contactPerson: "",
-    email: email || "",
-    phone: phone || "",
-    message: "",
-    websiteUrl: websiteUrl || "",
-    preferredTime: "vormittag",
-    newsletter: false,
-    privacyAccepted: false,
+  const [formspreeState, handleFormspreeSubmit] = useFormspree("xldgyydd"); // Using existing Formspree form ID
+  
+  // Initialize react-hook-form
+  const form = useForm<FormData>({
+    defaultValues: {
+      companyName: companyName || "",
+      contactPerson: "",
+      email: email || "",
+      phone: phone || "",
+      message: "",
+      websiteUrl: websiteUrl || "",
+      preferredTime: "vormittag",
+      newsletter: false,
+      privacyAccepted: false,
+    }
   });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCheckboxChange = (name: string, checked: boolean) => {
-    setFormData((prev) => ({ ...prev, [name]: checked }));
-  };
 
   const nextStep = () => {
     // Basic validation for step 1
     if (step === 1) {
-      if (!formData.companyName || !formData.contactPerson) {
+      const { companyName, contactPerson } = form.getValues();
+      if (!companyName || !contactPerson) {
         toast({
           title: "Bitte füllen Sie alle Pflichtfelder aus",
           description: "Firmenname und Ansprechpartner sind erforderlich",
@@ -77,9 +84,7 @@ export const AnalysisContactForm = ({
     setStep((prev) => prev - 1);
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const onSubmit = async (formData: FormData) => {
     if (step === 2) {
       if (!formData.email) {
         toast({
@@ -101,7 +106,7 @@ export const AnalysisContactForm = ({
 
       try {
         // Submit form data to Formspree
-        await handleSubmit({
+        await handleFormspreeSubmit({
           "Firmenname": formData.companyName,
           "Ansprechpartner": formData.contactPerson,
           "E-Mail": formData.email,
@@ -113,8 +118,8 @@ export const AnalysisContactForm = ({
           "Website-Analyse": "Ja",
         });
         
-        if (formState.errors) {
-          console.error('Formspree submission errors:', formState.errors);
+        if (formspreeState.errors) {
+          console.error('Formspree submission errors:', formspreeState.errors);
           toast({
             title: "Fehler beim Senden",
             description: "Bitte versuchen Sie es später erneut",
@@ -163,181 +168,221 @@ export const AnalysisContactForm = ({
       )}
 
       {step === 1 && (
-        <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="space-y-4">
-          <div className="space-y-4">
-            <FormItem>
-              <FormLabel>Firmenname *</FormLabel>
-              <FormControl>
-                <Input
-                  name="companyName"
-                  value={formData.companyName}
-                  onChange={handleChange}
-                  required
-                  placeholder="Ihre Firma GmbH"
-                />
-              </FormControl>
-            </FormItem>
+        <Form {...form}>
+          <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="space-y-4">
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Firmenname *</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        required
+                        placeholder="Ihre Firma GmbH"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-            <FormItem>
-              <FormLabel>Ansprechpartner *</FormLabel>
-              <FormControl>
-                <Input
-                  name="contactPerson"
-                  value={formData.contactPerson}
-                  onChange={handleChange}
-                  required
-                  placeholder="Vor- und Nachname"
-                />
-              </FormControl>
-            </FormItem>
+              <FormField
+                control={form.control}
+                name="contactPerson"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ansprechpartner *</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        required
+                        placeholder="Vor- und Nachname"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-            <FormItem>
-              <FormLabel>Website URL</FormLabel>
-              <FormControl>
-                <Input
-                  name="websiteUrl"
-                  value={formData.websiteUrl}
-                  onChange={handleChange}
-                  placeholder="https://ihre-website.ch"
-                  type="url"
-                />
-              </FormControl>
-              <FormDescription>Die URL der analysierten Website</FormDescription>
-            </FormItem>
-          </div>
+              <FormField
+                control={form.control}
+                name="websiteUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="https://ihre-website.ch"
+                        type="url"
+                      />
+                    </FormControl>
+                    <FormDescription>Die URL der analysierten Website</FormDescription>
+                  </FormItem>
+                )}
+              />
+            </div>
 
-          <div className="pt-4">
-            <Button 
-              type="submit" 
-              className="w-full bg-swiss-red hover:bg-swiss-red/90"
-            >
-              Weiter
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </form>
+            <div className="pt-4">
+              <Button 
+                type="submit" 
+                className="w-full bg-swiss-red hover:bg-swiss-red/90"
+              >
+                Weiter
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          </form>
+        </Form>
       )}
 
       {step === 2 && (
-        <form onSubmit={handleFormSubmit} className="space-y-4">
-          <div className="space-y-4">
-            <FormItem>
-              <FormLabel>E-Mail-Adresse *</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  placeholder="ihre-email@beispiel.ch"
-                />
-              </FormControl>
-            </FormItem>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>E-Mail-Adresse *</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        {...field}
+                        required
+                        placeholder="ihre-email@beispiel.ch"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-            <FormItem>
-              <FormLabel>Telefon</FormLabel>
-              <FormControl>
-                <Input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="+41 XX XXX XX XX"
-                />
-              </FormControl>
-            </FormItem>
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Telefon</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="tel"
+                        {...field}
+                        placeholder="+41 XX XXX XX XX"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-            <FormItem>
-              <FormLabel>Bevorzugte Kontaktzeit</FormLabel>
-              <select
+              <FormField
+                control={form.control}
                 name="preferredTime"
-                value={formData.preferredTime}
-                onChange={handleChange}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              >
-                <option value="vormittag">Vormittag</option>
-                <option value="nachmittag">Nachmittag</option>
-                <option value="abend">Abend</option>
-              </select>
-            </FormItem>
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bevorzugte Kontaktzeit</FormLabel>
+                    <select
+                      {...field}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    >
+                      <option value="vormittag">Vormittag</option>
+                      <option value="nachmittag">Nachmittag</option>
+                      <option value="abend">Abend</option>
+                    </select>
+                  </FormItem>
+                )}
+              />
 
-            <FormItem>
-              <FormLabel>Nachricht</FormLabel>
-              <FormControl>
-                <Textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Ihre Nachricht an uns (optional)"
-                  rows={4}
-                />
-              </FormControl>
-            </FormItem>
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nachricht</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder="Ihre Nachricht an uns (optional)"
+                        rows={4}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-            <div className="space-y-2 pt-2">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="newsletter"
-                  checked={formData.newsletter}
-                  onCheckedChange={(checked) => 
-                    handleCheckboxChange("newsletter", checked as boolean)
-                  }
+              <div className="space-y-2 pt-2">
+                <FormField
+                  control={form.control}
+                  name="newsletter"
+                  render={({ field }) => (
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="newsletter"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <label
+                        htmlFor="newsletter"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Ich möchte den Newsletter erhalten (optional)
+                      </label>
+                    </div>
+                  )}
                 />
-                <label
-                  htmlFor="newsletter"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Ich möchte den Newsletter erhalten (optional)
-                </label>
-              </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="privacy"
-                  checked={formData.privacyAccepted}
-                  onCheckedChange={(checked) => 
-                    handleCheckboxChange("privacyAccepted", checked as boolean)
-                  }
-                  required
+                <FormField
+                  control={form.control}
+                  name="privacyAccepted"
+                  render={({ field }) => (
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="privacy"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        required
+                      />
+                      <label
+                        htmlFor="privacy"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Ich akzeptiere die Datenschutzerklärung *
+                      </label>
+                    </div>
+                  )}
                 />
-                <label
-                  htmlFor="privacy"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Ich akzeptiere die Datenschutzerklärung *
-                </label>
               </div>
             </div>
-          </div>
 
-          <div className="flex justify-between pt-4">
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={prevStep}
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Zurück
-            </Button>
-            <Button 
-              type="submit" 
-              className="bg-swiss-red hover:bg-swiss-red/90"
-              disabled={formState.submitting}
-            >
-              {formState.submitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Wird gesendet...
-                </>
-              ) : (
-                <>
-                  Anfrage senden
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
+            <div className="flex justify-between pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={prevStep}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Zurück
+              </Button>
+              <Button 
+                type="submit" 
+                className="bg-swiss-red hover:bg-swiss-red/90"
+                disabled={formspreeState.submitting}
+              >
+                {formspreeState.submitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Wird gesendet...
+                  </>
+                ) : (
+                  <>
+                    Anfrage senden
+                  </>
+                )}
+              </Button>
+            </div>
+          </form>
+        </Form>
       )}
 
       {step === 3 && (
@@ -358,8 +403,7 @@ export const AnalysisContactForm = ({
             <Button 
               className="bg-swiss-red hover:bg-swiss-red/90"
               onClick={() => {
-                // Reset form for a new consultation
-                setFormData({
+                form.reset({
                   companyName: "",
                   contactPerson: "",
                   email: "",
