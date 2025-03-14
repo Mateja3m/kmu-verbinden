@@ -20,8 +20,8 @@ export const IndustryHero = ({
   showSimulation = false
 }: IndustryHeroProps) => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray">
-      <div className="container mx-auto px-4 py-12 md:py-20">
+    <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray pt-8 md:pt-16">
+      <div className="container mx-auto px-4 py-16 md:py-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div className="space-y-6 md:pr-8">
             <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-swiss-red/10 text-swiss-red">
