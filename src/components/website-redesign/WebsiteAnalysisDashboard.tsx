@@ -76,8 +76,7 @@ export const WebsiteAnalysisDashboard = () => {
   const [showInCardForm, setShowInCardForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   
-  const formspreeState = useFormspree("xldgyydd");
-  const handleFormspreeSubmit = formspreeState[1];
+  const [formState, handleSubmit] = useFormspree("xldgyydd");
   
   const form = useForm<ContactFormData>({
     defaultValues: {
@@ -234,7 +233,7 @@ export const WebsiteAnalysisDashboard = () => {
     }
 
     try {
-      await handleFormspreeSubmit({
+      await handleSubmit({
         "Firmenname": data.companyName,
         "Ansprechpartner": data.contactPerson,
         "E-Mail": data.email,
@@ -246,7 +245,7 @@ export const WebsiteAnalysisDashboard = () => {
         "Website-Analyse": "Ja",
       });
       
-      if (!formspreeState[0].errors) {
+      if (!formState.errors) {
         toast({
           title: "Anfrage erfolgreich gesendet",
           description: "Wir werden uns in Kürze bei Ihnen melden",
@@ -573,9 +572,9 @@ export const WebsiteAnalysisDashboard = () => {
                         <Button 
                           type="submit" 
                           className="bg-swiss-red hover:bg-swiss-red/90"
-                          disabled={formspreeState[0].submitting}
+                          disabled={formState.submitting}
                         >
-                          {formspreeState[0].submitting ? (
+                          {formState.submitting ? (
                             <>
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                               Wird gesendet...
