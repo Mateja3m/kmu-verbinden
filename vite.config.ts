@@ -13,9 +13,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     mode === 'development' &&
-    componentTagger({
-      // Latest config options can be added here
-    }),
+    componentTagger(),  // Remove the config object since it's not expected
   ].filter(Boolean),
   resolve: {
     alias: {
