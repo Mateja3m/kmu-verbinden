@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -76,9 +77,8 @@ export const WebsiteAnalysisDashboard = () => {
   const [showInCardForm, setShowInCardForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   
-  const formspree = useFormspree("xldgyydd");
-  const formState = formspree[0];
-  const handleFormspreeSubmit = formspree[1];
+  // Fix: useFormspree requires a form ID as a string argument
+  const [formState, handleFormspreeSubmit] = useFormspree("xldgyydd");
   
   const form = useForm<ContactFormData>({
     defaultValues: {
