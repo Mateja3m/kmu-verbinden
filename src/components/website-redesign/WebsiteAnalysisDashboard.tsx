@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -17,11 +17,17 @@ import {
   MapPin, 
   Clock,
   AlertOctagon,
-  Info 
+  Info,
+  ArrowRight,
+  ArrowLeft
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 import { AnalysisContactForm } from './AnalysisContactForm';
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { useForm } from "react-hook-form";
+import { useFormspree } from "@formspree/react";
 
 interface AnalysisResult {
   gesamtpunkte: number;
@@ -47,6 +53,17 @@ interface AnalysisResult {
   verbesserungen: string[];
 }
 
+type ContactFormData = {
+  companyName: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  message: string;
+  preferredTime: "vormittag" | "nachmittag" | "abend";
+  newsletter: boolean;
+  privacyAccepted: boolean;
+}
+
 export const WebsiteAnalysisDashboard = () => {
   const { toast } = useToast();
   const [url, setUrl] = useState('');
@@ -56,6 +73,23 @@ export const WebsiteAnalysisDashboard = () => {
   const [analyzedUrl, setAnalyzedUrl] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [showInCardForm, setShowInCardForm] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  
+  const [formspreeState, handleFormspreeSubmit] = useFormspree("xldgyydd");
+  
+  const form = useForm<ContactFormData>({
+    defaultValues: {
+      companyName: "",
+      contactPerson: "",
+      email: "",
+      phone: "",
+      message: "",
+      preferredTime: "vormittag",
+      newsletter: false,
+      privacyAccepted: false,
+    }
+  });
 
   const analyzeWebsite = async () => {
     if (!url) {
@@ -172,6 +206,70 @@ export const WebsiteAnalysisDashboard = () => {
     return value;
   };
 
+  const prepareContactForm = () => {
+    if (result) {
+      form.reset({
+        companyName: result.firmeninfo.name !== "Nicht gefunden" ? result.firmeninfo.name : "",
+        contactPerson: "",
+        email: result.firmeninfo.email !== "Nicht gefunden" ? result.firmeninfo.email : "",
+        phone: result.firmeninfo.telefon !== "Nicht gefunden" ? result.firmeninfo.telefon : "",
+        message: `Ich interessiere mich für eine kostenlose Beratung für meine Website ${analyzedUrl || ""}`,
+        preferredTime: "vormittag",
+        newsletter: false,
+        privacyAccepted: false
+      });
+    }
+    setShowInCardForm(true);
+  };
+
+  const handleContactSubmit = async (data: ContactFormData) => {
+    if (!data.privacyAccepted) {
+      toast({
+        title: "Bitte akzeptieren Sie die Datenschutzerklärung",
+        description: "Sie müssen die Datenschutzerklärung akzeptieren, um fortzufahren",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await handleFormspreeSubmit({
+        "Firmenname": data.companyName,
+        "Ansprechpartner": data.contactPerson,
+        "E-Mail": data.email,
+        "Telefon": data.phone,
+        "Nachricht": data.message,
+        "Website URL": analyzedUrl || "",
+        "Bevorzugte Kontaktzeit": data.preferredTime,
+        "Newsletter": data.newsletter ? "Ja" : "Nein",
+        "Website-Analyse": "Ja",
+      });
+      
+      if (!formspreeState.errors) {
+        toast({
+          title: "Anfrage erfolgreich gesendet",
+          description: "Wir werden uns in Kürze bei Ihnen melden",
+        });
+        setFormSubmitted(true);
+      } else {
+        throw new Error("Formspree submission failed");
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast({
+        title: "Fehler beim Senden",
+        description: "Bitte versuchen Sie es später erneut",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const resetContactForm = () => {
+    setShowInCardForm(false);
+    setFormSubmitted(false);
+    form.reset();
+  };
+
   if (!result && !isAnalyzing) {
     return (
       <Card className="mt-12 relative overflow-hidden">
@@ -283,70 +381,247 @@ export const WebsiteAnalysisDashboard = () => {
                   Kontaktdaten
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="space-y-2">
-                  <p className="flex items-center">
-                    <span className="font-medium min-w-32">Firma:</span> 
-                    <span>{renderContactValue(result?.firmeninfo.name)}</span>
-                  </p>
-                  
-                  <p className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-swiss-red" />
-                    <span className="font-medium min-w-28">Telefon:</span> 
-                    {result?.firmeninfo.telefon && result.firmeninfo.telefon !== "Nicht gefunden" ? (
-                      <a 
-                        href={`tel:${result.firmeninfo.telefon}`} 
-                        className="text-blue-500 hover:text-blue-700"
-                      >
-                        {result.firmeninfo.telefon}
-                      </a>
-                    ) : (
-                      renderContactValue(result?.firmeninfo.telefon)
-                    )}
-                  </p>
-                  
-                  <p className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-swiss-red" />
-                    <span className="font-medium min-w-28">E-Mail:</span> 
-                    {result?.firmeninfo.email && result.firmeninfo.email !== "Nicht gefunden" ? (
-                      <a 
-                        href={`mailto:${result.firmeninfo.email}`} 
-                        className="text-blue-500 hover:text-blue-700"
-                      >
-                        {result.firmeninfo.email}
-                      </a>
-                    ) : (
-                      renderContactValue(result?.firmeninfo.email)
-                    )}
-                  </p>
-                  
-                  <p className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-swiss-red" />
-                    <span className="font-medium min-w-28">Adresse:</span> 
-                    <span>{renderContactValue(result?.firmeninfo.adresse)}</span>
-                  </p>
-                  
-                  <p className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-swiss-red" />
-                    <span className="font-medium min-w-28">Öffnungszeiten:</span> 
-                    <span>{renderContactValue(result?.firmeninfo.oeffnungszeiten)}</span>
-                  </p>
-                </div>
-
-                {hasContactInfo && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <Button 
-                      className="mt-4 w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
-                      onClick={() => setShowContactForm(true)}
+              <CardContent>
+                <AnimatePresence mode="wait">
+                  {!showInCardForm && !formSubmitted && (
+                    <motion.div 
+                      key="contact-info"
+                      initial={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="space-y-3"
                     >
-                      Kostenlose Beratung anfordern
-                    </Button>
-                  </motion.div>
-                )}
+                      <div className="space-y-2">
+                        <p className="flex items-center">
+                          <span className="font-medium min-w-32">Firma:</span> 
+                          <span>{renderContactValue(result?.firmeninfo.name)}</span>
+                        </p>
+                        
+                        <p className="flex items-center gap-2">
+                          <Phone className="h-4 w-4 text-swiss-red" />
+                          <span className="font-medium min-w-28">Telefon:</span> 
+                          {result?.firmeninfo.telefon && result.firmeninfo.telefon !== "Nicht gefunden" ? (
+                            <a 
+                              href={`tel:${result.firmeninfo.telefon}`} 
+                              className="text-blue-500 hover:text-blue-700"
+                            >
+                              {result.firmeninfo.telefon}
+                            </a>
+                          ) : (
+                            renderContactValue(result?.firmeninfo.telefon)
+                          )}
+                        </p>
+                        
+                        <p className="flex items-center gap-2">
+                          <Mail className="h-4 w-4 text-swiss-red" />
+                          <span className="font-medium min-w-28">E-Mail:</span> 
+                          {result?.firmeninfo.email && result.firmeninfo.email !== "Nicht gefunden" ? (
+                            <a 
+                              href={`mailto:${result.firmeninfo.email}`} 
+                              className="text-blue-500 hover:text-blue-700"
+                            >
+                              {result.firmeninfo.email}
+                            </a>
+                          ) : (
+                            renderContactValue(result?.firmeninfo.email)
+                          )}
+                        </p>
+                        
+                        <p className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-swiss-red" />
+                          <span className="font-medium min-w-28">Adresse:</span> 
+                          <span>{renderContactValue(result?.firmeninfo.adresse)}</span>
+                        </p>
+                        
+                        <p className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-swiss-red" />
+                          <span className="font-medium min-w-28">Öffnungszeiten:</span> 
+                          <span>{renderContactValue(result?.firmeninfo.oeffnungszeiten)}</span>
+                        </p>
+                      </div>
+
+                      {hasContactInfo && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.5 }}
+                        >
+                          <Button 
+                            className="mt-4 w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
+                            onClick={prepareContactForm}
+                          >
+                            Kostenlose Beratung anfordern
+                          </Button>
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  )}
+
+                  {showInCardForm && !formSubmitted && (
+                    <motion.form 
+                      key="contact-form"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className="space-y-4"
+                      onSubmit={form.handleSubmit(handleContactSubmit)}
+                    >
+                      <div className="space-y-3">
+                        <div>
+                          <label htmlFor="companyName" className="block text-sm font-medium mb-1">Firmenname *</label>
+                          <Input
+                            id="companyName"
+                            {...form.register("companyName", { required: true })}
+                            className="w-full"
+                            placeholder="Ihre Firma GmbH"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="contactPerson" className="block text-sm font-medium mb-1">Ansprechpartner *</label>
+                          <Input
+                            id="contactPerson"
+                            {...form.register("contactPerson", { required: true })}
+                            className="w-full"
+                            placeholder="Vor- und Nachname"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="email" className="block text-sm font-medium mb-1">E-Mail *</label>
+                          <Input
+                            id="email"
+                            type="email"
+                            {...form.register("email", { required: true })}
+                            className="w-full"
+                            placeholder="ihre-email@beispiel.ch"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="phone" className="block text-sm font-medium mb-1">Telefon</label>
+                          <Input
+                            id="phone"
+                            type="tel"
+                            {...form.register("phone")}
+                            className="w-full"
+                            placeholder="+41 XX XXX XX XX"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="preferredTime" className="block text-sm font-medium mb-1">Bevorzugte Kontaktzeit</label>
+                          <select
+                            id="preferredTime"
+                            {...form.register("preferredTime")}
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                          >
+                            <option value="vormittag">Vormittag</option>
+                            <option value="nachmittag">Nachmittag</option>
+                            <option value="abend">Abend</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label htmlFor="message" className="block text-sm font-medium mb-1">Nachricht</label>
+                          <Textarea
+                            id="message"
+                            {...form.register("message")}
+                            className="w-full"
+                            rows={3}
+                            placeholder="Ihr Anliegen (optional)"
+                          />
+                        </div>
+                        
+                        <div className="flex items-center space-x-2 pt-1">
+                          <Checkbox
+                            id="newsletter"
+                            {...form.register("newsletter")}
+                          />
+                          <label
+                            htmlFor="newsletter"
+                            className="text-sm font-medium cursor-pointer"
+                          >
+                            Ich möchte den Newsletter erhalten (optional)
+                          </label>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="privacyAccepted"
+                            {...form.register("privacyAccepted", { required: true })}
+                          />
+                          <label
+                            htmlFor="privacyAccepted"
+                            className="text-sm font-medium cursor-pointer"
+                          >
+                            Ich akzeptiere die Datenschutzerklärung *
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between pt-2">
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={() => setShowInCardForm(false)}
+                          className="flex items-center"
+                        >
+                          <ArrowLeft className="mr-2 h-4 w-4" />
+                          Zurück
+                        </Button>
+                        <Button 
+                          type="submit" 
+                          className="bg-swiss-red hover:bg-swiss-red/90"
+                          disabled={formspreeState.submitting}
+                        >
+                          {formspreeState.submitting ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Wird gesendet...
+                            </>
+                          ) : (
+                            <>
+                              Anfrage senden
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      
+                      <div className="text-center text-xs text-gray-500 mt-4">
+                        Alle mit * markierten Felder sind Pflichtfelder
+                      </div>
+                    </motion.form>
+                  )}
+                  
+                  {formSubmitted && (
+                    <motion.div 
+                      key="success-message"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="py-6 text-center space-y-4"
+                    >
+                      <div className="flex justify-center">
+                        <CheckCircle className="h-16 w-16 text-green-500" />
+                      </div>
+                      
+                      <h3 className="text-xl font-medium text-gray-900">
+                        Ihre Anfrage wurde erfolgreich übermittelt!
+                      </h3>
+                      
+                      <p className="text-gray-600">
+                        Vielen Dank für Ihr Interesse. Unser Team wird sich in Kürze mit Ihnen in Verbindung setzen.
+                      </p>
+                      
+                      <Button 
+                        onClick={resetContactForm}
+                        className="bg-swiss-red hover:bg-swiss-red/90 mt-2"
+                      >
+                        Zurück zur Übersicht
+                      </Button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </CardContent>
             </Card>
           </div>
@@ -456,7 +731,7 @@ export const WebsiteAnalysisDashboard = () => {
         </CardContent>
       </Card>
 
-      {!showContactForm ? (
+      {!showContactForm && (
         <div className="flex justify-center pt-6">
           <Button 
             className="bg-swiss-red hover:bg-swiss-red/90 text-white px-8 py-6 text-lg"
@@ -465,7 +740,9 @@ export const WebsiteAnalysisDashboard = () => {
             Kostenloses Beratungsgespräch vereinbaren
           </Button>
         </div>
-      ) : (
+      )}
+
+      {showContactForm && (
         <AnalysisContactForm 
           companyName={result?.firmeninfo.name !== "Nicht gefunden" ? result?.firmeninfo.name : ""}
           email={result?.firmeninfo.email !== "Nicht gefunden" ? result?.firmeninfo.email : ""}
@@ -482,6 +759,8 @@ export const WebsiteAnalysisDashboard = () => {
             setError(null);
             setAnalyzedUrl(null);
             setShowContactForm(false);
+            setShowInCardForm(false);
+            setFormSubmitted(false);
           }}
           className="mt-4"
         >
