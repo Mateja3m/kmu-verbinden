@@ -39,11 +39,11 @@ export const IndustryHero = ({
             <div className="space-y-3">
               <div className="flex items-start">
                 <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
-                <p className="text-sm">Exklusiv für Verbandsmitglieder: Bis zu 50% Rabatt</p>
+                <p className="text-sm">Spezielle Konditionen für Vereinsmitglieder</p>
               </div>
               <div className="flex items-start">
                 <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
-                <p className="text-sm">KI-gestützte SEO-Optimierung für lokale Sichtbarkeit</p>
+                <p className="text-sm">Optimierte lokale Sichtbarkeit für Ihr Unternehmen</p>
               </div>
               <div className="flex items-start">
                 <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
