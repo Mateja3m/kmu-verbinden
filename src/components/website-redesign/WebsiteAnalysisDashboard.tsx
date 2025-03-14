@@ -572,9 +572,9 @@ export const WebsiteAnalysisDashboard = () => {
                         <Button 
                           type="submit" 
                           className="bg-swiss-red hover:bg-swiss-red/90"
-                          disabled={formState.submitting}
+                          disabled={formspreeState.submitting}
                         >
-                          {formState.submitting ? (
+                          {formspreeState.submitting ? (
                             <>
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                               Wird gesendet...
