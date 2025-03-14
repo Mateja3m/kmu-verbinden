@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -28,7 +27,7 @@ import { AnalysisContactForm } from './AnalysisContactForm';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
-import { useFormspree } from "@formspree/react";
+import { useForm as useFormspree } from "@formspree/react";
 
 interface AnalysisResult {
   gesamtpunkte: number;
@@ -77,8 +76,7 @@ export const WebsiteAnalysisDashboard = () => {
   const [showInCardForm, setShowInCardForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   
-  // Fix: useFormspree requires a form ID as a string argument
-  const [formState, handleFormspreeSubmit] = useFormspree("xldgyydd");
+  const [formspreeState, formspreeSubmit] = useFormspree("xldgyydd");
   
   const form = useForm<ContactFormData>({
     defaultValues: {
@@ -235,7 +233,7 @@ export const WebsiteAnalysisDashboard = () => {
     }
 
     try {
-      await handleFormspreeSubmit({
+      await formspreeSubmit({
         "Firmenname": data.companyName,
         "Ansprechpartner": data.contactPerson,
         "E-Mail": data.email,
@@ -247,7 +245,7 @@ export const WebsiteAnalysisDashboard = () => {
         "Website-Analyse": "Ja",
       });
       
-      if (!formState.errors) {
+      if (!formspreeState.errors) {
         toast({
           title: "Anfrage erfolgreich gesendet",
           description: "Wir werden uns in Kürze bei Ihnen melden",
