@@ -20,6 +20,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { IndustryHero } from '@/components/website-redesign/IndustryHero';
 
 const WebsiteRedesign = () => {
   const [selectedPartners, setSelectedPartners] = useState(() => {
@@ -146,72 +147,13 @@ const WebsiteRedesign = () => {
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
-      {/* Hero Section - Enhanced with more vertical space and better visual hierarchy */}
-      <section className="py-32 md:py-40 relative">
-        {/* Decorative background elements */}
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-swiss-gray opacity-20 rounded-bl-[100px]"></div>
-        <div className="absolute bottom-24 left-24 w-16 h-16 rounded-full bg-swiss-red opacity-10"></div>
-        <div className="absolute top-40 right-40 w-24 h-24 rounded-full bg-swiss-lightblue opacity-20"></div>
-        
-        <div className="container mx-auto px-6 max-w-6xl">
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center"
-          >
-            <motion.div variants={itemVariants} className="space-y-10">
-              <div className="inline-block bg-swiss-lightblue/20 px-4 py-2 rounded-full text-swiss-darkblue font-medium text-sm">
-                Digitale Transformation für KMUs
-              </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-swiss-darkblue leading-tight relative">
-                Optimieren Sie Ihre 
-                <span className="relative">
-                  <span className="relative z-10"> digitale Präsenz.</span>
-                  <span className="absolute -bottom-3 left-0 w-full h-4 bg-swiss-lightblue/30 -z-0 transform -rotate-1"></span>
-                </span>
-              </h1>
-              
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl">
-                Wir vernetzen Kompetenz. Websites bauen geht einfach, doch nur mit der richtigen Expertise entsteht eine gute Onlinepräsenz.
-              </p>
-              
-              <Button 
-                className="bg-swiss-darkblue hover:bg-swiss-darkblue/90 text-white px-8 py-7 mt-6 text-lg flex items-center gap-3 rounded-md transition-all duration-300 shadow hover:shadow-lg hover:translate-y-[-2px]"
-                asChild
-              >
-                <Link to="/partners">
-                  Unsere Partner kennenlernen
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-            </motion.div>
-            
-            <motion.div 
-              variants={itemVariants}
-              className="rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500 relative z-10"
-              style={{
-                transformStyle: 'preserve-3d',
-                perspective: '1000px'
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-tr from-swiss-darkblue/10 to-transparent rounded-2xl -z-10 transform rotate-3 scale-[1.05]"></div>
-              <img
-                src="/lovable-uploads/19cbbc4e-2aa2-407e-9b31-d950e577c9cb.png"
-                alt="Digital workspace"
-                className="w-full h-auto object-cover shadow-lg"
-                style={{ maxHeight: "540px" }}
-              />
-            </motion.div>
-          </motion.div>
-          
-          {/* Scroll indicator */}
-          <div className="flex justify-center mt-16 animate-bounce">
-            <ChevronDown className="h-8 w-8 text-swiss-darkblue/50" />
-          </div>
-        </div>
-      </section>
+      {/* Hero Section - Enhanced with website optimization simulation */}
+      <IndustryHero 
+        headline="Optimieren Sie Ihre digitale Präsenz." 
+        subheadline="Wir vernetzen Kompetenz. Websites bauen geht einfach, doch nur mit der richtigen Expertise entsteht eine gute Onlinepräsenz."
+        industry="KMUs"
+        showSimulation={true}
+      />
 
       {/* Website/Brand Section - Improved spacing, card design and interactive elements */}
       <section className="py-32 bg-gradient-to-b from-white to-swiss-gray/20 relative">
@@ -233,7 +175,7 @@ const WebsiteRedesign = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-swiss-darkblue mb-8">
               Website Redesign oder Brand Refresh?
             </h2>
-            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
               Die Entscheidung zwischen einer kompletten Überarbeitung Ihrer Website oder einer Auffrischung Ihrer Marke hängt von Ihren spezifischen Geschäftszielen ab.
             </p>
           </motion.div>

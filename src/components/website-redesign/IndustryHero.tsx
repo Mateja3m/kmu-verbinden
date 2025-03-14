@@ -2,19 +2,22 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Check } from 'lucide-react';
+import { WebsiteOptimizationSimulation } from './WebsiteOptimizationSimulation';
 
 interface IndustryHeroProps {
   headline: string;
   subheadline: string;
   industry: string;
   imagePath?: string;
+  showSimulation?: boolean;
 }
 
 export const IndustryHero = ({
   headline,
   subheadline,
   industry,
-  imagePath = '/placeholder.svg'
+  imagePath = '/placeholder.svg',
+  showSimulation = false
 }: IndustryHeroProps) => {
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray">
@@ -67,12 +70,18 @@ export const IndustryHero = ({
           </div>
           
           <div className="relative rounded-lg shadow-2xl overflow-hidden">
-            <img 
-              src={imagePath} 
-              alt={`${industry} Website Beispiel`} 
-              className="w-full h-auto object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-swiss-darkblue/30 to-transparent pointer-events-none"></div>
+            {showSimulation ? (
+              <WebsiteOptimizationSimulation />
+            ) : (
+              <>
+                <img 
+                  src={imagePath} 
+                  alt={`${industry} Website Beispiel`} 
+                  className="w-full h-auto object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-swiss-darkblue/30 to-transparent pointer-events-none"></div>
+              </>
+            )}
           </div>
         </div>
       </div>
