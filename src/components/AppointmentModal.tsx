@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +31,11 @@ export function AppointmentModal({
   className,
   children,
 }: AppointmentModalProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
+    if (!isOpen) return;
+    
     // Initialize Calendly scripts when modal is opened
     const link = document.createElement("link");
     link.href = "https://assets.calendly.com/assets/external/widget.css";
@@ -43,6 +47,18 @@ export function AppointmentModal({
     script.async = true;
     document.body.appendChild(script);
 
+    // Initialize Calendly widget after script is loaded
+    script.onload = () => {
+      if (window.Calendly) {
+        window.Calendly.initInlineWidget({
+          url: 'https://calendly.com/kmuverein-skv/termin-mit-geschaftsstelle-zurich?hide_gdpr_banner=1',
+          parentElement: document.querySelector('.calendly-inline-widget'),
+          prefill: {},
+          utm: {}
+        });
+      }
+    };
+
     return () => {
       // Cleanup is important to prevent memory leaks
       if (document.head.contains(link)) {
@@ -52,10 +68,10 @@ export function AppointmentModal({
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [isOpen]);
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         {children || (
           <Button
