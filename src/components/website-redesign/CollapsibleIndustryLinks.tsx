@@ -22,7 +22,7 @@ export const CollapsibleIndustryLinks = () => {
         <div className="flex justify-center">
           <CollapsibleTrigger asChild>
             <button 
-              className="group relative w-full max-w-[200px] h-3 bg-swiss-red/80 hover:bg-swiss-red rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+              className="group relative w-full h-3 bg-swiss-red/80 hover:bg-swiss-red rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
               aria-label="Branchenspezifische Lösungen anzeigen oder ausblenden"
             >
               <span className="sr-only">
