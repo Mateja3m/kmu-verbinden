@@ -21,6 +21,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { IndustryHero } from '@/components/website-redesign/IndustryHero';
+import { CollapsibleIndustryLinks } from '@/components/website-redesign/CollapsibleIndustryLinks';
 
 const WebsiteRedesign = () => {
   const [selectedPartners, setSelectedPartners] = useState(() => {
@@ -459,6 +460,9 @@ const WebsiteRedesign = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Collapsible Industry Links - Added after Membership Section */}
+      <CollapsibleIndustryLinks />
     </div>
   );
 };
