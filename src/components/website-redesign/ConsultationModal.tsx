@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,8 +9,9 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "@/components/ui/use-toast";
 
 declare global {
   interface Window {
@@ -29,6 +30,8 @@ export const ConsultationModal = ({
 }: ConsultationModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showCalendly, setShowCalendly] = useState(false);
+  const [isCalendlyLoaded, setIsCalendlyLoaded] = useState(false);
+  const calendlyInitialized = useRef(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -46,6 +49,13 @@ export const ConsultationModal = ({
     const script = document.createElement("script");
     script.src = "https://assets.calendly.com/assets/external/widget.js";
     script.async = true;
+    
+    // Add event listener to know when the script is loaded
+    script.onload = () => {
+      setIsCalendlyLoaded(true);
+      calendlyInitialized.current = true;
+    };
+    
     document.body.appendChild(script);
 
     // Cleanup function
@@ -56,17 +66,26 @@ export const ConsultationModal = ({
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
+      calendlyInitialized.current = false;
+      setIsCalendlyLoaded(false);
     };
   }, [isOpen]);
 
+  // Initialize Calendly widget or show inline widget
   const openCalendly = () => {
-    if (window.Calendly) {
+    if (isCalendlyLoaded && window.Calendly) {
       window.Calendly.initPopupWidget({
         url: 'https://calendly.com/kmuverein-skv/webdesign-besprechung'
       });
       setIsOpen(false);
     } else {
+      // If Calendly is not loaded, show inline widget
       setShowCalendly(true);
+      // Notify user that Calendly is loading
+      toast({
+        title: "Kalender wird geladen",
+        description: "Bitte warten Sie einen Moment..."
+      });
     }
   };
 
@@ -123,7 +142,7 @@ export const ConsultationModal = ({
                   onClick={openCalendly}
                   className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
                 >
-                  Termin vereinbaren <ArrowRight className="ml-2 h-4 w-4" />
+                  Termin vereinbaren <Calendar className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>
