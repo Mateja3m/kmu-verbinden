@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Monitor, Users, Search, Calendar, ShieldCheck, PieChart } from 'lucide-react';
+import { Monitor, Users, Search, Calendar, ShieldCheck, PieChart, Stethoscope, Tooth, UserCog } from 'lucide-react';
 
 interface Feature {
   title: string;
@@ -18,7 +18,16 @@ export const IndustryFeatures = ({
   industry
 }: IndustryFeaturesProps) => {
   // Icon mapping for different feature titles
-  const getIconForFeature = (title: string) => {
+  const getIconForFeature = (title: string, industry: string) => {
+    // Dental specific icons
+    if (industry === "Zahnärzte") {
+      if (title.toLowerCase().includes('termin')) return <Calendar className="h-6 w-6" />;
+      if (title.toLowerCase().includes('patienten')) return <Users className="h-6 w-6" />;
+      if (title.toLowerCase().includes('behandlung')) return <Tooth className="h-6 w-6" />;
+      if (title.toLowerCase().includes('beratung')) return <UserCog className="h-6 w-6" />;
+    }
+    
+    // Generic icons
     if (title.toLowerCase().includes('seo')) return <Search className="h-6 w-6" />;
     if (title.toLowerCase().includes('termin')) return <Calendar className="h-6 w-6" />;
     if (title.toLowerCase().includes('behandlung')) return <ShieldCheck className="h-6 w-6" />;
@@ -65,7 +74,7 @@ export const IndustryFeatures = ({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto"
         >
           {features.map((feature, index) => (
             <motion.div 
@@ -75,10 +84,10 @@ export const IndustryFeatures = ({
                 y: -8,
                 boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
               }}
-              className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-swiss-lightblue/50 transition-all duration-300"
+              className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:border-swiss-lightblue/50 transition-all duration-300"
             >
               <div className="h-12 w-12 bg-swiss-lightblue/10 rounded-full flex items-center justify-center mb-4 text-swiss-darkblue">
-                {getIconForFeature(feature.title)}
+                {getIconForFeature(feature.title, industry)}
               </div>
               <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>

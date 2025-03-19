@@ -29,7 +29,7 @@ export const IndustryBenefits = ({
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {benefits.map((benefit, index) => (
             <motion.div 
               key={index}
@@ -38,18 +38,18 @@ export const IndustryBenefits = ({
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ 
-                y: -5,
-                boxShadow: "0 15px 30px rgba(0, 0, 0, 0.1)" 
+                y: -8,
+                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
               }}
-              className="flex items-start p-6 bg-white rounded-lg shadow-sm border border-gray-100 transition-all"
+              className="flex flex-col p-6 bg-white rounded-xl shadow-sm border border-gray-100 transition-all"
             >
-              <div className="mr-4 mt-1">
-                <CheckCircle className="h-6 w-6 text-green-500" />
+              <div className="flex items-center mb-4">
+                <div className="bg-green-100 p-2 rounded-full mr-3">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-swiss-darkblue">{benefit.title}</h3>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
-              </div>
+              <p className="text-gray-600 mt-2">{benefit.description}</p>
             </motion.div>
           ))}
         </div>

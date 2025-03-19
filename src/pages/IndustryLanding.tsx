@@ -8,7 +8,7 @@ import { IndustryBenefits } from '@/components/website-redesign/IndustryBenefits
 import { IndustryFeatures } from '@/components/website-redesign/IndustryFeatures';
 import { IndustryAssociation } from '@/components/website-redesign/IndustryAssociation';
 import { IndustryOffer } from '@/components/website-redesign/IndustryOffer';
-import { IndustryContactForm } from '@/components/website-redesign/IndustryContactForm';
+import { WebsiteCheckSection } from '@/components/website-redesign/WebsiteCheckSection';
 import { IndustryLoading } from '@/components/website-redesign/IndustryLoading';
 import { useIndustryData } from '@/hooks/use-industry-data';
 
@@ -58,10 +58,9 @@ const IndustryLanding = () => {
         industry={industryData.name} 
       />
       
-      <IndustryContactForm
-        industry={industryData.name}
-        industrySlug={industryData.slug}
-      />
+      <div id="website-check">
+        <WebsiteCheckSection industryId={industryData.slug} />
+      </div>
     </IndustryLandingLayout>
   );
 };

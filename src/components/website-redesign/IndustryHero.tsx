@@ -19,6 +19,12 @@ export const IndustryHero = ({
   imagePath = '/placeholder.svg',
   showSimulation = false
 }: IndustryHeroProps) => {
+  // Define the default image for dentists
+  const dentistImage = "https://image.brigitte.de/11752034/t/sd/v3/w1440/r1.5/-/jobprofil-zahnarzt.jpg";
+  
+  // Use the dentist image for the dental industry, otherwise use the provided image
+  const displayImage = industry === "Zahnärzte" ? dentistImage : imagePath;
+
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray pt-8 md:pt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-16 md:py-32">
@@ -43,7 +49,7 @@ export const IndustryHero = ({
               </div>
               <div className="flex items-start">
                 <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
-                <p className="text-sm">Optimierte lokale Sichtbarkeit für Ihr Unternehmen</p>
+                <p className="text-sm">Optimierte lokale Sichtbarkeit für Ihre Praxis</p>
               </div>
               <div className="flex items-start">
                 <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
@@ -55,9 +61,9 @@ export const IndustryHero = ({
               <Button 
                 size="lg" 
                 className="bg-swiss-red hover:bg-swiss-red/90 text-white font-medium"
-                onClick={() => document.getElementById('contact-form')?.scrollIntoView({behavior: 'smooth'})}
+                onClick={() => document.getElementById('website-check')?.scrollIntoView({behavior: 'smooth'})}
               >
-                Kostenlose Beratung <ArrowRight className="ml-1 h-4 w-4" />
+                Kostenlose Analyse <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
               <Button 
                 size="lg" 
@@ -75,9 +81,9 @@ export const IndustryHero = ({
             ) : (
               <>
                 <img 
-                  src={imagePath} 
+                  src={displayImage} 
                   alt={`${industry} Website Beispiel`} 
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover aspect-video"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-swiss-darkblue/30 to-transparent pointer-events-none"></div>
               </>
