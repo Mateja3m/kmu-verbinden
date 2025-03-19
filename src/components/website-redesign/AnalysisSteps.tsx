@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LoadingAnimationBar } from './LoadingAnimationBar';
 import { Search, ArrowRight, Check } from 'lucide-react';
 
@@ -77,16 +77,19 @@ export const AnalysisSteps = ({
             </Button>
           </form>
           
-          {isAnalyzing && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mt-8"
-            >
-              <LoadingAnimationBar />
-            </motion.div>
-          )}
+          <AnimatePresence>
+            {isAnalyzing && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="mt-8 p-6 bg-gradient-to-br from-swiss-darkblue to-swiss-darkblue/90 rounded-xl shadow-lg"
+              >
+                <LoadingAnimationBar />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
       

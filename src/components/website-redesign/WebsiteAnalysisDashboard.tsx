@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -83,7 +82,6 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
   
-  // Fixed the Formspree hook usage
   const [formspreeState, formspreeSubmit] = useFormspreeForm("xldgyydd");
   
   const form = useForm<ContactFormData>({
@@ -97,7 +95,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       newsletter: false,
       privacyAccepted: false,
     },
-    mode: "onChange" // Enable real-time validation
+    mode: "onChange"
   });
 
   const analyzeWebsite = async () => {
@@ -291,7 +289,6 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Datenschutz akzeptiert": "Ja",
       });
 
-      // Updated formspree submission to match the correct API
       formspreeSubmit({
         "Firmenname": data.companyName,
         "Ansprechpartner": data.contactPerson,
@@ -304,8 +301,6 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Website-Analyse": "Ja",
         "Datenschutz akzeptiert": "Ja",
       });
-      
-      console.log("Formspree state after submission:", formspreeState);
       
       if (formspreeState.errors) {
         console.error('Formspree submission errors:', formspreeState.errors);
@@ -398,16 +393,13 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       )}
 
       {isAnalyzing && (
-        <Card className="w-full">
+        <Card className="w-full overflow-hidden">
           <CardContent className="py-10">
-            <div className="flex flex-col items-center space-y-4">
-              <Loader2 className="h-12 w-12 animate-spin text-swiss-red" />
-              <p className="text-lg font-medium">Analysiere Ihre Website...</p>
-              <Progress value={progress} className="w-64" />
-              <p className="text-sm text-gray-500">Dies kann bis zu einer Minute dauern</p>
-              <div className="text-xs text-gray-400 animate-pulse">
-                Suche nach Kontaktinformationen und analysiere Design{industryId ? " mit Branchenkontext" : ""}...
+            <div className="flex flex-col items-center space-y-8">
+              <div className="p-6 bg-gradient-to-br from-swiss-darkblue to-swiss-darkblue/90 rounded-xl shadow-lg w-full">
+                <LoadingAnimationBar />
               </div>
+              <p className="text-sm text-gray-500">Dies kann bis zu einer Minute dauern</p>
             </div>
           </CardContent>
         </Card>

@@ -1,14 +1,22 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { 
+  Globe, 
+  Search, 
+  Paintbrush, 
+  Users, 
+  Gauge, 
+  FileText
+} from 'lucide-react';
 
 const analysisSteps = [
-  { id: 1, label: "Analysiere Design..." },
-  { id: 2, label: "Prüfe SEO-Optimierung..." },
-  { id: 3, label: "Bewerte Technologie..." },
-  { id: 4, label: "Teste Performance..." },
-  { id: 5, label: "Analysiere Benutzerführung..." },
-  { id: 6, label: "Erstelle Bericht..." }
+  { id: 1, label: "Analysiere Homepage...", icon: Globe },
+  { id: 2, label: "Analysiere Suchmaschinenresultate...", icon: Search },
+  { id: 3, label: "Analysiere Design...", icon: Paintbrush },
+  { id: 4, label: "Prüfe Nutzerfreundlichkeit...", icon: Users },
+  { id: 5, label: "Teste Performance...", icon: Gauge },
+  { id: 6, label: "Erstelle Analysebericht...", icon: FileText }
 ];
 
 export const LoadingAnimationBar = () => {
@@ -45,11 +53,15 @@ export const LoadingAnimationBar = () => {
     };
   }, [currentStep]);
   
+  const currentStepData = analysisSteps[currentStep - 1];
+  const IconComponent = currentStepData?.icon || Globe;
+  
   return (
-    <div className="space-y-4">
-      <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+    <div className="space-y-6">
+      {/* Progress indicator */}
+      <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden shadow-inner">
         <motion.div
-          className="h-full bg-gradient-to-r from-swiss-lightblue to-swiss-red"
+          className="h-full bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-500"
           style={{ width: `${progress}%` }}
           initial={{ width: "0%" }}
           animate={{ width: `${progress}%` }}
@@ -57,16 +69,44 @@ export const LoadingAnimationBar = () => {
         />
       </div>
       
-      <div className="text-white/80 text-sm">
-        {analysisSteps[currentStep - 1]?.label || "Analyse abgeschlossen"}
-      </div>
+      {/* Current step display with icon */}
+      <motion.div 
+        key={currentStep}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3 }}
+        className="flex items-center gap-3"
+      >
+        <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+          <motion.div
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <IconComponent className="h-6 w-6 text-blue-300" />
+          </motion.div>
+        </div>
+        <div>
+          <div className="text-white/80 font-medium text-lg">
+            {currentStepData?.label || "Analyse abgeschlossen"}
+          </div>
+          <motion.div
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 1.2 }}
+            className="h-1 bg-blue-400/40 rounded-full mt-1"
+          />
+        </div>
+      </motion.div>
       
+      {/* Step indicators */}
       <div className="pt-2 grid grid-cols-6 gap-1">
         {analysisSteps.map((step) => (
           <motion.div
             key={step.id}
-            className={`h-1 rounded-full ${
-              step.id <= currentStep ? "bg-swiss-lightblue" : "bg-white/20"
+            className={`relative h-2 rounded-full ${
+              step.id <= currentStep ? "bg-blue-400" : "bg-white/20"
             }`}
             initial={{ opacity: 0.4 }}
             animate={{ 
@@ -78,7 +118,38 @@ export const LoadingAnimationBar = () => {
               repeat: step.id === currentStep ? Infinity : 0,
               repeatType: "reverse"
             }}
-          />
+          >
+            {step.id === currentStep && (
+              <motion.div
+                className="absolute -top-1 left-0 right-0 bottom-0 bg-blue-400 rounded-full opacity-30"
+                initial={{ scale: 1 }}
+                animate={{ scale: 1.5, opacity: 0 }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity,
+                  ease: "easeOut" 
+                }}
+              />
+            )}
+          </motion.div>
+        ))}
+      </div>
+      
+      {/* Steps summary */}
+      <div className="flex flex-wrap justify-between pt-2 text-xs text-white/50">
+        {analysisSteps.map((step) => (
+          <div 
+            key={step.id}
+            className={`flex items-center gap-1 ${
+              step.id <= currentStep ? "text-blue-300/80" : "text-white/40"
+            }`}
+          >
+            <step.icon className={`h-3 w-3 ${
+              step.id === currentStep ? "text-blue-300" : 
+              step.id < currentStep ? "text-blue-400/80" : "text-white/40"
+            }`} />
+            <span className="hidden sm:inline">{step.id}</span>
+          </div>
         ))}
       </div>
     </div>
