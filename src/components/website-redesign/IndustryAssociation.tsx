@@ -32,6 +32,12 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
     membershipText = "Mehr als 200 unserer 2300 Mitglieder sind";
     partnerExpertiseText = "Unsere spezialisierten Webdesign-Partner kennen die besonderen Anforderungen von";
     specialConditionsText = "Digitale Komplettlösungen für";
+  } else if (industry === "Zahnärzte") {
+    headline = "Wie unterstützt der KMU Verein Zahnarztpraxen bei der Digitalisierung?";
+    introText = "Als führender Schweizer KMU Verein haben wir die digitalen Herausforderungen von Zahnarztpraxen erkannt.";
+    membershipText = "Mehr als 180 unserer 2300 Mitglieder sind";
+    partnerExpertiseText = "Unsere spezialisierten Webdesign-Partner kennen die besonderen Anforderungen von";
+    specialConditionsText = "Digitale Komplettlösungen für";
   }
   
   return (
@@ -64,6 +70,8 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
                   <p className="text-gray-600">
                     {industry === "Fahrschulen" 
                       ? "Wir verstehen die Herausforderungen bei der Terminplanung, Schülerverwaltung und Online-Präsenz für Fahrschulen und haben digitale Lösungen entwickelt, die genau diese Probleme lösen."
+                      : industry === "Zahnärzte"
+                      ? "Wir verstehen die Herausforderungen bei der Patiententerminplanung, dem Praxismarketing und der Online-Präsenz für Zahnarztpraxen und haben digitale Lösungen entwickelt, die genau diese Probleme lösen."
                       : `Wir verstehen die spezifischen Anforderungen an die digitale Präsenz von ${industry} und haben massgeschneiderte Lösungen entwickelt.`
                     }
                   </p>
@@ -86,7 +94,12 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
                   <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">Spezialisierte Partner mit Branchenwissen</h3>
                   <p className="text-gray-600">
                     {partnerExpertiseText} {industry} spezialisiert haben und die Branchenanforderungen genau kennen.
-                    {industry === "Fahrschulen" && " Von Online-Buchungssystemen bis hin zu Fahrschüler-Bewertungsplattformen – unsere Partner bieten alles aus einer Hand."}
+                    {industry === "Fahrschulen" 
+                      ? " Von Online-Buchungssystemen bis hin zu Fahrschüler-Bewertungsplattformen – unsere Partner bieten alles aus einer Hand."
+                      : industry === "Zahnärzte"
+                      ? " Von Online-Terminbuchung bis hin zu Patientenaufklärungsvideos – unsere Partner bieten alles aus einer Hand."
+                      : ""
+                    }
                   </p>
                 </div>
               </div>
@@ -108,6 +121,8 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
                   <p className="text-gray-600">
                     {industry === "Fahrschulen" 
                       ? "Als Mitglied unseres Vereins profitieren Sie von exklusiven Konditionen für Buchungssysteme, Websites und digitale Marketing-Tools – bis zu 40% unter dem Marktpreis."
+                      : industry === "Zahnärzte"
+                      ? "Als Mitglied unseres Vereins profitieren Sie von exklusiven Konditionen für Terminbuchungssysteme, Websites und digitale Patientenkommunikation – bis zu 35% unter dem Marktpreis."
                       : "Als Mitglied unseres Vereins profitieren Sie von speziell ausgehandelten Konditionen, die deutlich unter den marktüblichen Preisen liegen."
                     }
                   </p>
@@ -160,6 +175,8 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
               <p className="text-center text-gray-500 text-sm mt-8">
                 {industry === "Fahrschulen" 
                   ? "Alle Partner sind sorgfältig ausgewählt und auf ihre Expertise für Fahrschulen geprüft"
+                  : industry === "Zahnärzte"
+                  ? "Alle Partner sind sorgfältig ausgewählt und auf ihre Expertise für Zahnarztpraxen geprüft"
                   : "Alle Partner sind sorgfältig ausgewählt und auf Qualität geprüft"
                 }
               </p>

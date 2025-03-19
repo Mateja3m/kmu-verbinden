@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Monitor, Users, Search, Calendar, ShieldCheck, PieChart, Stethoscope, UserCog } from 'lucide-react';
+import { Monitor, Users, Search, Calendar, ShieldCheck, PieChart, Stethoscope, UserCog, Star, BookOpen, CircleDollarSign, Car } from 'lucide-react';
 
 interface Feature {
   title: string;
@@ -23,8 +23,17 @@ export const IndustryFeatures = ({
     if (industry === "Zahnärzte") {
       if (title.toLowerCase().includes('termin')) return <Calendar className="h-6 w-6" />;
       if (title.toLowerCase().includes('patienten')) return <Users className="h-6 w-6" />;
-      if (title.toLowerCase().includes('behandlung')) return <Stethoscope className="h-6 w-6" />; // Changed from Tooth to Stethoscope
+      if (title.toLowerCase().includes('behandlung')) return <Stethoscope className="h-6 w-6" />;
       if (title.toLowerCase().includes('beratung')) return <UserCog className="h-6 w-6" />;
+    }
+    
+    // Driving school specific icons
+    if (industry === "Fahrschulen") {
+      if (title.toLowerCase().includes('termin') || title.toLowerCase().includes('buchung')) return <Calendar className="h-6 w-6" />;
+      if (title.toLowerCase().includes('bewertung')) return <Star className="h-6 w-6" />;
+      if (title.toLowerCase().includes('kurs') || title.toLowerCase().includes('lern')) return <BookOpen className="h-6 w-6" />;
+      if (title.toLowerCase().includes('fahrstunden') || title.toLowerCase().includes('fahr')) return <Car className="h-6 w-6" />;
+      if (title.toLowerCase().includes('preis') || title.toLowerCase().includes('zahl')) return <CircleDollarSign className="h-6 w-6" />;
     }
     
     // Generic icons

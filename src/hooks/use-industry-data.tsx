@@ -32,10 +32,12 @@ export const useIndustryData = (industrySlug: string | undefined) => {
           return;
         }
         
-        // Override name for zahnarzt to zahnärzte
+        // Override name for specific industries
         let industryName = industryResult.name;
         if (industryResult.slug === 'zahnarzt') {
           industryName = "Zahnärzte";
+        } else if (industryResult.slug === 'fahrschule') {
+          industryName = "Fahrschulen";
         }
         
         const typedIndustryData: IndustryData = {
@@ -135,6 +137,43 @@ export const useIndustryData = (industrySlug: string | undefined) => {
               meta_title: `Zahnärzte Website Lösungen | Speziell für Zahnarztpraxen | SwissKMU`,
               meta_description: `Professionelle Websites für Zahnärzte. Steigern Sie Ihre lokale Sichtbarkeit und gewinnen Sie mehr Patienten.`,
               keywords: ['Zahnarzt Website', 'Zahnarztpraxis Webdesign', 'Website für Zahnärzte', 'SwissKMU']
+            });
+          } 
+          // For fahrschule, create custom content
+          else if (industryResult.slug === 'fahrschule') {
+            setIndustryContent({
+              hero_headline: `Optimierte Websites für Fahrschulen`,
+              hero_subheadline: `Professionelle und schülerorientierte Website-Lösungen speziell für Fahrschulen und Fahrlehrer`,
+              pain_points: [
+                { title: "Zeitaufwändige Terminplanung", description: "Sie verbringen zu viel Zeit mit der manuellen Verwaltung von Fahrstunden" },
+                { title: "Geringe Online-Sichtbarkeit", description: "Potenzielle Fahrschüler finden Ihre Fahrschule nicht im Internet" },
+                { title: "Veralteter Webauftritt", description: "Ihre aktuelle Website entspricht nicht den modernen Standards und Erwartungen der Zielgruppe" },
+                { title: "Wenige Empfehlungen", description: "Zufriedene Fahrschüler teilen ihre positive Erfahrung nicht online mit anderen" }
+              ],
+              benefits: [
+                { title: "Digitales Terminmanagement", description: "Sparen Sie bis zu 12 Stunden pro Woche durch ein automatisiertes Buchungssystem für Fahrstunden" },
+                { title: "Verbesserte lokale Präsenz", description: "Werden Sie in lokalen Suchergebnissen gefunden, wenn potenzielle Fahrschüler nach 'Fahrschule + Ort' suchen" },
+                { title: "Mehr Neuanmeldungen", description: "Gewinnen Sie mehr Fahrschüler durch optimierte Konversions-Elemente und klare Kursübersichten" },
+                { title: "Automatisierte Bewertungen", description: "Lassen Sie Fahrschüler nach bestandener Prüfung automatisch eine Bewertung abgeben" },
+                { title: "Lernmaterial-Integration", description: "Bieten Sie Ihren Fahrschülern digitales Lernmaterial zur optimalen Prüfungsvorbereitung" },
+                { title: "Empfehlungsmarketing", description: "Nutzen Sie die Kraft von Empfehlungen durch ein optimiertes Bewertungssystem" }
+              ],
+              features: [
+                { title: "Online-Buchungssystem", description: "Fahrschüler können direkt online Fahrstunden buchen und verwalten" },
+                { title: "Kursübersicht & Angebote", description: "Präsentation Ihrer Kurse und Preise mit direkter Anmeldemöglichkeit" },
+                { title: "Bewertungsmanagement", description: "Automatisierte Sammlung und Präsentation von Fahrschüler-Bewertungen" },
+                { title: "Fahrlehrer-Vorstellung", description: "Persönliche Vorstellung Ihrer Fahrlehrer mit Qualifikationen und Erfahrung" },
+                { title: "Digitale Lernunterlagen", description: "Integrierter Bereich für digitale Lernmaterialien und Prüfungsvorbereitung" },
+                { title: "Automatisierte Erinnerungen", description: "Automatische Benachrichtigungen für anstehende Fahrstunden via SMS oder E-Mail" }
+              ],
+              case_studies: [
+                { title: "Fahrschule Meyer", description: "40% mehr Anmeldungen innerhalb von 3 Monaten", image: "/placeholder.svg" },
+                { title: "Fahrlehrer Walser", description: "12 Stunden Zeitersparnis pro Woche durch Online-Terminbuchung", image: "/placeholder.svg" }
+              ],
+              pricing_deals: "Website-Komplettpaket für Fahrschulen ab CHF 4.900 statt CHF 8.200 | Monatliche Betreuung inkl. Buchungssystem ab CHF 290",
+              meta_title: `Fahrschule Website Lösungen | Speziell für Fahrlehrer | SwissKMU`,
+              meta_description: `Professionelle Websites für Fahrschulen. Automatisieren Sie Ihre Terminbuchung, gewinnen Sie mehr Fahrschüler und steigern Sie Ihre lokale Sichtbarkeit.`,
+              keywords: ['Fahrschule Website', 'Fahrlehrer Webdesign', 'Website für Fahrschulen', 'Online Terminbuchung Fahrschule', 'Fahrschule Marketing', 'SwissKMU']
             });
           } else {
             // Standard fallback for other industries

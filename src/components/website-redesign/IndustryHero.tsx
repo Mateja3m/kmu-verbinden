@@ -20,11 +20,42 @@ export const IndustryHero = ({
   imagePath = '/placeholder.svg',
   showSimulation = false
 }: IndustryHeroProps) => {
-  // Define the default image for dentists
+  // Define industry-specific images
   const dentistImage = "https://image.brigitte.de/11752034/t/sd/v3/w1440/r1.5/-/jobprofil-zahnarzt.jpg";
+  const drivingSchoolImage = "https://ofv-fahrlehrer.ch/wp-content/uploads/2019/07/iStock-914775770-1500x630.jpg";
   
-  // Use the dentist image for the dental industry, otherwise use the provided image
-  const displayImage = industry === "Zahnärzte" ? dentistImage : imagePath;
+  // Use the correct image based on industry
+  let displayImage = imagePath;
+  if (industry === "Zahnärzte") {
+    displayImage = dentistImage;
+  } else if (industry === "Fahrschulen") {
+    displayImage = drivingSchoolImage;
+  }
+
+  // Get industry-specific check items
+  const getCheckItems = () => {
+    if (industry === "Zahnärzte") {
+      return [
+        "Spezielle Konditionen für Vereinsmitglieder",
+        "Optimierte lokale Sichtbarkeit für Ihre Praxis",
+        "Persönliche Betreuung durch Branchenexperten"
+      ];
+    } else if (industry === "Fahrschulen") {
+      return [
+        "Exklusive Konditionen für Vereinsmitglieder",
+        "Online-Buchungssystem für Fahrstunden",
+        "Automatisierte Bewertungssammlung nach bestandenen Prüfungen"
+      ];
+    } else {
+      return [
+        "Spezielle Konditionen für Vereinsmitglieder",
+        "Optimierte lokale Sichtbarkeit für Ihr Unternehmen",
+        "Persönliche Betreuung durch Branchenexperten"
+      ];
+    }
+  };
+
+  const checkItems = getCheckItems();
 
   // Consultation Button component to be passed to the modal
   const consultationButton = (
@@ -32,7 +63,7 @@ export const IndustryHero = ({
       size="lg" 
       variant="outline"
       className="border-swiss-darkblue text-swiss-darkblue hover:bg-swiss-darkblue/5"
-      aria-label="Beratungstermin für Ihre Zahnarztpraxis vereinbaren"
+      aria-label={`Beratungstermin für Ihre ${industry} vereinbaren`}
     >
       Beratungstermin vereinbaren
     </Button>
@@ -57,18 +88,12 @@ export const IndustryHero = ({
             </p>
             
             <div className="space-y-2 pt-2">
-              <div className="flex items-start">
-                <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
-                <p className="text-sm">Spezielle Konditionen für Vereinsmitglieder</p>
-              </div>
-              <div className="flex items-start">
-                <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
-                <p className="text-sm">Optimierte lokale Sichtbarkeit für Ihre Praxis</p>
-              </div>
-              <div className="flex items-start">
-                <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
-                <p className="text-sm">Persönliche Betreuung durch Branchenexperten</p>
-              </div>
+              {checkItems.map((item, index) => (
+                <div key={index} className="flex items-start">
+                  <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
+                  <p className="text-sm">{item}</p>
+                </div>
+              ))}
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
@@ -95,7 +120,7 @@ export const IndustryHero = ({
               <>
                 <img 
                   src={displayImage} 
-                  alt={`${industry} Website Beispiel - Professionelle Webpräsenz für Ihre Praxis`} 
+                  alt={`${industry} Website Beispiel - Professionelle Webpräsenz für Ihre ${industry === "Zahnärzte" ? "Praxis" : industry === "Fahrschulen" ? "Fahrschule" : "Unternehmen"}`} 
                   className="w-full h-auto object-cover aspect-video"
                   loading="eager"
                   width="600"
