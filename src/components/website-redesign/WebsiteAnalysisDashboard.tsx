@@ -28,7 +28,7 @@ import { AnalysisContactForm } from './AnalysisContactForm';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
-import { useForm as useFormspree } from "@formspree/react";
+import { useFormspree } from "@formspree/react";
 
 interface WebsiteAnalysisDashboardProps {
   industryId?: string;
@@ -338,13 +338,13 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   };
 
   return (
-    <div className="mt-0">
+    <div className="mt-0 w-full">
       {!result && !isAnalyzing && (
         <Card className="relative overflow-hidden w-full">
           <div className="absolute inset-0 pointer-events-none shine-effect"></div>
           <CardHeader className="pb-3">
             <CardTitle className="text-xl font-bold text-center">
-              Website-Analyse für {industryId ? "Ihre Branche" : "Ihre Website"}
+              Website-Analyse für Ihre Website
             </CardTitle>
             <CardDescription className="text-center">
               Unser KI-System analysiert Ihre Website und gibt Ihnen wertvolle Verbesserungsvorschläge
@@ -396,7 +396,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       )}
 
       {isAnalyzing && (
-        <Card>
+        <Card className="w-full">
           <CardContent className="py-10">
             <div className="flex flex-col items-center space-y-4">
               <Loader2 className="h-12 w-12 animate-spin text-swiss-red" />
@@ -415,7 +415,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-8 space-y-6"
+          className="mt-8 space-y-6 w-full"
         >
           <Card>
             <CardHeader>

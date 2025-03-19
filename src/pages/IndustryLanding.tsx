@@ -62,10 +62,10 @@ const IndustryLanding = () => {
       <div id="website-check" className="container mx-auto px-4 pt-4 pb-16">
         <div className="flex flex-col">
           <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-8 text-center">
-            Lassen Sie Ihre {industryData.name}-Website analysieren
+            Lassen Sie Ihre Website analysieren
           </h2>
           
-          <div className="max-w-3xl mx-auto w-full">
+          <div className="w-full mx-auto">
             <WebsiteAnalysisDashboard industryId={industryData.slug} />
           </div>
         </div>
