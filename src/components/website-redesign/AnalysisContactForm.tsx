@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useForm as useFormspree } from "@formspree/react";
+import { useForm as useFormspreeForm } from "@formspree/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
@@ -48,7 +48,8 @@ export const AnalysisContactForm = ({
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const [formspreeState, handleFormspreeSubmit] = useFormspree("xldgyydd");
+  // Fixed the Formspree hook usage
+  const [formspreeState, handleFormspreeSubmit] = useFormspreeForm("xldgyydd");
   
   // Initialize react-hook-form with explicit validation mode
   const form = useForm<FormData>({

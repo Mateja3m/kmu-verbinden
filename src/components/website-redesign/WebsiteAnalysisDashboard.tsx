@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -28,7 +29,7 @@ import { AnalysisContactForm } from './AnalysisContactForm';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
-import { useFormspree } from "@formspree/react";
+import { useForm as useFormspreeForm } from "@formspree/react";
 
 interface WebsiteAnalysisDashboardProps {
   industryId?: string;
@@ -82,7 +83,8 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
   
-  const [formspreeState, formspreeSubmit] = useFormspree("xldgyydd");
+  // Fixed the Formspree hook usage
+  const [formspreeState, formspreeSubmit] = useFormspreeForm("xldgyydd");
   
   const form = useForm<ContactFormData>({
     defaultValues: {
@@ -289,7 +291,8 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Datenschutz akzeptiert": "Ja",
       });
 
-      const response = await formspreeSubmit({
+      // Updated formspree submission to match the correct API
+      formspreeSubmit({
         "Firmenname": data.companyName,
         "Ansprechpartner": data.contactPerson,
         "E-Mail": data.email,
@@ -302,7 +305,6 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Datenschutz akzeptiert": "Ja",
       });
       
-      console.log("Formspree response:", response);
       console.log("Formspree state after submission:", formspreeState);
       
       if (formspreeState.errors) {
