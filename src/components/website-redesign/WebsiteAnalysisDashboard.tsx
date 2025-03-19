@@ -29,6 +29,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { useForm as useFormspreeForm } from "@formspree/react";
+import { LoadingAnimationBar } from './LoadingAnimationBar';
 
 interface WebsiteAnalysisDashboardProps {
   industryId?: string;
