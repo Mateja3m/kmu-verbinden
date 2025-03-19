@@ -19,15 +19,30 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
   // Select a subset of partners to display
   const selectedPartners = nationalPartners.slice(0, 6);
   
+  // Content customization based on industry
+  let headline = "Wieso schreibt mich der KMU Verein an wegen einer Homepage?";
+  let introText = "Als führender Schweizer KMU Verein setzen wir uns für die Digitalisierung unserer Mitglieder ein.";
+  let membershipText = "Mehr als 15% unserer 2300 Mitglieder sind";
+  let partnerExpertiseText = "Wir arbeiten mit Webdesign-Partnern zusammen, die sich auf die Erstellung von Websites für";
+  let specialConditionsText = "Exklusive Konditionen für";
+  
+  if (industry === "Fahrschulen") {
+    headline = "Wieso unterstützt der KMU Verein Fahrschulen bei der Digitalisierung?";
+    introText = "Als führender Schweizer KMU Verein haben wir die digitalen Herausforderungen von Fahrschulen erkannt.";
+    membershipText = "Mehr als 200 unserer 2300 Mitglieder sind";
+    partnerExpertiseText = "Unsere spezialisierten Webdesign-Partner kennen die besonderen Anforderungen von";
+    specialConditionsText = "Digitale Komplettlösungen für";
+  }
+  
   return (
     <div className="py-16 bg-gradient-to-b from-swiss-gray/20 to-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-4">
-            Wieso schreibt mich der KMU Verein an wegen einer Homepage?
+            {headline}
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Als führender Schweizer KMU Verein setzen wir uns für die Digitalisierung unserer Mitglieder ein.
+            {introText}
           </p>
         </div>
         
@@ -45,9 +60,12 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
                   <Users className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">Mehr als 15% unserer 2300 Mitglieder sind {industry}</h3>
+                  <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">{membershipText} {industry}</h3>
                   <p className="text-gray-600">
-                    Wir verstehen die spezifischen Anforderungen an die digitale Präsenz von {industry} und haben massgeschneiderte Lösungen entwickelt.
+                    {industry === "Fahrschulen" 
+                      ? "Wir verstehen die Herausforderungen bei der Terminplanung, Schülerverwaltung und Online-Präsenz für Fahrschulen und haben digitale Lösungen entwickelt, die genau diese Probleme lösen."
+                      : `Wir verstehen die spezifischen Anforderungen an die digitale Präsenz von ${industry} und haben massgeschneiderte Lösungen entwickelt.`
+                    }
                   </p>
                 </div>
               </div>
@@ -67,7 +85,8 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
                 <div>
                   <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">Spezialisierte Partner mit Branchenwissen</h3>
                   <p className="text-gray-600">
-                    Wir arbeiten mit Webdesign-Partnern zusammen, die sich auf die Erstellung von Websites für {industry} spezialisiert haben und die Branchenanforderungen genau kennen.
+                    {partnerExpertiseText} {industry} spezialisiert haben und die Branchenanforderungen genau kennen.
+                    {industry === "Fahrschulen" && " Von Online-Buchungssystemen bis hin zu Fahrschüler-Bewertungsplattformen – unsere Partner bieten alles aus einer Hand."}
                   </p>
                 </div>
               </div>
@@ -85,9 +104,12 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
                   <BadgePercent className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">Exklusive Konditionen für {industry}</h3>
+                  <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">{specialConditionsText} {industry}</h3>
                   <p className="text-gray-600">
-                    Als Mitglied unseres Vereins profitieren Sie von speziell ausgehandelten Konditionen, die deutlich unter den marktüblichen Preisen liegen.
+                    {industry === "Fahrschulen" 
+                      ? "Als Mitglied unseres Vereins profitieren Sie von exklusiven Konditionen für Buchungssysteme, Websites und digitale Marketing-Tools – bis zu 40% unter dem Marktpreis."
+                      : "Als Mitglied unseres Vereins profitieren Sie von speziell ausgehandelten Konditionen, die deutlich unter den marktüblichen Preisen liegen."
+                    }
                   </p>
                 </div>
               </div>
@@ -136,7 +158,10 @@ export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
               </Carousel>
               
               <p className="text-center text-gray-500 text-sm mt-8">
-                Alle Partner sind sorgfältig ausgewählt und auf Qualität geprüft
+                {industry === "Fahrschulen" 
+                  ? "Alle Partner sind sorgfältig ausgewählt und auf ihre Expertise für Fahrschulen geprüft"
+                  : "Alle Partner sind sorgfältig ausgewählt und auf Qualität geprüft"
+                }
               </p>
             </motion.div>
           </div>
