@@ -7,9 +7,9 @@ interface BackgroundPatternProps {
 
 const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
   return (
-    <div className="relative flex-1 bg-white/80">
+    <div className="relative flex-1 min-h-screen">
       <div
-        className="absolute inset-0 pointer-events-none -z-10"
+        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white to-swiss-gray/10"
         style={{
           backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
           <svg width="7" height="7" xmlns="http://www.w3.org/2000/svg">

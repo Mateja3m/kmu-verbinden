@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Helmet } from 'react-helmet';
@@ -25,6 +24,17 @@ export const IndustryLandingLayout = ({
   schema
 }: IndustryLandingLayoutProps) => {
   const { industry: industrySlug } = useParams<{ industry: string }>();
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Set loaded state after initial render
+  useEffect(() => {
+    // Short timeout to ensure content is ready to display
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   // Default canonical URL based on current path
   const defaultCanonical = `${window.location.origin}/website-redesign/branche/${industrySlug}`;
@@ -58,7 +68,7 @@ export const IndustryLandingLayout = ({
 
   return (
     <BackgroundPattern>
-      <div className="min-h-screen pt-14">
+      <div className={`min-h-screen pt-14 transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <Helmet>
           {metaTitle && <title>{metaTitle}</title>}
           {metaDescription && <meta name="description" content={metaDescription} />}

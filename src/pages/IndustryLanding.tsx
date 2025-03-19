@@ -9,9 +9,12 @@ import { IndustryAssociation } from '@/components/website-redesign/IndustryAssoc
 import { IndustryOffer } from '@/components/website-redesign/IndustryOffer';
 import { WebsiteAnalysisDashboard } from '@/components/website-redesign/WebsiteAnalysisDashboard';
 import { IndustryLoading } from '@/components/website-redesign/IndustryLoading';
-import { IndustryQuickStats } from '@/components/website-redesign/IndustryQuickStats';
 import { FAQSection } from '@/components/website-redesign/FAQSection';
 import { useIndustryData } from '@/hooks/use-industry-data';
+import { IndustryIntroduction } from '@/components/website-redesign/IndustryIntroduction';
+import { IndustryStats } from '@/components/website-redesign/IndustryStats';
+import { IndustryCaseStudies } from '@/components/website-redesign/IndustryCaseStudies';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const IndustryLanding = () => {
   const { industry } = useParams<{ industry: string }>();
@@ -25,7 +28,6 @@ const IndustryLanding = () => {
     return <IndustryLoading />;
   }
 
-  // Define industry-specific FAQ items
   const getFaqItems = (industrySlug: string) => {
     if (industrySlug === 'zahnarzt') {
       return [
@@ -103,9 +105,7 @@ const IndustryLanding = () => {
     }
   };
   
-  // Generate Schema.org structured data based on industry
   const generateSchema = () => {
-    // Base organization schema
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "Organization",
@@ -120,7 +120,6 @@ const IndustryLanding = () => {
       }
     };
     
-    // Website schema
     const websiteSchema = {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -134,7 +133,6 @@ const IndustryLanding = () => {
       }
     };
     
-    // Service schema for specific industries
     const getServiceSchema = () => {
       if (industryData.slug === 'zahnarzt') {
         return {
@@ -206,7 +204,6 @@ const IndustryLanding = () => {
       }
     };
     
-    // BreadcrumbList schema
     const breadcrumbSchema = {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -232,10 +229,8 @@ const IndustryLanding = () => {
       ]
     };
     
-    // Get industry-specific FAQ items
     const faqItems = getFaqItems(industryData.slug);
     
-    // FAQ schema
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -249,7 +244,6 @@ const IndustryLanding = () => {
       }))
     };
     
-    // Return an array of all schema objects
     return [
       organizationSchema,
       websiteSchema,
@@ -261,7 +255,6 @@ const IndustryLanding = () => {
   
   const schema = generateSchema();
   
-  // Enhance meta title and description based on industry
   let metaTitle = industryContent.meta_title;
   let metaDescription = industryContent.meta_description;
   let keywords = industryContent.keywords || [];
@@ -286,10 +279,8 @@ const IndustryLanding = () => {
     ];
   }
   
-  // Get industry-specific FAQ items
   const faqItems = getFaqItems(industryData.slug);
   
-  // Determine hero image based on industry
   let heroImage = '';
   if (industryData.slug === 'zahnarzt') {
     heroImage = "https://image.brigitte.de/11752034/t/sd/v3/w1440/r1.5/-/jobprofil-zahnarzt.jpg";
@@ -297,119 +288,70 @@ const IndustryLanding = () => {
     heroImage = "https://ofv-fahrlehrer.ch/wp-content/uploads/2019/07/iStock-914775770-1500x630.jpg";
   }
 
-  // Get industry-specific introduction text
-  const getIntroText = () => {
+  const getIndustryIntroContent = () => {
     if (industryData.slug === 'fahrschule') {
-      return (
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-4 text-center">
-            Digitale Lösungen für zukunftsorientierte Fahrschulen
-          </h2>
-          <div className="prose prose-lg mx-auto text-gray-700">
-            <p>
-              Als Fahrschule stehen Sie vor einzigartigen Herausforderungen: Die Verwaltung von Terminen, das Tracking von Schülerfortschritten und das Marketing für neue Fahrschüler erfordern viel Zeit und Ressourcen. Eine professionelle Website kann diese Prozesse erheblich vereinfachen und Ihre Fahrschule zum digitalen Vorreiter machen.
-            </p>
-            <p>
-              Mit einer modernen, auf Fahrschulen spezialisierten Website-Lösung können Sie:
-            </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Zeit sparen:</strong> Durch automatisierte Terminbuchung reduzieren Fahrschulen ihren Verwaltungsaufwand um durchschnittlich 35%</li>
-              <li><strong>Neue Fahrschüler gewinnen:</strong> 83% der Führerscheinanwärter suchen online nach einer geeigneten Fahrschule</li>
-              <li><strong>Kosten senken:</strong> Digitalisierte Prozesse reduzieren Personalkosten und steigern Ihre Effizienz</li>
-              <li><strong>Ihr Image verbessern:</strong> Eine professionelle Website signalisiert Qualität und Zuverlässigkeit</li>
-            </ul>
-            <p className="mt-4">
-              Als Mitglied des Schweizerischen KMU Vereins profitieren Sie von exklusiven Konditionen bei unseren spezialisierten Partnern, die die besonderen Anforderungen von Fahrschulen kennen und passgenaue Lösungen entwickeln.
-            </p>
-          </div>
-        </div>
-      );
+      return {
+        title: "Digitale Lösungen für zukunftsorientierte Fahrschulen",
+        paragraphs: [
+          "Als Fahrschule stehen Sie vor einzigartigen Herausforderungen: Die Verwaltung von Terminen, das Tracking von Schülerfortschritten und das Marketing für neue Fahrschüler erfordern viel Zeit und Ressourcen. Eine professionelle Website kann diese Prozesse erheblich vereinfachen und Ihre Fahrschule zum digitalen Vorreiter machen.",
+          "Mit einer modernen, auf Fahrschulen spezialisierten Website-Lösung können Sie Ihre Arbeitsabläufe optimieren und gleichzeitig mehr Fahrschüler gewinnen. Unsere Erfahrung aus zahlreichen Projekten mit Schweizer Fahrschulen zeigt, dass eine gute digitale Präsenz entscheidend für den Erfolg ist."
+        ],
+        bulletPoints: [
+          "Zeit sparen: Durch automatisierte Terminbuchung reduzieren Fahrschulen ihren Verwaltungsaufwand um durchschnittlich 35%",
+          "Neue Fahrschüler gewinnen: 83% der Führerscheinanwärter suchen online nach einer geeigneten Fahrschule",
+          "Kosten senken: Digitalisierte Prozesse reduzieren Personalkosten und steigern Ihre Effizienz",
+          "Ihr Image verbessern: Eine professionelle Website signalisiert Qualität und Zuverlässigkeit"
+        ],
+        conclusion: "Als Mitglied des Schweizerischen KMU Vereins profitieren Sie von exklusiven Konditionen bei unseren spezialisierten Partnern, die die besonderen Anforderungen von Fahrschulen kennen und passgenaue Lösungen entwickeln."
+      };
     }
     return null;
   };
   
-  const introSection = getIntroText();
+  const introContent = getIndustryIntroContent();
   
-  const getDrivingSchoolStats = () => {
+  const getIndustryStats = () => {
     if (industryData.slug === 'fahrschule') {
-      return (
-        <div className="bg-swiss-gray/10 py-12">
-          <div className="container mx-auto">
-            <h3 className="text-xl md:text-2xl font-semibold text-swiss-darkblue mb-8 text-center">
-              Warum Fahrschulen eine optimierte Website brauchen
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto px-4">
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="text-3xl font-bold text-swiss-red mb-2">83%</div>
-                <p className="text-gray-700">der Fahrschüler informieren sich online, bevor sie sich für eine Fahrschule entscheiden</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="text-3xl font-bold text-swiss-red mb-2">8-12h</div>
-                <p className="text-gray-700">Zeitersparnis pro Woche durch ein Online-Buchungssystem für Fahrstunden</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="text-3xl font-bold text-swiss-red mb-2">+40%</div>
-                <p className="text-gray-700">mehr Anfragen durch positive Online-Bewertungen und digitale Präsenz</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      return {
+        title: "Warum Fahrschulen eine optimierte Website brauchen",
+        stats: [
+          { value: "83%", label: "der Fahrschüler informieren sich online, bevor sie sich für eine Fahrschule entscheiden" },
+          { value: "8-12h", label: "Zeitersparnis pro Woche durch ein Online-Buchungssystem für Fahrstunden" },
+          { value: "+40%", label: "mehr Anfragen durch positive Online-Bewertungen und digitale Präsenz" }
+        ]
+      };
     }
     return null;
   };
   
-  const statsSection = getDrivingSchoolStats();
+  const statsData = getIndustryStats();
   
-  const getDrivingSchoolCaseStudies = () => {
+  const getIndustryCaseStudies = () => {
     if (industryData.slug === 'fahrschule') {
-      return (
-        <div className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <h3 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-8 text-center">
-              Erfolgsgeschichten von Fahrschulen
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                <h4 className="text-xl font-semibold text-swiss-darkblue mb-3">Fahrschule Müller</h4>
-                <p className="text-gray-700 mb-4">
-                  "Seit wir unser Online-Buchungssystem auf der neuen Website eingeführt haben, sparen wir über 10 Stunden pro Woche an Verwaltungsaufwand. Gleichzeitig sind unsere Neuanmeldungen um 35% gestiegen."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 bg-swiss-lightblue/20 rounded-full flex items-center justify-center text-swiss-darkblue font-bold">
-                    MM
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-sm font-medium">Martin Müller</div>
-                    <div className="text-xs text-gray-500">Inhaber, Fahrschule Müller</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                <h4 className="text-xl font-semibold text-swiss-darkblue mb-3">Fahrschule Sicher & Gut</h4>
-                <p className="text-gray-700 mb-4">
-                  "Unsere neue Website mit integriertem Bewertungssystem hat uns geholfen, das Vertrauen neuer Fahrschüler zu gewinnen. Die Conversion-Rate ist um 48% gestiegen und wir konnten zwei neue Fahrlehrer einstellen."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 bg-swiss-lightblue/20 rounded-full flex items-center justify-center text-swiss-darkblue font-bold">
-                    SK
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-sm font-medium">Sarah Keller</div>
-                    <div className="text-xs text-gray-500">Geschäftsführerin, Fahrschule Sicher & Gut</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      return {
+        title: "Erfolgsgeschichten von Fahrschulen",
+        caseStudies: [
+          {
+            title: "Fahrschule Müller steigert Effizienz",
+            quote: "Seit wir unser Online-Buchungssystem auf der neuen Website eingeführt haben, sparen wir über 10 Stunden pro Woche an Verwaltungsaufwand. Gleichzeitig sind unsere Neuanmeldungen um 35% gestiegen.",
+            personName: "Martin Müller",
+            position: "Inhaber, Fahrschule Müller",
+            initials: "MM"
+          },
+          {
+            title: "Fahrschule Sicher & Gut wächst digital",
+            quote: "Unsere neue Website mit integriertem Bewertungssystem hat uns geholfen, das Vertrauen neuer Fahrschüler zu gewinnen. Die Conversion-Rate ist um 48% gestiegen und wir konnten zwei neue Fahrlehrer einstellen.",
+            personName: "Sarah Keller",
+            position: "Geschäftsführerin, Fahrschule Sicher & Gut",
+            initials: "SK"
+          }
+        ]
+      };
     }
     return null;
   };
   
-  const caseStudiesSection = getDrivingSchoolCaseStudies();
+  const caseStudiesData = getIndustryCaseStudies();
   
   return (
     <IndustryLandingLayout
@@ -430,11 +372,22 @@ const IndustryLanding = () => {
         imagePath={heroImage}
       />
       
-      {/* Introduction text specific to driving schools */}
-      {introSection}
+      {introContent && (
+        <IndustryIntroduction
+          title={introContent.title}
+          paragraphs={introContent.paragraphs}
+          bulletPoints={introContent.bulletPoints}
+          conclusion={introContent.conclusion}
+          industry={industryData.name}
+        />
+      )}
       
-      {/* Stats section for driving schools */}
-      {statsSection}
+      {statsData && (
+        <IndustryStats
+          title={statsData.title}
+          stats={statsData.stats}
+        />
+      )}
       
       <IndustryPainPoints
         painPoints={industryContent.pain_points}
@@ -451,8 +404,12 @@ const IndustryLanding = () => {
         industry={industryData.name}
       />
       
-      {/* Case studies section */}
-      {caseStudiesSection}
+      {caseStudiesData && (
+        <IndustryCaseStudies
+          title={caseStudiesData.title}
+          caseStudies={caseStudiesData.caseStudies}
+        />
+      )}
       
       <IndustryAssociation 
         industry={industryData.name} 
@@ -474,7 +431,6 @@ const IndustryLanding = () => {
         </div>
       </div>
       
-      {/* Add FAQ Section for SEO and user information */}
       <FAQSection items={faqItems} />
     </IndustryLandingLayout>
   );

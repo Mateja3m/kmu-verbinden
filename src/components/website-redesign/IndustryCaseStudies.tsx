@@ -1,59 +1,69 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Quote } from 'lucide-react';
 
 interface CaseStudy {
   title: string;
-  description: string;
-  image: string;
+  quote: string;
+  personName: string;
+  position: string;
+  initials: string;
 }
 
 interface IndustryCaseStudiesProps {
+  title: string;
   caseStudies: CaseStudy[];
-  industry: string;
 }
 
 export const IndustryCaseStudies = ({
-  caseStudies,
-  industry
+  title,
+  caseStudies
 }: IndustryCaseStudiesProps) => {
   return (
-    <div className="py-16 bg-swiss-darkblue/5">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-4">
-            Erfolgsgeschichten von {industry}
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Sehen Sie, wie andere {industry} von unseren Website-Lösungen profitiert haben.
-          </p>
-        </div>
+        <h3 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-10 text-center">
+          {title}
+        </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {caseStudies.map((study, index) => (
-            <Card 
-              key={index} 
-              className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              viewport={{ once: true }}
             >
-              <div className="h-48 overflow-hidden bg-swiss-gray/20">
-                <img 
-                  src={study.image} 
-                  alt={study.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-swiss-darkblue mb-2">{study.title}</h3>
-                <p className="text-gray-600 mb-4">{study.description}</p>
-                <div className="flex items-center text-swiss-red font-medium group-hover:translate-x-1 transition-transform">
-                  Case Study lesen <ChevronRight className="h-4 w-4 ml-1" />
-                </div>
-              </CardContent>
-            </Card>
+              <Card className="h-full border-none shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-white to-swiss-gray/10">
+                <CardContent className="p-6 relative">
+                  <Quote className="absolute top-6 right-6 h-10 w-10 text-swiss-lightblue/20" />
+                  
+                  <h4 className="text-xl font-semibold text-swiss-darkblue mb-3">
+                    {study.title}
+                  </h4>
+                  
+                  <p className="text-gray-700 mb-6 italic">
+                    "{study.quote}"
+                  </p>
+                  
+                  <div className="flex items-center mt-auto">
+                    <div className="w-10 h-10 bg-swiss-lightblue/20 rounded-full flex items-center justify-center text-swiss-darkblue font-bold">
+                      {study.initials}
+                    </div>
+                    <div className="ml-3">
+                      <div className="text-sm font-medium">{study.personName}</div>
+                      <div className="text-xs text-gray-500">{study.position}</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
