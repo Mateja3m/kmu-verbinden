@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,15 +9,9 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
-
-declare global {
-  interface Window {
-    Calendly: any;
-  }
-}
 
 interface ConsultationModalProps {
   triggerComponent: React.ReactNode;
@@ -30,63 +24,49 @@ export const ConsultationModal = ({
 }: ConsultationModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showCalendly, setShowCalendly] = useState(false);
-  const [isCalendlyLoaded, setIsCalendlyLoaded] = useState(false);
-  const calendlyInitialized = useRef(false);
+  const [isCalendlyScriptLoading, setIsCalendlyScriptLoading] = useState(false);
 
+  // Load Calendly scripts when modal is opened
   useEffect(() => {
     if (!isOpen) {
-      // Reset to initial state when modal is closed
-      setShowCalendly(false);
       return;
     }
-    
-    // Load Calendly scripts when modal is opened
-    const link = document.createElement("link");
-    link.href = "https://assets.calendly.com/assets/external/widget.css";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
 
-    const script = document.createElement("script");
-    script.src = "https://assets.calendly.com/assets/external/widget.js";
-    script.async = true;
-    
-    // Add event listener to know when the script is loaded
-    script.onload = () => {
-      setIsCalendlyLoaded(true);
-      calendlyInitialized.current = true;
-    };
-    
-    document.body.appendChild(script);
+    // Only load the script if it's not already loading or loaded
+    if (!isCalendlyScriptLoading && !document.getElementById('calendly-css') && !document.getElementById('calendly-js')) {
+      setIsCalendlyScriptLoading(true);
+      
+      // Add Calendly CSS
+      const link = document.createElement("link");
+      link.id = "calendly-css";
+      link.href = "https://assets.calendly.com/assets/external/widget.css";
+      link.rel = "stylesheet";
+      document.head.appendChild(link);
 
-    // Cleanup function
+      // Add Calendly JS
+      const script = document.createElement("script");
+      script.id = "calendly-js";
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
+      script.async = true;
+      script.onload = () => {
+        setIsCalendlyScriptLoading(false);
+        console.log("Calendly script loaded");
+      };
+      document.body.appendChild(script);
+    }
+    
+    // Cleanup function only removes script if modal is closed
     return () => {
-      if (document.head.contains(link)) {
-        document.head.removeChild(link);
-      }
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      calendlyInitialized.current = false;
-      setIsCalendlyLoaded(false);
+      // We don't remove scripts anymore as they can be reused
     };
   }, [isOpen]);
 
-  // Initialize Calendly widget or show inline widget
-  const openCalendly = () => {
-    if (isCalendlyLoaded && window.Calendly) {
-      window.Calendly.initPopupWidget({
-        url: 'https://calendly.com/kmuverein-skv/webdesign-besprechung'
-      });
-      setIsOpen(false);
-    } else {
-      // If Calendly is not loaded, show inline widget
-      setShowCalendly(true);
-      // Notify user that Calendly is loading
-      toast({
-        title: "Kalender wird geladen",
-        description: "Bitte warten Sie einen Moment..."
-      });
-    }
+  const handleShowCalendly = () => {
+    setShowCalendly(true);
+    toast({
+      title: "Kalender wird geladen",
+      description: "Bitte warten Sie einen Moment..."
+    });
   };
 
   return (
@@ -94,14 +74,14 @@ export const ConsultationModal = ({
       <DialogTrigger asChild>
         {triggerComponent}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md max-h-[90vh]">
+      <DialogContent className={`sm:max-w-${showCalendly ? 'xl' : 'md'} max-h-[90vh]`}>
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-swiss-darkblue">
             Kostenlose Beratung für {industry}
           </DialogTitle>
         </DialogHeader>
         
-        <ScrollArea className="max-h-[70vh] overflow-auto pr-4">
+        <ScrollArea className="max-h-[80vh] overflow-auto pr-4">
           {!showCalendly ? (
             <div className="space-y-4 py-4">
               <p>
@@ -139,7 +119,7 @@ export const ConsultationModal = ({
               
               <div className="pt-4">
                 <Button
-                  onClick={openCalendly}
+                  onClick={handleShowCalendly}
                   className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
                 >
                   Termin vereinbaren <Calendar className="ml-2 h-4 w-4" />
@@ -154,7 +134,7 @@ export const ConsultationModal = ({
               <div 
                 className="calendly-inline-widget" 
                 data-url="https://calendly.com/kmuverein-skv/webdesign-besprechung?hide_gdpr_banner=1"
-                style={{ minWidth: "100%", height: "600px" }}
+                style={{ minWidth: "320px", height: "630px" }}
               ></div>
             </div>
           )}
