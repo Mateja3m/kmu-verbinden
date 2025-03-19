@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 
 interface Benefit {
@@ -28,11 +29,19 @@ export const IndustryBenefits = ({
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {benefits.map((benefit, index) => (
-            <div 
-              key={index} 
-              className="flex items-start p-6 bg-white rounded-lg shadow-sm border border-gray-100"
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ 
+                y: -5,
+                boxShadow: "0 15px 30px rgba(0, 0, 0, 0.1)" 
+              }}
+              className="flex items-start p-6 bg-white rounded-lg shadow-sm border border-gray-100 transition-all"
             >
               <div className="mr-4 mt-1">
                 <CheckCircle className="h-6 w-6 text-green-500" />
@@ -41,7 +50,7 @@ export const IndustryBenefits = ({
                 <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

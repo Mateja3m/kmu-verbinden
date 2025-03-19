@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Monitor, Users, Search, Calendar, ShieldCheck, PieChart } from 'lucide-react';
 
 interface Feature {
@@ -26,8 +27,29 @@ export const IndustryFeatures = ({
     return <Monitor className="h-6 w-6" />;
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
-    <div className="py-16">
+    <div className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-4">
@@ -38,20 +60,31 @@ export const IndustryFeatures = ({
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
           {features.map((feature, index) => (
-            <div 
-              key={index} 
-              className="bg-white rounded-lg p-6 shadow-md border border-gray-100 hover:border-swiss-red/30 hover:shadow-lg transition-all"
+            <motion.div 
+              key={index}
+              variants={itemVariants}
+              whileHover={{ 
+                y: -8,
+                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+              }}
+              className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:border-swiss-lightblue/50 transition-all duration-300"
             >
-              <div className="h-12 w-12 bg-swiss-darkblue/10 rounded-full flex items-center justify-center mb-4 text-swiss-darkblue">
+              <div className="h-12 w-12 bg-swiss-lightblue/10 rounded-full flex items-center justify-center mb-4 text-swiss-darkblue">
                 {getIconForFeature(feature.title)}
               </div>
               <h3 className="text-lg font-semibold text-swiss-darkblue mb-2">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

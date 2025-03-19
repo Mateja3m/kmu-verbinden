@@ -6,9 +6,8 @@ import { IndustryHero } from '@/components/website-redesign/IndustryHero';
 import { IndustryPainPoints } from '@/components/website-redesign/IndustryPainPoints';
 import { IndustryBenefits } from '@/components/website-redesign/IndustryBenefits';
 import { IndustryFeatures } from '@/components/website-redesign/IndustryFeatures';
-import { IndustryTechnology } from '@/components/website-redesign/IndustryTechnology';
-import { MembershipOffer } from '@/components/website-redesign/MembershipOffer';
-import { IndustryPricing } from '@/components/website-redesign/IndustryPricing';
+import { IndustryAssociation } from '@/components/website-redesign/IndustryAssociation';
+import { IndustryOffer } from '@/components/website-redesign/IndustryOffer';
 import { IndustryContactForm } from '@/components/website-redesign/IndustryContactForm';
 import { IndustryLoading } from '@/components/website-redesign/IndustryLoading';
 import { useIndustryData } from '@/hooks/use-industry-data';
@@ -51,17 +50,12 @@ const IndustryLanding = () => {
         industry={industryData.name}
       />
       
-      <IndustryTechnology 
-        industry={industryData.name}
+      <IndustryAssociation 
+        industry={industryData.name} 
       />
       
-      <MembershipOffer 
-        industry={industryData.name}
-      />
-      
-      <IndustryPricing
-        pricingDeals={industryContent.pricing_deals}
-        industry={industryData.name}
+      <IndustryOffer 
+        industry={industryData.name} 
       />
       
       <IndustryContactForm
