@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -7,11 +7,13 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 interface ConsultationModalProps {
   triggerComponent: React.ReactNode;
@@ -24,41 +26,74 @@ export const ConsultationModal = ({
 }: ConsultationModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showCalendly, setShowCalendly] = useState(false);
-  const [isCalendlyScriptLoading, setIsCalendlyScriptLoading] = useState(false);
+  const [isCalendlyLoading, setIsCalendlyLoading] = useState(true);
+  const calendlyContainerRef = useRef<HTMLDivElement>(null);
 
-  // Load Calendly scripts when modal is opened
+  // Load Calendly scripts and initialize widget when showing the calendar view
+  useEffect(() => {
+    if (!isOpen || !showCalendly) return;
+
+    // Clear any existing scripts to prevent duplicates
+    const existingScript = document.getElementById('calendly-js');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    setIsCalendlyLoading(true);
+    
+    // Create and load the Calendly script
+    const script = document.createElement('script');
+    script.id = 'calendly-js';
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    script.onload = () => {
+      console.log('Calendly script loaded successfully');
+      setIsCalendlyLoading(false);
+      
+      // Force re-initialization if needed
+      if (window.Calendly) {
+        window.Calendly.initInlineWidget({
+          url: 'https://calendly.com/kmuverein-skv/webdesign-besprechung?hide_gdpr_banner=1',
+          parentElement: calendlyContainerRef.current!,
+          prefill: {},
+          utm: {}
+        });
+      }
+    };
+    
+    script.onerror = () => {
+      console.error('Failed to load Calendly script');
+      setIsCalendlyLoading(false);
+      toast({
+        title: "Fehler beim Laden des Kalenders",
+        description: "Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt.",
+        variant: "destructive"
+      });
+    };
+    
+    document.body.appendChild(script);
+    
+    // Add CSS for Calendly
+    if (!document.getElementById('calendly-css')) {
+      const link = document.createElement('link');
+      link.id = 'calendly-css';
+      link.rel = 'stylesheet';
+      link.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(link);
+    }
+
+    return () => {
+      // Don't remove the script on unmount to avoid reloading issues
+    };
+  }, [isOpen, showCalendly]);
+
+  // Reset the calendar view when the modal is closed
   useEffect(() => {
     if (!isOpen) {
-      return;
+      setTimeout(() => {
+        setShowCalendly(false);
+      }, 300); // Delay to allow the modal closing animation
     }
-
-    // Only load the script if it's not already loading or loaded
-    if (!isCalendlyScriptLoading && !document.getElementById('calendly-css') && !document.getElementById('calendly-js')) {
-      setIsCalendlyScriptLoading(true);
-      
-      // Add Calendly CSS
-      const link = document.createElement("link");
-      link.id = "calendly-css";
-      link.href = "https://assets.calendly.com/assets/external/widget.css";
-      link.rel = "stylesheet";
-      document.head.appendChild(link);
-
-      // Add Calendly JS
-      const script = document.createElement("script");
-      script.id = "calendly-js";
-      script.src = "https://assets.calendly.com/assets/external/widget.js";
-      script.async = true;
-      script.onload = () => {
-        setIsCalendlyScriptLoading(false);
-        console.log("Calendly script loaded");
-      };
-      document.body.appendChild(script);
-    }
-    
-    // Cleanup function only removes script if modal is closed
-    return () => {
-      // We don't remove scripts anymore as they can be reused
-    };
   }, [isOpen]);
 
   const handleShowCalendly = () => {
@@ -74,11 +109,14 @@ export const ConsultationModal = ({
       <DialogTrigger asChild>
         {triggerComponent}
       </DialogTrigger>
-      <DialogContent className={`sm:max-w-${showCalendly ? 'xl' : 'md'} max-h-[90vh]`}>
+      <DialogContent className={`${showCalendly ? 'sm:max-w-2xl md:max-w-3xl lg:max-w-4xl' : 'sm:max-w-md'} max-h-[90vh]`}>
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-swiss-darkblue">
             Kostenlose Beratung für {industry}
           </DialogTitle>
+          <DialogDescription className="text-sm text-gray-500">
+            Sichern Sie sich einen Beratungstermin für Ihre Webseite
+          </DialogDescription>
         </DialogHeader>
         
         <ScrollArea className="max-h-[80vh] overflow-auto pr-4">
@@ -131,10 +169,23 @@ export const ConsultationModal = ({
               <p className="mb-4 text-sm text-gray-500">
                 Bitte wählen Sie einen Termin in unserem Kalender:
               </p>
+              
+              {isCalendlyLoading && (
+                <div className="flex flex-col items-center justify-center py-12 space-y-4">
+                  <Loader2 className="h-8 w-8 animate-spin text-swiss-red" />
+                  <p className="text-sm text-gray-500">Kalender wird geladen...</p>
+                </div>
+              )}
+              
               <div 
+                ref={calendlyContainerRef}
                 className="calendly-inline-widget" 
                 data-url="https://calendly.com/kmuverein-skv/webdesign-besprechung?hide_gdpr_banner=1"
-                style={{ minWidth: "320px", height: "630px" }}
+                style={{ 
+                  minWidth: "320px", 
+                  height: "630px",
+                  display: isCalendlyLoading ? 'none' : 'block'
+                }}
               ></div>
             </div>
           )}
