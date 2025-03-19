@@ -1,60 +1,60 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { IndustryLinks } from './IndustryLinks';
-import { 
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export const CollapsibleIndustryLinks = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Define the industry links
+  const industryLinks = [
+    { label: 'Zahnärzte', url: '/website-redesign/branche/zahnarzt' },
+    { label: 'Fahrschulen', url: '/website-redesign/fahrschule' },
+    { label: 'Rechtsanwälte', url: '/website-redesign/branche/rechtsanwalt' },
+    { label: 'Ärzte', url: '/website-redesign/branche/arzt' },
+    { label: 'Restaurants', url: '/website-redesign/branche/restaurant' },
+    { label: 'Hotels', url: '/website-redesign/branche/hotel' },
+    { label: 'Immobilienmakler', url: '/website-redesign/branche/immobilienmakler' },
+    { label: 'Handwerker', url: '/website-redesign/branche/handwerker' },
+    { label: 'Finanzberater', url: '/website-redesign/branche/finanzberater' },
+    { label: 'Fitnessstudios', url: '/website-redesign/branche/fitnessstudio' },
+  ];
+  
   return (
-    <div className="container mx-auto px-4 pb-16">
-      <Collapsible
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        className="w-full mx-auto"
-      >
-        <div className="flex justify-center">
-          <CollapsibleTrigger asChild>
-            <button 
-              className="group relative w-full h-3 bg-swiss-red/80 hover:bg-swiss-red rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
-              aria-label="Branchenspezifische Lösungen anzeigen oder ausblenden"
-            >
-              <span className="sr-only">
-                {isOpen ? 'Branchenlinks ausblenden' : 'Branchenlinks anzeigen'}
-              </span>
-              
-              <motion.div 
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="absolute -bottom-4 bg-white rounded-full p-1 shadow-sm"
-              >
-                {isOpen ? (
-                  <ChevronUp className="h-4 w-4 text-swiss-red" />
-                ) : (
-                  <ChevronDown className="h-4 w-4 text-swiss-red" />
-                )}
-              </motion.div>
-            </button>
-          </CollapsibleTrigger>
-        </div>
-        
-        <CollapsibleContent className="mt-12 overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+    <div className="py-8 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center justify-between w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-left text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
           >
-            <IndustryLinks />
-          </motion.div>
-        </CollapsibleContent>
-      </Collapsible>
+            <span>Branchenspezifische Website-Lösungen für KMUs</span>
+            {isExpanded ? (
+              <ChevronUp className="h-4 w-4 text-gray-500" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-gray-500" />
+            )}
+          </button>
+          
+          {isExpanded && (
+            <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-2 px-1 pt-2 pb-1 bg-white border border-gray-200 rounded-lg">
+              {industryLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.url}
+                  className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          )}
+          
+          <p className="mt-3 text-xs text-gray-500 text-center">
+            Wir bieten spezialisierte Lösungen für verschiedene Branchen. Alle Branchenpakete enthalten SEO-Optimierung und responsive Design.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

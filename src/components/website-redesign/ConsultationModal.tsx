@@ -120,7 +120,7 @@ export const ConsultationModal = ({
         {!showCalendly ? (
           <div className="space-y-4 py-4">
             <p>
-              Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre Zahnarztpraxis.
+              Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre {industry}.
             </p>
             
             <div className="space-y-2">
@@ -129,7 +129,7 @@ export const ConsultationModal = ({
                   <span className="text-xs text-swiss-red">✓</span>
                 </div>
                 <p className="text-sm">
-                  Speziell für Zahnärzte, die ihre Webseite erneuern möchten
+                  Speziell für {industry}, die ihre Webseite erneuern möchten
                 </p>
               </div>
               
