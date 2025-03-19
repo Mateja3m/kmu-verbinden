@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Monitor, Users, Search, Calendar, ShieldCheck, PieChart, Stethoscope, Tooth, UserCog } from 'lucide-react';
+import { Monitor, Users, Search, Calendar, ShieldCheck, PieChart, Stethoscope, UserCog } from 'lucide-react';
 
 interface Feature {
   title: string;
@@ -23,7 +23,7 @@ export const IndustryFeatures = ({
     if (industry === "Zahnärzte") {
       if (title.toLowerCase().includes('termin')) return <Calendar className="h-6 w-6" />;
       if (title.toLowerCase().includes('patienten')) return <Users className="h-6 w-6" />;
-      if (title.toLowerCase().includes('behandlung')) return <Tooth className="h-6 w-6" />;
+      if (title.toLowerCase().includes('behandlung')) return <Stethoscope className="h-6 w-6" />; // Changed from Tooth to Stethoscope
       if (title.toLowerCase().includes('beratung')) return <UserCog className="h-6 w-6" />;
     }
     
