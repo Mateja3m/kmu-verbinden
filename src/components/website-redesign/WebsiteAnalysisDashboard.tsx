@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -82,7 +81,6 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
   
-  // Use the correct Formspree endpoint
   const [formspreeState, formspreeSubmit] = useFormspree("xldgyydd");
   
   const form = useForm<ContactFormData>({
@@ -284,7 +282,6 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Website-Analyse": "Ja",
       });
 
-      // Submit form data to Formspree
       const response = await formspreeSubmit({
         "Firmenname": data.companyName,
         "Ansprechpartner": data.contactPerson,
@@ -300,9 +297,12 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       console.log("Formspree response:", response);
       console.log("Formspree state after submission:", formspreeState);
       
-      if (formspreeState.errors && formspreeState.errors.length > 0) {
+      if (formspreeState.errors) {
         console.error('Formspree submission errors:', formspreeState.errors);
-        throw new Error(formspreeState.errors.map(e => e.message).join(", "));
+        const errorMessage = typeof formspreeState.errors === 'string' 
+          ? formspreeState.errors 
+          : 'Fehler bei der Formularübermittlung. Bitte versuchen Sie es später erneut.';
+        throw new Error(errorMessage);
       }
       
       toast({

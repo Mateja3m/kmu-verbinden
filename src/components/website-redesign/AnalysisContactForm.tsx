@@ -134,9 +134,12 @@ export const AnalysisContactForm = ({
           "Website-Analyse": "Ja",
         });
         
-        if (formspreeState.errors && formspreeState.errors.length > 0) {
+        if (formspreeState.errors) {
           console.error('Formspree submission errors:', formspreeState.errors);
-          throw new Error(formspreeState.errors.map(err => err.message).join(", "));
+          const errorMessage = typeof formspreeState.errors === 'string' 
+            ? formspreeState.errors 
+            : 'Fehler bei der Formularübermittlung. Bitte versuchen Sie es später erneut.';
+          throw new Error(errorMessage);
         }
         
         toast({
