@@ -102,6 +102,46 @@ export const ConsultationModal = ({
     });
   };
 
+  // Industry-specific content
+  const getIndustrySpecificContent = () => {
+    if (industry === "Fahrschulen") {
+      return {
+        title: "Kostenlose Beratung für Fahrschulen",
+        description: "Sichern Sie sich einen Beratungstermin für Ihre Webseite",
+        introText: "Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre Fahrschule.",
+        benefits: [
+          "Speziell für Fahrschulen, die ihre Webseite erneuern möchten",
+          "Kostenlos und unverbindlich",
+          "Persönliche Beratung durch Fahrschul-Branchenexperten"
+        ]
+      };
+    } else if (industry === "Zahnärzte") {
+      return {
+        title: "Kostenlose Beratung für Zahnärzte",
+        description: "Sichern Sie sich einen Beratungstermin für Ihre Webseite",
+        introText: "Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre Zahnarztpraxis.",
+        benefits: [
+          "Speziell für Zahnärzte, die ihre Webseite erneuern möchten",
+          "Kostenlos und unverbindlich",
+          "Persönliche Beratung durch Branchenexperten"
+        ]
+      };
+    } else {
+      return {
+        title: `Kostenlose Beratung für ${industry}`,
+        description: "Sichern Sie sich einen Beratungstermin für Ihre Webseite",
+        introText: `Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihr Unternehmen.`,
+        benefits: [
+          `Speziell für ${industry}, die ihre Webseite erneuern möchten`,
+          "Kostenlos und unverbindlich",
+          "Persönliche Beratung durch Branchenexperten"
+        ]
+      };
+    }
+  };
+
+  const content = getIndustrySpecificContent();
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -110,46 +150,30 @@ export const ConsultationModal = ({
       <DialogContent className={`${showCalendly ? 'sm:max-w-2xl md:max-w-3xl lg:max-w-4xl' : 'sm:max-w-md'}`}>
         <DialogHeader className="mb-4">
           <DialogTitle className="text-xl font-semibold text-swiss-darkblue">
-            Kostenlose Beratung für {industry}
+            {content.title}
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
-            Sichern Sie sich einen Beratungstermin für Ihre Webseite
+            {content.description}
           </DialogDescription>
         </DialogHeader>
         
         {!showCalendly ? (
           <div className="space-y-4 py-4">
             <p>
-              Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre Zahnarztpraxis.
+              {content.introText}
             </p>
             
             <div className="space-y-2">
-              <div className="flex items-start">
-                <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
-                  <span className="text-xs text-swiss-red">✓</span>
+              {content.benefits.map((benefit, index) => (
+                <div key={index} className="flex items-start">
+                  <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
+                    <span className="text-xs text-swiss-red">✓</span>
+                  </div>
+                  <p className="text-sm">
+                    {benefit}
+                  </p>
                 </div>
-                <p className="text-sm">
-                  Speziell für Zahnärzte, die ihre Webseite erneuern möchten
-                </p>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
-                  <span className="text-xs text-swiss-red">✓</span>
-                </div>
-                <p className="text-sm">
-                  Kostenlos und unverbindlich
-                </p>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
-                  <span className="text-xs text-swiss-red">✓</span>
-                </div>
-                <p className="text-sm">
-                  Persönliche Beratung durch Branchenexperten
-                </p>
-              </div>
+              ))}
             </div>
             
             <div className="pt-4">

@@ -167,6 +167,18 @@ serve(async (req) => {
         - Informationen zur Lage und Umgebung
         - Bewertungen und Gästefeedback
         - Spezielle Angebote oder Arrangements`;
+      } else if (industryId === "fahrschule") {
+        systemPrompt += `\n\nWichtig: Diese Website gehört zu einer Fahrschule. 
+        Berücksichtige bei deiner Analyse folgende branchenspezifische Aspekte:
+        - Online-Terminbuchungsmöglichkeiten für Fahrstunden
+        - Darstellung der angebotenen Führerscheinklassen und Kurse
+        - Preistransparenz für Fahrstunden, Prüfungsgebühren und Pakete
+        - Informationen über den Ablauf der Führerscheinausbildung
+        - Vorstellung der Fahrlehrer und Fahrzeugflotte
+        - Erfolgsquoten und Schülerbewertungen
+        - Kontaktmöglichkeiten und Standortinformationen
+        - Informationen zu aktuellen Verkehrsregeln und Prüfungsanforderungen
+        - Ressourcen für Fahrschüler (Lernmaterialien, FAQs, Tipps)`;
       }
     }
     

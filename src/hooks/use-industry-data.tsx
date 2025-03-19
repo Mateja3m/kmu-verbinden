@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { IndustryData, IndustryContent } from '@/types/industry';
@@ -133,98 +132,101 @@ export const useIndustryData = (industrySlug: string | undefined) => {
                 { title: "Zahnarztpraxis Dr. Müller", description: "35% mehr Neupatientenanfragen innerhalb von 3 Monaten", image: "/placeholder.svg" },
                 { title: "Zahnärzte im Zentrum", description: "Reduzierung des Verwaltungsaufwands um 25% durch Online-Terminbuchung", image: "/placeholder.svg" }
               ],
-              pricing_deals: "Website-Komplettpaket für Zahnärzte ab CHF 4.900 statt CHF 7.900 | Monatliche Betreuung ab CHF 290",
-              meta_title: `Zahnärzte Website Lösungen | Speziell für Zahnarztpraxen | SwissKMU`,
-              meta_description: `Professionelle Websites für Zahnärzte. Steigern Sie Ihre lokale Sichtbarkeit und gewinnen Sie mehr Patienten.`,
-              keywords: ['Zahnarzt Website', 'Zahnarztpraxis Webdesign', 'Website für Zahnärzte', 'SwissKMU']
+              pricing_deals: "Vergünstigungen von bis zu 30% auf Websites mit Terminbuchungssystem",
+              meta_title: "Webdesign für Zahnärzte | Patienten gewinnen mit moderner Website",
+              meta_description: "Spezialisierte Website-Lösungen für Zahnärzte mit Online-Terminbuchung und SEO-Optimierung. Gewinnen Sie mehr Patienten und sparen Sie Zeit.",
+              keywords: ["Zahnarzt Website", "Webdesign Zahnarztpraxis", "SEO für Zahnärzte", "Online-Terminbuchung Zahnarzt", "Zahnarzt-Marketing"]
             });
           } 
-          // For fahrschule, create custom content
+          // For driving schools, create custom content
           else if (industryResult.slug === 'fahrschule') {
             setIndustryContent({
               hero_headline: `Optimierte Websites für Fahrschulen`,
               hero_subheadline: `Professionelle und schülerorientierte Website-Lösungen speziell für Fahrschulen und Fahrlehrer`,
               pain_points: [
-                { title: "Zeitaufwändige Terminplanung", description: "Sie verbringen zu viel Zeit mit der manuellen Verwaltung von Fahrstunden" },
                 { title: "Geringe Online-Sichtbarkeit", description: "Potenzielle Fahrschüler finden Ihre Fahrschule nicht im Internet" },
-                { title: "Veralteter Webauftritt", description: "Ihre aktuelle Website entspricht nicht den modernen Standards und Erwartungen der Zielgruppe" },
-                { title: "Wenige Empfehlungen", description: "Zufriedene Fahrschüler teilen ihre positive Erfahrung nicht online mit anderen" }
+                { title: "Veralteter Webauftritt", description: "Ihre aktuelle Website spiegelt nicht die Qualität Ihrer Fahrausbildung wider" },
+                { title: "Zeitaufwändige Terminplanung", description: "Sie verbringen zu viel Zeit mit der manuellen Verwaltung von Fahrstunden" },
+                { title: "Wenige Neuanmeldungen", description: "Ihre Website generiert nicht genügend qualifizierte Anfragen von Fahrschülern" },
+                { title: "Fehlende Bewertungssammlung", description: "Sie schöpfen das Potenzial von Empfehlungen und Bewertungen nicht aus" },
+                { title: "Schwierige Erreichbarkeit", description: "Fahrschüler können Sie außerhalb der Bürozeiten nicht erreichen" }
               ],
               benefits: [
-                { title: "Digitales Terminmanagement", description: "Sparen Sie bis zu 12 Stunden pro Woche durch ein automatisiertes Buchungssystem für Fahrstunden" },
-                { title: "Verbesserte lokale Präsenz", description: "Werden Sie in lokalen Suchergebnissen gefunden, wenn potenzielle Fahrschüler nach 'Fahrschule + Ort' suchen" },
-                { title: "Mehr Neuanmeldungen", description: "Gewinnen Sie mehr Fahrschüler durch optimierte Konversions-Elemente und klare Kursübersichten" },
-                { title: "Automatisierte Bewertungen", description: "Lassen Sie Fahrschüler nach bestandener Prüfung automatisch eine Bewertung abgeben" },
-                { title: "Lernmaterial-Integration", description: "Bieten Sie Ihren Fahrschülern digitales Lernmaterial zur optimalen Prüfungsvorbereitung" },
-                { title: "Empfehlungsmarketing", description: "Nutzen Sie die Kraft von Empfehlungen durch ein optimiertes Bewertungssystem" }
+                { title: "Mehr lokale Sichtbarkeit", description: "Steigern Sie Ihre lokale Präsenz und werden Sie von Fahrschülern in Ihrer Nähe gefunden" },
+                { title: "Professioneller Auftritt", description: "Präsentieren Sie Ihre Fahrschule modern und vertrauenswürdig online" },
+                { title: "Online-Buchungssystem", description: "Automatisieren Sie Ihre Terminvergabe und ermöglichen Sie 24/7 Buchungen" },
+                { title: "Mehr Neuanmeldungen", description: "Gewinnen Sie neue Fahrschüler durch optimierte Konversions-Elemente" },
+                { title: "Automatisierte Bewertungen", description: "Sammeln Sie automatisch Bewertungen nach bestandenen Prüfungen" },
+                { title: "Reduzierter Verwaltungsaufwand", description: "Sparen Sie wertvolle Zeit durch digitalisierte administrative Prozesse" }
               ],
               features: [
-                { title: "Online-Buchungssystem", description: "Fahrschüler können direkt online Fahrstunden buchen und verwalten" },
-                { title: "Kursübersicht & Angebote", description: "Präsentation Ihrer Kurse und Preise mit direkter Anmeldemöglichkeit" },
-                { title: "Bewertungsmanagement", description: "Automatisierte Sammlung und Präsentation von Fahrschüler-Bewertungen" },
-                { title: "Fahrlehrer-Vorstellung", description: "Persönliche Vorstellung Ihrer Fahrlehrer mit Qualifikationen und Erfahrung" },
-                { title: "Digitale Lernunterlagen", description: "Integrierter Bereich für digitale Lernmaterialien und Prüfungsvorbereitung" },
-                { title: "Automatisierte Erinnerungen", description: "Automatische Benachrichtigungen für anstehende Fahrstunden via SMS oder E-Mail" }
+                { title: "Online-Fahrstundenbuchung", description: "Schüler können direkt online Termine buchen und verwalten" },
+                { title: "SEO für Fahrschulen", description: "Spezialisierte lokale Suchmaschinenoptimierung für Fahrschulen" },
+                { title: "Führerscheinklassen-Übersicht", description: "Ansprechende Darstellung Ihrer angebotenen Führerscheinklassen" },
+                { title: "Fahrlehrer-Vorstellung", description: "Professionelle Präsentation Ihres Teams und Ihrer Fahrzeuge" },
+                { title: "Bewertungsmanagement", description: "Automatisierte Sammlung und Anzeige von Schülerbewertungen" },
+                { title: "Responsives Design", description: "Optimale Darstellung auf allen Geräten, besonders wichtig für junge Zielgruppen" }
               ],
               case_studies: [
-                { title: "Fahrschule Meyer", description: "40% mehr Anmeldungen innerhalb von 3 Monaten", image: "/placeholder.svg" },
-                { title: "Fahrlehrer Walser", description: "12 Stunden Zeitersparnis pro Woche durch Online-Terminbuchung", image: "/placeholder.svg" }
+                { title: "Fahrschule Muster", description: "40% mehr Neuanmeldungen innerhalb von 3 Monaten nach dem Relaunch", image: "/placeholder.svg" },
+                { title: "Fahrschule Drive Smart", description: "Reduzierung des Verwaltungsaufwands um 35% durch Online-Buchungssystem", image: "/placeholder.svg" }
               ],
-              pricing_deals: "Website-Komplettpaket für Fahrschulen ab CHF 4.900 statt CHF 8.200 | Monatliche Betreuung inkl. Buchungssystem ab CHF 290",
-              meta_title: `Fahrschule Website Lösungen | Speziell für Fahrlehrer | SwissKMU`,
-              meta_description: `Professionelle Websites für Fahrschulen. Automatisieren Sie Ihre Terminbuchung, gewinnen Sie mehr Fahrschüler und steigern Sie Ihre lokale Sichtbarkeit.`,
-              keywords: ['Fahrschule Website', 'Fahrlehrer Webdesign', 'Website für Fahrschulen', 'Online Terminbuchung Fahrschule', 'Fahrschule Marketing', 'SwissKMU']
+              pricing_deals: "Vergünstigungen von bis zu 40% auf Websites mit Buchungssystem für Fahrschulen",
+              meta_title: "Webdesign für Fahrschulen | Buchungssystem & Online-Präsenz für Fahrlehrer",
+              meta_description: "Spezialisierte Website-Lösungen für Fahrschulen mit Online-Terminbuchung und Bewertungsmanagement. Gewinnen Sie mehr Fahrschüler und sparen Sie Zeit.",
+              keywords: ["Fahrschule Website", "Webdesign Fahrschule", "SEO für Fahrschulen", "Online-Terminbuchung Fahrschule", "Fahrschul-Marketing", "Fahrschul-Buchungssystem", "Homepage Fahrlehrer", "Fahrschule Online-Anmeldung"]
             });
-          } else {
-            // Standard fallback for other industries
+          } 
+          // For all other industries
+          else {
             setIndustryContent({
-              hero_headline: `Optimierte Websites für ${typedIndustryData.name}`,
-              hero_subheadline: `Professionelle und kundenorientierte Website-Lösungen speziell für ${typedIndustryData.name}`,
+              hero_headline: `Optimierte Websites für ${industryData.name}`,
+              hero_subheadline: `Professionelle und kundenorientierte Website-Lösungen speziell für ${industryData.name}`,
               pain_points: [
-                { title: "Geringe Online-Sichtbarkeit", description: "Potenzielle Kunden finden Sie nicht im Internet" },
-                { title: "Veralteter Webauftritt", description: "Ihre aktuelle Website spiegelt nicht die Qualität Ihrer Arbeit wider" },
+                { title: "Geringe Online-Sichtbarkeit", description: "Potenzielle Kunden finden Ihr Unternehmen nicht im Internet" },
+                { title: "Veralteter Webauftritt", description: "Ihre aktuelle Website spiegelt nicht die Qualität Ihrer Dienstleistungen wider" },
                 { title: "Wenige Neukundenanfragen", description: "Ihre Website generiert nicht genügend qualifizierte Anfragen" },
-                { title: "Zeitaufwändige Verwaltung", description: "Sie verbringen zu viel Zeit mit administrativen Aufgaben" }
+                { title: "Komplizierte Kontaktaufnahme", description: "Kunden haben Schwierigkeiten, mit Ihnen in Kontakt zu treten" }
               ],
               benefits: [
-                { title: "Mehr Sichtbarkeit", description: "Steigern Sie Ihre lokale Sichtbarkeit und werden Sie gefunden" },
-                { title: "Professioneller Auftritt", description: "Präsentieren Sie Ihr Unternehmen modern und ansprechend" },
-                { title: "Mehr Anfragen", description: "Gewinnen Sie neue Kunden durch optimierte Conversion-Elemente" },
-                { title: "Zeitersparnis", description: "Automatisieren Sie Prozesse und sparen Sie wertvolle Zeit" }
+                { title: "Mehr lokale Sichtbarkeit", description: "Steigern Sie Ihre lokale Präsenz und werden Sie von Kunden in Ihrer Nähe gefunden" },
+                { title: "Professioneller Auftritt", description: "Präsentieren Sie Ihr Unternehmen modern und vertrauenswürdig" },
+                { title: "Mehr Neukundenanfragen", description: "Gewinnen Sie neue Kunden durch optimierte Konversions-Elemente" },
+                { title: "Optimierte Kundenkommunikation", description: "Verbessern Sie den Dialog mit Ihren Kunden durch integrierte Kontaktmöglichkeiten" }
               ],
               features: [
-                { title: "Responsive Design", description: "Perfekte Darstellung auf allen Geräten" },
-                { title: "SEO-Optimierung", description: "Bessere Platzierungen in den Suchergebnissen" },
-                { title: "Kontaktformulare", description: "Einfache Kontaktaufnahme für Ihre Kunden" },
-                { title: "Content Management", description: "Einfache Verwaltung Ihrer Inhalte" }
+                { title: "Responsives Design", description: "Optimale Darstellung auf allen Geräten, vom Desktop bis zum Smartphone" },
+                { title: "SEO-Optimierung", description: "Professionelle Suchmaschinenoptimierung für bessere Rankings" },
+                { title: "Kontaktformulare", description: "Benutzerfreundliche Möglichkeiten zur Kontaktaufnahme" },
+                { title: "Content Management", description: "Einfaches Backend zur selbständigen Aktualisierung von Inhalten" }
               ],
               case_studies: [
-                { title: "Beispiel Unternehmen", description: "30% mehr Anfragen innerhalb von 3 Monaten", image: "/placeholder.svg" },
-                { title: "Lokales Geschäft", description: "Deutliche Zeitersparnis durch Prozessautomatisierung", image: "/placeholder.svg" }
+                { title: "Beispielunternehmen", description: "30% mehr Neukundenanfragen durch verbesserte Online-Präsenz", image: "/placeholder.svg" },
+                { title: "Musterfirma GmbH", description: "Umsatzsteigerung von 25% durch optimierte Website", image: "/placeholder.svg" }
               ],
-              pricing_deals: "Website-Komplettpaket ab CHF 4.900 statt CHF 8.900 | Monatliche Betreuung ab CHF 290",
-              meta_title: `${typedIndustryData.name} Website Redesign | SwissKMU`,
-              meta_description: `Professionelle Websites für ${typedIndustryData.name}. Steigern Sie Ihre Sichtbarkeit und gewinnen Sie mehr Kunden.`,
-              keywords: [`${typedIndustryData.name} Website`, 'Webdesign', 'Website Redesign', 'SwissKMU']
+              pricing_deals: "Vergünstigungen von bis zu 25% auf Websites für Vereinsmitglieder",
+              meta_title: `Webdesign für ${industryData.name} | Professionelle Websites für mehr Kunden`,
+              meta_description: `Spezialisierte Website-Lösungen für ${industryData.name} mit optimierter Benutzerfreundlichkeit. Gewinnen Sie mehr Kunden und stärken Sie Ihre Online-Präsenz.`,
+              keywords: [`${industryData.name} Website`, `Webdesign ${industryData.name}`, `${industryData.name} Online-Präsenz`]
             });
           }
         }
+        
+        setLoading(false);
       } catch (error) {
-        console.error("Error in data fetching:", error);
+        console.error("Error in useIndustryData:", error);
+        setLoading(false);
+        setNotFound(true);
         toast({
-          title: "Fehler beim Laden der Daten",
+          title: "Fehler beim Laden der Branchendaten",
           description: "Bitte versuchen Sie es später erneut.",
           variant: "destructive"
         });
-      } finally {
-        setLoading(false);
       }
     };
     
-    if (industrySlug) {
-      fetchIndustryData();
-    }
+    fetchIndustryData();
   }, [industrySlug, toast]);
-
+  
   return { loading, industryData, industryContent, notFound };
 };

@@ -20,7 +20,7 @@ export const IndustryLandingLayout = ({
   metaDescription,
   industry,
   canonical,
-  keywords,
+  keywords = [],
   schema
 }: IndustryLandingLayoutProps) => {
   const { industry: industrySlug } = useParams<{ industry: string }>();
@@ -30,6 +30,30 @@ export const IndustryLandingLayout = ({
   
   // Prepare schema markup as JSON-LD
   const schemaMarkup = schema ? JSON.stringify(schema) : null;
+
+  // Industry-specific additional meta tags
+  const getAdditionalMetaTags = () => {
+    if (industrySlug === 'fahrschule') {
+      return (
+        <>
+          <meta name="robots" content="index, follow" />
+          <meta name="author" content="Schweizerischer KMU Verein" />
+          <meta name="geo.region" content="CH" />
+          <meta name="geo.placename" content="Schweiz" />
+          <meta name="format-detection" content="telephone=yes" />
+          <meta property="article:publisher" content="https://www.facebook.com/swisskmu" />
+          <meta property="og:image" content="https://ofv-fahrlehrer.ch/wp-content/uploads/2019/07/iStock-914775770-1500x630.jpg" />
+          <meta property="og:image:width" content="1500" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content="Fahrlehrer unterrichtet Fahrschüler in einem Fahrschulauto" />
+          <meta name="twitter:image" content="https://ofv-fahrlehrer.ch/wp-content/uploads/2019/07/iStock-914775770-1500x630.jpg" />
+        </>
+      );
+    }
+    return null;
+  };
+
+  const additionalMetaTags = getAdditionalMetaTags();
 
   return (
     <div className="min-h-screen bg-white pt-14">
@@ -53,6 +77,9 @@ export const IndustryLandingLayout = ({
         
         <link rel="alternate" hrefLang="de-ch" href={canonical || defaultCanonical} />
         <link rel="alternate" hrefLang="x-default" href={canonical || defaultCanonical} />
+        
+        {/* Industry-specific additional meta tags */}
+        {additionalMetaTags}
         
         {schemaMarkup && (
           <script type="application/ld+json">
