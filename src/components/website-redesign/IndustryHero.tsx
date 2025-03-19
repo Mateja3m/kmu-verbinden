@@ -34,6 +34,7 @@ export const IndustryHero = ({
               Branchenspezifische Lösung für {industry}
             </div>
             
+            {/* Use headline as H1 for proper SEO structure */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-swiss-darkblue leading-tight">
               {headline}
             </h1>
@@ -62,6 +63,7 @@ export const IndustryHero = ({
                 size="lg" 
                 className="bg-swiss-red hover:bg-swiss-red/90 text-white font-medium"
                 onClick={() => document.getElementById('website-check')?.scrollIntoView({behavior: 'smooth'})}
+                aria-label="Kostenlose Website-Analyse starten"
               >
                 Kostenlose Analyse <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
@@ -69,6 +71,7 @@ export const IndustryHero = ({
                 size="lg" 
                 variant="outline"
                 className="border-swiss-darkblue text-swiss-darkblue hover:bg-swiss-darkblue/5"
+                aria-label="Referenz-Websites für Zahnarztpraxen ansehen"
               >
                 Beispiele ansehen
               </Button>
@@ -82,8 +85,11 @@ export const IndustryHero = ({
               <>
                 <img 
                   src={displayImage} 
-                  alt={`${industry} Website Beispiel`} 
+                  alt={`${industry} Website Beispiel - Professionelle Webpräsenz für Ihre Praxis`} 
                   className="w-full h-auto object-cover aspect-video"
+                  loading="eager"
+                  width="600"
+                  height="400"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-swiss-darkblue/30 to-transparent pointer-events-none"></div>
               </>
