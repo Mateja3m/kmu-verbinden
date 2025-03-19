@@ -10,10 +10,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Calendar, Loader2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
 
 interface ConsultationModalProps {
   triggerComponent: React.ReactNode;
@@ -47,14 +45,13 @@ export const ConsultationModal = ({
     script.src = 'https://assets.calendly.com/assets/external/widget.js';
     script.async = true;
     script.onload = () => {
-      console.log('Calendly script loaded successfully');
       setIsCalendlyLoading(false);
       
       // Force re-initialization if needed
-      if (window.Calendly) {
+      if (window.Calendly && calendlyContainerRef.current) {
         window.Calendly.initInlineWidget({
           url: 'https://calendly.com/kmuverein-skv/webdesign-besprechung?hide_gdpr_banner=1',
-          parentElement: calendlyContainerRef.current!,
+          parentElement: calendlyContainerRef.current,
           prefill: {},
           utm: {}
         });
@@ -92,6 +89,7 @@ export const ConsultationModal = ({
     if (!isOpen) {
       setTimeout(() => {
         setShowCalendly(false);
+        setIsCalendlyLoading(true);
       }, 300); // Delay to allow the modal closing animation
     }
   }, [isOpen]);
@@ -109,8 +107,8 @@ export const ConsultationModal = ({
       <DialogTrigger asChild>
         {triggerComponent}
       </DialogTrigger>
-      <DialogContent className={`${showCalendly ? 'sm:max-w-2xl md:max-w-3xl lg:max-w-4xl' : 'sm:max-w-md'} max-h-[90vh]`}>
-        <DialogHeader>
+      <DialogContent className={`${showCalendly ? 'sm:max-w-2xl md:max-w-3xl lg:max-w-4xl' : 'sm:max-w-md'}`}>
+        <DialogHeader className="mb-4">
           <DialogTitle className="text-xl font-semibold text-swiss-darkblue">
             Kostenlose Beratung für {industry}
           </DialogTitle>
@@ -119,77 +117,72 @@ export const ConsultationModal = ({
           </DialogDescription>
         </DialogHeader>
         
-        <ScrollArea className="max-h-[80vh] overflow-auto pr-4">
-          {!showCalendly ? (
-            <div className="space-y-4 py-4">
-              <p>
-                Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre Zahnarztpraxis.
-              </p>
-              
-              <div className="space-y-2">
-                <div className="flex items-start">
-                  <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
-                    <span className="text-xs text-swiss-red">✓</span>
-                  </div>
-                  <p className="text-sm">
-                    Speziell für Zahnärzte, die ihre Webseite erneuern möchten
-                  </p>
+        {!showCalendly ? (
+          <div className="space-y-4 py-4">
+            <p>
+              Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre Zahnarztpraxis.
+            </p>
+            
+            <div className="space-y-2">
+              <div className="flex items-start">
+                <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
+                  <span className="text-xs text-swiss-red">✓</span>
                 </div>
-                
-                <div className="flex items-start">
-                  <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
-                    <span className="text-xs text-swiss-red">✓</span>
-                  </div>
-                  <p className="text-sm">
-                    Kostenlos und unverbindlich
-                  </p>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
-                    <span className="text-xs text-swiss-red">✓</span>
-                  </div>
-                  <p className="text-sm">
-                    Persönliche Beratung durch Branchenexperten
-                  </p>
-                </div>
+                <p className="text-sm">
+                  Speziell für Zahnärzte, die ihre Webseite erneuern möchten
+                </p>
               </div>
               
-              <div className="pt-4">
-                <Button
-                  onClick={handleShowCalendly}
-                  className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
-                >
-                  Termin vereinbaren <Calendar className="ml-2 h-4 w-4" />
-                </Button>
+              <div className="flex items-start">
+                <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
+                  <span className="text-xs text-swiss-red">✓</span>
+                </div>
+                <p className="text-sm">
+                  Kostenlos und unverbindlich
+                </p>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="mr-2 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-swiss-red/10">
+                  <span className="text-xs text-swiss-red">✓</span>
+                </div>
+                <p className="text-sm">
+                  Persönliche Beratung durch Branchenexperten
+                </p>
               </div>
             </div>
-          ) : (
-            <div className="py-4">
-              <p className="mb-4 text-sm text-gray-500">
-                Bitte wählen Sie einen Termin in unserem Kalender:
-              </p>
-              
-              {isCalendlyLoading && (
-                <div className="flex flex-col items-center justify-center py-12 space-y-4">
-                  <Loader2 className="h-8 w-8 animate-spin text-swiss-red" />
-                  <p className="text-sm text-gray-500">Kalender wird geladen...</p>
-                </div>
-              )}
-              
-              <div 
-                ref={calendlyContainerRef}
-                className="calendly-inline-widget" 
-                data-url="https://calendly.com/kmuverein-skv/webdesign-besprechung?hide_gdpr_banner=1"
-                style={{ 
-                  minWidth: "320px", 
-                  height: "630px",
-                  display: isCalendlyLoading ? 'none' : 'block'
-                }}
-              ></div>
+            
+            <div className="pt-4">
+              <Button
+                onClick={handleShowCalendly}
+                className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white"
+              >
+                Termin vereinbaren <Calendar className="ml-2 h-4 w-4" />
+              </Button>
             </div>
-          )}
-        </ScrollArea>
+          </div>
+        ) : (
+          <div className="py-2">
+            <p className="mb-4 text-sm text-gray-500">
+              Bitte wählen Sie einen Termin in unserem Kalender:
+            </p>
+            
+            {isCalendlyLoading && (
+              <div className="flex flex-col items-center justify-center py-12 space-y-4">
+                <Loader2 className="h-8 w-8 animate-spin text-swiss-red" />
+                <p className="text-sm text-gray-500">Kalender wird geladen...</p>
+              </div>
+            )}
+            
+            <div 
+              ref={calendlyContainerRef}
+              style={{ 
+                height: "630px",
+                visibility: isCalendlyLoading ? 'hidden' : 'visible'
+              }}
+            />
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
