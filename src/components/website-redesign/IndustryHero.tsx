@@ -26,10 +26,10 @@ export const IndustryHero = ({
   const displayImage = industry === "Zahnärzte" ? dentistImage : imagePath;
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray pt-6 md:pt-10">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10 md:py-20">
+    <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray pt-4 md:pt-6">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="space-y-4 md:pr-8">
+          <div className="space-y-3 md:pr-8">
             <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-swiss-red/10 text-swiss-red">
               Branchenspezifische Lösung für {industry}
             </div>

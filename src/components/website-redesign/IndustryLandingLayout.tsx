@@ -35,9 +35,9 @@ export const IndustryLandingLayout = ({
   const { industry } = useParams<{ industry: string }>();
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white pt-14">
       {/* Back button */}
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2">
         <Link 
           to="/website-redesign" 
           className="inline-flex items-center text-sm text-gray-500 hover:text-swiss-red transition-colors"
@@ -49,8 +49,6 @@ export const IndustryLandingLayout = ({
       
       {/* Main content */}
       {children}
-      
-      {/* Removed Footer from here as it's already in App.tsx */}
     </div>
   );
 };
