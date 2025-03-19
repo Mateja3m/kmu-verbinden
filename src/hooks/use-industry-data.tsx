@@ -115,7 +115,9 @@ export const useIndustryData = (industrySlug: string | undefined) => {
                 { title: "Mehr lokale Sichtbarkeit", description: "Steigern Sie Ihre lokale Präsenz und werden Sie von Patienten in Ihrer Nähe gefunden" },
                 { title: "Professioneller Auftritt", description: "Präsentieren Sie Ihre Zahnarztpraxis modern und vertrauenswürdig" },
                 { title: "Mehr Neupatientenanfragen", description: "Gewinnen Sie neue Patienten durch optimierte Konversions-Elemente" },
-                { title: "Digitale Terminbuchung", description: "Automatisieren Sie Ihre Terminvergabe und sparen Sie wertvolle Zeit" }
+                { title: "Digitale Terminbuchung", description: "Automatisieren Sie Ihre Terminvergabe und sparen Sie wertvolle Zeit" },
+                { title: "Optimierte Patientenkommunikation", description: "Verbessern Sie den Dialog mit Ihren Patienten durch integrierte Kontaktmöglichkeiten" },
+                { title: "Verbesserte Patientenaufklärung", description: "Informieren Sie Patienten über Behandlungen mit hochwertigen Inhalten und steigern Sie so Ihr Praxismarketing" }
               ],
               features: [
                 { title: "Online-Terminbuchung", description: "Patienten können direkt online Termine buchen" },
