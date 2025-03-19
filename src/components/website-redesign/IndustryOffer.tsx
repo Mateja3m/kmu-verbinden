@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, Globe, Smartphone, Code, Calendar, Mail, Bot, Percent, Award, FileSearch, TrendingUp, Zap } from 'lucide-react';
+import { Check, Globe, Smartphone, Code, Calendar, Mail, Bot, Percent, Award, FileSearch } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 interface IndustryOfferProps {
@@ -94,36 +94,9 @@ export const IndustryOffer = ({ industry }: IndustryOfferProps) => {
                 <h3 className="text-xl font-semibold text-swiss-darkblue">Kostenlose Website-Analyse & Beratung</h3>
               </div>
               
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600">
                 Erhalten Sie eine umfassende Analyse Ihrer aktuellen {industry}-Website sowie eine persönliche Beratung zu Verbesserungsmöglichkeiten – <span className="font-semibold">komplett kostenlos und unverbindlich</span>.
               </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-                <AnalysisFeature 
-                  icon={<TrendingUp className="h-5 w-5 text-swiss-red" />} 
-                  title="Performance-Check" 
-                />
-                <AnalysisFeature 
-                  icon={<Smartphone className="h-5 w-5 text-swiss-red" />} 
-                  title="Mobile Optimierung" 
-                />
-                <AnalysisFeature 
-                  icon={<Zap className="h-5 w-5 text-swiss-red" />} 
-                  title="SEO-Potenzial" 
-                />
-                <AnalysisFeature 
-                  icon={<Bot className="h-5 w-5 text-swiss-red" />} 
-                  title="KI-Verbesserungen" 
-                />
-              </div>
-              
-              <Button 
-                size="lg"
-                className="w-full bg-swiss-red hover:bg-swiss-red/90 text-white font-medium"
-                onClick={() => document.getElementById('contact-form')?.scrollIntoView({behavior: 'smooth'})}
-              >
-                Jetzt kostenlose Analyse anfordern
-              </Button>
             </div>
           </motion.div>
         </div>
@@ -138,14 +111,5 @@ const FeatureItem = ({ icon, title }: { icon: React.ReactNode, title: string }) 
       {icon}
     </div>
     <span className="text-gray-700">{title}</span>
-  </div>
-);
-
-const AnalysisFeature = ({ icon, title }: { icon: React.ReactNode, title: string }) => (
-  <div className="flex items-center bg-white/60 py-2 px-3 rounded-md">
-    <div className="mr-2">
-      {icon}
-    </div>
-    <span className="text-gray-700 font-medium">{title}</span>
   </div>
 );
