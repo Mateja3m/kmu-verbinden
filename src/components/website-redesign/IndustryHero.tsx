@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Check } from 'lucide-react';
 import { WebsiteOptimizationSimulation } from './WebsiteOptimizationSimulation';
+import { ConsultationModal } from './ConsultationModal';
 
 interface IndustryHeroProps {
   headline: string;
@@ -24,6 +25,18 @@ export const IndustryHero = ({
   
   // Use the dentist image for the dental industry, otherwise use the provided image
   const displayImage = industry === "Zahnärzte" ? dentistImage : imagePath;
+
+  // Consultation Button component to be passed to the modal
+  const consultationButton = (
+    <Button 
+      size="lg" 
+      variant="outline"
+      className="border-swiss-darkblue text-swiss-darkblue hover:bg-swiss-darkblue/5"
+      aria-label="Beratungstermin für Ihre Zahnarztpraxis vereinbaren"
+    >
+      Beratungstermin vereinbaren
+    </Button>
+  );
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray pt-4 md:pt-6">
@@ -67,14 +80,11 @@ export const IndustryHero = ({
               >
                 Kostenlose Analyse <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="border-swiss-darkblue text-swiss-darkblue hover:bg-swiss-darkblue/5"
-                aria-label="Referenz-Websites für Zahnarztpraxen ansehen"
-              >
-                Beispiele ansehen
-              </Button>
+              
+              <ConsultationModal 
+                triggerComponent={consultationButton}
+                industry={industry} 
+              />
             </div>
           </div>
           
