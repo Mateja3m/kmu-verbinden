@@ -107,7 +107,7 @@ export const ConsultationModal = ({
     if (industry === "Fahrschulen") {
       return {
         title: "Kostenlose Beratung für Fahrschulen",
-        description: "Sichern Sie sich einen Beratungstermin für Ihre Webseite",
+        description: "Sichern Sie sich einen Beratungstermin für Ihre Fahrschul-Website",
         introText: "Vereinbaren Sie einen unverbindlichen und kostenlosen Beratungstermin für Ihre Fahrschule.",
         benefits: [
           "Speziell für Fahrschulen, die ihre Webseite erneuern möchten",

@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface BackgroundPatternProps {
@@ -6,7 +7,7 @@ interface BackgroundPatternProps {
 
 const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
   return (
-    <div className="relative flex-1">
+    <div className="relative flex-1 bg-white/80">
       <div
         className="absolute inset-0 pointer-events-none -z-10"
         style={{

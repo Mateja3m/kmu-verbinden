@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { IndustryLandingLayout } from '@/components/website-redesign/IndustryLandingLayout';
@@ -48,7 +47,7 @@ const IndustryLanding = () => {
         },
         {
           question: 'Wie kann ich als Mitglied des KMU-Vereins von Sonderkonditionen für das Website-Redesign profitieren?',
-          answer: 'Als Mitglied des Schweizerischen KMU Vereins erhalten Sie exklusive Vergünstigungen für Website-Dienstleistungen. Sie profitieren von Sonderkonditionen bei unseren zertifizierten Partnern, die wir speziell für Sie ausgehandelt haben. Kontaktieren Sie uns für eine individuelle Beratung und erfahren Sie mehr über die konkreten Einsparungen für Ihre Zahnarztpraxis.'
+          answer: 'Als Mitglied des Schweizerischen KMU Vereins erhalten Sie exklusive Vergünstigungen für Website-Dienstleistungen speziell für Zahnarztpraxen. Sie profitieren von Sonderkonditionen bei unseren zertifizierten Partnern, die wir speziell für Sie ausgehandelt haben. Die Komplettlösung beinhaltet ein Buchungssystem, Online-Bewertungsmanagement und SEO-Optimierung zu einem Vorzugspreis mit Einsparungen von bis zu 40% gegenüber Marktpreisen.'
         }
       ];
     } else if (industrySlug === 'fahrschule') {
