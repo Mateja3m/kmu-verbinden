@@ -46,7 +46,10 @@ export const AnalysisContactForm = ({
 }: AnalysisContactFormProps) => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [formspreeState, handleFormspreeSubmit] = useFormspree("xldgyydd"); // Using existing Formspree form ID
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Use the correct Formspree endpoint
+  const [formspreeState, handleFormspreeSubmit] = useFormspree("xldgyydd");
   
   // Initialize react-hook-form
   const form = useForm<FormData>({
@@ -105,6 +108,19 @@ export const AnalysisContactForm = ({
       }
 
       try {
+        setIsSubmitting(true);
+        console.log("Submitting form data to Formspree:", {
+          "Firmenname": formData.companyName,
+          "Ansprechpartner": formData.contactPerson,
+          "E-Mail": formData.email,
+          "Telefon": formData.phone,
+          "Nachricht": formData.message,
+          "Website URL": formData.websiteUrl,
+          "Bevorzugte Kontaktzeit": formData.preferredTime,
+          "Newsletter": formData.newsletter ? "Ja" : "Nein",
+          "Website-Analyse": "Ja",
+        });
+        
         // Submit form data to Formspree
         await handleFormspreeSubmit({
           "Firmenname": formData.companyName,
@@ -118,14 +134,9 @@ export const AnalysisContactForm = ({
           "Website-Analyse": "Ja",
         });
         
-        if (formspreeState.errors) {
+        if (formspreeState.errors && formspreeState.errors.length > 0) {
           console.error('Formspree submission errors:', formspreeState.errors);
-          toast({
-            title: "Fehler beim Senden",
-            description: "Bitte versuchen Sie es später erneut",
-            variant: "destructive",
-          });
-          return;
+          throw new Error(formspreeState.errors.map(err => err.message).join(", "));
         }
         
         toast({
@@ -138,9 +149,11 @@ export const AnalysisContactForm = ({
         console.error('Form submission error:', error);
         toast({
           title: "Fehler beim Senden",
-          description: "Bitte versuchen Sie es später erneut",
+          description: error instanceof Error ? error.message : "Bitte versuchen Sie es später erneut",
           variant: "destructive",
         });
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
@@ -360,6 +373,7 @@ export const AnalysisContactForm = ({
                 type="button" 
                 variant="outline" 
                 onClick={prevStep}
+                disabled={isSubmitting}
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Zurück
@@ -367,9 +381,9 @@ export const AnalysisContactForm = ({
               <Button 
                 type="submit" 
                 className="bg-swiss-red hover:bg-swiss-red/90"
-                disabled={formspreeState.submitting}
+                disabled={isSubmitting}
               >
-                {formspreeState.submitting ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Wird gesendet...

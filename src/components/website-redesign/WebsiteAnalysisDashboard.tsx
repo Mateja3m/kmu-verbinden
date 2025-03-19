@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -79,7 +80,9 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   const [showContactForm, setShowContactForm] = useState(false);
   const [showInCardForm, setShowInCardForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
   
+  // Use the correct Formspree endpoint
   const [formspreeState, formspreeSubmit] = useFormspree("xldgyydd");
   
   const form = useForm<ContactFormData>({
@@ -230,6 +233,33 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   };
 
   const handleContactSubmit = async (data: ContactFormData) => {
+    if (!data.companyName) {
+      toast({
+        title: "Bitte geben Sie einen Firmennamen ein",
+        description: "Der Firmenname ist ein Pflichtfeld",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!data.contactPerson) {
+      toast({
+        title: "Bitte geben Sie einen Ansprechpartner ein",
+        description: "Der Ansprechpartner ist ein Pflichtfeld",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!data.email) {
+      toast({
+        title: "Bitte geben Sie eine E-Mail-Adresse ein",
+        description: "Die E-Mail-Adresse ist ein Pflichtfeld",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     if (!data.privacyAccepted) {
       toast({
         title: "Bitte akzeptieren Sie die Datenschutzerklärung",
@@ -240,7 +270,22 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
     }
 
     try {
-      await formspreeSubmit({
+      setFormSubmitting(true);
+      
+      console.log("Submitting form to Formspree with data:", {
+        "Firmenname": data.companyName,
+        "Ansprechpartner": data.contactPerson,
+        "E-Mail": data.email,
+        "Telefon": data.phone,
+        "Nachricht": data.message,
+        "Website URL": analyzedUrl || "",
+        "Bevorzugte Kontaktzeit": data.preferredTime,
+        "Newsletter": data.newsletter ? "Ja" : "Nein",
+        "Website-Analyse": "Ja",
+      });
+
+      // Submit form data to Formspree
+      const response = await formspreeSubmit({
         "Firmenname": data.companyName,
         "Ansprechpartner": data.contactPerson,
         "E-Mail": data.email,
@@ -252,22 +297,29 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Website-Analyse": "Ja",
       });
       
-      if (!formspreeState.errors) {
-        toast({
-          title: "Anfrage erfolgreich gesendet",
-          description: "Wir werden uns in Kürze bei Ihnen melden",
-        });
-        setFormSubmitted(true);
-      } else {
-        throw new Error("Formspree submission failed");
+      console.log("Formspree response:", response);
+      console.log("Formspree state after submission:", formspreeState);
+      
+      if (formspreeState.errors && formspreeState.errors.length > 0) {
+        console.error('Formspree submission errors:', formspreeState.errors);
+        throw new Error(formspreeState.errors.map(e => e.message).join(", "));
       }
+      
+      toast({
+        title: "Anfrage erfolgreich gesendet",
+        description: "Wir werden uns in Kürze bei Ihnen melden",
+      });
+      
+      setFormSubmitted(true);
     } catch (error) {
       console.error('Form submission error:', error);
       toast({
         title: "Fehler beim Senden",
-        description: "Bitte versuchen Sie es später erneut",
+        description: error instanceof Error ? error.message : "Bitte versuchen Sie es später erneut",
         variant: "destructive",
       });
+    } finally {
+      setFormSubmitting(false);
     }
   };
 
@@ -481,6 +533,9 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                                 className="w-full"
                                 placeholder="Ihre Firma GmbH"
                               />
+                              {form.formState.errors.companyName && (
+                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Firmennamen ein</p>
+                              )}
                             </div>
                             
                             <div>
@@ -491,6 +546,9 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                                 className="w-full"
                                 placeholder="Vor- und Nachname"
                               />
+                              {form.formState.errors.contactPerson && (
+                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Ansprechpartner ein</p>
+                              )}
                             </div>
                             
                             <div>
@@ -498,10 +556,13 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                               <Input
                                 id="email"
                                 type="email"
-                                {...form.register("email", { required: true })}
+                                {...form.register("email", { required: true, pattern: /^\S+@\S+$/i })}
                                 className="w-full"
                                 placeholder="ihre-email@beispiel.ch"
                               />
+                              {form.formState.errors.email && (
+                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie eine gültige E-Mail-Adresse ein</p>
+                              )}
                             </div>
                             
                             <div>
@@ -563,6 +624,9 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                               >
                                 Ich akzeptiere die Datenschutzerklärung *
                               </label>
+                              {form.formState.errors.privacyAccepted && (
+                                <p className="text-sm text-red-500 ml-2">Erforderlich</p>
+                              )}
                             </div>
                           </div>
                           
@@ -572,6 +636,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                               variant="outline" 
                               onClick={() => setShowInCardForm(false)}
                               className="flex items-center"
+                              disabled={formSubmitting}
                             >
                               <ArrowLeft className="mr-2 h-4 w-4" />
                               Zurück
@@ -579,9 +644,9 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                             <Button 
                               type="submit" 
                               className="bg-swiss-red hover:bg-swiss-red/90"
-                              disabled={formspreeState.submitting}
+                              disabled={formSubmitting}
                             >
-                              {formspreeState.submitting ? (
+                              {formSubmitting ? (
                                 <>
                                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                   Wird gesendet...
