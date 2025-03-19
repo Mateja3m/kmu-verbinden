@@ -19,7 +19,8 @@ import {
   AlertOctagon,
   Info,
   ArrowRight,
-  ArrowLeft
+  ArrowLeft,
+  Search
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
@@ -339,29 +340,34 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   return (
     <div className="mt-0">
       {!result && !isAnalyzing && (
-        <Card className="relative overflow-hidden">
+        <Card className="relative overflow-hidden w-full">
           <div className="absolute inset-0 pointer-events-none shine-effect"></div>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xl font-bold">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-xl font-bold text-center">
               Website-Analyse für {industryId ? "Ihre Branche" : "Ihre Website"}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-center">
               Unser KI-System analysiert Ihre Website und gibt Ihnen wertvolle Verbesserungsvorschläge
               {industryId && ", speziell für Ihre Branche"}.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 pt-3">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Input
-                type="url"
-                placeholder="ihre-website.ch"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                className="flex-1 focus:ring-2 focus:ring-swiss-lightblue focus:border-transparent transition-all duration-300"
-              />
+          <CardContent className="space-y-4 pt-4">
+            <div className="flex flex-col gap-4">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
+                </div>
+                <Input
+                  type="url"
+                  placeholder="ihre-website.ch"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  className="pl-10 py-6 text-lg focus:ring-2 focus:ring-swiss-lightblue focus:border-transparent transition-all duration-300"
+                />
+              </div>
               <Button 
                 onClick={analyzeWebsite}
-                className="bg-swiss-red hover:bg-swiss-red/90"
+                className="bg-swiss-red hover:bg-swiss-red/90 py-6 text-lg"
               >
                 Jetzt analysieren
               </Button>
@@ -377,7 +383,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
             )}
             <div className="bg-blue-50 p-3 rounded-md flex items-start gap-2 mt-1 border border-blue-200">
               <Info className="h-5 w-5 flex-shrink-0 mt-0.5 text-blue-500" />
-              <div className="text-xs text-blue-700">
+              <div className="text-sm text-blue-700">
                 <p className="font-medium">Tipps:</p>
                 <ul className="list-disc list-inside mt-1 space-y-0.5">
                   <li>Geben Sie die Domain ohne "www" oder "https://" ein</li>

@@ -61,17 +61,12 @@ const IndustryLanding = () => {
       
       <div id="website-check" className="container mx-auto px-4 pt-4 pb-16">
         <div className="flex flex-col">
-          <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-8 text-center">
             Lassen Sie Ihre {industryData.name}-Website analysieren
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2">
-              <WebsiteAnalysisDashboard industryId={industryData.slug} />
-            </div>
-            <div className="md:col-span-1 md:mt-0">
-              <IndustryQuickStats industry={industryData.name} />
-            </div>
+          <div className="max-w-3xl mx-auto w-full">
+            <WebsiteAnalysisDashboard industryId={industryData.slug} />
           </div>
         </div>
       </div>
