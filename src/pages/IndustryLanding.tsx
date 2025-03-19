@@ -8,7 +8,7 @@ import { IndustryBenefits } from '@/components/website-redesign/IndustryBenefits
 import { IndustryFeatures } from '@/components/website-redesign/IndustryFeatures';
 import { IndustryAssociation } from '@/components/website-redesign/IndustryAssociation';
 import { IndustryOffer } from '@/components/website-redesign/IndustryOffer';
-import { WebsiteCheckSection } from '@/components/website-redesign/WebsiteCheckSection';
+import { WebsiteAnalysisDashboard } from '@/components/website-redesign/WebsiteAnalysisDashboard';
 import { IndustryLoading } from '@/components/website-redesign/IndustryLoading';
 import { useIndustryData } from '@/hooks/use-industry-data';
 
@@ -58,8 +58,11 @@ const IndustryLanding = () => {
         industry={industryData.name} 
       />
       
-      <div id="website-check">
-        <WebsiteCheckSection industryId={industryData.slug} />
+      <div id="website-check" className="container mx-auto px-4 py-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-8 text-center">
+          Lassen Sie Ihre {industryData.name}-Website analysieren
+        </h2>
+        <WebsiteAnalysisDashboard industryId={industryData.slug} />
       </div>
     </IndustryLandingLayout>
   );

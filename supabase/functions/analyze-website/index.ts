@@ -1,3 +1,4 @@
+
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
@@ -15,7 +16,7 @@ serve(async (req) => {
   }
 
   try {
-    const { url } = await req.json();
+    const { url, industryId } = await req.json();
 
     if (!url) {
       throw new Error('URL ist erforderlich');
@@ -29,7 +30,7 @@ serve(async (req) => {
       cleanUrl = 'https://' + cleanUrl;
     }
     
-    console.log(`Analysiere Website: ${cleanUrl}`);
+    console.log(`Analysiere Website: ${cleanUrl}${industryId ? `, Branche: ${industryId}` : ''}`);
 
     // Fetch website content
     let html = '';
@@ -109,6 +110,101 @@ serve(async (req) => {
       throw new Error(`Fehler beim Abrufen des Website-Inhalts: ${fetchError.message}`);
     }
 
+    // Build the system prompt with industry context if provided
+    let systemPrompt = `Du bist ein professioneller Website-Analyst. Analysiere den HTML-Code dieser Website und erstelle eine detaillierte Bewertung mit folgenden Punkten:
+      1. Grundlegende Informationen (Firmenname, Kontaktdaten wenn vorhanden)
+      2. Design-Bewertung (Layout, Farben, Responsivität)
+      3. Inhaltliche Qualität
+      4. Technische Aspekte
+      5. Konkrete Verbesserungsvorschläge`;
+    
+    // Add industry-specific context if industryId is provided
+    if (industryId) {
+      console.log(`Füge branchenspezifischen Kontext für ${industryId} hinzu`);
+      
+      if (industryId === "zahnarzt" || industryId === "zahnaerzte") {
+        systemPrompt += `\n\nWichtig: Diese Website gehört zu einer Zahnarztpraxis. 
+        Berücksichtige bei deiner Analyse folgende branchenspezifische Aspekte:
+        - Terminbuchungsmöglichkeiten für Patienten
+        - Darstellung der angebotenen Behandlungen
+        - Patienteninformationen und Beratungsangebote
+        - Vertrauensbildende Elemente wie Qualifikationen, Zertifizierungen
+        - Notfallkontaktmöglichkeiten
+        - Erreichbarkeit und Anfahrtsinformationen`;
+      } else if (industryId === "arzt" || industryId === "aerzte") {
+        systemPrompt += `\n\nWichtig: Diese Website gehört zu einer Arztpraxis. 
+        Berücksichtige bei deiner Analyse folgende branchenspezifische Aspekte:
+        - Terminbuchungsmöglichkeiten für Patienten
+        - Darstellung der Fachbereiche und Spezialisierungen
+        - Patienteninformationen und Sprechzeiten
+        - Vertrauensbildende Elemente wie Qualifikationen, Zertifizierungen
+        - Notfallkontaktmöglichkeiten
+        - Darstellung des Ärzteteams`;
+      } else if (industryId === "anwalt" || industryId === "anwaelte") {
+        systemPrompt += `\n\nWichtig: Diese Website gehört zu einer Anwaltskanzlei. 
+        Berücksichtige bei deiner Analyse folgende branchenspezifische Aspekte:
+        - Darstellung der Rechtsbereiche und Spezialisierungen
+        - Erstberatungsmöglichkeiten
+        - Vertrauensbildende Elemente wie Qualifikationen, Erfolge
+        - Honorarinformationen
+        - Darstellung des Anwaltsteams
+        - Referenzen oder Fallbeispiele`;
+      } else if (industryId === "restaurant") {
+        systemPrompt += `\n\nWichtig: Diese Website gehört zu einem Restaurant. 
+        Berücksichtige bei deiner Analyse folgende branchenspezifische Aspekte:
+        - Menüdarstellung und -aktualität
+        - Reservierungsmöglichkeiten
+        - Aktuelle Öffnungszeiten
+        - Informationen zu Veranstaltungen oder Specials
+        - Bilder der Räumlichkeiten und Speisen
+        - Online-Bestellmöglichkeiten`;
+      } else if (industryId === "hotel") {
+        systemPrompt += `\n\nWichtig: Diese Website gehört zu einem Hotel. 
+        Berücksichtige bei deiner Analyse folgende branchenspezifische Aspekte:
+        - Zimmerdarstellung und -buchungsmöglichkeiten
+        - Preisinformationen
+        - Darstellung der Einrichtungen und Angebote
+        - Informationen zur Lage und Umgebung
+        - Bewertungen und Gästefeedback
+        - Spezielle Angebote oder Arrangements`;
+      }
+    }
+    
+    systemPrompt += `\n\nWICHTIG: Suche SEHR gründlich nach Kontaktinformationen wie Telefonnummer, E-Mail-Adresse, physische Adresse, Öffnungszeiten und Kontaktformular. 
+    Die Kontaktdaten sind extrem wichtig für die Analyse!
+    
+    Durchsuche den gesamten Code nach:
+    - Telefonnummern im Format +41, 0041, oder reguläre schweizer Formate
+    - E-Mail-Adressen (suche nach @ Zeichen und üblichen Domains)
+    - Physische Adressen (Straßennamen, PLZ, Städte in der Schweiz)
+    - Öffnungszeiten und Geschäftszeiten
+    - Schema.org Markup für Organisationen und Kontaktdaten
+    - hCard oder vCard Informationen
+    - Meta-Tags mit Kontaktinformationen
+    - Elemente mit IDs oder Klassen wie "contact", "kontakt", "address", "footer"
+    
+    Achte besonders auf den Footer-Bereich, "Kontakt"-Seiten-Links, Schema.org-Markierungen, vCards oder strukturierte Daten.
+    
+    Formatiere die Antwort als JSON-Objekt mit diesen Eigenschaften:
+    {
+      "gesamtpunkte": Zahl (0-100),
+      "firmeninfo": { 
+        "name": String, 
+        "telefon": String, 
+        "email": String, 
+        "adresse": String, 
+        "oeffnungszeiten": String 
+      },
+      "design": { "punkte": Zahl, "feedback": String[] },
+      "inhalt": { "punkte": Zahl, "feedback": String[] },
+      "technik": { "punkte": Zahl, "feedback": String[] },
+      "verbesserungen": String[]
+    }
+    
+    Leer Felder bei firmeninfo mit "Nicht gefunden" ausfüllen - niemals ein Feld weglassen!
+    
+    SEHR WICHTIG: Gib NUR das JSON-Objekt zurück, ohne weitere Erklärungen oder Markdown-Formatierung.`;
+
     // Call Claude API with proper API version and format
     let retryCount = 0;
     const maxRetries = 2;
@@ -128,47 +224,7 @@ serve(async (req) => {
             max_tokens: 3000,
             messages: [{
               role: "user",
-              content: `Du bist ein professioneller Website-Analyst. Analysiere den HTML-Code dieser Website und erstelle eine detaillierte Bewertung mit folgenden Punkten:
-              1. Grundlegende Informationen (Firmenname, Kontaktdaten wenn vorhanden)
-              2. Design-Bewertung (Layout, Farben, Responsivität)
-              3. Inhaltliche Qualität
-              4. Technische Aspekte
-              5. Konkrete Verbesserungsvorschläge
-
-              WICHTIG: Suche SEHR gründlich nach Kontaktinformationen wie Telefonnummer, E-Mail-Adresse, physische Adresse, Öffnungszeiten und Kontaktformular. 
-              Die Kontaktdaten sind extrem wichtig für die Analyse!
-              
-              Durchsuche den gesamten Code nach:
-              - Telefonnummern im Format +41, 0041, oder reguläre schweizer Formate
-              - E-Mail-Adressen (suche nach @ Zeichen und üblichen Domains)
-              - Physische Adressen (Straßennamen, PLZ, Städte in der Schweiz)
-              - Öffnungszeiten und Geschäftszeiten
-              - Schema.org Markup für Organisationen und Kontaktdaten
-              - hCard oder vCard Informationen
-              - Meta-Tags mit Kontaktinformationen
-              - Elemente mit IDs oder Klassen wie "contact", "kontakt", "address", "footer"
-              
-              Achte besonders auf den Footer-Bereich, "Kontakt"-Seiten-Links, Schema.org-Markierungen, vCards oder strukturierte Daten.
-              
-              Formatiere die Antwort als JSON-Objekt mit diesen Eigenschaften:
-              {
-                "gesamtpunkte": Zahl (0-100),
-                "firmeninfo": { 
-                  "name": String, 
-                  "telefon": String, 
-                  "email": String, 
-                  "adresse": String, 
-                  "oeffnungszeiten": String 
-                },
-                "design": { "punkte": Zahl, "feedback": String[] },
-                "inhalt": { "punkte": Zahl, "feedback": String[] },
-                "technik": { "punkte": Zahl, "feedback": String[] },
-                "verbesserungen": String[]
-              }
-              
-              Leer Felder bei firmeninfo mit "Nicht gefunden" ausfüllen - niemals ein Feld weglassen!
-              
-              SEHR WICHTIG: Gib NUR das JSON-Objekt zurück, ohne weitere Erklärungen oder Markdown-Formatierung.
+              content: `${systemPrompt}
               
               Zu analysierender HTML-Code:
               ${html}`
