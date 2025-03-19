@@ -259,7 +259,6 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       return;
     }
     
-    // Explicitly check privacy policy acceptance
     if (!data.privacyAccepted) {
       toast({
         title: "Bitte akzeptieren Sie die Datenschutzerklärung",
@@ -342,17 +341,16 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       {!result && !isAnalyzing && (
         <Card className="relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none shine-effect"></div>
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">
-              Lassen Sie Ihre Website analysieren
-              {industryId && <span className="font-normal text-xl"> für Ihre Branche</span>}
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl font-bold">
+              Website-Analyse für {industryId ? "Ihre Branche" : "Ihre Website"}
             </CardTitle>
-            <CardDescription className="text-center">
+            <CardDescription>
               Unser KI-System analysiert Ihre Website und gibt Ihnen wertvolle Verbesserungsvorschläge
               {industryId && ", speziell für Ihre Branche"}.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-3">
             <div className="flex flex-col sm:flex-row gap-4">
               <Input
                 type="url"
@@ -369,23 +367,21 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
               </Button>
             </div>
             {error && (
-              <div className="text-red-500 bg-red-50 p-4 rounded-md flex items-start gap-2 mt-2 border border-red-200">
+              <div className="text-red-500 bg-red-50 p-3 rounded-md flex items-start gap-2 mt-1 border border-red-200">
                 <AlertOctagon className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold">Fehler bei der Analyse:</p>
                   <p>{error}</p>
-                  <p className="text-sm mt-2">Bitte stellen Sie sicher, dass die Website erreichbar ist und versuchen Sie es erneut.</p>
                 </div>
               </div>
             )}
-            <div className="bg-blue-50 p-4 rounded-md flex items-start gap-2 mt-2 border border-blue-200">
+            <div className="bg-blue-50 p-3 rounded-md flex items-start gap-2 mt-1 border border-blue-200">
               <Info className="h-5 w-5 flex-shrink-0 mt-0.5 text-blue-500" />
-              <div className="text-sm text-blue-700">
-                <p className="font-semibold">Tipps für bessere Ergebnisse:</p>
-                <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li>Geben Sie die Domain ohne "www" oder "https://" ein (z.B. "example.ch")</li>
-                  <li>Stellen Sie sicher, dass die Website öffentlich zugänglich ist</li>
-                  <li>Verwenden Sie die Haupt-Domain statt einer Unterseite für die beste Analyse</li>
+              <div className="text-xs text-blue-700">
+                <p className="font-medium">Tipps:</p>
+                <ul className="list-disc list-inside mt-1 space-y-0.5">
+                  <li>Geben Sie die Domain ohne "www" oder "https://" ein</li>
+                  <li>Verwenden Sie die Haupt-Domain für die beste Analyse</li>
                 </ul>
               </div>
             </div>
@@ -395,7 +391,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
 
       {isAnalyzing && (
         <Card>
-          <CardContent className="py-12">
+          <CardContent className="py-10">
             <div className="flex flex-col items-center space-y-4">
               <Loader2 className="h-12 w-12 animate-spin text-swiss-red" />
               <p className="text-lg font-medium">Analysiere Ihre Website...</p>
@@ -523,172 +519,172 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                         </motion.div>
                       )}
 
-          {showInCardForm && !formSubmitted && (
-            <motion.form 
-              key="contact-form"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-4"
-              onSubmit={form.handleSubmit(handleContactSubmit)}
-            >
-              <div className="space-y-3">
-                <div>
-                  <label htmlFor="companyName" className="block text-sm font-medium mb-1">Firmenname *</label>
-                  <Input
-                    id="companyName"
-                    {...form.register("companyName", { required: true })}
-                    className="w-full"
-                    placeholder="Ihre Firma GmbH"
-                  />
-                  {form.formState.errors.companyName && (
-                    <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Firmennamen ein</p>
-                  )}
-                </div>
-                
-                <div>
-                  <label htmlFor="contactPerson" className="block text-sm font-medium mb-1">Ansprechpartner *</label>
-                  <Input
-                    id="contactPerson"
-                    {...form.register("contactPerson", { required: true })}
-                    className="w-full"
-                    placeholder="Vor- und Nachname"
-                  />
-                  {form.formState.errors.contactPerson && (
-                    <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Ansprechpartner ein</p>
-                  )}
-                </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-1">E-Mail *</label>
-                  <Input
-                    id="email"
-                    type="email"
-                    {...form.register("email", { required: true, pattern: /^\S+@\S+$/i })}
-                    className="w-full"
-                    placeholder="ihre-email@beispiel.ch"
-                  />
-                  {form.formState.errors.email && (
-                    <p className="text-sm text-red-500 mt-1">Bitte geben Sie eine gültige E-Mail-Adresse ein</p>
-                  )}
-                </div>
-                
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-1">Telefon</label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    {...form.register("phone")}
-                    className="w-full"
-                    placeholder="+41 XX XXX XX XX"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="preferredTime" className="block text-sm font-medium mb-1">Bevorzugte Kontaktzeit</label>
-                  <select
-                    id="preferredTime"
-                    {...form.register("preferredTime")}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  >
-                    <option value="vormittag">Vormittag</option>
-                    <option value="nachmittag">Nachmittag</option>
-                    <option value="abend">Abend</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-1">Nachricht</label>
-                  <Textarea
-                    id="message"
-                    {...form.register("message")}
-                    className="w-full"
-                    rows={3}
-                    placeholder="Ihr Anliegen (optional)"
-                  />
-                </div>
-                
-                <div className="flex flex-col space-y-2 pt-1">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="newsletter"
-                      checked={form.getValues("newsletter")}
-                      onCheckedChange={(checked) => {
-                        form.setValue("newsletter", checked as boolean);
-                      }}
-                    />
-                    <label
-                      htmlFor="newsletter"
-                      className="text-sm font-medium cursor-pointer"
-                    >
-                      Ich möchte den Newsletter erhalten (optional)
-                    </label>
-                  </div>
-                  
-                  <div className="flex items-start space-x-2">
-                    <Checkbox
-                      id="privacyAccepted"
-                      checked={form.getValues("privacyAccepted")}
-                      onCheckedChange={(checked) => {
-                        form.setValue("privacyAccepted", checked as boolean, { shouldValidate: true });
-                        if (checked) {
-                          form.clearErrors('privacyAccepted');
-                        }
-                      }}
-                    />
-                    <div className="space-y-1">
-                      <label
-                        htmlFor="privacyAccepted"
-                        className="text-sm font-medium cursor-pointer"
-                      >
-                        Ich akzeptiere die Datenschutzerklärung *
-                      </label>
-                      {form.formState.errors.privacyAccepted && (
-                        <p className="text-xs text-red-500">
-                          {form.formState.errors.privacyAccepted.message || "Erforderlich"}
-                        </p>
+                      {showInCardForm && !formSubmitted && (
+                        <motion.form 
+                          key="contact-form"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          className="space-y-4"
+                          onSubmit={form.handleSubmit(handleContactSubmit)}
+                        >
+                          <div className="space-y-3">
+                            <div>
+                              <label htmlFor="companyName" className="block text-sm font-medium mb-1">Firmenname *</label>
+                              <Input
+                                id="companyName"
+                                {...form.register("companyName", { required: true })}
+                                className="w-full"
+                                placeholder="Ihre Firma GmbH"
+                              />
+                              {form.formState.errors.companyName && (
+                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Firmennamen ein</p>
+                              )}
+                            </div>
+                            
+                            <div>
+                              <label htmlFor="contactPerson" className="block text-sm font-medium mb-1">Ansprechpartner *</label>
+                              <Input
+                                id="contactPerson"
+                                {...form.register("contactPerson", { required: true })}
+                                className="w-full"
+                                placeholder="Vor- und Nachname"
+                              />
+                              {form.formState.errors.contactPerson && (
+                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Ansprechpartner ein</p>
+                              )}
+                            </div>
+                            
+                            <div>
+                              <label htmlFor="email" className="block text-sm font-medium mb-1">E-Mail *</label>
+                              <Input
+                                id="email"
+                                type="email"
+                                {...form.register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                                className="w-full"
+                                placeholder="ihre-email@beispiel.ch"
+                              />
+                              {form.formState.errors.email && (
+                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie eine gültige E-Mail-Adresse ein</p>
+                              )}
+                            </div>
+                            
+                            <div>
+                              <label htmlFor="phone" className="block text-sm font-medium mb-1">Telefon</label>
+                              <Input
+                                id="phone"
+                                type="tel"
+                                {...form.register("phone")}
+                                className="w-full"
+                                placeholder="+41 XX XXX XX XX"
+                              />
+                            </div>
+                            
+                            <div>
+                              <label htmlFor="preferredTime" className="block text-sm font-medium mb-1">Bevorzugte Kontaktzeit</label>
+                              <select
+                                id="preferredTime"
+                                {...form.register("preferredTime")}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                              >
+                                <option value="vormittag">Vormittag</option>
+                                <option value="nachmittag">Nachmittag</option>
+                                <option value="abend">Abend</option>
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label htmlFor="message" className="block text-sm font-medium mb-1">Nachricht</label>
+                              <Textarea
+                                id="message"
+                                {...form.register("message")}
+                                className="w-full"
+                                rows={3}
+                                placeholder="Ihr Anliegen (optional)"
+                              />
+                            </div>
+                            
+                            <div className="flex flex-col space-y-2 pt-1">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox
+                                  id="newsletter"
+                                  checked={form.getValues("newsletter")}
+                                  onCheckedChange={(checked) => {
+                                    form.setValue("newsletter", checked as boolean);
+                                  }}
+                                />
+                                <label
+                                  htmlFor="newsletter"
+                                  className="text-sm font-medium cursor-pointer"
+                                >
+                                  Ich möchte den Newsletter erhalten (optional)
+                                </label>
+                              </div>
+                              
+                              <div className="flex items-start space-x-2">
+                                <Checkbox
+                                  id="privacyAccepted"
+                                  checked={form.getValues("privacyAccepted")}
+                                  onCheckedChange={(checked) => {
+                                    form.setValue("privacyAccepted", checked as boolean, { shouldValidate: true });
+                                    if (checked) {
+                                      form.clearErrors('privacyAccepted');
+                                    }
+                                  }}
+                                />
+                                <div className="space-y-1">
+                                  <label
+                                    htmlFor="privacyAccepted"
+                                    className="text-sm font-medium cursor-pointer"
+                                  >
+                                    Ich akzeptiere die Datenschutzerklärung *
+                                  </label>
+                                  {form.formState.errors.privacyAccepted && (
+                                    <p className="text-xs text-red-500">
+                                      {form.formState.errors.privacyAccepted.message || "Erforderlich"}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-between pt-2">
+                            <Button 
+                              type="button" 
+                              variant="outline" 
+                              onClick={() => setShowInCardForm(false)}
+                              className="flex items-center"
+                              disabled={formSubmitting}
+                            >
+                              <ArrowLeft className="mr-2 h-4 w-4" />
+                              Zurück
+                            </Button>
+                            <Button 
+                              type="submit" 
+                              className="bg-swiss-red hover:bg-swiss-red/90"
+                              disabled={formSubmitting}
+                            >
+                              {formSubmitting ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Wird gesendet...
+                                </>
+                              ) : (
+                                <>
+                                  Anfrage senden
+                                  <ArrowRight className="ml-2 h-4 w-4" />
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                          
+                          <div className="text-center text-xs text-gray-500 mt-2">
+                            Alle mit * markierten Felder sind Pflichtfelder
+                          </div>
+                        </motion.form>
                       )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex justify-between pt-2">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={() => setShowInCardForm(false)}
-                  className="flex items-center"
-                  disabled={formSubmitting}
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Zurück
-                </Button>
-                <Button 
-                  type="submit" 
-                  className="bg-swiss-red hover:bg-swiss-red/90"
-                  disabled={formSubmitting}
-                >
-                  {formSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Wird gesendet...
-                    </>
-                  ) : (
-                    <>
-                      Anfrage senden
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-              </div>
-              
-              <div className="text-center text-xs text-gray-500 mt-2">
-                Alle mit * markierten Felder sind Pflichtfelder
-              </div>
-            </motion.form>
-          )}
-          
+                      
                       {formSubmitted && (
                         <motion.div 
                           key="success-message"

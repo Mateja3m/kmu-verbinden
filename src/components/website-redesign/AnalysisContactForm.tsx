@@ -169,17 +169,17 @@ export const AnalysisContactForm = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-swiss-darkblue mb-6 text-center">
+    <div className="bg-white rounded-xl shadow-lg p-5 md:p-6 max-w-2xl mx-auto">
+      <h2 className="text-xl font-bold text-swiss-darkblue mb-4 text-center">
         {step === 3 
           ? "Vielen Dank für Ihre Anfrage!" 
           : "Beratungsgespräch vereinbaren"}
       </h2>
 
       {step < 3 && (
-        <div className="mb-6">
+        <div className="mb-4">
           <Progress value={step * 50} className="h-2" />
-          <div className="flex justify-between mt-2 text-sm text-gray-500">
+          <div className="flex justify-between mt-1 text-xs text-gray-500">
             <span className={step >= 1 ? "font-medium text-swiss-red" : ""}>
               Unternehmensdaten
             </span>
@@ -192,8 +192,8 @@ export const AnalysisContactForm = ({
 
       {step === 1 && (
         <Form {...form}>
-          <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="space-y-4">
-            <div className="space-y-4">
+          <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="space-y-3">
+            <div className="space-y-3">
               <FormField
                 control={form.control}
                 name="companyName"
@@ -241,13 +241,13 @@ export const AnalysisContactForm = ({
                         type="url"
                       />
                     </FormControl>
-                    <FormDescription>Die URL der analysierten Website</FormDescription>
+                    <FormDescription className="text-xs">Die URL der analysierten Website</FormDescription>
                   </FormItem>
                 )}
               />
             </div>
 
-            <div className="pt-4">
+            <div className="pt-3">
               <Button 
                 type="submit" 
                 className="w-full bg-swiss-red hover:bg-swiss-red/90"
@@ -262,8 +262,8 @@ export const AnalysisContactForm = ({
 
       {step === 2 && (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <div className="space-y-3">
               <FormField
                 control={form.control}
                 name="email"
@@ -327,14 +327,14 @@ export const AnalysisContactForm = ({
                       <Textarea
                         {...field}
                         placeholder="Ihre Nachricht an uns (optional)"
-                        rows={3}
+                        rows={2}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
 
-              <div className="space-y-2 mt-2">
+              <div className="space-y-2 mt-1">
                 <FormField
                   control={form.control}
                   name="newsletter"
@@ -348,7 +348,7 @@ export const AnalysisContactForm = ({
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel htmlFor="newsletter">
+                        <FormLabel htmlFor="newsletter" className="text-sm">
                           Ich möchte den Newsletter erhalten (optional)
                         </FormLabel>
                       </div>
@@ -374,12 +374,12 @@ export const AnalysisContactForm = ({
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel htmlFor="privacy" className="font-medium">
+                        <FormLabel htmlFor="privacy" className="text-sm font-medium">
                           Ich akzeptiere die Datenschutzerklärung *
                         </FormLabel>
                         {form.formState.errors.privacyAccepted && (
                           <p className="text-xs font-medium text-destructive">
-                            {form.formState.errors.privacyAccepted.message}
+                            {form.formState.errors.privacyAccepted.message || "Erforderlich"}
                           </p>
                         )}
                       </div>
@@ -389,7 +389,7 @@ export const AnalysisContactForm = ({
               </div>
             </div>
 
-            <div className="flex justify-between pt-4">
+            <div className="flex justify-between pt-3">
               <Button 
                 type="button" 
                 variant="outline" 
@@ -421,20 +421,20 @@ export const AnalysisContactForm = ({
       )}
 
       {step === 3 && (
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-3">
           <div className="flex justify-center">
-            <CheckCircle className="h-16 w-16 text-green-500" />
+            <CheckCircle className="h-12 w-12 text-green-500" />
           </div>
           
-          <h3 className="text-xl font-medium text-gray-900">
+          <h3 className="text-lg font-medium text-gray-900">
             Ihre Anfrage wurde erfolgreich übermittelt!
           </h3>
           
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm">
             Vielen Dank für Ihr Interesse. Unser Team wird sich in Kürze mit Ihnen in Verbindung setzen.
           </p>
           
-          <div className="pt-4">
+          <div className="pt-3">
             <Button 
               className="bg-swiss-red hover:bg-swiss-red/90"
               onClick={() => {
@@ -458,7 +458,7 @@ export const AnalysisContactForm = ({
         </div>
       )}
 
-      <div className="text-center text-xs text-gray-500 mt-4">
+      <div className="text-center text-xs text-gray-500 mt-3">
         Alle mit * markierten Felder sind Pflichtfelder
       </div>
     </div>

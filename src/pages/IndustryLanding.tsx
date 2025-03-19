@@ -10,6 +10,7 @@ import { IndustryAssociation } from '@/components/website-redesign/IndustryAssoc
 import { IndustryOffer } from '@/components/website-redesign/IndustryOffer';
 import { WebsiteAnalysisDashboard } from '@/components/website-redesign/WebsiteAnalysisDashboard';
 import { IndustryLoading } from '@/components/website-redesign/IndustryLoading';
+import { IndustryQuickStats } from '@/components/website-redesign/IndustryQuickStats';
 import { useIndustryData } from '@/hooks/use-industry-data';
 
 const IndustryLanding = () => {
@@ -58,11 +59,18 @@ const IndustryLanding = () => {
         industry={industryData.name} 
       />
       
-      <div id="website-check" className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-8 text-center">
-          Lassen Sie Ihre {industryData.name}-Website analysieren
-        </h2>
-        <WebsiteAnalysisDashboard industryId={industryData.slug} />
+      <div id="website-check" className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-swiss-darkblue mb-6">
+              Lassen Sie Ihre {industryData.name}-Website analysieren
+            </h2>
+            <WebsiteAnalysisDashboard industryId={industryData.slug} />
+          </div>
+          <div className="md:col-span-1">
+            <IndustryQuickStats industry={industryData.name} />
+          </div>
+        </div>
       </div>
     </IndustryLandingLayout>
   );

@@ -26,10 +26,10 @@ export const IndustryHero = ({
   const displayImage = industry === "Zahnärzte" ? dentistImage : imagePath;
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray pt-8 md:pt-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-16 md:py-32">
+    <div className="relative overflow-hidden bg-gradient-to-br from-white to-swiss-gray pt-6 md:pt-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-10 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="space-y-6 md:pr-8">
+          <div className="space-y-4 md:pr-8">
             <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-swiss-red/10 text-swiss-red">
               Branchenspezifische Lösung für {industry}
             </div>
@@ -42,7 +42,7 @@ export const IndustryHero = ({
               {subheadline}
             </p>
             
-            <div className="space-y-3">
+            <div className="space-y-2 pt-2">
               <div className="flex items-start">
                 <Check className="h-5 w-5 text-swiss-red mr-2 mt-0.5" />
                 <p className="text-sm">Spezielle Konditionen für Vereinsmitglieder</p>
@@ -57,7 +57,7 @@ export const IndustryHero = ({
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <Button 
                 size="lg" 
                 className="bg-swiss-red hover:bg-swiss-red/90 text-white font-medium"
