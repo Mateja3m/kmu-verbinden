@@ -93,7 +93,8 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       preferredTime: "vormittag",
       newsletter: false,
       privacyAccepted: false,
-    }
+    },
+    mode: "onChange" // Enable real-time validation
   });
 
   const analyzeWebsite = async () => {
@@ -258,11 +259,16 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
       return;
     }
     
+    // Explicitly check privacy policy acceptance
     if (!data.privacyAccepted) {
       toast({
         title: "Bitte akzeptieren Sie die Datenschutzerklärung",
         description: "Sie müssen die Datenschutzerklärung akzeptieren, um fortzufahren",
         variant: "destructive",
+      });
+      form.setError('privacyAccepted', {
+        type: 'manual',
+        message: 'Erforderlich'
       });
       return;
     }
@@ -280,6 +286,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Bevorzugte Kontaktzeit": data.preferredTime,
         "Newsletter": data.newsletter ? "Ja" : "Nein",
         "Website-Analyse": "Ja",
+        "Datenschutz akzeptiert": "Ja",
       });
 
       const response = await formspreeSubmit({
@@ -292,6 +299,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         "Bevorzugte Kontaktzeit": data.preferredTime,
         "Newsletter": data.newsletter ? "Ja" : "Nein",
         "Website-Analyse": "Ja",
+        "Datenschutz akzeptiert": "Ja",
       });
       
       console.log("Formspree response:", response);
@@ -405,7 +413,7 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-12 space-y-6"
+          className="mt-8 space-y-6"
         >
           <Card>
             <CardHeader>
@@ -515,157 +523,172 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
                         </motion.div>
                       )}
 
-                      {showInCardForm && !formSubmitted && (
-                        <motion.form 
-                          key="contact-form"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          className="space-y-4"
-                          onSubmit={form.handleSubmit(handleContactSubmit)}
-                        >
-                          <div className="space-y-3">
-                            <div>
-                              <label htmlFor="companyName" className="block text-sm font-medium mb-1">Firmenname *</label>
-                              <Input
-                                id="companyName"
-                                {...form.register("companyName", { required: true })}
-                                className="w-full"
-                                placeholder="Ihre Firma GmbH"
-                              />
-                              {form.formState.errors.companyName && (
-                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Firmennamen ein</p>
-                              )}
-                            </div>
-                            
-                            <div>
-                              <label htmlFor="contactPerson" className="block text-sm font-medium mb-1">Ansprechpartner *</label>
-                              <Input
-                                id="contactPerson"
-                                {...form.register("contactPerson", { required: true })}
-                                className="w-full"
-                                placeholder="Vor- und Nachname"
-                              />
-                              {form.formState.errors.contactPerson && (
-                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Ansprechpartner ein</p>
-                              )}
-                            </div>
-                            
-                            <div>
-                              <label htmlFor="email" className="block text-sm font-medium mb-1">E-Mail *</label>
-                              <Input
-                                id="email"
-                                type="email"
-                                {...form.register("email", { required: true, pattern: /^\S+@\S+$/i })}
-                                className="w-full"
-                                placeholder="ihre-email@beispiel.ch"
-                              />
-                              {form.formState.errors.email && (
-                                <p className="text-sm text-red-500 mt-1">Bitte geben Sie eine gültige E-Mail-Adresse ein</p>
-                              )}
-                            </div>
-                            
-                            <div>
-                              <label htmlFor="phone" className="block text-sm font-medium mb-1">Telefon</label>
-                              <Input
-                                id="phone"
-                                type="tel"
-                                {...form.register("phone")}
-                                className="w-full"
-                                placeholder="+41 XX XXX XX XX"
-                              />
-                            </div>
-                            
-                            <div>
-                              <label htmlFor="preferredTime" className="block text-sm font-medium mb-1">Bevorzugte Kontaktzeit</label>
-                              <select
-                                id="preferredTime"
-                                {...form.register("preferredTime")}
-                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                              >
-                                <option value="vormittag">Vormittag</option>
-                                <option value="nachmittag">Nachmittag</option>
-                                <option value="abend">Abend</option>
-                              </select>
-                            </div>
-                            
-                            <div>
-                              <label htmlFor="message" className="block text-sm font-medium mb-1">Nachricht</label>
-                              <Textarea
-                                id="message"
-                                {...form.register("message")}
-                                className="w-full"
-                                rows={3}
-                                placeholder="Ihr Anliegen (optional)"
-                              />
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 pt-1">
-                              <Checkbox
-                                id="newsletter"
-                                {...form.register("newsletter")}
-                              />
-                              <label
-                                htmlFor="newsletter"
-                                className="text-sm font-medium cursor-pointer"
-                              >
-                                Ich möchte den Newsletter erhalten (optional)
-                              </label>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2">
-                              <Checkbox
-                                id="privacyAccepted"
-                                {...form.register("privacyAccepted", { required: true })}
-                              />
-                              <label
-                                htmlFor="privacyAccepted"
-                                className="text-sm font-medium cursor-pointer"
-                              >
-                                Ich akzeptiere die Datenschutzerklärung *
-                              </label>
-                              {form.formState.errors.privacyAccepted && (
-                                <p className="text-sm text-red-500 ml-2">Erforderlich</p>
-                              )}
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-between pt-2">
-                            <Button 
-                              type="button" 
-                              variant="outline" 
-                              onClick={() => setShowInCardForm(false)}
-                              className="flex items-center"
-                              disabled={formSubmitting}
-                            >
-                              <ArrowLeft className="mr-2 h-4 w-4" />
-                              Zurück
-                            </Button>
-                            <Button 
-                              type="submit" 
-                              className="bg-swiss-red hover:bg-swiss-red/90"
-                              disabled={formSubmitting}
-                            >
-                              {formSubmitting ? (
-                                <>
-                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  Wird gesendet...
-                                </>
-                              ) : (
-                                <>
-                                  Anfrage senden
-                                  <ArrowRight className="ml-2 h-4 w-4" />
-                                </>
-                              )}
-                            </Button>
-                          </div>
-                          
-                          <div className="text-center text-xs text-gray-500 mt-4">
-                            Alle mit * markierten Felder sind Pflichtfelder
-                          </div>
-                        </motion.form>
+          {showInCardForm && !formSubmitted && (
+            <motion.form 
+              key="contact-form"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-4"
+              onSubmit={form.handleSubmit(handleContactSubmit)}
+            >
+              <div className="space-y-3">
+                <div>
+                  <label htmlFor="companyName" className="block text-sm font-medium mb-1">Firmenname *</label>
+                  <Input
+                    id="companyName"
+                    {...form.register("companyName", { required: true })}
+                    className="w-full"
+                    placeholder="Ihre Firma GmbH"
+                  />
+                  {form.formState.errors.companyName && (
+                    <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Firmennamen ein</p>
+                  )}
+                </div>
+                
+                <div>
+                  <label htmlFor="contactPerson" className="block text-sm font-medium mb-1">Ansprechpartner *</label>
+                  <Input
+                    id="contactPerson"
+                    {...form.register("contactPerson", { required: true })}
+                    className="w-full"
+                    placeholder="Vor- und Nachname"
+                  />
+                  {form.formState.errors.contactPerson && (
+                    <p className="text-sm text-red-500 mt-1">Bitte geben Sie einen Ansprechpartner ein</p>
+                  )}
+                </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-1">E-Mail *</label>
+                  <Input
+                    id="email"
+                    type="email"
+                    {...form.register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                    className="w-full"
+                    placeholder="ihre-email@beispiel.ch"
+                  />
+                  {form.formState.errors.email && (
+                    <p className="text-sm text-red-500 mt-1">Bitte geben Sie eine gültige E-Mail-Adresse ein</p>
+                  )}
+                </div>
+                
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium mb-1">Telefon</label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    {...form.register("phone")}
+                    className="w-full"
+                    placeholder="+41 XX XXX XX XX"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="preferredTime" className="block text-sm font-medium mb-1">Bevorzugte Kontaktzeit</label>
+                  <select
+                    id="preferredTime"
+                    {...form.register("preferredTime")}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
+                    <option value="vormittag">Vormittag</option>
+                    <option value="nachmittag">Nachmittag</option>
+                    <option value="abend">Abend</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium mb-1">Nachricht</label>
+                  <Textarea
+                    id="message"
+                    {...form.register("message")}
+                    className="w-full"
+                    rows={3}
+                    placeholder="Ihr Anliegen (optional)"
+                  />
+                </div>
+                
+                <div className="flex flex-col space-y-2 pt-1">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="newsletter"
+                      checked={form.getValues("newsletter")}
+                      onCheckedChange={(checked) => {
+                        form.setValue("newsletter", checked as boolean);
+                      }}
+                    />
+                    <label
+                      htmlFor="newsletter"
+                      className="text-sm font-medium cursor-pointer"
+                    >
+                      Ich möchte den Newsletter erhalten (optional)
+                    </label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="privacyAccepted"
+                      checked={form.getValues("privacyAccepted")}
+                      onCheckedChange={(checked) => {
+                        form.setValue("privacyAccepted", checked as boolean, { shouldValidate: true });
+                        if (checked) {
+                          form.clearErrors('privacyAccepted');
+                        }
+                      }}
+                    />
+                    <div className="space-y-1">
+                      <label
+                        htmlFor="privacyAccepted"
+                        className="text-sm font-medium cursor-pointer"
+                      >
+                        Ich akzeptiere die Datenschutzerklärung *
+                      </label>
+                      {form.formState.errors.privacyAccepted && (
+                        <p className="text-xs text-red-500">
+                          {form.formState.errors.privacyAccepted.message || "Erforderlich"}
+                        </p>
                       )}
-                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex justify-between pt-2">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setShowInCardForm(false)}
+                  className="flex items-center"
+                  disabled={formSubmitting}
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Zurück
+                </Button>
+                <Button 
+                  type="submit" 
+                  className="bg-swiss-red hover:bg-swiss-red/90"
+                  disabled={formSubmitting}
+                >
+                  {formSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Wird gesendet...
+                    </>
+                  ) : (
+                    <>
+                      Anfrage senden
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </div>
+              
+              <div className="text-center text-xs text-gray-500 mt-2">
+                Alle mit * markierten Felder sind Pflichtfelder
+              </div>
+            </motion.form>
+          )}
+          
                       {formSubmitted && (
                         <motion.div 
                           key="success-message"

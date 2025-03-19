@@ -48,10 +48,9 @@ export const AnalysisContactForm = ({
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Use the correct Formspree endpoint
   const [formspreeState, handleFormspreeSubmit] = useFormspree("xldgyydd");
   
-  // Initialize react-hook-form
+  // Initialize react-hook-form with explicit validation mode
   const form = useForm<FormData>({
     defaultValues: {
       companyName: companyName || "",
@@ -63,7 +62,8 @@ export const AnalysisContactForm = ({
       preferredTime: "vormittag",
       newsletter: false,
       privacyAccepted: false,
-    }
+    },
+    mode: "onChange" // Update validation on change
   });
 
   const nextStep = () => {
@@ -89,6 +89,7 @@ export const AnalysisContactForm = ({
 
   const onSubmit = async (formData: FormData) => {
     if (step === 2) {
+      // Validate required fields
       if (!formData.email) {
         toast({
           title: "Bitte geben Sie Ihre E-Mail-Adresse ein",
@@ -98,11 +99,16 @@ export const AnalysisContactForm = ({
         return;
       }
       
+      // Explicitly check privacy checkbox
       if (!formData.privacyAccepted) {
         toast({
           title: "Bitte akzeptieren Sie die Datenschutzerklärung",
           description: "Sie müssen die Datenschutzerklärung akzeptieren, um fortzufahren",
           variant: "destructive",
+        });
+        form.setError('privacyAccepted', {
+          type: 'manual',
+          message: 'Erforderlich'
         });
         return;
       }
@@ -119,9 +125,9 @@ export const AnalysisContactForm = ({
           "Bevorzugte Kontaktzeit": formData.preferredTime,
           "Newsletter": formData.newsletter ? "Ja" : "Nein",
           "Website-Analyse": "Ja",
+          "Datenschutz akzeptiert": "Ja",
         });
         
-        // Submit form data to Formspree
         await handleFormspreeSubmit({
           "Firmenname": formData.companyName,
           "Ansprechpartner": formData.contactPerson,
@@ -132,6 +138,7 @@ export const AnalysisContactForm = ({
           "Bevorzugte Kontaktzeit": formData.preferredTime,
           "Newsletter": formData.newsletter ? "Ja" : "Nein",
           "Website-Analyse": "Ja",
+          "Datenschutz akzeptiert": "Ja",
         });
         
         if (formspreeState.errors) {
@@ -162,15 +169,15 @@ export const AnalysisContactForm = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto mt-8">
-      <h2 className="text-2xl font-bold text-swiss-darkblue mb-8 text-center">
+    <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
+      <h2 className="text-2xl font-bold text-swiss-darkblue mb-6 text-center">
         {step === 3 
           ? "Vielen Dank für Ihre Anfrage!" 
           : "Beratungsgespräch vereinbaren"}
       </h2>
 
       {step < 3 && (
-        <div className="mb-8">
+        <div className="mb-6">
           <Progress value={step * 50} className="h-2" />
           <div className="flex justify-between mt-2 text-sm text-gray-500">
             <span className={step >= 1 ? "font-medium text-swiss-red" : ""}>
@@ -320,31 +327,32 @@ export const AnalysisContactForm = ({
                       <Textarea
                         {...field}
                         placeholder="Ihre Nachricht an uns (optional)"
-                        rows={4}
+                        rows={3}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
 
-              <div className="space-y-2 pt-2">
+              <div className="space-y-2 mt-2">
                 <FormField
                   control={form.control}
                   name="newsletter"
                   render={({ field }) => (
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="newsletter"
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                      <label
-                        htmlFor="newsletter"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Ich möchte den Newsletter erhalten (optional)
-                      </label>
-                    </div>
+                    <FormItem className="flex flex-row items-start space-x-2 space-y-0 py-1">
+                      <FormControl>
+                        <Checkbox
+                          id="newsletter"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel htmlFor="newsletter">
+                          Ich möchte den Newsletter erhalten (optional)
+                        </FormLabel>
+                      </div>
+                    </FormItem>
                   )}
                 />
 
@@ -352,20 +360,30 @@ export const AnalysisContactForm = ({
                   control={form.control}
                   name="privacyAccepted"
                   render={({ field }) => (
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="privacy"
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        required
-                      />
-                      <label
-                        htmlFor="privacy"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Ich akzeptiere die Datenschutzerklärung *
-                      </label>
-                    </div>
+                    <FormItem className="flex flex-row items-start space-x-2 space-y-0 py-1">
+                      <FormControl>
+                        <Checkbox
+                          id="privacy"
+                          checked={field.value}
+                          onCheckedChange={(checked) => {
+                            field.onChange(checked);
+                            if (checked) {
+                              form.clearErrors('privacyAccepted');
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel htmlFor="privacy" className="font-medium">
+                          Ich akzeptiere die Datenschutzerklärung *
+                        </FormLabel>
+                        {form.formState.errors.privacyAccepted && (
+                          <p className="text-xs font-medium text-destructive">
+                            {form.formState.errors.privacyAccepted.message}
+                          </p>
+                        )}
+                      </div>
+                    </FormItem>
                   )}
                 />
               </div>
@@ -440,7 +458,7 @@ export const AnalysisContactForm = ({
         </div>
       )}
 
-      <div className="text-center text-xs text-gray-500 mt-6">
+      <div className="text-center text-xs text-gray-500 mt-4">
         Alle mit * markierten Felder sind Pflichtfelder
       </div>
     </div>
