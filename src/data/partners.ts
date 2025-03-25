@@ -1,5 +1,20 @@
 
+
 export const nationalPartners = [
+  {
+    id: 'fasoon',
+    name: 'Fasoon',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1742885445/Logo_Fasoon_rgb-transparent_de_tzaymm.png',
+    website: 'https://fasoon.ch',
+    description: 'Gründungspartner für KMU'
+  },
+  {
+    id: 'wirtschaftszeit',
+    name: 'Wirtschaftszeit',
+    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1742885483/WhatsApp_Image_2025-03-25_at_14.02.45_b9kiqi.jpg',
+    website: 'https://www.wirtschaftszeit.ch/',
+    description: 'Publikationsorgan des SKV'
+  },
   {
     id: 'hhomepage',
     name: 'hhomepage.ch',
@@ -221,19 +236,6 @@ export const patronagePartners = [
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1741748925/chdu-logo_dyyden.avif',
     website: 'https://www.chdu.ch/',
     description: 'Dachverband für Unternehmensnachfolge'
-  },
-  {
-    id: 'fasoon',
-    name: 'Fasoon',
-    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1742885445/Logo_Fasoon_rgb-transparent_de_tzaymm.png',
-    website: 'https://fasoon.ch',
-    description: 'Gründungspartner für KMU'
-  },
-  {
-    id: 'wirtschaftszeit',
-    name: 'Wirtschaftszeit',
-    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1742885483/WhatsApp_Image_2025-03-25_at_14.02.45_b9kiqi.jpg',
-    website: 'https://www.wirtschaftszeit.ch/',
-    description: 'Publikationsorgan des SKV'
   }
 ];
+
