@@ -20,6 +20,23 @@ export const BlogRenderer = ({ content }: BlogRendererProps) => {
     contentBlocks = [{ type: 'paragraph', content }];
   }
 
+  // Helper function to process markdown-style formatting
+  const formatText = (text: string) => {
+    // Replace **bold** with <strong>bold</strong>
+    let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Replace *italic* with <em>italic</em>
+    formattedText = formattedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    // Replace URLs with links
+    formattedText = formattedText.replace(
+      /(https?:\/\/[^\s]+)/g, 
+      '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">$1</a>'
+    );
+    
+    return formattedText;
+  };
+
   const renderBlock = (block: RichTextContent, index: number) => {
     const { type, content, level, format, url, position } = block;
     
@@ -31,26 +48,55 @@ export const BlogRenderer = ({ content }: BlogRendererProps) => {
     if (format?.size === 'small') formatClasses.push('text-sm');
     if (format?.size === 'large') formatClasses.push('text-lg');
     
-    const formatClassName = formatClasses.join(' ');
+    const positionClass = position === 'center' ? 'text-center' : 
+                         position === 'right' ? 'text-right' : 'text-left';
+    
+    const formatClassName = `${formatClasses.join(' ')} ${positionClass}`;
     
     if (type === 'paragraph') {
       return (
-        <p key={index} className={`my-4 ${formatClassName}`}>
-          {content}
-        </p>
+        <p 
+          key={index} 
+          className={`my-4 ${formatClassName}`}
+          dangerouslySetInnerHTML={{ __html: formatText(content || '') }}
+        />
       );
     }
     
     if (type === 'heading') {
       switch (level) {
         case 1:
-          return <h2 key={index} className={`text-2xl font-bold mt-8 mb-4 ${formatClassName}`}>{content}</h2>;
+          return (
+            <h2 
+              key={index} 
+              className={`text-2xl font-bold mt-8 mb-4 ${formatClassName}`}
+              dangerouslySetInnerHTML={{ __html: formatText(content || '') }}
+            />
+          );
         case 2:
-          return <h3 key={index} className={`text-xl font-bold mt-6 mb-3 ${formatClassName}`}>{content}</h3>;
+          return (
+            <h3 
+              key={index} 
+              className={`text-xl font-bold mt-6 mb-3 ${formatClassName}`}
+              dangerouslySetInnerHTML={{ __html: formatText(content || '') }}
+            />
+          );
         case 3:
-          return <h4 key={index} className={`text-lg font-bold mt-4 mb-2 ${formatClassName}`}>{content}</h4>;
+          return (
+            <h4 
+              key={index} 
+              className={`text-lg font-bold mt-4 mb-2 ${formatClassName}`}
+              dangerouslySetInnerHTML={{ __html: formatText(content || '') }}
+            />
+          );
         default:
-          return <h3 key={index} className={`text-xl font-bold mt-6 mb-3 ${formatClassName}`}>{content}</h3>;
+          return (
+            <h3 
+              key={index} 
+              className={`text-xl font-bold mt-6 mb-3 ${formatClassName}`}
+              dangerouslySetInnerHTML={{ __html: formatText(content || '') }}
+            />
+          );
       }
     }
     
@@ -60,14 +106,14 @@ export const BlogRenderer = ({ content }: BlogRendererProps) => {
       if (position === 'right') positionClass = 'mr-0 ml-auto';
       
       return (
-        <figure key={index} className="my-6">
+        <figure key={index} className={`my-6 ${position === 'center' ? 'text-center' : position === 'right' ? 'text-right' : ''}`}>
           <img 
             src={url} 
             alt={content || 'Blog image'} 
             className={`max-w-full ${positionClass} rounded-md shadow-md`} 
           />
           {content && (
-            <figcaption className="text-center text-gray-500 mt-2 text-sm">
+            <figcaption className={`mt-2 text-sm text-gray-500 ${positionClass === 'mx-auto' ? 'text-center' : ''}`}>
               {content}
             </figcaption>
           )}
@@ -80,14 +126,18 @@ export const BlogRenderer = ({ content }: BlogRendererProps) => {
       return (
         <ul key={index} className={`list-disc pl-6 my-4 ${formatClassName}`}>
           {items.map((item, i) => (
-            <li key={i} className="my-1">{item}</li>
+            <li 
+              key={i} 
+              className="my-1"
+              dangerouslySetInnerHTML={{ __html: formatText(item) }}
+            />
           ))}
         </ul>
       );
     }
     
     // Fallback
-    return <div key={index}>{content}</div>;
+    return <div key={index} dangerouslySetInnerHTML={{ __html: formatText(content || '') }} />;
   };
 
   return (

@@ -3,7 +3,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Bold, Italic, List, Heading, Image } from "lucide-react";
+import { Bold, Italic, List, Heading, Image, Link, Type, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
 
 interface RichTextEditorProps {
   initialContent: string;
@@ -15,6 +15,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
   const [editorMode, setEditorMode] = useState<'visual' | 'code'>('visual');
   const [parsedContent, setParsedContent] = useState<any[]>([]);
   const initializedRef = useRef(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Initialize the editor content only once
   React.useEffect(() => {
@@ -126,6 +127,70 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
     setEditorMode(prevMode => prevMode === 'visual' ? 'code' : 'visual');
   }, [editorMode, content]);
 
+  // Apply formatting to the selected text within a block
+  const applyInlineFormatting = useCallback((index: number, formatType: 'bold' | 'italic') => {
+    if (!textareaRef.current) return;
+    
+    const textarea = textareaRef.current;
+    const { selectionStart, selectionEnd } = textarea;
+    
+    if (selectionStart === selectionEnd) return; // No text selected
+    
+    const currentText = parsedContent[index].content || '';
+    const selectedText = currentText.substring(selectionStart, selectionEnd);
+    
+    // Simple markdown-style formatting
+    let formattedText = currentText;
+    if (formatType === 'bold') {
+      formattedText = 
+        currentText.substring(0, selectionStart) + 
+        `**${selectedText}**` + 
+        currentText.substring(selectionEnd);
+    } else if (formatType === 'italic') {
+      formattedText = 
+        currentText.substring(0, selectionStart) + 
+        `*${selectedText}*` + 
+        currentText.substring(selectionEnd);
+    }
+    
+    updateBlockContent(index, formattedText);
+  }, [parsedContent, updateBlockContent]);
+
+  // Update block text alignment
+  const updateBlockAlignment = useCallback((index: number, alignment: 'left' | 'center' | 'right') => {
+    setParsedContent(prevContent => {
+      const updatedContent = [...prevContent];
+      updatedContent[index] = { 
+        ...updatedContent[index], 
+        position: alignment 
+      };
+      
+      // Update serialized content
+      const serialized = JSON.stringify(updatedContent);
+      setContent(serialized);
+      onChange(serialized);
+      
+      return updatedContent;
+    });
+  }, [onChange]);
+
+  // Delete a block
+  const deleteBlock = useCallback((index: number) => {
+    if (parsedContent.length <= 1) return; // Don't delete the last block
+    
+    setParsedContent(prevContent => {
+      const updatedContent = [...prevContent];
+      updatedContent.splice(index, 1);
+      
+      // Update serialized content
+      const serialized = JSON.stringify(updatedContent);
+      setContent(serialized);
+      onChange(serialized);
+      
+      return updatedContent;
+    });
+  }, [parsedContent.length, onChange]);
+
   return (
     <div className="border rounded-md p-4">
       <div className="flex gap-2 mb-4">
@@ -145,14 +210,16 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
               variant="outline" 
               size="icon" 
               onClick={() => addNewBlock('paragraph')}
+              title="Paragraph hinzufügen"
             >
-              <Bold className="h-4 w-4" />
+              <Type className="h-4 w-4" />
             </Button>
             <Button 
               type="button" 
               variant="outline" 
               size="icon"
               onClick={() => addNewBlock('heading')}
+              title="Überschrift hinzufügen"
             >
               <Heading className="h-4 w-4" />
             </Button>
@@ -161,6 +228,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
               variant="outline" 
               size="icon"
               onClick={() => addNewBlock('list')}
+              title="Liste hinzufügen"
             >
               <List className="h-4 w-4" />
             </Button>
@@ -169,6 +237,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
               variant="outline" 
               size="icon"
               onClick={() => addNewBlock('image')}
+              title="Bild hinzufügen"
             >
               <Image className="h-4 w-4" />
             </Button>
@@ -179,13 +248,87 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
       {editorMode === 'visual' ? (
         <div className="space-y-4">
           {parsedContent.map((block, index) => (
-            <div key={index} className="mb-4">
+            <div key={index} className="mb-4 relative group">
+              <div className="absolute -left-10 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-1">
+                {block.type === 'paragraph' && (
+                  <>
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-6 w-6"
+                      onClick={() => applyInlineFormatting(index, 'bold')}
+                      title="Fett"
+                    >
+                      <Bold className="h-3 w-3" />
+                    </Button>
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-6 w-6"
+                      onClick={() => applyInlineFormatting(index, 'italic')}
+                      title="Kursiv"
+                    >
+                      <Italic className="h-3 w-3" />
+                    </Button>
+                  </>
+                )}
+              </div>
+              
+              <div className="absolute -right-24 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => updateBlockAlignment(index, 'left')}
+                  title="Linksbündig"
+                >
+                  <AlignLeft className="h-3 w-3" />
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => updateBlockAlignment(index, 'center')}
+                  title="Zentriert"
+                >
+                  <AlignCenter className="h-3 w-3" />
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => updateBlockAlignment(index, 'right')}
+                  title="Rechtsbündig"
+                >
+                  <AlignRight className="h-3 w-3" />
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6 text-red-500"
+                  onClick={() => deleteBlock(index)}
+                  title="Löschen"
+                >
+                  ×
+                </Button>
+              </div>
+              
               {block.type === 'paragraph' && (
                 <Textarea
+                  ref={textareaRef}
                   value={block.content || ''}
                   onChange={(e) => updateBlockContent(index, e.target.value)}
                   placeholder="Paragraph text..."
-                  className="w-full"
+                  className={`w-full ${
+                    block.position === 'center' ? 'text-center' : 
+                    block.position === 'right' ? 'text-right' : 'text-left'
+                  }`}
                 />
               )}
               {block.type === 'heading' && (
@@ -194,7 +337,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
                   value={block.content || ''}
                   onChange={(e) => updateBlockContent(index, e.target.value)}
                   placeholder="Heading text..."
-                  className="w-full text-xl font-bold border p-2 rounded"
+                  className={`w-full text-xl font-bold border p-2 rounded ${
+                    block.position === 'center' ? 'text-center' : 
+                    block.position === 'right' ? 'text-right' : 'text-left'
+                  }`}
                 />
               )}
               {block.type === 'image' && (
@@ -211,7 +357,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
                       <img 
                         src={block.url} 
                         alt={block.content || "Content image"} 
-                        className="max-w-full h-auto border rounded"
+                        className={`max-w-full h-auto border rounded mx-auto ${
+                          block.position === 'left' ? 'ml-0 mr-auto' : 
+                          block.position === 'right' ? 'mr-0 ml-auto' : ''
+                        }`}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "https://placehold.co/600x400?text=Bild+nicht+verfügbar";
@@ -224,7 +373,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
                     value={block.content || ''}
                     onChange={(e) => updateBlockContent(index, e.target.value)}
                     placeholder="Image caption..."
-                    className="w-full"
+                    className={`w-full ${
+                      block.position === 'center' ? 'text-center' : 
+                      block.position === 'right' ? 'text-right' : 'text-left'
+                    }`}
                   />
                 </div>
               )}
@@ -233,7 +385,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ initialContent, 
                   value={block.content || ''}
                   onChange={(e) => updateBlockContent(index, e.target.value)}
                   placeholder="List items (one per line)..."
-                  className="w-full"
+                  className={`w-full ${
+                    block.position === 'center' ? 'text-center' : 
+                    block.position === 'right' ? 'text-right' : 'text-left'
+                  }`}
                 />
               )}
             </div>

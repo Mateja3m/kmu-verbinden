@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Share2, Linkedin, ArrowLeft, Calendar } from "lucide-react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { NewsPost } from "@/types/database/news";
 import { BlogRenderer } from "@/components/blog/BlogRenderer";
@@ -91,11 +89,9 @@ export default function NewsDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Navigation />
         <main className="flex-grow container mx-auto px-4 py-24 flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-swiss-red"></div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -103,7 +99,6 @@ export default function NewsDetail() {
   if (!post) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Navigation />
         <main className="flex-grow container mx-auto px-4 py-24">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-3xl font-bold mb-4">Medienmitteilung nicht gefunden</h1>
@@ -113,15 +108,12 @@ export default function NewsDetail() {
             </Button>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
-      
       <main className="flex-grow container mx-auto px-4 py-24">
         <article className="max-w-4xl mx-auto">
           <Button
@@ -218,8 +210,6 @@ export default function NewsDetail() {
           </div>
         </article>
       </main>
-      
-      <Footer />
     </div>
   );
 };

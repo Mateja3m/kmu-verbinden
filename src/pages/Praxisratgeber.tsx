@@ -1,13 +1,10 @@
+
 import { Button } from "@/components/ui/button";
 import { Phone, Calendar, BookOpen, Globe, Award, Target } from "lucide-react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 const Praxisratgeber = () => {
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
-      
       {/* Hero Section with Background Image */}
       <section className="relative pt-48 pb-32 text-white">
         {/* Background Image with Overlay */}
@@ -130,8 +127,6 @@ const Praxisratgeber = () => {
           </p>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

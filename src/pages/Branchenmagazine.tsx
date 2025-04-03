@@ -1,6 +1,6 @@
+
 import { Mail, Phone, Grid, Book, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Footer from "@/components/Footer";
 
 const Branchenmagazine = () => {
   const magazines = [
@@ -175,9 +175,6 @@ const Branchenmagazine = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };
