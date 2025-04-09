@@ -1,6 +1,6 @@
+import { Partner } from '@/types/database/partners';
 
-
-export const nationalPartners = [
+export const nationalPartners: Partner[] = [
   {
     id: 'fasoon',
     name: 'Fasoon',
@@ -87,7 +87,7 @@ export const nationalPartners = [
   }
 ];
 
-export const regionalPartners = [
+export const regionalPartners: Partner[] = [
   {
     id: 'keller-immobilien',
     name: 'Keller Immobilien & Treuhand',
@@ -124,28 +124,6 @@ export const regionalPartners = [
     description: 'Full-Service-Digitalagentur für KMU'
   },
   {
-    id: 'opinstar',
-    name: 'Opinstar',
-    logo: 'https://opinstar.b-cdn.net/wp-content/uploads/2024/11/logo-optimized.png',
-    website: 'https://opinstar.com',
-    description: 'Professionelles Feedback-Management'
-  },
-  {
-    id: 'spreadz',
-    name: 'Spreadz',
-    logo: 'https://static.wixstatic.com/media/a1d18d_ac14207af4614718995f75ef4601b47d~mv2.png',
-    website: 'https://www.spreadz.net',
-    description: 'Digitales Marketing und Kampagnen'
-  },
-  {
-    id: 'unterwaldner',
-    name: 'Unterwaldner',
-    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740987778/Screenshot_2025-03-03_at_15.42.19_r43wqs.png',
-    website: 'https://unterwaldner.com',
-    description: 'Versicherungsberatung und -optimierung',
-    requiresRedBackground: true
-  },
-  {
     id: 'gerust-schweiz',
     name: 'Gerüst Schweiz',
     logo: 'https://geruestschweiz.ch/wp-content/uploads/2022/05/Logo-Gerust-Schweiz.png',
@@ -158,28 +136,6 @@ export const regionalPartners = [
     logo: 'https://umzugschweiz24.ch/wp/wp-content/uploads/2017/12/logo-1.png',
     website: 'https://umzugschweiz24.ch',
     description: 'Professionelle Umzugsdienstleistungen'
-  },
-  {
-    id: 'versicherigsheini',
-    name: 'Versicherigsheini',
-    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740987778/Screenshot_2025-03-03_at_15.42.37_pw7xkb.png',
-    website: 'https://versicherigsheini.com',
-    description: 'Versicherungsberatung und Tarife',
-    requiresRedBackground: true
-  },
-  {
-    id: 'expat-savvy',
-    name: 'Expat Savvy',
-    logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1740080077/expat_savvy_logo-1_qbkfl2.png',
-    website: 'https://expat-savvy.ch',
-    description: 'Versicherungen für internationale Kunden'
-  },
-  {
-    id: 'primai',
-    name: 'PrimAI',
-    logo: 'https://cdn.prod.website-files.com/670399972bf5fa97ae3c3673/670d2f8db17cbef11aecb233_Untitled%20design%20(26)-p-500.png',
-    website: 'https://primai.ch',
-    description: 'KI-basierter Premiumrechner'
   },
   {
     id: 'werbwerk',
@@ -197,7 +153,7 @@ export const regionalPartners = [
   }
 ];
 
-export const cooperationPartners = [
+export const cooperationPartners: Partner[] = [
   {
     id: 'raiffeisen',
     name: 'Raiffeisen',
@@ -221,7 +177,7 @@ export const cooperationPartners = [
   }
 ];
 
-export const patronagePartners = [
+export const patronagePartners: Partner[] = [
   {
     id: 'energie-cluster',
     name: 'Energie-Cluster',
@@ -238,4 +194,3 @@ export const patronagePartners = [
     description: 'Dachverband für Unternehmensnachfolge'
   }
 ];
-
