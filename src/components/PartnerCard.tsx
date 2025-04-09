@@ -1,21 +1,13 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
-
-interface Partner {
-  id: string;
-  name: string;
-  logo: string;
-  website: string;
-  description: string;
-  customBackground?: string;
-  requiresRedBackground?: boolean;
-}
+import { FrontendPartner } from "@/types/database/partners";
 
 interface PartnerCardProps {
-  partner: Partner;
+  partner: FrontendPartner;
 }
 
 export const PartnerCard = ({ partner }: PartnerCardProps) => {

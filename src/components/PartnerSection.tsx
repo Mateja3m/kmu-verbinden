@@ -1,18 +1,11 @@
-import { PartnerCard } from "./PartnerCard";
 
-interface Partner {
-  id: string;
-  name: string;
-  logo: string;
-  website: string;
-  description: string;
-  customBackground?: string;
-}
+import { PartnerCard } from "./PartnerCard";
+import { FrontendPartner } from "@/types/database/partners";
 
 interface PartnerSectionProps {
   title: string;
   description: string;
-  partners: Partner[];
+  partners: FrontendPartner[];
 }
 
 export const PartnerSection = ({ title, description, partners }: PartnerSectionProps) => {

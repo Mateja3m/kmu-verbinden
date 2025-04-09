@@ -1,9 +1,11 @@
+
 import { useEffect, useState } from 'react';
 import { PartnerCard } from './PartnerCard';
 import { nationalPartners, regionalPartners, cooperationPartners } from '@/data/partners';
+import { FrontendPartner } from '@/types/database/partners';
 
 const RandomPartnerShowcase = () => {
-  const [randomPartners, setRandomPartners] = useState<any[]>([]);
+  const [randomPartners, setRandomPartners] = useState<FrontendPartner[]>([]);
 
   const getAllPartners = () => {
     return [...nationalPartners, ...regionalPartners, ...cooperationPartners];

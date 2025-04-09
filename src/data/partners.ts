@@ -1,6 +1,7 @@
-import { Partner } from '@/types/database/partners';
 
-export const nationalPartners: Partner[] = [
+import { FrontendPartner } from '@/types/database/partners';
+
+export const nationalPartners: FrontendPartner[] = [
   {
     id: 'fasoon',
     name: 'Fasoon',
@@ -87,7 +88,7 @@ export const nationalPartners: Partner[] = [
   }
 ];
 
-export const regionalPartners: Partner[] = [
+export const regionalPartners: FrontendPartner[] = [
   {
     id: 'keller-immobilien',
     name: 'Keller Immobilien & Treuhand',
@@ -153,7 +154,7 @@ export const regionalPartners: Partner[] = [
   }
 ];
 
-export const cooperationPartners: Partner[] = [
+export const cooperationPartners: FrontendPartner[] = [
   {
     id: 'raiffeisen',
     name: 'Raiffeisen',
@@ -177,7 +178,7 @@ export const cooperationPartners: Partner[] = [
   }
 ];
 
-export const patronagePartners: Partner[] = [
+export const patronagePartners: FrontendPartner[] = [
   {
     id: 'energie-cluster',
     name: 'Energie-Cluster',

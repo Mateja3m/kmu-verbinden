@@ -2,6 +2,7 @@
 import { Star, Award, Users } from 'lucide-react';
 import { nationalPartners, regionalPartners } from "@/data/partners";
 import { IndustryLinks } from './IndustryLinks';
+import { FrontendPartner } from '@/types/database/partners';
 
 interface TrustSectionProps {
   satisfactionRate: number;
@@ -9,7 +10,7 @@ interface TrustSectionProps {
 
 export const TrustSection = ({ satisfactionRate }: TrustSectionProps) => {
   // Updated to include 6 partners in total
-  const selectedPartners = [
+  const selectedPartners: FrontendPartner[] = [
     ...nationalPartners.filter(partner => 
       ['hhomepage', 'artemia', 'kensignton', 'rankist', 'youstream'].includes(partner.id)
     ),

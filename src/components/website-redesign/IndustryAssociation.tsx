@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { nationalPartners } from '@/data/partners';
+import { FrontendPartner } from '@/types/database/partners';
 
 interface IndustryAssociationProps {
   industry: string;
@@ -17,7 +18,7 @@ interface IndustryAssociationProps {
 
 export const IndustryAssociation = ({ industry }: IndustryAssociationProps) => {
   // Select a subset of partners to display
-  const selectedPartners = nationalPartners.slice(0, 6);
+  const selectedPartners: FrontendPartner[] = nationalPartners.slice(0, 6);
   
   // Content customization based on industry
   let headline = "Wieso schreibt mich der KMU Verein an wegen einer Homepage?";
