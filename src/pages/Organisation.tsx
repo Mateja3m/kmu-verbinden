@@ -1,4 +1,3 @@
-
 import { Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -25,11 +24,6 @@ const Organisation = () => {
         email: "fabian.reinarz@kmu-verein.ch"
       },
       {
-        name: "Benjamin Wagner",
-        role: "Leiter KMU-Versicherungen und AI",
-        email: "benjamin.wagner@kmu-verein.ch"
-      },
-      {
         name: "David Schwander-Vogt",
         role: "Leiter Marketing, Mitglieder und Partnerschaften",
         email: "david.schwander@kmu-verein.ch"
@@ -40,11 +34,6 @@ const Organisation = () => {
   const advisoryBoard = {
     title: "Beirat",
     members: [
-      {
-        name: "Benjamin Wagner",
-        role: "Mitglied des Beirats",
-        email: "benjamin.wagner@kmu-verein.ch"
-      },
       {
         name: "Dominik Graf",
         role: "Mitglied des Beirats",
@@ -72,11 +61,6 @@ const Organisation = () => {
         email: "sofia.koval@kmu-verein.ch"
       },
       {
-        name: "Maksim Wagner",
-        role: "Praktikant Redaktion",
-        email: "maksim.wagner@kmu-verein.ch"
-      },
-      {
         name: "Rauschan Kumar",
         role: "IT",
         email: "rauschan.kumar@kmu-verein.ch"
@@ -92,11 +76,6 @@ const Organisation = () => {
   const extendedTeam = {
     title: "Erweitertes Team",
     members: [
-      {
-        name: "Karina Ilina",
-        role: "Social Media Marketing",
-        email: "karina.ilina@kmu-verein.ch"
-      },
       {
         name: "Alexander Lares",
         role: "Freischaffender Redaktionsmitarbeiter",
