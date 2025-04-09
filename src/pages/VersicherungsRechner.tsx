@@ -95,11 +95,22 @@ const VersicherungsRechner = () => {
               </Button>
             </DialogTrigger>
             <DialogContent className="w-[85vw] h-[85vh] max-w-none">
-              <iframe 
-                className="chatBot w-full h-full"
-                src="https://avaia.io/chat/authorize-chat/84bf5794-983e-4d57-8377-1ad6aaddd4d2/"
-                title="KMU Versicherungsrechner"
-              />
+              <div className="w-full h-full bg-white p-6 flex flex-col items-center justify-center">
+                <h3 className="text-2xl font-bold text-swiss-darkblue mb-4">
+                  KMU Versicherungsrechner
+                </h3>
+                <p className="text-center mb-6">
+                  Unser KI-gestützter Versicherungsrechner ist derzeit in Wartung.
+                  <br />
+                  Bitte kontaktieren Sie uns direkt für eine persönliche Beratung.
+                </p>
+                <Button 
+                  className="bg-swiss-red hover:bg-red-700 text-white"
+                  onClick={() => window.location.href = '/kontakt'}
+                >
+                  Kontakt aufnehmen
+                </Button>
+              </div>
             </DialogContent>
           </Dialog>
         </div>
