@@ -193,5 +193,12 @@ export const patronagePartners: FrontendPartner[] = [
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1741748925/chdu-logo_dyyden.avif',
     website: 'https://www.chdu.ch/',
     description: 'Dachverband für Unternehmensnachfolge'
+  },
+  {
+    id: 'KMUFachforum',
+    name: 'KMU Fachforum 2025',
+    logo: 'https://kmu-fachforum.ch/wp-content/uploads/2024/04/one-fachforum-Konferenz-IT-Business-Software-topsoft-digitalrat.png',
+    website: 'https://kmu-fachforum.ch/',
+    description: 'Das praxisnahe Fachforum'
   }
 ];
