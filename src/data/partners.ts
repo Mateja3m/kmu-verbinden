@@ -155,7 +155,7 @@ export const regionalPartners: FrontendPartner[] = [
   {
     id: 'wechselstube',
     name: 'Wechselstube',
-    logo: 'https://kmu-verein.ch/lovable-uploads/wechselstube.jpg',
+    logo: 'https://kmu-verein.ch/lovable-uploads/partners/wechselstube.jpg',
     website: 'http://www.wechselstube.ch',
     description: 'Online-Geldwechsel für KMUs'
   }
