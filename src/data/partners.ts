@@ -151,6 +151,13 @@ export const regionalPartners: FrontendPartner[] = [
     logo: 'https://res.cloudinary.com/dphbnwjtx/image/upload/v1741748980/logo_chaeserstatt_frehxo.svg',
     website: 'https://www.chaeserstatt.ch/en/425.html',
     description: 'Das Seminarhotel im Wallis'
+  },
+  {
+    id: 'wechselstube',
+    name: 'Wechselstube',
+    logo: 'https://kmu-verein.ch/lovable-uploads/wechselstube.jpg',
+    website: 'http://www.wechselstube.ch',
+    description: 'Online-Geldwechsel für KMUs'
   }
 ];
 
