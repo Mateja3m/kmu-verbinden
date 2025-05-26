@@ -163,7 +163,7 @@ export const regionalPartners: FrontendPartner[] = [
     id: 'mltechsolutions',
     name: 'Loosli TechSolutions',
     logo: 'https://kmu-verein.ch/lovable-uploads/mltechsolutions.ch.jpg',
-    website: 'hhttps://www.mltechsolutions.ch/',
+    website: 'https://www.mltechsolutions.ch/',
     description: 'Digitale OT Transformation'
   }
 ];
