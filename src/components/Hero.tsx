@@ -67,7 +67,7 @@ const Hero = () => {
               Nutzen Sie exklusive Vorteile, vernetzen Sie sich mit Branchenführern und treiben Sie Ihr Unternehmen voran.
             </p>
             <div className="pt-4">
-              <Button 
+              <Button onClick={() => window.location.href = '/membership'}
                 className="w-full sm:w-auto shine-effect text-lg px-6 sm:px-8 py-4 sm:py-6 bg-swiss-red hover:bg-swiss-red/90 text-white border-none shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105"
               >
                 Mitglied werden

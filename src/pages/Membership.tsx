@@ -25,12 +25,12 @@ const Membership = () => {
         behavior: 'smooth',
         block: 'start'
       });
-    }, 100);
+    }, 300);
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <MembershipHero onGetStartedClick={scrollToBenefits} />
+      <MembershipHero handleGetStarted={handleGetStarted} />
       
       {/* Pricing Section */}
       <div className="bg-white py-16">

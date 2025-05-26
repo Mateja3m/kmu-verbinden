@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 
 interface MembershipHeroProps {
-  onGetStartedClick: () => void;
+  handleGetStarted: () => void;
 }
 
-const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
+const MembershipHero = ({ handleGetStarted }: MembershipHeroProps) => {
   return (
     <div className="relative h-[600px] overflow-hidden">
       {/* Background Image with dark overlay */}
@@ -31,7 +31,7 @@ const MembershipHero = ({ onGetStartedClick }: MembershipHeroProps) => {
           <div className="flex justify-center gap-4">
             <Button 
               className="bg-white text-swiss-darkblue hover:bg-white/90 text-lg px-8 py-6"
-              onClick={onGetStartedClick}
+              onClick={handleGetStarted}
             >
               Jetzt Mitglied werden
             </Button>

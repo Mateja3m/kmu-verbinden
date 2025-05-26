@@ -141,7 +141,8 @@ const UnsereAuftrag = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/membership">
-              <Button className="bg-swiss-red hover:bg-swiss-red/90">
+              <Button className="bg-swiss-red hover:bg-swiss-red/90"
+              onClick={() => window.location.href = '/membership'}>
                 Mitglied werden
               </Button>
             </Link>

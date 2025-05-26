@@ -158,6 +158,13 @@ export const regionalPartners: FrontendPartner[] = [
     logo: 'https://kmu-verein.ch/lovable-uploads/partners/wechselstube.jpg',
     website: 'http://www.wechselstube.ch',
     description: 'Online-Geldwechsel für KMUs'
+  },
+  {
+    id: 'mltechsolutions',
+    name: 'Loosli TechSolutions',
+    logo: 'https://kmu-verein.ch/lovable-uploads/partners/mltechsolutions.ch.jpg',
+    website: 'hhttps://www.mltechsolutions.ch/',
+    description: 'Digitale OT Transformation'
   }
 ];
 
