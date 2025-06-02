@@ -36,6 +36,12 @@ const menuItems = [
     items: [
       { name: 'MITGLIEDSCHAFT', href: '/membership' },
     ]
+  },
+  {
+    category: 'Solidarität mit Blatten (VS)',
+    items: [
+      { name: 'Solidarität mit Blatten (VS)', href: '/solidaritaet-blatten' },
+    ]
   }
 ];
 

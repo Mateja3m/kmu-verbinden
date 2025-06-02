@@ -38,6 +38,7 @@ import Organisation from './pages/Organisation';
 import Praxisratgeber from './pages/Praxisratgeber';
 import Branchenmagazine from './pages/Branchenmagazine';
 import WebsiteRedesign from './pages/WebsiteRedesign';
+import SolidaritaetBlatten from './pages/SolidaritaetBlatten';
 import Index from './pages/Index';
 import IndustryLanding from './pages/IndustryLanding';
 
@@ -157,6 +158,7 @@ const App = () => {
             <Route path="/organisation" element={<Organisation />} />
             <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />
             <Route path="/news/branchenmagazine" element={<Branchenmagazine />} />
+            <Route path="/solidaritaet-blatten" element={<SolidaritaetBlatten />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>
