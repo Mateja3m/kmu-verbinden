@@ -129,7 +129,7 @@ const App = () => {
             <Route path="/website-redesign" element={<WebsiteRedesign />} />
             <Route path="/website-redesign/branche/:industry" element={<IndustryLanding />} />
             <Route path="/presidency" element={<Presidency />} />
-            <Route path="/membership" element={<Membership />} />
+            <Route path="/membership/*" element={<Membership />} />
             <Route path="/partners" element={<Partners />} />
             <Route path="/experts" element={<Experts />} />
             <Route path="/experts/:id" element={<ExpertDetail />} />

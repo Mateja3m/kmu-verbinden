@@ -1,5 +1,5 @@
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MembershipHero from "@/components/membership/MembershipHero";
 import EnhancedBenefitsGrid from "@/components/membership/EnhancedBenefitsGrid";
 import Testimonials from "@/components/membership/Testimonials";
@@ -17,7 +17,7 @@ const Membership = () => {
   const scrollToBenefits = () => {
     benefitsRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
+  
   const handleGetStarted = () => {
     setShowRegistration(true);
     setTimeout(() => {
@@ -27,7 +27,14 @@ const Membership = () => {
       });
     }, 300);
   };
-
+  useEffect(() => {
+    if(window.location.pathname.includes('/membership/form')) {
+      goToMembership();
+    }
+  }, []);
+  const goToMembership = () => {
+      handleGetStarted();
+  };
   return (
     <div className="min-h-screen flex flex-col">
       <MembershipHero handleGetStarted={handleGetStarted} />

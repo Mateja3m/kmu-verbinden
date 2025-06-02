@@ -38,7 +38,7 @@ export default function SolidaritaetBlatten() {
                 <strong>CHF 110.–</strong> aus jedem neuen Jahresbeitrag (CHF
                 550.–) gehen direkt an die Gemeinde.
               </p>
-              <Link to="/mitglied-werden">
+              <Link to="/membership/form">
                 <a className="mt-auto inline-block px-6 py-3 bg-[#003366] text-white rounded hover:bg-[#002244] transition">
                   Jetzt Mitglied werden
                 </a>
