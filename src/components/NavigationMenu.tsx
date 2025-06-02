@@ -31,7 +31,7 @@ export function NavigationMenuDemo({ isLoggedIn, isAdmin, handleLogout }: Naviga
           </NavigationMenuItem>
           <NewsMenu />
           <NavigationMenuItem>
-            <Link to="/solidaritaet-blatten" target="_blank" className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent">
+            <Link to="/solidaritaet-blatten" className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent">
               Solidarität mit Blatten (VS)
             </Link>
           </NavigationMenuItem>
