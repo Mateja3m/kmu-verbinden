@@ -165,6 +165,13 @@ export const regionalPartners: FrontendPartner[] = [
     website: "https://www.mltechsolutions.ch/",
     description: "Digitale OT Transformation",
   },
+  {
+    id: "schweizerDigitalrat",
+    name: "Schweizer Digitalrat",
+    logo: "https://cdn-djckc.nitrocdn.com/IIYspxNcOvzWRERdnJHFOzfnoHJCTxVq/assets/images/optimized/rev-4d81362/www.digitalrat.ch/wp-content/uploads/2022/11/cropped-Digitalrat-Beirat.png",
+    website: "https://digitalrat.ch",
+    description: "Schweizer Digitalrat",
+  },
 ];
 
 export const cooperationPartners: FrontendPartner[] = [
@@ -188,7 +195,7 @@ export const cooperationPartners: FrontendPartner[] = [
     logo: "https://meinjurist.ch/wp-content/uploads/2021/03/meinJurist_logo_360p.png",
     website: "https://meinjurist.ch",
     description: "Juristische Dienstleistungen",
-  },
+  }
 ];
 
 export const patronagePartners: FrontendPartner[] = [
@@ -213,12 +220,5 @@ export const patronagePartners: FrontendPartner[] = [
     logo: "https://kmu-fachforum.ch/wp-content/uploads/2024/04/one-fachforum-Konferenz-IT-Business-Software-topsoft-digitalrat.png",
     website: "https://kmu-fachforum.ch/",
     description: "Das praxisnahe Fachforum",
-  },
-  {
-    id: "schweizerDigitalrat",
-    name: "Schweizer Digitalrat",
-    logo: "https://cdn-djckc.nitrocdn.com/IIYspxNcOvzWRERdnJHFOzfnoHJCTxVq/assets/images/optimized/rev-4d81362/www.digitalrat.ch/wp-content/uploads/2022/11/cropped-Digitalrat-Beirat.png",
-    website: "https://digitalrat.ch",
-    description: "Schweizer Digitalrat",
-  },
+  }
 ];
