@@ -32,7 +32,7 @@ export const nationalPartners: FrontendPartner[] = [
   {
     id: "kmu-digitalisierung",
     name: "KMU-Digitalisierung.agency",
-    logo: "https://cdn-bafdd.nitrocdn.com/LvDfdTjCuEDwNloTwsHTnhZhhGxGiZre/assets/images/optimized/rev-ecf42e5/kmu-digitalisierung.agency/wp-content/uploads/2021/01/KMU-Digitalisierung-Logo-Transparent-300x105.png",
+    logo: "https://cdn-bafdd.nitrocdn.com/LvDfdTjCuEDwNloTwsHTnhZhhGxGiZre/assets/images/optimized/rev-be75097/kmu-digitalisierung.agency/wp-content/uploads/2021/01/KMU-Digitalisierung-Logo-Transparent-300x105.png",
     website: "https://kmu-digitalisierung.agency",
     description: "Digitalisierungslösungen und Prozessautomatisierung",
   },
@@ -84,6 +84,13 @@ export const nationalPartners: FrontendPartner[] = [
     logo: "https://res.cloudinary.com/dphbnwjtx/image/upload/v1740986963/youstream-logo_drqquj.svg",
     website: "https://youstream.ch",
     description: "Professionelle Videoproduktion",
+  },
+  {
+    id: "urchdachteMedieninhalte",
+    name: "Durchdachte Medieninhalte",
+    logo: "/lovable-uploads/nf4-logo.jpeg",
+    website: "https://www.nf4.ch",
+    description: "Durchdachte Medieninhalte",
   },
 ];
 
