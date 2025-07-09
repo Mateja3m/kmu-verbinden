@@ -86,8 +86,8 @@ export const nationalPartners: FrontendPartner[] = [
     description: "Professionelle Videoproduktion",
   },
   {
-    id: "urchdachteMedieninhalte",
-    name: "Durchdachte Medieninhalte",
+    id: "unf4MediaHouse",
+    name: "NF4 Media House",
     logo: "/lovable-uploads/nf4-logo.jpeg",
     website: "https://www.nf4.ch",
     description: "Durchdachte Medieninhalte",
