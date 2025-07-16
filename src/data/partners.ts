@@ -1,5 +1,6 @@
 import { FrontendPartner } from "@/types/database/partners";
 
+// National partners
 export const nationalPartners: FrontendPartner[] = [
   {
     id: "fasoon",
@@ -94,6 +95,7 @@ export const nationalPartners: FrontendPartner[] = [
   },
 ];
 
+// Regional partners
 export const regionalPartners: FrontendPartner[] = [
   {
     id: "keller-immobilien",
@@ -179,8 +181,16 @@ export const regionalPartners: FrontendPartner[] = [
     website: "https://digitalrat.ch",
     description: "Schweizer Digitalrat",
   },
+  {
+    id: "semera",
+    name: "Semera GmbH",
+    logo: "/lovable-uploads/semera-logo.jpeg",
+    website: "https://semera.ch/",
+    description: "Ganzheitliche  Weblösungen, Grafikdesign und Printlösungen",
+  },
 ];
 
+// Cooperation Partners
 export const cooperationPartners: FrontendPartner[] = [
   {
     id: "raiffeisen",
@@ -205,6 +215,7 @@ export const cooperationPartners: FrontendPartner[] = [
   }
 ];
 
+// Patronage Partners
 export const patronagePartners: FrontendPartner[] = [
   {
     id: "energie-cluster",
