@@ -1,8 +1,24 @@
 import { Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
+// Define the types for team members 
+interface TeamMember {
+  name: string;
+  role: string;
+  email: string;
+  image?: string;
+  description?: string;
+  subRole?: string;
+}
+
+// Define the structure for each section of the organisation
+interface Section {
+  title: string;
+  members: TeamMember[];
+}
+
 const Organisation = () => {
-  const presidencySection = {
+  const presidencySection: Section = {
     title: "Präsidium",
     members: [
       {
@@ -15,7 +31,7 @@ const Organisation = () => {
     ]
   };
 
-  const managementSection = {
+  const managementSection: Section = {
     title: "Geschäftsführung",
     members: [
       {
@@ -31,28 +47,28 @@ const Organisation = () => {
     ]
   };
 
-  const advisoryBoard = {
+  const advisoryBoard: Section = {
     title: "Beirat",
     members: [
       {
         name: "Dominik Graf",
         role: "Mitglied des Beirats",
-        email: "dominik.graf@kmu-verein.ch"
+        email: "dominik.graf@kmu-verein.ch",
       },
       {
-        name: "Timo Seeger",
+        name: "Niko Seeger",
         role: "Mitglied des Beirats",
-        email: "timo.seeger@kmu-verein.ch"
+        email: "niko.seeger@kmu-seeger.ch",
       },
       {
         name: "Rafael Bettio",
         role: "Mitglied des Beirats",
-        email: "rafael.bettio@kmu-verein.ch"
-      }
-    ]
+        email: "rafael.bettio@kmu-verein.ch",
+      },
+    ],
   };
 
-  const officeTeam = {
+  const officeTeam: Section = {
     title: "Geschäftsstelle",
     members: [
       {
@@ -73,7 +89,7 @@ const Organisation = () => {
     ]
   };
 
-  const extendedTeam = {
+  const extendedTeam: Section = {
     title: "Erweitertes Team",
     members: [
       {
@@ -101,11 +117,11 @@ const Organisation = () => {
     ]
   };
 
-  const renderSection = (section: any) => (
+  const renderSection = (section: Section) => (
     <div className="mb-16">
       <h2 className="text-2xl font-bold text-swiss-darkblue mb-8">{section.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {section.members.map((member: any, index: number) => (
+        {section.members.map((member, index) => (
           <Card 
             key={index} 
             className={`p-6 hover:shadow-lg transition-shadow duration-300 ${
