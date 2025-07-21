@@ -58,7 +58,7 @@ const Organisation = () => {
       {
         name: "Niko Seeger",
         role: "Mitglied des Beirats",
-        email: "niko.seeger@kmu-seeger.ch",
+        email: "niko.seeger@kmu-verein.ch",
       },
       {
         name: "Rafael Bettio",
