@@ -93,6 +93,27 @@ export const nationalPartners: FrontendPartner[] = [
     website: "https://www.nf4.ch",
     description: "Durchdachte Medieninhalte",
   },
+  {
+    id: "coopRechtsschutz",
+    name: "Coop Rechtsschutz AG",
+    logo: "/lovable-uploads/coop-logo.jpeg",
+    website: "https://www.cooprecht.ch",
+    description: "Juristische Erstberatung für Mitglieder",
+  },
+  {
+    id: "kamuno",
+    name: "Kamuno AG",
+    logo: "/lovable-uploads/kamuno-logo.jpeg",
+    website: "https://www.kamuno.ch",
+    description: "Schnelle Finanzierung für KMU durch Innovation",
+  },
+  {
+    id: "sager",
+    name: "Sager AG",
+    logo: "/lovable-uploads/sager-logo.jpeg",
+    website: "https://www.sager.ch",
+    description: "Innovative Wärme- und Schalldämmung",
+  },
 ];
 
 // Regional partners
@@ -188,6 +209,13 @@ export const regionalPartners: FrontendPartner[] = [
     website: "https://semera.ch/",
     description: "Ganzheitliche  Weblösungen, Grafikdesign und Printlösungen",
   },
+  {
+    id: "fincerta",
+    name: "Fincerta AG",
+    logo: "/lovable-uploads/fincerta-logo.jpeg",
+    website: "https://fincerta.com/",
+    description: "Fremdkapital-Privatplatzierungen oder Bankfinanzierungen",
+  },
 ];
 
 // Cooperation Partners
@@ -212,6 +240,13 @@ export const cooperationPartners: FrontendPartner[] = [
     logo: "https://meinjurist.ch/wp-content/uploads/2021/03/meinJurist_logo_360p.png",
     website: "https://meinjurist.ch",
     description: "Juristische Dienstleistungen",
+  },
+  {
+    id: "coopRechtsschutz",
+    name: "Coop Rechtsschutz AG",
+    logo: "/lovable-uploads/coop-logo.jpeg",
+    website: "https://www.cooprecht.ch",
+    description: "Juristische Erstberatung für Mitglieder",
   }
 ];
 
@@ -238,5 +273,12 @@ export const patronagePartners: FrontendPartner[] = [
     logo: "https://kmu-fachforum.ch/wp-content/uploads/2024/04/one-fachforum-Konferenz-IT-Business-Software-topsoft-digitalrat.png",
     website: "https://kmu-fachforum.ch/",
     description: "Das praxisnahe Fachforum",
-  }
+  },
+  {
+    id: "digitalHealthCenterBülach",
+    name: "Digital health center bülach (dhc)",
+    logo: "/lovable-uploads/health-center-logo.jpeg",
+    website: "https://digital-health-center.ch/",
+    description: "Das Digital Health-Ökosystem der Schweiz",
+  },
 ];
