@@ -1,10 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ChevronRight } from 'lucide-react';
-import { useForm, ValidationError } from '@formspree/react';
+import { ChevronRight } from "lucide-react";
+import { useForm, ValidationError } from "@formspree/react";
 import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
@@ -36,14 +42,17 @@ export const ConsultationForm = ({
   formData,
   onFormChange,
   onPrevStep,
-  onSubmit
+  onSubmit,
 }: ConsultationFormProps) => {
-  const [formspreeState, handleFormspreeSubmit] = useForm("xldgyydd");
+  // const [formspreeState, handleFormspreeSubmit] = useForm("xldgyydd");
+  // Newly updated Formspree ID
+  const [formspreeState, handleFormspreeSubmit] = useForm("myzwpker");
+
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.step === 2) {
       // On final step, submit to Formspree
       const formspreeData = {
@@ -56,17 +65,18 @@ export const ConsultationForm = ({
         preferredTime: formData.preferredTime,
         newsletter: formData.newsletter,
         improvements: formData.improvements,
-        websiteUrl: formData.websiteUrl
+        websiteUrl: formData.websiteUrl,
       };
 
       try {
         await handleFormspreeSubmit(formspreeData);
-        
+
         if (formspreeState.errors) {
           toast({
             title: "Fehler beim Senden",
-            description: "Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut.",
-            variant: "destructive"
+            description:
+              "Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut.",
+            variant: "destructive",
           });
           return;
         }
@@ -80,7 +90,7 @@ export const ConsultationForm = ({
         toast({
           title: "Fehler beim Senden",
           description: "Bitte versuchen Sie es später erneut.",
-          variant: "destructive"
+          variant: "destructive",
         });
       }
     } else {
@@ -93,8 +103,16 @@ export const ConsultationForm = ({
       <div className="mb-12">
         <Progress value={formData.step * 50} className="h-3 bg-white/20" />
         <div className="flex justify-between mt-4 text-lg font-medium">
-          <span className={formData.step >= 1 ? "text-swiss-red" : "text-white/60"}>Unternehmen</span>
-          <span className={formData.step >= 2 ? "text-swiss-red" : "text-white/60"}>Kontakt</span>
+          <span
+            className={formData.step >= 1 ? "text-swiss-red" : "text-white/60"}
+          >
+            Unternehmen
+          </span>
+          <span
+            className={formData.step >= 2 ? "text-swiss-red" : "text-white/60"}
+          >
+            Kontakt
+          </span>
         </div>
       </div>
 
@@ -109,9 +127,15 @@ export const ConsultationForm = ({
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
-            <ValidationError prefix="Company Name" field="companyName" errors={formspreeState.errors} />
-            
-            <Select onValueChange={(value) => onFormChange({ industry: value })}>
+            <ValidationError
+              prefix="Company Name"
+              field="companyName"
+              errors={formspreeState.errors}
+            />
+
+            <Select
+              onValueChange={(value) => onFormChange({ industry: value })}
+            >
               <SelectTrigger className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg">
                 <SelectValue placeholder="Branche" />
               </SelectTrigger>
@@ -122,7 +146,11 @@ export const ConsultationForm = ({
                 <SelectItem value="other">Andere</SelectItem>
               </SelectContent>
             </Select>
-            <ValidationError prefix="Industry" field="industry" errors={formspreeState.errors} />
+            <ValidationError
+              prefix="Industry"
+              field="industry"
+              errors={formspreeState.errors}
+            />
 
             <Input
               placeholder="Anzahl Mitarbeiter (optional)"
@@ -144,7 +172,11 @@ export const ConsultationForm = ({
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
-            <ValidationError prefix="Contact Person" field="contactPerson" errors={formspreeState.errors} />
+            <ValidationError
+              prefix="Contact Person"
+              field="contactPerson"
+              errors={formspreeState.errors}
+            />
 
             <Input
               type="email"
@@ -155,7 +187,11 @@ export const ConsultationForm = ({
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
               required
             />
-            <ValidationError prefix="Email" field="email" errors={formspreeState.errors} />
+            <ValidationError
+              prefix="Email"
+              field="email"
+              errors={formspreeState.errors}
+            />
 
             <Input
               type="tel"
@@ -165,8 +201,10 @@ export const ConsultationForm = ({
               onChange={(e) => onFormChange({ phone: e.target.value })}
               className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg placeholder:text-gray-500"
             />
-            
-            <Select onValueChange={(value) => onFormChange({ preferredTime: value })}>
+
+            <Select
+              onValueChange={(value) => onFormChange({ preferredTime: value })}
+            >
               <SelectTrigger className="bg-white border-2 border-white/20 h-14 text-gray-900 text-lg">
                 <SelectValue placeholder="Bevorzugte Kontaktzeit" />
               </SelectTrigger>
@@ -183,15 +221,12 @@ export const ConsultationForm = ({
                   id="newsletter"
                   name="newsletter"
                   checked={formData.newsletter}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onFormChange({ newsletter: checked as boolean })
                   }
                   className="border-2 border-white/20 data-[state=checked]:bg-swiss-red"
                 />
-                <label
-                  htmlFor="newsletter"
-                  className="text-lg text-white/80"
-                >
+                <label htmlFor="newsletter" className="text-lg text-white/80">
                   Newsletter abonnieren (optional)
                 </label>
               </div>
@@ -201,15 +236,12 @@ export const ConsultationForm = ({
                   name="privacy"
                   required
                   checked={formData.privacyAccepted}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onFormChange({ privacyAccepted: checked as boolean })
                   }
                   className="border-2 border-white/20 data-[state=checked]:bg-swiss-red"
                 />
-                <label
-                  htmlFor="privacy"
-                  className="text-lg text-white/80"
-                >
+                <label htmlFor="privacy" className="text-lg text-white/80">
                   Ich akzeptiere die Datenschutzerklärung
                 </label>
               </div>
@@ -228,12 +260,16 @@ export const ConsultationForm = ({
               Zurück
             </Button>
           )}
-          <Button 
+          <Button
             type="submit"
             disabled={formspreeState.submitting}
-            className={`h-14 px-8 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect text-lg ${formData.step === 1 ? 'ml-auto' : ''}`}
+            className={`h-14 px-8 bg-swiss-red hover:bg-swiss-red/90 text-white shine-effect text-lg ${
+              formData.step === 1 ? "ml-auto" : ""
+            }`}
           >
-            {formData.step === 2 ? 'Kostenloses Beratungsgespräch vereinbaren' : 'Weiter'}
+            {formData.step === 2
+              ? "Kostenloses Beratungsgespräch vereinbaren"
+              : "Weiter"}
             <ChevronRight className="ml-2 h-5 w-5" />
           </Button>
         </div>

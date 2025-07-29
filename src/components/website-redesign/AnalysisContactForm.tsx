@@ -47,10 +47,12 @@ export const AnalysisContactForm = ({
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Fixed the Formspree hook usage
-  const [formspreeState, handleFormspreeSubmit] = useFormspreeForm("xldgyydd");
-  
+  // const [formspreeState, handleFormspreeSubmit] = useFormspreeForm("xldgyydd");
+  // Newly updated Formspree ID
+  const [formspreeState, handleFormspreeSubmit] = useFormspreeForm("myzwpker");
+
   // Initialize react-hook-form with explicit validation mode
   const form = useForm<FormData>({
     defaultValues: {
@@ -64,7 +66,7 @@ export const AnalysisContactForm = ({
       newsletter: false,
       privacyAccepted: false,
     },
-    mode: "onChange" // Update validation on change
+    mode: "onChange", // Update validation on change
   });
 
   const nextStep = () => {
@@ -80,7 +82,7 @@ export const AnalysisContactForm = ({
         return;
       }
     }
-    
+
     setStep((prev) => prev + 1);
   };
 
@@ -99,17 +101,18 @@ export const AnalysisContactForm = ({
         });
         return;
       }
-      
+
       // Explicitly check privacy checkbox
       if (!formData.privacyAccepted) {
         toast({
           title: "Bitte akzeptieren Sie die Datenschutzerklärung",
-          description: "Sie müssen die Datenschutzerklärung akzeptieren, um fortzufahren",
+          description:
+            "Sie müssen die Datenschutzerklärung akzeptieren, um fortzufahren",
           variant: "destructive",
         });
-        form.setError('privacyAccepted', {
-          type: 'manual',
-          message: 'Erforderlich'
+        form.setError("privacyAccepted", {
+          type: "manual",
+          message: "Erforderlich",
         });
         return;
       }
@@ -117,50 +120,54 @@ export const AnalysisContactForm = ({
       try {
         setIsSubmitting(true);
         console.log("Submitting form data to Formspree:", {
-          "Firmenname": formData.companyName,
-          "Ansprechpartner": formData.contactPerson,
+          Firmenname: formData.companyName,
+          Ansprechpartner: formData.contactPerson,
           "E-Mail": formData.email,
-          "Telefon": formData.phone,
-          "Nachricht": formData.message,
+          Telefon: formData.phone,
+          Nachricht: formData.message,
           "Website URL": formData.websiteUrl,
           "Bevorzugte Kontaktzeit": formData.preferredTime,
-          "Newsletter": formData.newsletter ? "Ja" : "Nein",
+          Newsletter: formData.newsletter ? "Ja" : "Nein",
           "Website-Analyse": "Ja",
           "Datenschutz akzeptiert": "Ja",
         });
-        
+
         await handleFormspreeSubmit({
-          "Firmenname": formData.companyName,
-          "Ansprechpartner": formData.contactPerson,
+          Firmenname: formData.companyName,
+          Ansprechpartner: formData.contactPerson,
           "E-Mail": formData.email,
-          "Telefon": formData.phone,
-          "Nachricht": formData.message,
+          Telefon: formData.phone,
+          Nachricht: formData.message,
           "Website URL": formData.websiteUrl,
           "Bevorzugte Kontaktzeit": formData.preferredTime,
-          "Newsletter": formData.newsletter ? "Ja" : "Nein",
+          Newsletter: formData.newsletter ? "Ja" : "Nein",
           "Website-Analyse": "Ja",
           "Datenschutz akzeptiert": "Ja",
         });
-        
+
         if (formspreeState.errors) {
-          console.error('Formspree submission errors:', formspreeState.errors);
-          const errorMessage = typeof formspreeState.errors === 'string' 
-            ? formspreeState.errors 
-            : 'Fehler bei der Formularübermittlung. Bitte versuchen Sie es später erneut.';
+          console.error("Formspree submission errors:", formspreeState.errors);
+          const errorMessage =
+            typeof formspreeState.errors === "string"
+              ? formspreeState.errors
+              : "Fehler bei der Formularübermittlung. Bitte versuchen Sie es später erneut.";
           throw new Error(errorMessage);
         }
-        
+
         toast({
           title: "Anfrage erfolgreich gesendet",
           description: "Wir werden uns in Kürze bei Ihnen melden",
         });
-        
+
         setStep(3); // Move to success step
       } catch (error) {
-        console.error('Form submission error:', error);
+        console.error("Form submission error:", error);
         toast({
           title: "Fehler beim Senden",
-          description: error instanceof Error ? error.message : "Bitte versuchen Sie es später erneut",
+          description:
+            error instanceof Error
+              ? error.message
+              : "Bitte versuchen Sie es später erneut",
           variant: "destructive",
         });
       } finally {
@@ -172,8 +179,8 @@ export const AnalysisContactForm = ({
   return (
     <div className="bg-white rounded-xl shadow-lg p-5 md:p-6 max-w-2xl mx-auto">
       <h2 className="text-xl font-bold text-swiss-darkblue mb-4 text-center">
-        {step === 3 
-          ? "Vielen Dank für Ihre Anfrage!" 
+        {step === 3
+          ? "Vielen Dank für Ihre Anfrage!"
           : "Beratungsgespräch vereinbaren"}
       </h2>
 
@@ -193,7 +200,13 @@ export const AnalysisContactForm = ({
 
       {step === 1 && (
         <Form {...form}>
-          <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="space-y-3">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              nextStep();
+            }}
+            className="space-y-3"
+          >
             <div className="space-y-3">
               <FormField
                 control={form.control}
@@ -242,15 +255,17 @@ export const AnalysisContactForm = ({
                         type="url"
                       />
                     </FormControl>
-                    <FormDescription className="text-xs">Die URL der analysierten Website</FormDescription>
+                    <FormDescription className="text-xs">
+                      Die URL der analysierten Website
+                    </FormDescription>
                   </FormItem>
                 )}
               />
             </div>
 
             <div className="pt-3">
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-swiss-red hover:bg-swiss-red/90"
               >
                 Weiter
@@ -369,18 +384,22 @@ export const AnalysisContactForm = ({
                           onCheckedChange={(checked) => {
                             field.onChange(checked);
                             if (checked) {
-                              form.clearErrors('privacyAccepted');
+                              form.clearErrors("privacyAccepted");
                             }
                           }}
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel htmlFor="privacy" className="text-sm font-medium">
+                        <FormLabel
+                          htmlFor="privacy"
+                          className="text-sm font-medium"
+                        >
                           Ich akzeptiere die Datenschutzerklärung *
                         </FormLabel>
                         {form.formState.errors.privacyAccepted && (
                           <p className="text-xs font-medium text-destructive">
-                            {form.formState.errors.privacyAccepted.message || "Erforderlich"}
+                            {form.formState.errors.privacyAccepted.message ||
+                              "Erforderlich"}
                           </p>
                         )}
                       </div>
@@ -391,17 +410,17 @@ export const AnalysisContactForm = ({
             </div>
 
             <div className="flex justify-between pt-3">
-              <Button 
-                type="button" 
-                variant="outline" 
+              <Button
+                type="button"
+                variant="outline"
                 onClick={prevStep}
                 disabled={isSubmitting}
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Zurück
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="bg-swiss-red hover:bg-swiss-red/90"
                 disabled={isSubmitting}
               >
@@ -411,9 +430,7 @@ export const AnalysisContactForm = ({
                     Wird gesendet...
                   </>
                 ) : (
-                  <>
-                    Anfrage senden
-                  </>
+                  <>Anfrage senden</>
                 )}
               </Button>
             </div>
@@ -426,17 +443,18 @@ export const AnalysisContactForm = ({
           <div className="flex justify-center">
             <CheckCircle className="h-12 w-12 text-green-500" />
           </div>
-          
+
           <h3 className="text-lg font-medium text-gray-900">
             Ihre Anfrage wurde erfolgreich übermittelt!
           </h3>
-          
+
           <p className="text-gray-600 text-sm">
-            Vielen Dank für Ihr Interesse. Unser Team wird sich in Kürze mit Ihnen in Verbindung setzen.
+            Vielen Dank für Ihr Interesse. Unser Team wird sich in Kürze mit
+            Ihnen in Verbindung setzen.
           </p>
-          
+
           <div className="pt-3">
-            <Button 
+            <Button
               className="bg-swiss-red hover:bg-swiss-red/90"
               onClick={() => {
                 form.reset({

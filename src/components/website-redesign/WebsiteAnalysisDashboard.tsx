@@ -83,7 +83,10 @@ export const WebsiteAnalysisDashboard = ({ industryId }: WebsiteAnalysisDashboar
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
   
-  const [formspreeState, formspreeSubmit] = useFormspreeForm("xldgyydd");
+  // const [formspreeState, formspreeSubmit] = useFormspreeForm("xldgyydd");
+  // Newly updated Formspree ID
+    const [formspreeState, formspreeSubmit] = useFormspreeForm("myzwpker");
+
   
   const form = useForm<ContactFormData>({
     defaultValues: {
