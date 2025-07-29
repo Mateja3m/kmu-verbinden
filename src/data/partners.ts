@@ -171,7 +171,7 @@ export const regionalPartners: FrontendPartner[] = [
     id: "werbwerk",
     name: "Werbwerk",
     logo: "https://werbwerk.ch/wp-content/uploads/2018/08/logo-werbwerk_rgb_poster_-2.png",
-    website: "https://werbwerk.ch",
+    website: null,
     description: "Kreative Marketing- und Werbelösungen",
   },
   {
