@@ -48,11 +48,8 @@ export const AnalysisContactForm = ({
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fixed the Formspree hook usage
-  // const [formspreeState, handleFormspreeSubmit] = useFormspreeForm("xldgyydd");
-  // Newly updated Formspree ID
-  // const [formspreeState, handleFormspreeSubmit] = useFormspreeForm("myzwpker");
-  // I created this form
+
+  // Newest form
     const [formspreeState, handleFormspreeSubmit] =
       useFormspreeForm("xgvzzelk");
 
