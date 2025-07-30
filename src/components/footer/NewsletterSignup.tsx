@@ -13,7 +13,7 @@ export const NewsletterSignup = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formspree.io/f/myzwpker", {
+      const response = await fetch("https://formspree.io/f/xgvzzelk", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
