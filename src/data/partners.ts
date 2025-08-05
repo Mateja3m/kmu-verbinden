@@ -98,7 +98,7 @@ export const nationalPartners: FrontendPartner[] = [
     name: "Coop Rechtsschutz AG",
     logo: "/lovable-uploads/coop-logo.jpeg",
     website: "https://www.cooprecht.ch",
-    description: "Juristische Erstberatung für Mitglieder",
+    description: "",
   },
   {
     id: "kamuno",
@@ -246,7 +246,7 @@ export const cooperationPartners: FrontendPartner[] = [
     name: "Coop Rechtsschutz AG",
     logo: "/lovable-uploads/coop-logo.jpeg",
     website: "https://www.cooprecht.ch",
-    description: "Juristische Erstberatung für Mitglieder",
+    description: "",
   }
 ];
 
