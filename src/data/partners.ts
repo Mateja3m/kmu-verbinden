@@ -132,20 +132,7 @@ export const regionalPartners: FrontendPartner[] = [
     website: "https://www.hz-architekten.com",
     description: "Architektur- und Bauplanungslösungen",
   },
-  {
-    id: "pawex",
-    name: "Pawex",
-    logo: "https://pawex.ch/gallery_gen/c7744c50024067bcf363fa9665956ec3_624x266_fit.png",
-    website: "https://pawex.ch",
-    description: "Versicherungsberatung",
-  },
-  {
-    id: "e-beam",
-    name: "e-beam",
-    logo: "https://static.wixstatic.com/media/0c82d3_7c2da54581a342689af1c28bc231318f~mv2.jpeg",
-    website: "https://www.e-beam.ch",
-    description: "Elektro-Roller und nachhaltige Mobilität",
-  },
+
   {
     id: "webagentur-forster",
     name: "Webagentur Forster",
@@ -247,7 +234,7 @@ export const cooperationPartners: FrontendPartner[] = [
     logo: "/lovable-uploads/coop-logo.jpeg",
     website: "https://www.cooprecht.ch",
     description: "",
-  }
+  },
 ];
 
 // Patronage Partners
