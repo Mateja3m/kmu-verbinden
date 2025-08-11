@@ -1,10 +1,14 @@
-
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
-import { Calendar as CalendarIcon, MapPin, Clock, Users, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Navigation from "@/components/Navigation";
+import {
+  Calendar as CalendarIcon,
+  MapPin,
+  Clock,
+  Users,
+  ArrowRight,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Event {
   id: number;
@@ -18,50 +22,60 @@ interface Event {
 const events: Event[] = [
   {
     id: 1,
-    title: "KITS 2025 - KMU Innovation Technology Summit",
-    date: new Date("2025-07-01"),
+    title: "SKIT25.CH",
+    date: new Date("2025-11-29"),
     type: "course",
-    description: "Join us for the biggest Swiss SME innovation event of the year! Featuring keynote speakers, workshops, and networking opportunities focused on digital transformation and sustainable business practices."
+    description:
+      "Ein komprimierter Tag voller Innovation, Inspiration und konkreter Lösungen für KMU mit Weitblick.",
   },
   {
     id: 2,
-    title: "CAS Corporate Responsibility",
-    date: new Date("2024-08-30"),
-    endDate: new Date("2025-03-27"),
-    type: "course"
+    title: "KITS 2025 - KMU Innovation Technology Summit",
+    date: new Date("2025-07-01"),
+    type: "course",
+    description:
+      "Join us for the biggest Swiss SME innovation event of the year! Featuring keynote speakers, workshops, and networking opportunities focused on digital transformation and sustainable business practices.",
   },
   {
     id: 3,
-    title: "Info Event CAS Corporate Responsibility (English)",
-    date: new Date("2025-01-14"),
-    type: "info"
+    title: "CAS Corporate Responsibility",
+    date: new Date("2024-08-30"),
+    endDate: new Date("2025-03-27"),
+    type: "course",
   },
   {
     id: 4,
-    title: "Info Event CAS Managing Diversity, Inclusion and Social Sustainability",
-    date: new Date("2025-01-21"),
-    type: "info"
+    title: "Info Event CAS Corporate Responsibility (English)",
+    date: new Date("2025-01-14"),
+    type: "info",
   },
   {
     id: 5,
-    title: "CAS Ökobilanzierung (LCA)",
-    date: new Date("2025-02-21"),
-    endDate: new Date("2025-06-28"),
-    type: "course"
+    title:
+      "Info Event CAS Managing Diversity, Inclusion and Social Sustainability",
+    date: new Date("2025-01-21"),
+    type: "info",
   },
   {
     id: 6,
+    title: "CAS Ökobilanzierung (LCA)",
+    date: new Date("2025-02-21"),
+    endDate: new Date("2025-06-28"),
+    type: "course",
+  },
+  {
+    id: 7,
     title: "CAS Managing Diversity, Inclusion und Social Sustainability 2025",
     date: new Date("2025-02-27"),
     endDate: new Date("2025-06-24"),
-    type: "course"
-  }
+    type: "course",
+  },
 ];
 
 const EventKalender = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
-  const selectedDateEvents = events.filter(event => {
+  const selectedDateEvents = events.filter((event) => {
     if (!date) return false;
     const eventDate = new Date(event.date);
     return (
@@ -73,18 +87,18 @@ const EventKalender = () => {
 
   const upcomingEvents = [...events]
     .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .filter(event => event.date >= new Date())
+    .filter((event) => event.date >= new Date())
     .slice(0, 5);
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header Banner with Background Image */}
       <div className="relative mt-20">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/lovable-uploads/e8fe9475-a9bf-4636-9512-ac9c74ccbf80.png')",
-            filter: "brightness(0.7)"
+            backgroundImage: "url('/lovable-uploads/skit25-background.jpeg')",
+            filter: "brightness(0.7)",
           }}
         />
         <div className="relative bg-gradient-to-b from-swiss-darkblue/80 to-swiss-red/80 py-24 px-4">
@@ -93,8 +107,8 @@ const EventKalender = () => {
               KMU Verein SKV Events
             </h1>
             <p className="text-2xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-              Entdecken Sie unsere exklusiven Veranstaltungen für Schweizer KMU - 
-              Ihr Partner für Weiterbildung und Networking
+              Entdecken Sie unsere exklusiven Veranstaltungen für Schweizer KMU
+              - Ihr Partner für Weiterbildung und Networking
             </p>
           </div>
         </div>
@@ -109,37 +123,44 @@ const EventKalender = () => {
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="text-white">
                   <div className="inline-block px-4 py-2 bg-white/20 rounded-full text-sm mb-4">
-                    1. Juli 2025
+                    29.⁠ ⁠November 2025
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-bold mb-4">KITS 2025</h2>
-                  <p className="text-2xl mb-4">KMU Innovation Technology Summit</p>
-                  
+                  <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                    SKIT25.CH
+                  </h2>
+                  <p className="text-2xl mb-4">
+                    Schewizer KMU Innovationstag 2025
+                  </p>
+
                   <div className="space-y-4 mb-6">
                     <div className="flex items-center gap-3">
                       <MapPin className="h-5 w-5" />
-                      <span>Zürich, Switzerland</span>
+                      <span>Tägi Eventzentrum Wettingen</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Clock className="h-5 w-5" />
-                      <span>09:00 - 18:00</span>
+                      <span>08:00 - 18:00</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Users className="h-5 w-5" />
-                      <span>500+ Teilnehmer erwartet</span>
+                      <span>500+</span>
                     </div>
                   </div>
 
                   <p className="text-lg mb-6">
-                    Entdecken Sie die Zukunft der KMU-Innovation! Der KITS 2025 bringt führende 
-                    Experten, innovative Technologien und zukunftsweisende Lösungen zusammen.
+                    Ein komprimierter Tag voller Innovation, Inspiration und
+                    konkreter Lösungen für KMU mit Weitblick.
                   </p>
 
-                  <Button 
-                    className="bg-white text-swiss-darkblue hover:bg-swiss-gray transition-colors group"
+                  <Link
+                    to="https://www.skit25.ch"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white text-swiss-darkblue hover:bg-swiss-gray transition-colors group inline-flex items-center px-4 py-2 rounded"
                   >
                     Jetzt Anmelden
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                  </Link>
                 </div>
 
                 <div className="space-y-6 text-white">
@@ -148,19 +169,23 @@ const EventKalender = () => {
                     <ul className="space-y-2">
                       <li className="flex items-center gap-2">
                         <div className="h-2 w-2 bg-swiss-red rounded-full" />
-                        Keynote Speakers aus der Tech-Industrie
+                        Inspirierende Keynotes von führenden Persönlichkeiten
+                        aus Wirtschaft, Politik und Technologie
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="h-2 w-2 bg-swiss-red rounded-full" />
-                        Networking mit führenden KMU-Innovatoren
+                        Hochkarätiges Networking mit über 500 Unternehmer:innen,
+                        Innovatoren und Entscheidungsträgern
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="h-2 w-2 bg-swiss-red rounded-full" />
-                        Hands-on Workshops & Live Demos
+                        Preisverleihung der SKIT25 Awards an herausragende
+                        KMU-Leistungen
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="h-2 w-2 bg-swiss-red rounded-full" />
-                        Startup Pitch Competition
+                        Praxisorientierte Fach- und Info-Sessions zu aktuellen
+                        Trends und Innovationen
                       </li>
                     </ul>
                   </div>
@@ -170,8 +195,10 @@ const EventKalender = () => {
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold mb-8 text-swiss-darkblue">KMU Events in der Schweiz</h2>
-        
+        <h2 className="text-3xl font-bold mb-8 text-swiss-darkblue">
+          KMU Events in der Schweiz
+        </h2>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Calendar Section */}
           <div className="relative">
@@ -186,12 +213,15 @@ const EventKalender = () => {
                 onSelect={setDate}
                 className="rounded-md border bg-white"
               />
-              
+
               {selectedDateEvents.length > 0 && (
                 <div className="mt-4">
                   <h4 className="font-semibold mb-2">Events an diesem Tag:</h4>
-                  {selectedDateEvents.map(event => (
-                    <div key={event.id} className="p-2 bg-gray-50 rounded-md mb-2">
+                  {selectedDateEvents.map((event) => (
+                    <div
+                      key={event.id}
+                      className="p-2 bg-gray-50 rounded-md mb-2"
+                    >
                       <p className="font-medium">{event.title}</p>
                       {event.endDate && (
                         <p className="text-sm text-gray-600">
@@ -210,7 +240,7 @@ const EventKalender = () => {
             <Card className="p-6 bg-white shadow-lg relative z-10">
               <h3 className="text-xl font-semibold mb-4">Nächste Events</h3>
               <div className="space-y-4">
-                {upcomingEvents.map(event => (
+                {upcomingEvents.map((event) => (
                   <div
                     key={event.id}
                     className="p-4 rounded-lg border border-gray-200 hover:border-swiss-red transition-colors bg-white"
@@ -220,19 +250,24 @@ const EventKalender = () => {
                         <h4 className="font-medium">{event.title}</h4>
                         <p className="text-sm text-gray-600">
                           {event.date.toLocaleDateString()}
-                          {event.endDate && ` - ${event.endDate.toLocaleDateString()}`}
+                          {event.endDate &&
+                            ` - ${event.endDate.toLocaleDateString()}`}
                         </p>
                       </div>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        event.type === 'course' 
-                          ? 'bg-swiss-red text-white' 
-                          : 'bg-swiss-lightblue text-swiss-darkblue'
-                      }`}>
-                        {event.type === 'course' ? 'Kurs' : 'Info'}
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs ${
+                          event.type === "course"
+                            ? "bg-swiss-red text-white"
+                            : "bg-swiss-lightblue text-swiss-darkblue"
+                        }`}
+                      >
+                        {event.type === "course" ? "Kurs" : "Info"}
                       </span>
                     </div>
                     {event.description && (
-                      <p className="text-sm text-gray-600 mt-2">{event.description}</p>
+                      <p className="text-sm text-gray-600 mt-2">
+                        {event.description}
+                      </p>
                     )}
                   </div>
                 ))}
