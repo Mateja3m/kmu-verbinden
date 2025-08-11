@@ -14,7 +14,7 @@ export const nationalPartners: FrontendPartner[] = [
     name: "Format Vermögen & Anlagen AG",
     logo: "/lovable-uploads/health-center-logo.jpeg",
     website: "https://www.format-vermoegen.ch/",
-    description: "Anlagenvmit Format",
+    description: "Anlagen mit Format",
   },
   {
     id: "wirtschaftszeit",
