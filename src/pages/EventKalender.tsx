@@ -15,7 +15,7 @@ interface Event {
   title: string;
   date: Date;
   endDate?: Date;
-  type: "course" | "info";
+  type: "course" | "info" | "event";
   description?: string;
 }
 
@@ -24,7 +24,7 @@ const events: Event[] = [
     id: 1,
     title: "SKIT25.CH",
     date: new Date("2025-11-29"),
-    type: "course",
+    type: "event",
     description:
       "Ein komprimierter Tag voller Innovation, Inspiration und konkreter Lösungen für KMU mit Weitblick.",
   },
@@ -261,7 +261,11 @@ const EventKalender = () => {
                             : "bg-swiss-lightblue text-swiss-darkblue"
                         }`}
                       >
-                        {event.type === "course" ? "Kurs" : "Info"}
+                        {event.type === "course"
+                          ? "Kurs"
+                          : event.type === "event"
+                          ? "Event"
+                          : "Info"}
                       </span>
                     </div>
                     {event.description && (
