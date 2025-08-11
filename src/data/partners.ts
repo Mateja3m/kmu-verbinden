@@ -12,7 +12,7 @@ export const nationalPartners: FrontendPartner[] = [
   {
     id: "format",
     name: "Format Vermögen & Anlagen AG",
-    logo: "/lovable-uploads/health-center-logo.jpeg",
+    logo: "/lovable-uploads/format-logo.jpeg",
     website: "https://www.format-vermoegen.ch/",
     description: "Anlagen mit Format",
   },
