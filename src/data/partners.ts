@@ -10,6 +10,13 @@ export const nationalPartners: FrontendPartner[] = [
     description: "Gründungspartner für KMU",
   },
   {
+    id: "format",
+    name: "Format Vermögen & Anlagen AG",
+    logo: "/lovable-uploads/health-center-logo.jpeg",
+    website: "https://www.format-vermoegen.ch/",
+    description: "Anlagenvmit Format",
+  },
+  {
     id: "wirtschaftszeit",
     name: "Wirtschaftszeit",
     logo: "https://res.cloudinary.com/dphbnwjtx/image/upload/v1742885483/WhatsApp_Image_2025-03-25_at_14.02.45_b9kiqi.jpg",
