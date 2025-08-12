@@ -129,7 +129,7 @@ const EventKalender = () => {
                     SKIT25.CH
                   </h2>
                   <p className="text-2xl mb-4">
-                    Schewizer KMU Innovationstag 2025
+                    Schweizerischer KMU Innovationstag 2025
                   </p>
 
                   <div className="space-y-4 mb-6">
