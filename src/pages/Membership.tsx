@@ -12,7 +12,7 @@ const Membership = () => {
   const benefitsRef = useRef<HTMLDivElement>(null);
   const registrationFormRef = useRef<HTMLDivElement>(null);
   const [showRegistration, setShowRegistration] = useState(false);
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(true);
 
   const scrollToBenefits = () => {
     benefitsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -38,7 +38,7 @@ const Membership = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <MembershipHero handleGetStarted={handleGetStarted} />
-      
+
       {/* Pricing Section */}
       <div className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,15 +50,24 @@ const Membership = () => {
               Wählen Sie die passende Mitgliedschaft für Ihr Unternehmen
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Individual Membership */}
             <div className="bg-white rounded-xl shadow-lg p-8 border-2 border-gray-100 hover:border-swiss-red transition-colors">
-              <h3 className="text-xl font-bold text-swiss-darkblue mb-2">Einzelmitgliedschaft</h3>
-              <p className="text-gray-600 mb-4">Für Einzelunternehmer und Selbständige</p>
-              <div className="text-3xl font-bold text-swiss-red mb-6">CHF 300.-<span className="text-sm text-gray-500 font-normal">/Jahr</span></div>
-              <p className="text-sm text-gray-500 mb-6">Passiv-Mitgliedschaft mit allen Grundleistungen</p>
-              <Button 
+              <h3 className="text-xl font-bold text-swiss-darkblue mb-2">
+                Einzelmitgliedschaft
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Für Einzelunternehmer und Selbständige
+              </p>
+              <div className="text-3xl font-bold text-swiss-red mb-6">
+                CHF 300.-
+                <span className="text-sm text-gray-500 font-normal">/Jahr</span>
+              </div>
+              <p className="text-sm text-gray-500 mb-6">
+                Passiv-Mitgliedschaft mit allen Grundleistungen
+              </p>
+              <Button
                 onClick={handleGetStarted}
                 className="w-full bg-swiss-red hover:bg-swiss-red/90"
               >
@@ -71,11 +80,20 @@ const Membership = () => {
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-swiss-red text-white px-4 py-1 rounded-full text-sm">
                 Empfohlen
               </div>
-              <h3 className="text-xl font-bold text-swiss-darkblue mb-2">KMU Mitgliedschaft</h3>
-              <p className="text-gray-600 mb-4">Für kleine und mittlere Unternehmen</p>
-              <div className="text-3xl font-bold text-swiss-red mb-6">CHF 550.-<span className="text-sm text-gray-500 font-normal">/Jahr</span></div>
-              <p className="text-sm text-gray-500 mb-6">Passiv-Mitgliedschaft inkl. KMU Finanzierung</p>
-              <Button 
+              <h3 className="text-xl font-bold text-swiss-darkblue mb-2">
+                KMU Mitgliedschaft
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Für kleine und mittlere Unternehmen
+              </p>
+              <div className="text-3xl font-bold text-swiss-red mb-6">
+                CHF 550.-
+                <span className="text-sm text-gray-500 font-normal">/Jahr</span>
+              </div>
+              <p className="text-sm text-gray-500 mb-6">
+                Passiv-Mitgliedschaft inkl. KMU Finanzierung
+              </p>
+              <Button
                 onClick={handleGetStarted}
                 className="w-full bg-swiss-red hover:bg-swiss-red/90"
               >
@@ -96,7 +114,9 @@ const Membership = () => {
           >
             <CollapsibleTrigger className="w-full">
               <div className="flex items-center justify-between bg-swiss-darkblue text-white px-6 py-4 rounded-lg hover:bg-swiss-darkblue/90 transition-colors cursor-pointer">
-                <span className="text-lg font-semibold">Jetzt Video schauen</span>
+                <span className="text-lg font-semibold">
+                  Jetzt Video schauen
+                </span>
                 {isVideoOpen ? (
                   <ChevronUp className="h-5 w-5" />
                 ) : (
@@ -105,15 +125,29 @@ const Membership = () => {
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-4">
-              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                <iframe 
+              <div
+                className="relative w-full"
+                style={{ paddingBottom: "56.25%" }}
+              >
+                {/* <iframe
                   className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
-                  src="https://www.youtube.com/embed/EEFMXwSKnX0?si=1qHHWSFIRC6Tq2G-" 
-                  title="YouTube video player" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  referrerPolicy="strict-origin-when-cross-origin" 
+                  src="https://www.youtube.com/embed/EEFMXwSKnX0?si=1qHHWSFIRC6Tq2G-"
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
-                ></iframe>
+                ></iframe> */}
+                {/* Use this for dropbox videos only  */}
+                <video
+                  className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                  controls
+                  playsInline
+                >
+                  <source
+                    src="https://www.dropbox.com/scl/fi/801kaol18xc7igl4b2ji1/skv_august_mitglied_rafael_bettio_opinstar_v02.mp4?rlkey=tsoqi54eicy6al0myha008ocg&raw=1"
+                    type="video/mp4"
+                  />
+                </video>
               </div>
             </CollapsibleContent>
           </Collapsible>
@@ -129,9 +163,10 @@ const Membership = () => {
             Werden Sie jetzt Mitglied
           </h2>
           <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-            Registrieren Sie sich noch heute und profitieren Sie von allen Vorteilen einer SKV-Mitgliedschaft.
+            Registrieren Sie sich noch heute und profitieren Sie von allen
+            Vorteilen einer SKV-Mitgliedschaft.
           </p>
-          <Button 
+          <Button
             onClick={handleGetStarted}
             className="bg-swiss-red hover:bg-swiss-red/90 text-white px-8 py-6 text-lg"
           >
