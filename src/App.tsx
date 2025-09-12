@@ -32,7 +32,6 @@ import Impressum from './pages/Impressum';
 import Datenschutz from './pages/Datenschutz';
 import Geschaeftsstelle from './pages/Geschaeftsstelle';
 import EventKalender from './pages/EventKalender';
-import VersicherungsRechner from './pages/VersicherungsRechner';
 import Empfehlen from './pages/Empfehlen';
 import Organisation from './pages/Organisation';
 import Praxisratgeber from './pages/Praxisratgeber';
@@ -153,7 +152,6 @@ const App = () => {
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/geschaeftsstelle" element={<Geschaeftsstelle />} />
             <Route path="/events" element={<EventKalender />} />
-            <Route path="/versicherungsrechner" element={<VersicherungsRechner />} />
             <Route path="/empfehlen" element={<Empfehlen />} />
             <Route path="/organisation" element={<Organisation />} />
             <Route path="/news/praxisratgeber" element={<Praxisratgeber />} />

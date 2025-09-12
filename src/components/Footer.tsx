@@ -96,7 +96,6 @@ const Footer = ({ isLoggedIn, handleLogout }: FooterProps) => {
               <Link to="/experts" className="block hover:text-swiss-red transition-colors">Expertenrat</Link>
               <Link to="/membership" className="block hover:text-swiss-red transition-colors">Mitgliedschaft</Link>
               <Link to="/partners" className="block hover:text-swiss-red transition-colors">SKV-Partner</Link>
-              <Link to="/versicherungsrechner" className="block hover:text-swiss-red transition-colors">KMU-Versicherungsrechner</Link>
               <Link to="/presse" className="block hover:text-swiss-red transition-colors">Medienmitteilungen und Presse</Link>
               <Link to="/events" className="block hover:text-swiss-red transition-colors">Eventkalender</Link>
               <Link to="https://gamma.app/docs/SKV-Wachstum-durch-Partnerschaft-z43h6depv5v7jtm" target="_blank" className="block hover:text-swiss-red transition-colors">PDF-Doku</Link>

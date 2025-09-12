@@ -16,7 +16,6 @@ const menuItems = [
     category: 'Services',
     items: [
       { name: 'REDAKTION', href: '/redaktion' },
-      { name: 'KMU-VERSICHERUNGSRECHNER', href: '/versicherungsrechner' },
       { name: 'MEDIENMITTEILUNGEN UND PRESSE', href: '/presse' },
       { name: 'EVENTKALENDER', href: '/events' },
     ]
